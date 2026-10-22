@@ -8,11 +8,13 @@
     document.querySelectorAll("[data-i18n]").forEach(function(el){ var v = T[el.dataset.i18n]; if (v) el.textContent = v[l]; });
     document.querySelectorAll("[data-i18n-content]").forEach(function(el){ var v = T[el.dataset.i18nContent]; if (v) el.setAttribute("content", v[l]); });
     document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ var v = T[el.dataset.i18nAria]; if (v) el.setAttribute("aria-label", v[l]); });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function(el){ var v = T[el.dataset.i18nPh]; if (v) el.placeholder = v[l]; });
     document.querySelectorAll("[data-alt-key]").forEach(function(el){ var v = T[el.dataset.altKey]; if (v) el.alt = v[l]; });
     document.querySelectorAll("[data-price]").forEach(function(el){ try { el.textContent = JSON.parse(el.dataset.price)[l]; } catch(e){} });
     var og = document.querySelector('meta[property="og:locale"]'); if (og) og.content = OG[l];
     document.querySelectorAll(".lang button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.lang === l ? "true" : "false"); });
     try { localStorage.setItem("lang", l); } catch(e){}
+    document.dispatchEvent(new CustomEvent("langchange", {detail: l}));
   }
   var q = new URLSearchParams(location.search).get("lang"), saved = null;
   try { saved = localStorage.getItem("lang"); } catch(e){}
