@@ -1,0 +1,818 @@
+{
+ "_اقرأني": [
+  "هذا الملف فيه كل القوالب المعروضة في الموقع. الترتيب هنا هو نفس ترتيب البطاقات في الموقع.",
+  "الأسهل: استخدم صفحة الإدارة admin.html لإضافة أو تعديل القوالب بدل تعديل هذا الملف يدويًا.",
+  "slug: اسم قصير بالإنجليزية بحروف صغيرة وأرقام وشرطة فقط، مثل invoice-pro. يجب أن تكون صورة القالب باسم src/images/<slug>.jpg",
+  "price: السعر باليورو رقم فقط بدون رمز €، مثل 17",
+  "languages: لغات ملف القالب، من: ar و en و fi",
+  "category: واحد من: acc (محاسبة وضريبة)، stock (مخزون ومبيعات)، price (تسعير ومطاعم)، hr (رواتب)، home (ميزانية الأسرة)",
+  "badges: شارات اختيارية على الصورة، من: alv و x365. اتركها [] إذا لا تريد",
+  "payhip مطلوب. etsy و gumroad اختياريان: اتركهما \"\" إذا لا يوجد رابط",
+  "hidden: true يخفي القالب من الموقع بدون حذفه. wide: true يجعل البطاقة عريضة",
+  "demo اختياري: صور العرض src/images/<slug>-1.jpg و -2.jpg ... مع وصف لكل صورة بالترتيب. اتركه [] إذا لا يوجد",
+  "انتبه: كل قيمة نصية بين علامتي \" \"، وبين كل حقل والذي يليه فاصلة ,"
+ ],
+ "_مثال_للنسخ": {
+  "slug": "my-new-template",
+  "hidden": false,
+  "name_ar": "اسم القالب بالعربية",
+  "name_en": "Template name in English",
+  "name_fi": "Pohjan nimi suomeksi",
+  "desc_ar": "وصف قصير بالعربية",
+  "desc_en": "Short description in English",
+  "desc_fi": "Lyhyt kuvaus suomeksi",
+  "price": 15,
+  "languages": [
+   "ar",
+   "en"
+  ],
+  "category": "acc",
+  "badges": [],
+  "payhip": "https://payhip.com/b/XXXXX",
+  "etsy": "",
+  "gumroad": "",
+  "wide": false,
+  "demo": []
+ },
+ "products": [
+  {
+   "slug": "finnish-bookkeeping-vat",
+   "hidden": false,
+   "name_ar": "محاسبة الماركت وضريبة القيمة المضافة الفنلندية (ALV)",
+   "name_en": "Finnish Bookkeeping & VAT (ALV) for Shops",
+   "name_fi": "Kirjanpito Market – kirjanpito ja ALV kaupoille",
+   "desc_ar": "سجّل المبيعات والمشتريات والمصاريف يوميًا، واحصل على حساب الضريبة (ALV ‎25.5%) شهريًا وربع سنويًا مع لوحة سنوية.",
+   "desc_en": "Daily sales, purchases and expenses with automatic VAT (ALV 25.5%), monthly and quarterly VAT and an annual dashboard.",
+   "desc_fi": "Päivän myynnit, ostot ja kulut, automaattinen ALV (25,5 %), kuukausi- ja neljännesvuosilaskelma sekä vuosikojelauta.",
+   "price": 19,
+   "languages": [
+    "fi",
+    "ar",
+    "en"
+   ],
+   "category": "acc",
+   "badges": [
+    "alv"
+   ],
+   "payhip": "https://payhip.com/b/MFW5V",
+   "etsy": "https://www.etsy.com/listing/4598073676",
+   "gumroad": "https://sadeek7.gumroad.com/l/zqkcg",
+   "wide": true,
+   "demo": [
+    {
+     "ar": "اللوحة السنوية: المبيعات والمشتريات والمصاريف والضريبة للسنة كاملة مع رسوم بيانية.",
+     "en": "Annual dashboard: sales, purchases, expenses and VAT for the whole year with charts.",
+     "fi": "Vuosikojelauta: koko vuoden myynnit, ostot, kulut ja ALV kaavioineen."
+    },
+    {
+     "ar": "التقرير الشهري: الربح والضريبة المستحقة ومقارنة بالشهر السابق.",
+     "en": "Monthly report: profit, VAT payable and a comparison with the previous month.",
+     "fi": "Kuukausiraportti: tulos, maksettava ALV ja vertailu edelliseen kuukauteen."
+    },
+    {
+     "ar": "حساب الضريبة شهريًا وربع سنويًا موزعًا على نسب الضريبة الفنلندية.",
+     "en": "VAT calculation by month and quarter, split by the Finnish VAT rates.",
+     "fi": "ALV-laskelma kuukausittain ja neljännesvuosittain Suomen verokannoittain."
+    },
+    {
+     "ar": "إدخال المبيعات اليومية: التاريخ والإيصال وطريقة الدفع ونسبة الضريبة، والباقي يُحسب تلقائيًا.",
+     "en": "Daily sales entry: date, receipt, payment method and VAT rate; the rest is calculated.",
+     "fi": "Päivän myyntien syöttö: päivä, kuitti, maksutapa ja ALV-kanta – loput lasketaan."
+    },
+    {
+     "ar": "ورقة المشتريات: فواتير الموردين وحالة الدفع والضريبة القابلة للخصم.",
+     "en": "Purchases sheet: supplier invoices, paid or unpaid status and deductible VAT.",
+     "fi": "Ostot: toimittajien laskut, maksettu/avoin-tila ja vähennettävä ALV."
+    }
+   ]
+  },
+  {
+   "slug": "sales-profit-dashboard-ar",
+   "hidden": false,
+   "name_ar": "لوحة المبيعات والمصروفات والأرباح – النسخة العربية",
+   "name_en": "Sales, Expenses & Profit Dashboard – Arabic Edition",
+   "name_fi": "Myynnin, kulujen ja tuloksen kojelauta – arabiankielinen",
+   "desc_ar": "شهرك في نظرة واحدة: الإيرادات والمصروفات وصافي الربح والهامش والضريبة مع 6 رسوم بيانية، بالعربية بالكامل من اليمين إلى اليسار.",
+   "desc_en": "Your month at a glance: revenue, expenses, net profit, margin and VAT with 6 charts. Fully right-to-left Arabic.",
+   "desc_fi": "Kuukausi yhdellä silmäyksellä: liikevaihto, kulut, nettotulos, kate ja ALV sekä 6 kaaviota. Kokonaan arabiaksi, oikealta vasemmalle.",
+   "price": 17,
+   "languages": [
+    "ar"
+   ],
+   "category": "acc",
+   "badges": [
+    "alv"
+   ],
+   "payhip": "https://payhip.com/b/f2Bdq",
+   "etsy": "https://www.etsy.com/listing/4598232465",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "نظرة عامة على اللوحة: بطاقات المؤشرات والرسوم البيانية وملخص الضريبة بالعربية.",
+     "en": "Overview of the dashboard: KPI cards, charts and a VAT summary in Arabic.",
+     "fi": "Yleiskuva: tunnuslukukortit, kaaviot ja ALV-yhteenveto arabiaksi."
+    },
+    {
+     "ar": "اختر الشهر فتتحدّث بطاقات المؤشرات ورسم الـ12 شهرًا والملاحظات النصية.",
+     "en": "Pick a month and the KPI cards, 12-month chart and text insights update.",
+     "fi": "Valitse kuukausi – tunnusluvut, 12 kuukauden kaavio ja tekstihavainnot päivittyvät."
+    },
+    {
+     "ar": "أوراق عربية بالكامل من اليمين إلى اليسار، بما فيها الإعدادات والفئات وطرق الدفع.",
+     "en": "Fully right-to-left Arabic sheets, including settings, categories and payment methods.",
+     "fi": "Kokonaan oikealta vasemmalle kulkevat arabiankieliset välilehdet, myös asetukset."
+    },
+    {
+     "ar": "ملخص ضريبة ALV الفنلندية شهريًا وربع سنويًا: ضريبة المبيعات والمشتريات والمستحق.",
+     "en": "Finland VAT (ALV) summary by month and quarter: output VAT, input VAT and VAT payable.",
+     "fi": "ALV-yhteenveto kuukausittain ja neljännesvuosittain: myynnin ja ostojen ALV sekä maksettava."
+    },
+    {
+     "ar": "أوراق إدخال سهلة للمبيعات والمنتجات بقوائم منسدلة تملأ التفاصيل تلقائيًا.",
+     "en": "Simple input sheets for sales and products, with dropdowns that fill in details.",
+     "fi": "Helpot syöttövälilehdet myynneille ja tuotteille, pudotusvalikot täyttävät tiedot."
+    }
+   ]
+  },
+  {
+   "slug": "sales-profit-dashboard-en-fi",
+   "hidden": false,
+   "name_ar": "لوحة المبيعات والمصروفات والأرباح – بالإنجليزية والفنلندية",
+   "name_en": "Sales, Expenses & Profit Dashboard – English & Finnish",
+   "name_fi": "Myynnin, kulujen ja tuloksen kojelauta – englanti ja suomi",
+   "desc_ar": "نفس لوحة المتابعة الشهرية بالإنجليزية والفنلندية، مع ملخص لضريبة ALV الفنلندية شهريًا وربع سنويًا.",
+   "desc_en": "The same monthly dashboard in English and Finnish, with a Finland ALV summary by month and quarter.",
+   "desc_fi": "Sama kuukausikojelauta englanniksi ja suomeksi, ALV-yhteenveto kuukausittain ja neljännesvuosittain.",
+   "price": 17,
+   "languages": [
+    "en",
+    "fi"
+   ],
+   "category": "acc",
+   "badges": [
+    "alv"
+   ],
+   "payhip": "https://payhip.com/b/m5fyL",
+   "etsy": "https://www.etsy.com/listing/4598233027",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "نظرة عامة على اللوحة: بطاقات المؤشرات وستة رسوم بيانية وملخص ضريبة ALV.",
+     "en": "Overview of the dashboard: KPI cards, six charts and a Finland VAT summary.",
+     "fi": "Yleiskuva: tunnuslukukortit, kuusi kaaviota ja ALV-yhteenveto."
+    },
+    {
+     "ar": "اختر الشهر فتتحدّث البطاقات ورسم الـ12 شهرًا والملاحظات الذكية.",
+     "en": "Pick a month and the KPI cards, 12-month chart and smart insights update.",
+     "fi": "Valitse kuukausi – tunnusluvut, 12 kuukauden kaavio ja havainnot päivittyvät."
+    },
+    {
+     "ar": "الإنجليزية والفنلندية في ملف واحد: بدّل اللغة من ورقة الإعدادات.",
+     "en": "English and Finnish in one workbook: switch the language on the Settings sheet.",
+     "fi": "Englanti ja suomi samassa työkirjassa: vaihda kieli Asetukset-välilehdeltä."
+    },
+    {
+     "ar": "ملخص ضريبة ALV الفنلندية شهريًا وربع سنويًا حسب النسبة.",
+     "en": "Finland VAT (ALV) summary by month and quarter, split by rate.",
+     "fi": "ALV-yhteenveto kuukausittain ja neljännesvuosittain verokannoittain."
+    },
+    {
+     "ar": "أوراق إدخال سهلة: الخلايا الصفراء لك والرمادية تُحسب تلقائيًا.",
+     "en": "Simple input sheets: yellow cells are yours, grey cells calculate.",
+     "fi": "Helpot syöttövälilehdet: keltaiset solut ovat sinun, harmaat laskevat."
+    }
+   ]
+  },
+  {
+   "slug": "etsy-seller-dashboard",
+   "hidden": false,
+   "name_ar": "لوحة أرباح بائعي Etsy",
+   "name_en": "Etsy Seller Profit Dashboard",
+   "name_fi": "Etsy-myyjän tuloskojelauta",
+   "desc_ar": "سجّل طلبات Etsy واحسب كل رسوم Etsy لكل طلب وصافي الربح والهامش، مع لوحة شهرية لأفضل المنتجات والخاسرة منها والمخزون المنخفض، وحاسبة تسعير. Excel 2016 أو أحدث، الملف بالإنجليزية.",
+   "desc_en": "Track Etsy orders with every Etsy fee calculated per order, net profit and margin, a monthly dashboard with top and loss-making products and low stock, plus a pricing calculator. Excel 2016+, English file.",
+   "desc_fi": "Etsy-tilausten seuranta: jokaisen tilauksen kaikki Etsy-maksut, nettotulos ja kate, kuukausikojelauta parhaista ja tappiollisista tuotteista sekä vähissä olevasta varastosta, ja hinnoittelulaskuri. Excel 2016+, englanninkielinen tiedosto.",
+   "price": 17,
+   "languages": [
+    "en"
+   ],
+   "category": "acc",
+   "badges": [],
+   "payhip": "https://payhip.com/b/Z4S0Y",
+   "etsy": "https://www.etsy.com/listing/4599583568",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة المتابعة: صافي الربح الحقيقي لكل طلب بعد كل رسوم Etsy مع بطاقات ورسوم بيانية.",
+     "en": "Dashboard: real net profit per order after every Etsy fee, with KPI cards and charts.",
+     "fi": "Kojelauta: todellinen nettotulos tilausta kohden kaikkien Etsy-maksujen jälkeen."
+    },
+    {
+     "ar": "اختر الشهر لترى الإيرادات والرسوم وصافي الربح والهامش وتفصيل الربح.",
+     "en": "Pick a month to see revenue, fees, net profit, margin and a profit breakdown.",
+     "fi": "Valitse kuukausi: liikevaihto, maksut, nettotulos, kate ja tuloserittely."
+    },
+    {
+     "ar": "كل رسوم Etsy محسوبة لكل طلب، مع رسم يوضح توزيع الرسوم.",
+     "en": "Every Etsy fee calculated on every order, with a chart of where the fees go.",
+     "fi": "Jokainen Etsy-maksu laskettuna jokaiselle tilaukselle ja kaavio maksujen jakautumisesta."
+    },
+    {
+     "ar": "حاسبة التسعير: سعر العرض الذي يحقق ربحك أو هامشك المستهدف بعد الرسوم.",
+     "en": "Pricing calculator: the listing price for your target profit or margin after fees.",
+     "fi": "Hinnoittelulaskuri: listaushinta tavoitetulolle tai -katteelle maksujen jälkeen."
+    },
+    {
+     "ar": "محتويات الملف: الإعدادات والمنتجات والطلبات واللوحة وحاسبة التسعير ودليل البدء.",
+     "en": "What's included: settings, products, orders, dashboard, pricing calculator and a start guide.",
+     "fi": "Sisältö: asetukset, tuotteet, tilaukset, kojelauta, hinnoittelulaskuri ja aloitusopas."
+    }
+   ]
+  },
+  {
+   "slug": "pulse-crm",
+   "hidden": false,
+   "name_ar": "نظام إدارة العملاء Pulse CRM",
+   "name_en": "Pulse CRM – Customers, Sales & Support",
+   "name_fi": "Pulse CRM – asiakkuuksien hallinta",
+   "desc_ar": "العملاء ومسار المبيعات (القيمة المرجّحة ونسبة الفوز) والحملات التسويقية مع العائد على الاستثمار، وتذاكر الدعم مع مدة الاستجابة (SLA) ورضا العملاء، ولوحة وتقارير مع 7 رسوم بيانية. Excel 2016 أو أحدث، باليورو، الملف بالإنجليزية.",
+   "desc_en": "Customers, sales pipeline with weighted value and win rate, marketing campaigns with ROI, support tickets with SLA and CSAT, plus a dashboard and reports with 7 charts. Excel 2016+, EUR, English file.",
+   "desc_fi": "Asiakkaat, myyntiputki painotetulla arvolla ja voittoprosentilla, markkinointikampanjat ja niiden ROI, tukipyynnöt SLA- ja CSAT-seurannalla sekä kojelauta ja raportit 7 kaaviolla. Excel 2016+, euroina, englanninkielinen tiedosto.",
+   "price": 17,
+   "languages": [
+    "en"
+   ],
+   "category": "stock",
+   "badges": [],
+   "payhip": "https://payhip.com/b/y6NFv",
+   "etsy": "https://www.etsy.com/listing/4601579525",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة المتابعة: العملاء وقيمة مسار المبيعات ونسبة الفوز وعائد الحملات والتذاكر المفتوحة مع رسوم بيانية.",
+     "en": "Dashboard: customers, pipeline value, win rate, campaign ROI and open tickets with charts.",
+     "fi": "Kojelauta: asiakkaat, putken arvo, voittoprosentti, kampanjoiden ROI ja avoimet tukipyynnöt kaavioineen."
+    },
+    {
+     "ar": "مسار المبيعات حسب المرحلة مع قيمة الصفقة واحتمال الفوز والقيمة المرجّحة.",
+     "en": "Sales pipeline by stage with deal value, probability and weighted value.",
+     "fi": "Myyntiputki vaiheittain: kaupan arvo, todennäköisyys ja painotettu arvo."
+    },
+    {
+     "ar": "قائمة العملاء مع الحالة والمسؤول وإجمالي المبيعات لكل عميل.",
+     "en": "Customer list with status, owner and total sales per customer.",
+     "fi": "Asiakaslista: tila, vastuuhenkilö ja myynti asiakkaittain."
+    },
+    {
+     "ar": "الحملات التسويقية: التكلفة والعملاء المحتملون والصفقات الرابحة والعائد لكل حملة.",
+     "en": "Marketing campaigns: cost, leads, won deals and ROI for each campaign.",
+     "fi": "Markkinointikampanjat: kulut, liidit, voitetut kaupat ja ROI kampanjoittain."
+    },
+    {
+     "ar": "تذاكر الدعم مع الأولوية وحالة SLA ورضا العملاء (CSAT).",
+     "en": "Support tickets with priority, SLA status and customer satisfaction (CSAT).",
+     "fi": "Tukipyynnöt: prioriteetti, SLA-tila ja asiakastyytyväisyys (CSAT)."
+    },
+    {
+     "ar": "التقارير: أرقام المبيعات ومسار الصفقات والدعم شهريًا في مكان واحد.",
+     "en": "Reports: sales, pipeline and support figures by month in one place.",
+     "fi": "Raportit: myynnin, putken ja tuen luvut kuukausittain yhdessä paikassa."
+    }
+   ]
+  },
+  {
+   "slug": "inventory-pro",
+   "hidden": false,
+   "name_ar": "إدارة المخازن Inventory Pro",
+   "name_en": "Inventory Pro – Stock Management",
+   "name_fi": "Inventory Pro – varastonhallinta",
+   "desc_ar": "المخزون والمبيعات والربح للمحلات والتجار: إدخال بالباركود، قائمة إعادة الطلب وتنبيهات انتهاء الصلاحية، وورقة جديدة لكمية الطلب الاقتصادية (EOQ) ونقطة إعادة الطلب مع حالة «اطلب الآن».",
+   "desc_en": "Stock, sales and gross profit for shops and traders: barcode entry, reorder list and expiry alerts. New: EOQ (economic order quantity) & reorder point sheet with an order-now status.",
+   "desc_fi": "Varasto, myynti ja myyntikate kaupoille: viivakoodisyöttö, tilauslista ja vanhenemishälytykset. Uutta: EOQ (taloudellinen tilauserä) ja tilauspiste -välilehti, jossa tilaa nyt -tila.",
+   "price": 17,
+   "languages": [
+    "ar",
+    "en",
+    "fi"
+   ],
+   "category": "stock",
+   "badges": [
+    "x365"
+   ],
+   "payhip": "https://payhip.com/b/Dxiey",
+   "etsy": "https://www.etsy.com/listing/4598053891",
+   "gumroad": "",
+   "wide": true,
+   "demo": [
+    {
+     "ar": "الشاشة الرئيسية بقائمة قابلة للنقر لكل الأوراق وأهم الأرقام في نظرة واحدة.",
+     "en": "Home screen with a clickable menu to every sheet and key figures at a glance.",
+     "fi": "Aloitusnäkymä: klikattava valikko kaikkiin välilehtiin ja tärkeimmät luvut."
+    },
+    {
+     "ar": "لوحة المتابعة: قيمة المخزون والمبيعات والربح الإجمالي وتنبيهات إعادة الطلب والصلاحية.",
+     "en": "Dashboard: stock value, sales, gross profit, reorder and expiry alerts.",
+     "fi": "Kojelauta: varaston arvo, myynti, myyntikate sekä tilaus- ja vanhenemishälytykset."
+    },
+    {
+     "ar": "المخزون لكل صنف ومستودع بأرصدة تلقائية ومتوسط التكلفة وحالة انخفاض المخزون.",
+     "en": "Stock per item and warehouse with automatic balances, average cost and low-stock status.",
+     "fi": "Varasto tuotteittain ja varastoittain: automaattiset saldot, keskihinta ja vähissä-tila."
+    },
+    {
+     "ar": "بطاقة الصنف: كل حركات الصنف مع الرصيد المتراكم والربح.",
+     "en": "Item card: every movement of one item with running balance and profit per item.",
+     "fi": "Tuotekortti: tuotteen kaikki tapahtumat, juokseva saldo ja kate."
+    },
+    {
+     "ar": "تنبيهات انتهاء الصلاحية حسب الدفعة مع الأيام المتبقية لكل دفعة.",
+     "en": "Expiry alerts by batch, showing the days remaining for each batch.",
+     "fi": "Vanhenemishälytykset erittäin: jäljellä olevat päivät jokaiselle erälle."
+    },
+    {
+     "ar": "مخطط كمية الطلب الاقتصادية ونقطة إعادة الطلب حسب مبيعاتك وتكلفة الطلب والتخزين.",
+     "en": "EOQ and reorder point planner based on your sales, order cost and holding cost.",
+     "fi": "EOQ- ja tilauspistesuunnittelu myynnin, tilauskulun ja varastointikulun perusteella."
+    },
+    {
+     "ar": "أفضل كمية طلب لكل صنف مع علامة «اطلب الآن» عند حلول وقت الطلب.",
+     "en": "Best order quantity per item, with an order-now flag when it is time to reorder.",
+     "fi": "Paras tilauserä tuotteittain ja tilaa nyt -merkintä, kun on tilauksen aika."
+    }
+   ]
+  },
+  {
+   "slug": "restaurant-food-cost",
+   "hidden": false,
+   "name_ar": "تكاليف الوصفات وتسعير المنيو للمطاعم والمقاهي",
+   "name_en": "Restaurant & Café Recipe Cost and Menu Pricing",
+   "name_fi": "Ravintolan annoskustannuslaskuri ja menuhinnoittelu",
+   "desc_ar": "التكلفة الدقيقة لكل طبق وكوب، وأسعار بيع مقترحة حسب نسبة تكلفة الطعام المستهدفة، مع تحليل ربحية المنيو.",
+   "desc_en": "Exact cost of every plate and cup, suggested menu prices from your target food-cost % and menu engineering.",
+   "desc_fi": "Jokaisen annoksen ja kupin tarkka hinta, hintaehdotukset tavoitellun raaka-aineprosentin mukaan ja ruokalistan kannattavuusanalyysi.",
+   "price": 17,
+   "languages": [
+    "ar",
+    "en",
+    "fi"
+   ],
+   "category": "price",
+   "badges": [],
+   "payhip": "https://payhip.com/b/QOnRy",
+   "etsy": "https://www.etsy.com/listing/4598054493",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة المتابعة: نسبة تكلفة الطعام والهوامش وتنبيهات للأطباق فوق المستهدف.",
+     "en": "Dashboard with food-cost %, margins and alerts for dishes above target.",
+     "fi": "Kojelauta: raaka-aineprosentti, katteet ja hälytykset tavoitteen ylittävistä annoksista."
+    },
+    {
+     "ar": "المكوّنات: حجم العبوة وسعرها ونسبة الصافي تعطي التكلفة الحقيقية لكل وحدة.",
+     "en": "Ingredients: pack size, pack price and usable yield give the real cost per unit.",
+     "fi": "Raaka-aineet: pakkauskoko, hinta ja käyttöaste antavat todellisen yksikköhinnan."
+    },
+    {
+     "ar": "سطور الوصفات: اختر المكوّنات من القوائم وأدخل الكميات.",
+     "en": "Recipe lines: pick ingredients from dropdowns and enter quantities.",
+     "fi": "Reseptirivit: valitse raaka-aineet valikosta ja syötä määrät."
+    },
+    {
+     "ar": "بطاقة وصفة قابلة للطباعة بالمكوّنات وتكلفة الحصة والسعر المقترح.",
+     "en": "Printable recipe card with ingredients, cost per portion and suggested price.",
+     "fi": "Tulostettava reseptikortti: raaka-aineet, annoskustannus ja hintaehdotus."
+    },
+    {
+     "ar": "تسعير المنيو حسب نسبة تكلفة الطعام المستهدفة مع تنبيهات ملوّنة.",
+     "en": "Menu pricing from your target food-cost %, with colour alerts.",
+     "fi": "Menuhinnoittelu tavoitellun raaka-aineprosentin mukaan värihälytyksin."
+    },
+    {
+     "ar": "تحليل ربحية المنيو: تصنيف كل صنف حسب الشعبية والربحية.",
+     "en": "Menu engineering: each item classed by popularity and profitability.",
+     "fi": "Ruokalistan analyysi: jokainen tuote luokiteltuna suosion ja kannattavuuden mukaan."
+    }
+   ]
+  },
+  {
+   "slug": "profit-margin-pricing",
+   "hidden": false,
+   "name_ar": "حاسبة الهامش الربحي والتسعير",
+   "name_en": "Profit Margin & Pricing Calculator",
+   "name_fi": "Kate- ja hinnoittelulaskuri",
+   "desc_ar": "سعّر حتى 300 منتج مع احتساب كل التكاليف والعمولات، مع محاكي للخصومات وحساب نقطة التعادل.",
+   "desc_en": "Price up to 300 products with every cost and fee counted, plus a discount simulator and break-even.",
+   "desc_fi": "Hinnoittele jopa 300 tuotetta kaikki kulut ja palkkiot huomioiden. Mukana alennussimulaattori ja kannattavuusraja.",
+   "price": 15,
+   "languages": [
+    "ar",
+    "en",
+    "fi"
+   ],
+   "category": "price",
+   "badges": [],
+   "payhip": "https://payhip.com/b/HwWAn",
+   "etsy": "https://www.etsy.com/listing/4598076046",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة المتابعة: مؤشرات ورسوم للهوامش حسب المنتج والفئة وقناة البيع.",
+     "en": "Dashboard: KPIs and charts for margins by product, category and sales channel.",
+     "fi": "Kojelauta: katteet tuotteittain, luokittain ja myyntikanavittain."
+    },
+    {
+     "ar": "ورقة المنتجات: الربح والهامش ونسبة الإضافة لكل منتج مع احتساب كل التكاليف والعمولات.",
+     "en": "Products sheet: profit, margin and markup per product with every cost and fee counted.",
+     "fi": "Tuotteet: voitto, kate ja lisäys tuotteittain kaikki kulut ja palkkiot huomioiden."
+    },
+    {
+     "ar": "محاكي الخصومات: كم مبيعات إضافية يحتاجها الخصم للحفاظ على نفس الربح.",
+     "en": "Discount simulator: how many extra sales a discount needs to keep the same profit.",
+     "fi": "Alennussimulaattori: paljonko lisämyyntiä alennus vaatii saman voiton säilyttämiseksi."
+    },
+    {
+     "ar": "حاسبة نقطة التعادل: الإيرادات والوحدات اللازمة لتغطية التكاليف الثابتة الشهرية.",
+     "en": "Break-even calculator: revenue and units needed to cover your monthly fixed costs.",
+     "fi": "Kannattavuusraja: liikevaihto ja määrä, jotka kattavat kuukauden kiinteät kulut."
+    },
+    {
+     "ar": "الحاسبة السريعة: من التكلفة إلى السعر المقترح حسب الهامش أو نسبة الإضافة مع الضريبة.",
+     "en": "Quick calculator: from cost to suggested price by target margin or markup, with VAT.",
+     "fi": "Pikalaskuri: kustannuksesta hintaehdotukseen tavoitekatteen tai lisäyksen mukaan, ALV mukana."
+    }
+   ]
+  },
+  {
+   "slug": "payroll-pro",
+   "hidden": false,
+   "name_ar": "نظام الرواتب Payroll Pro",
+   "name_en": "Payroll Pro – Payroll & Salary",
+   "name_fi": "Payroll Pro – palkanlaskenta",
+   "desc_ar": "رواتب شهرية بدون ماكرو: الحضور، قسائم الرواتب، مسير الرواتب، السلف، الإجازات ومكافأة نهاية الخدمة.",
+   "desc_en": "Monthly payroll without macros: attendance, payslips, payroll register, advances, leave and end-of-service.",
+   "desc_fi": "Kuukausipalkat ilman makroja: läsnäolo, palkkalaskelmat, palkkalista, ennakot, lomasaldot ja loppukorvaus.",
+   "price": 19,
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "category": "hr",
+   "badges": [],
+   "payhip": "https://payhip.com/b/8cURa",
+   "etsy": "https://www.etsy.com/listing/4598076736",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة الرواتب: بطاقات المؤشرات واتجاه التكلفة والتكلفة حسب القسم.",
+     "en": "Payroll dashboard: KPI cards, cost trend and cost by department.",
+     "fi": "Palkkakojelauta: tunnusluvut, kustannuskehitys ja kulut osastoittain."
+    },
+    {
+     "ar": "مسير الرواتب الشهري: الاستحقاقات والإضافي والغياب والسلف والاستقطاعات وصافي الراتب.",
+     "en": "Monthly payroll register: earnings, overtime, absence, advances, deductions and net pay.",
+     "fi": "Kuukauden palkkalista: ansiot, ylityöt, poissaolot, ennakot, vähennykset ja nettopalkka."
+    },
+    {
+     "ar": "قسيمة راتب A4 قابلة للطباعة لأي موظف وأي شهر مع شعارك.",
+     "en": "Printable A4 payslip for any employee and month, with your logo.",
+     "fi": "Tulostettava A4-palkkalaskelma kenelle tahansa ja mille kuukaudelle tahansa, logollasi."
+    },
+    {
+     "ar": "جدول الحضور يومًا بيوم مع مجاميع شهرية.",
+     "en": "Day-by-day attendance grid with monthly totals.",
+     "fi": "Päiväkohtainen läsnäoloruudukko kuukausisummineen."
+    },
+    {
+     "ar": "حساب مكافأة نهاية الخدمة والتسوية النهائية.",
+     "en": "End-of-service and final settlement calculation.",
+     "fi": "Loppukorvauksen ja lopputilin laskenta."
+    },
+    {
+     "ar": "بيانات الموظفين: مكوّنات الراتب والبيانات البنكية والحالة.",
+     "en": "Employee master data: salary package, bank details and status.",
+     "fi": "Työntekijärekisteri: palkkapaketti, pankkitiedot ja tila."
+    },
+    {
+     "ar": "أرشيف السنوات: مجاميع كل سنة رواتب مع رسم للتكلفة.",
+     "en": "Year archive: totals of every payroll year with a cost chart.",
+     "fi": "Vuosiarkisto: jokaisen palkkavuoden summat ja kustannuskaavio."
+    }
+   ]
+  },
+  {
+   "slug": "treasury-cash-bank-book",
+   "hidden": false,
+   "name_ar": "دفتر الخزينة: الصندوق والبنوك",
+   "name_en": "Cash, Bank & Treasury Book",
+   "name_fi": "Kassa- ja pankkikirja",
+   "desc_ar": "كل حساباتك البنكية وصناديق النقد والعُهد بأي عملة، مع إقفال يومي للصندوق وقائمة أرباح وخسائر شهرية.",
+   "desc_en": "Every bank account, cash box and petty cash in any currency, with daily cash closing and a monthly P&L.",
+   "desc_fi": "Kaikki pankkitilit, kassat ja käteisvarat eri valuutoissa, päivittäinen kassan täsmäytys ja kuukauden tuloslaskelma.",
+   "price": 15,
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "category": "acc",
+   "badges": [],
+   "payhip": "https://payhip.com/b/MIoTA",
+   "etsy": "https://www.etsy.com/listing/4598077128",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة الخزينة: إجمالي السيولة في البنوك والصناديق والعُهد.",
+     "en": "Treasury dashboard: total cash across banks, cash boxes and custody.",
+     "fi": "Kassakojelauta: kaikki varat pankeissa, kassoissa ja käteisvaroissa."
+    },
+    {
+     "ar": "سجل واحد لكل المقبوضات والمدفوعات والتحويلات بقوائم منسدلة.",
+     "en": "One movements log for every receipt, payment and transfer, with dropdowns.",
+     "fi": "Yksi tapahtumaloki kaikille tuloille, maksuille ja siirroille pudotusvalikoin."
+    },
+    {
+     "ar": "كشف حساب قابل للطباعة برصيد افتتاحي وحركات ورصيد ختامي.",
+     "en": "Printable account statement with opening balance, movements and closing balance.",
+     "fi": "Tulostettava tiliote: alkusaldo, tapahtumat ja loppusaldo."
+    },
+    {
+     "ar": "الأرباح والخسائر الشهرية حسب الفئة مع فصل التحويلات.",
+     "en": "Monthly profit and loss by category, with transfers kept separate.",
+     "fi": "Kuukauden tuloslaskelma luokittain, siirrot erikseen."
+    },
+    {
+     "ar": "الأرصدة لكل حساب وعملة مع تنبيهات الحد الأدنى للرصيد.",
+     "en": "Balances per account and currency, with minimum-balance alerts.",
+     "fi": "Saldot tileittäin ja valuutoittain sekä minimisaldohälytykset."
+    },
+    {
+     "ar": "الإقفال اليومي للصندوق: مقارنة النقد المعدود مع الرصيد الدفتري لكل صندوق.",
+     "en": "Daily cash closing: counted cash compared with the book balance per cash box.",
+     "fi": "Päivän kassan täsmäytys: laskettu käteinen verrattuna kirjanpidon saldoon."
+    }
+   ]
+  },
+  {
+   "slug": "invoice-pro",
+   "hidden": false,
+   "name_ar": "منشئ الفواتير Invoice Pro",
+   "name_en": "Invoice Pro – Excel Invoice Generator",
+   "name_fi": "Invoice Pro – laskupohja Exceliin",
+   "desc_ar": "فواتير A4 جاهزة للطباعة خلال دقيقة، بترقيم وضريبة تلقائيين، مع سجل للفواتير المدفوعة وغير المدفوعة. جديد: عروض الأسعار (ورقة عرض سعر وسجل العروض وبنود العرض).",
+   "desc_en": "Print-ready A4 invoices in a minute, automatic numbering and VAT, and a register of paid and unpaid invoices. New: quotations (quote sheet, quotes register and quote lines).",
+   "desc_fi": "Tulostusvalmiit A4-laskut minuutissa, automaattinen numerointi ja ALV sekä maksettujen ja avoimien laskujen seuranta. Uutta: tarjoukset (tarjouspohja, tarjousrekisteri ja tarjousrivit).",
+   "price": 15,
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "category": "acc",
+   "badges": [],
+   "payhip": "https://payhip.com/b/FBxRh",
+   "etsy": "https://www.etsy.com/listing/4598080644",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "فاتورة A4 جاهزة للطباعة بالشعار وتفصيل الضريبة والبيانات البنكية والحالة.",
+     "en": "Print-ready A4 invoice with logo, VAT breakdown, bank details and status.",
+     "fi": "Tulostusvalmis A4-lasku: logo, ALV-erittely, pankkitiedot ja tila."
+    },
+    {
+     "ar": "لوحة الفواتير: المفوتر شهريًا والمحصّل مقابل غير المدفوع وأهم العملاء.",
+     "en": "Invoicing dashboard: invoiced per month, collected vs unpaid and top customers.",
+     "fi": "Laskutuskojelauta: laskutus kuukausittain, maksetut vs. avoimet ja suurimmat asiakkaat."
+    },
+    {
+     "ar": "سجل الفواتير: المدفوعة وجزئيًا وغير المدفوعة والمتأخرة.",
+     "en": "Invoice register showing which invoices are paid, partly paid, unpaid or overdue.",
+     "fi": "Laskurekisteri: maksetut, osittain maksetut, avoimet ja erääntyneet laskut."
+    },
+    {
+     "ar": "سطور الفاتورة: اختر رمز المنتج فتُملأ التسمية والوحدة والسعر والضريبة.",
+     "en": "Invoice lines: pick a product code and name, unit, price and VAT fill in.",
+     "fi": "Laskurivit: valitse tuotekoodi, niin nimi, yksikkö, hinta ja ALV täyttyvät."
+    },
+    {
+     "ar": "شاشة البداية بقائمة قابلة للنقر لكل الأوراق.",
+     "en": "Start screen with a clickable menu to every sheet.",
+     "fi": "Aloitusnäkymä, josta klikkaamalla pääsee jokaiselle välilehdelle."
+    },
+    {
+     "ar": "عرض سعر بنفس تصميم A4 مع قوائم العملاء والأسعار.",
+     "en": "Quotation in the same A4 design, with customer and price list dropdowns.",
+     "fi": "Tarjous samalla A4-ulkoasulla, asiakas- ja hinnastovalikoin."
+    },
+    {
+     "ar": "سجل العروض: مفتوح أو مقبول أو منتهٍ، والعرض المقبول يتحوّل إلى فاتورة.",
+     "en": "Quotes log: open, accepted or expired, and an accepted quote carries over to an invoice.",
+     "fi": "Tarjousloki: avoin, hyväksytty tai vanhentunut – hyväksytty tarjous siirtyy laskulle."
+    }
+   ]
+  },
+  {
+   "slug": "shop-stock-profit",
+   "hidden": false,
+   "name_ar": "مخزون المحل وربح كل صنف",
+   "name_en": "Shop Stock & Profit per Item",
+   "name_fi": "Myymälän varasto ja kate tuotteittain",
+   "desc_ar": "سجّل المشتريات والمبيعات لترى المخزون المتبقي ومتوسط التكلفة والربح في كل قطعة.",
+   "desc_en": "Record deliveries and sales to see stock on hand, average cost and the profit on every piece.",
+   "desc_fi": "Kirjaa ostot ja myynnit: näet varastosaldon, keskihinnan ja jokaisen tuotteen katteen.",
+   "price": 12,
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "category": "stock",
+   "badges": [],
+   "payhip": "https://payhip.com/b/CqP1b",
+   "etsy": "https://www.etsy.com/listing/4598059005",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "اللوحة السنوية: الإيرادات والربح والهامش وأفضل الأصناف وقائمة إعادة الطلب.",
+     "en": "Yearly dashboard: revenue, profit, margin, top items and reorder list.",
+     "fi": "Vuosikojelauta: liikevaihto, voitto, kate, myydyimmät tuotteet ja tilauslista."
+    },
+    {
+     "ar": "ربح كل عملية بيع: اختر الصنف والكمية فتظهر التكلفة والربح.",
+     "en": "Profit on every sale: pick the item and quantity, cost and profit fill in.",
+     "fi": "Jokaisen myynnin kate: valitse tuote ja määrä, kustannus ja voitto täyttyvät."
+    },
+    {
+     "ar": "المخزون المتوفر وقيمته مع حالة إعادة الطلب والنفاد.",
+     "en": "Stock on hand and stock value, with reorder and out-of-stock status.",
+     "fi": "Varastosaldo ja varaston arvo sekä tilaa/loppu-tila."
+    },
+    {
+     "ar": "ربح كل صنف لأي فترة: الكمية المباعة والإيراد والتكلفة ونسبة الهامش.",
+     "en": "Profit per item for any period: quantity sold, revenue, cost and margin %.",
+     "fi": "Kate tuotteittain mille tahansa jaksolle: määrä, myynti, kustannus ja kate-%."
+    },
+    {
+     "ar": "ورقة طريقة الاستخدام بقائمة قابلة للنقر وخطوات واضحة.",
+     "en": "How-to-use sheet with a clickable menu and step-by-step guide.",
+     "fi": "Käyttöohje-välilehti: klikattava valikko ja vaiheittainen opas."
+    }
+   ]
+  },
+  {
+   "slug": "warehouse-transfers",
+   "hidden": false,
+   "name_ar": "تحويلات المخزون بين 3 مستودعات",
+   "name_en": "Multi-Warehouse Stock Transfers",
+   "name_fi": "Varastosiirrot kolmen varaston välillä",
+   "desc_ar": "انقل البضاعة بين 3 مستودعات، وتابع الأرصدة أولًا بأول، واطبع أذونات التحويل، واحصل على تنبيه عند انخفاض المخزون.",
+   "desc_en": "Move stock between 3 warehouses, see up-to-date balances, print transfer vouchers and get low-stock alerts.",
+   "desc_fi": "Siirrä tavaraa kolmen varaston välillä, seuraa ajantasaisia saldoja, tulosta siirtotositteet ja saa hälytys vähistä varastoista.",
+   "price": 12,
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "category": "stock",
+   "badges": [],
+   "payhip": "https://payhip.com/b/p3e9T",
+   "etsy": "https://www.etsy.com/listing/4598058675",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "المخزون الحالي لكل صنف في كل من المستودعات الثلاثة مع حالة الانخفاض.",
+     "en": "Live stock per item for each of the 3 warehouses, with low-stock status.",
+     "fi": "Ajantasainen saldo tuotteittain kaikissa kolmessa varastossa ja vähissä-tila."
+    },
+    {
+     "ar": "إذن تحويل A4 قابل للطباعة مع خانات التوقيع.",
+     "en": "Printable A4 transfer voucher with signature boxes.",
+     "fi": "Tulostettava A4-siirtotosite allekirjoituskenttineen."
+    },
+    {
+     "ar": "ورقة واحدة لكل حركة: وارد أو صادر أو تحويل بقوائم منسدلة وفحص لكل سطر.",
+     "en": "One sheet for every movement: in, out or transfer, with dropdowns and a check per line.",
+     "fi": "Yksi välilehti kaikille tapahtumille: sisään, ulos tai siirto, tarkistus joka rivillä."
+    },
+    {
+     "ar": "تنبيهات انخفاض المخزون مع اقتراح تحويل من مستودع آخر.",
+     "en": "Low-stock alerts with a suggested transfer from another warehouse.",
+     "fi": "Vähissä-hälytykset ja ehdotettu siirto toisesta varastosta."
+    },
+    {
+     "ar": "تقرير سجل التحويلات مع تصفية بالتاريخ ونوع الحركة والمستودع.",
+     "en": "Transfer log report filtered by date, movement type and warehouse.",
+     "fi": "Siirtolokiraportti suodatettuna päivän, tapahtumatyypin ja varaston mukaan."
+    }
+   ]
+  },
+  {
+   "slug": "movements-ledger",
+   "hidden": false,
+   "name_ar": "دفتر حركات البيع والشراء",
+   "name_en": "Sales & Purchases Movements Ledger",
+   "name_fi": "Osto- ja myyntitapahtumien kirja",
+   "desc_ar": "دفتر واحد لكل عمليات الشراء والبيع مع رصيد تراكمي ومتوسط التكلفة وربح كل عملية بيع، مناسب لمحلات الذهب والجوالات.",
+   "desc_en": "One ledger for every purchase and sale with running balance, average cost and profit per sale, e.g. for gold or phone shops.",
+   "desc_fi": "Yksi kirja kaikille ostoille ja myynneille: juokseva saldo, keskihinta ja myynnin kate. Sopii esim. kulta- ja puhelinliikkeille.",
+   "price": 9,
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "category": "stock",
+   "badges": [],
+   "payhip": "https://payhip.com/b/SKCdT",
+   "etsy": "https://www.etsy.com/listing/4598058213",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "كل عمليات الشراء والبيع في قائمة واحدة مع الرصيد المتراكم ومتوسط التكلفة.",
+     "en": "Every purchase and sale in one list, with running balance and average cost.",
+     "fi": "Kaikki ostot ja myynnit yhdessä listassa, juokseva saldo ja keskihinta."
+    },
+    {
+     "ar": "كشف الصنف لأي فترة: الرصيد الافتتاحي وكل الحركات والرصيد الختامي.",
+     "en": "Item statement for any period: opening balance, every movement and closing balance.",
+     "fi": "Tuoteote mille tahansa jaksolle: alkusaldo, tapahtumat ja loppusaldo."
+    },
+    {
+     "ar": "الملخص الشهري: قيم الشراء والبيع وتكلفة المبيعات والربح لكل شهر.",
+     "en": "Monthly summary: purchase and sale values, cost of sales and profit per month.",
+     "fi": "Kuukausiyhteenveto: ostot, myynnit, myynnin kustannus ja voitto kuukausittain."
+    },
+    {
+     "ar": "الأصناف والأرصدة: المشترى والمباع والرصيد ومتوسط التكلفة والربح لكل صنف.",
+     "en": "Items and balances: bought, sold, balance, average cost and profit per item.",
+     "fi": "Tuotteet ja saldot: ostettu, myyty, saldo, keskihinta ja voitto tuotteittain."
+    },
+    {
+     "ar": "ورقة طريقة الاستخدام بقائمة قابلة للنقر في كل ملف.",
+     "en": "How-to-use sheet with a clickable menu in every file.",
+     "fi": "Käyttöohje-välilehti ja klikattava valikko jokaisessa tiedostossa."
+    }
+   ]
+  },
+  {
+   "slug": "family-expense-tracker",
+   "hidden": false,
+   "name_ar": "ميزانية الأسرة ومتابعة المصاريف",
+   "name_en": "Family Budget & Expense Tracker",
+   "name_fi": "Perheen budjetti ja kulujen seuranta",
+   "desc_ar": "ميزانية شهرية لكل فئة مع تنبيه قبل تجاوزها، ومتابعة الفواتير وأهداف الادخار وسداد الديون.",
+   "desc_en": "Monthly budget per category with overspend alerts, bills, savings goals and debt payoff tracking.",
+   "desc_fi": "Kuukausibudjetti luokittain ja hälytys ennen ylitystä, laskut, säästötavoitteet ja velkojen takaisinmaksu.",
+   "price": 12,
+   "languages": [
+    "ar",
+    "en"
+   ],
+   "category": "home",
+   "badges": [],
+   "payhip": "https://payhip.com/b/ma4kz",
+   "etsy": "https://www.etsy.com/listing/4598078752",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة ميزانية الأسرة: بطاقات المؤشرات وتنبيهات الميزانية والفواتير القادمة ورسوم بيانية.",
+     "en": "Family budget dashboard with KPI cards, budget alerts, upcoming bills and charts.",
+     "fi": "Perheen budjettikojelauta: tunnusluvut, budjettihälytykset, tulevat laskut ja kaaviot."
+    },
+    {
+     "ar": "مراقبة الميزانية: تنبيهات لكل فئة وتوقّع لنهاية الشهر.",
+     "en": "Budget monitor: alerts per category and a month-end forecast.",
+     "fi": "Budjettiseuranta: hälytykset luokittain ja kuukauden lopun ennuste."
+    },
+    {
+     "ar": "سجل المصاريف اليومية بقوائم للفئة وطريقة الدفع وفرد الأسرة.",
+     "en": "Daily expense log with dropdowns for category, payment method and family member.",
+     "fi": "Päivittäinen kuluseuranta: valikot luokalle, maksutavalle ja perheenjäsenelle."
+    },
+    {
+     "ar": "أهداف الادخار وسداد الديون مع أشرطة التقدّم.",
+     "en": "Savings goals and debt payoff with progress bars.",
+     "fi": "Säästötavoitteet ja velkojen takaisinmaksu edistymispalkein."
+    },
+    {
+     "ar": "الفواتير والاشتراكات المتكررة مع موعد الاستحقاق التالي والأيام المتبقية.",
+     "en": "Recurring bills and subscriptions with next due date and days left.",
+     "fi": "Toistuvat laskut ja tilaukset: seuraava eräpäivä ja päiviä jäljellä."
+    },
+    {
+     "ar": "مقارنة السنوات: قارن كل شهر وفئة بالسنة السابقة.",
+     "en": "Year vs year: compare every month and category with the previous year.",
+     "fi": "Vuosivertailu: vertaa jokaista kuukautta ja luokkaa edelliseen vuoteen."
+    }
+   ]
+  }
+ ]
+}

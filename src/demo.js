@@ -52,7 +52,7 @@
     });
     buy.innerHTML = "";
     buy.appendChild(btn(p.payhip, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">Payhip</small>"));
-    buy.appendChild(btn(p.etsy, "store store-etsy", "Etsy"));
+    if (p.etsy) buy.appendChild(btn(p.etsy, "store store-etsy", "Etsy"));
     if (p.gumroad) buy.appendChild(btn(p.gumroad, "store store-gum", "Gumroad"));
     // preload the rest quietly
     p.slides.forEach(function(s){ var im = new Image(); im.src = s.src; });

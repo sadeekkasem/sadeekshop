@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src https://api.github.com http://127.0.0.1:* http://localhost:*; font-src 'self'; form-action 'none'; base-uri 'none'">
+<title>إدارة القوالب | SadeekShop</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<style>
+@font-face{font-family:Cairo;src:url(assets/fonts/cairo.woff2) format("woff2");font-weight:200 1000;font-display:swap}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;background:#f4f7f5;color:#1b2a22;line-height:1.6}
+header{background:#0e5a35;color:#fff;padding:14px 20px}
+header h1{margin:0;font-size:1.3rem}
+main{max-width:920px;margin:0 auto;padding:16px}
+section{background:#fff;border:1px solid #dde6e0;border-radius:12px;padding:16px 18px;margin:0 0 16px}
+h2{margin:0 0 10px;font-size:1.15rem;color:#0e5a35}
+label{display:block;font-weight:700;margin:10px 0 4px}
+.hint{font-weight:400;color:#5b6b62;font-size:.88rem}
+input[type=text],input[type=password],input[type=number],input[type=url],textarea,select{width:100%;padding:9px 10px;border:1px solid #b9c8bf;border-radius:8px;font:inherit;background:#fff}
+textarea{min-height:70px}
+.ltr{direction:ltr;text-align:left}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 14px}
+.checks label{display:inline-flex;gap:6px;align-items:center;font-weight:400;margin-inline-end:16px}
+button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;background:#0e5a35;color:#fff}
+button.sec{background:#e8efe9;color:#0e5a35}
+button.danger{background:#fbe9e9;color:#a01818}
+button:disabled{opacity:.5;cursor:not-allowed}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.msg{padding:10px 12px;border-radius:8px;margin-top:12px;white-space:pre-line}
+.msg.ok{background:#e6f5ec;color:#0b4d2c;border:1px solid #9fd3b3}
+.msg.err{background:#fdecec;color:#8a1111;border:1px solid #f0b3b3}
+.msg.info{background:#eef3fb;color:#1d3d6b;border:1px solid #bcd0ee}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{padding:7px 6px;border-bottom:1px solid #e6ece8;text-align:right;vertical-align:middle}
+td.price{direction:ltr;text-align:right;white-space:nowrap}
+tr.is-hidden td{color:#8a958f}
+.badge{display:inline-block;font-size:.75rem;background:#eee;border-radius:6px;padding:0 6px}
+.thumb{max-width:200px;max-height:150px;border-radius:6px;border:1px solid #ddd;display:block;margin-top:6px}
+.slide{border:1px dashed #b9c8bf;border-radius:8px;padding:8px 10px;margin-top:8px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><h1>إدارة القوالب – SadeekShop</h1></header>
+<main>
+<noscript><p class="msg err">هذه الصفحة تحتاج تفعيل JavaScript في المتصفح.</p></noscript>
+
+<section id="tokenBox">
+  <h2>١. مفتاح الدخول (Token)</h2>
+  <p class="hint">المفتاح يُحفظ في هذا المتصفح فقط، ولا يُرسل إلا إلى GitHub. لا تستخدم هذه الصفحة على جهاز عام أو جهاز غيرك.</p>
+  <div id="tokenNew">
+    <label for="tokenInput">الصق المفتاح هنا <span class="hint">(يبدأ بـ github_pat_)</span></label>
+    <input id="tokenInput" type="password" class="ltr" autocomplete="off" spellcheck="false">
+    <div class="btns"><button type="button" id="tokenSave">حفظ المفتاح</button></div>
+  </div>
+  <div id="tokenHave" hidden>
+    <p>✅ يوجد مفتاح محفوظ في هذا المتصفح.</p>
+    <div class="btns">
+      <button type="button" id="tokenTest" class="sec">اختبار المفتاح</button>
+      <button type="button" id="tokenDel" class="danger">حذف المفتاح من هذا المتصفح</button>
+    </div>
+  </div>
+  <div id="tokenMsg" class="msg" hidden role="status"></div>
+</section>
+
+<div id="app" hidden>
+<section>
+  <h2>٢. القوالب الموجودة</h2>
+  <div class="btns" style="margin:0 0 8px"><button type="button" id="reload" class="sec">تحديث القائمة</button> <button type="button" id="addNew">+ إضافة قالب جديد</button></div>
+  <table><thead><tr><th>#</th><th>الاسم</th><th>السعر</th><th>الحالة</th><th></th></tr></thead><tbody id="list"></tbody></table>
+  <div id="listMsg" class="msg" hidden role="status"></div>
+</section>
+
+<section id="formBox" hidden>
+  <h2 id="formTitle">٣. إضافة قالب جديد</h2>
+  <form id="form" novalidate autocomplete="off">
+    <label for="f_slug">الاسم المختصر (slug) <span class="hint">بالإنجليزية بحروف صغيرة وأرقام وشرطة فقط، مثل: cafe-stock. لا يمكن تغييره بعد الحفظ.</span></label>
+    <input id="f_slug" type="text" class="ltr" maxlength="60">
+    <div class="row">
+      <div><label for="f_name_ar">اسم القالب بالعربية</label><input id="f_name_ar" type="text" maxlength="160"></div>
+      <div><label for="f_name_en">اسم القالب بالإنجليزية</label><input id="f_name_en" type="text" class="ltr" maxlength="160"></div>
+      <div><label for="f_name_fi">اسم القالب بالفنلندية</label><input id="f_name_fi" type="text" class="ltr" maxlength="160"></div>
+    </div>
+    <label for="f_desc_ar">الوصف بالعربية</label><textarea id="f_desc_ar" maxlength="600"></textarea>
+    <label for="f_desc_en">الوصف بالإنجليزية</label><textarea id="f_desc_en" class="ltr" maxlength="600"></textarea>
+    <label for="f_desc_fi">الوصف بالفنلندية</label><textarea id="f_desc_fi" class="ltr" maxlength="600"></textarea>
+    <div class="row">
+      <div><label for="f_price">السعر باليورو <span class="hint">رقم فقط، مثل 17</span></label><input id="f_price" type="number" min="1" step="0.01" class="ltr"></div>
+      <div><label for="f_category">التصنيف</label>
+        <select id="f_category">
+          <option value="acc">محاسبة وضريبة</option><option value="stock">مخزون ومبيعات</option>
+          <option value="price">تسعير ومطاعم</option><option value="hr">رواتب</option><option value="home">ميزانية الأسرة</option>
+        </select></div>
+    </div>
+    <label>لغات ملف القالب</label>
+    <div class="checks"><label><input type="checkbox" name="lang" value="ar"> عربي</label><label><input type="checkbox" name="lang" value="en"> إنجليزي</label><label><input type="checkbox" name="lang" value="fi"> فنلندي</label></div>
+    <label>شارات على الصورة <span class="hint">(اختياري)</span></label>
+    <div class="checks"><label><input type="checkbox" name="badge" value="alv"> ضريبة ALV فنلندا</label><label><input type="checkbox" name="badge" value="x365"> Excel 365 / 2021+</label><label><input type="checkbox" id="f_wide"> بطاقة عريضة</label></div>
+    <label for="f_payhip">رابط Payhip <span class="hint">(مطلوب)</span></label><input id="f_payhip" type="url" class="ltr" placeholder="https://payhip.com/b/...">
+    <label for="f_etsy">رابط Etsy <span class="hint">(اختياري)</span></label><input id="f_etsy" type="url" class="ltr" placeholder="https://www.etsy.com/listing/...">
+    <label for="f_gumroad">رابط Gumroad <span class="hint">(اختياري)</span></label><input id="f_gumroad" type="url" class="ltr" placeholder="https://....gumroad.com/l/...">
+    <label for="f_image">صورة القالب <span class="hint" id="imgHint">(مطلوبة للقالب الجديد. JPG أو PNG، ويُفضّل بنسبة 4:3)</span></label>
+    <input id="f_image" type="file" accept="image/jpeg,image/png,image/webp">
+    <img id="imgPrev" class="thumb" alt="" hidden>
+    <label for="f_demo">صور العرض (اختياري) <span class="hint">حتى 7 صور بالترتيب، مع وصف قصير لكل صورة. للقالب الموجود: الصور الجديدة تستبدل صور العرض الحالية.</span></label>
+    <input id="f_demo" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+    <div id="slides"></div>
+    <div class="btns">
+      <button type="submit" id="saveBtn">حفظ ونشر في الموقع</button>
+      <button type="button" id="cancelBtn" class="sec">إلغاء</button>
+    </div>
+  </form>
+  <div id="formMsg" class="msg" hidden role="status"></div>
+</section>
+</div>
+</main>
+<script src="assets/admin.js"></script>
+</body>
+</html>
