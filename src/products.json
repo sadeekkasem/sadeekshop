@@ -813,6 +813,48 @@
      "fi": "Vuosivertailu: vertaa jokaista kuukautta ja luokkaa edelliseen vuoteen."
     }
    ]
+  },
+  {
+   "slug": "installments-pro-ar",
+   "hidden": false,
+   "name_ar": "نظام الأقساط والمديونيات",
+   "name_en": "Installments & Receivables Tracker (Arabic)",
+   "name_fi": "Osamaksut ja saatavat (arabia)",
+   "desc_ar": "لمحلات البيع بالتقسيط: عقود بنسبة ربح ثابتة، جدول أقساط تلقائي، سندات قبض وكشف حساب للطباعة، ومتابعة المتأخرات ولوحة تحكم للتحصيل.",
+   "desc_en": "For shops selling on installments: fixed-markup contracts, automatic payment schedule, printable receipts and customer statements, overdue tracking and a collections dashboard.",
+   "desc_fi": "Osamaksumyyntiin: kiinteän katteen sopimukset, automaattinen maksuaikataulu, tulostettavat kuitit ja tiliotteet, myöhästyneiden seuranta ja perintäkojelauta.",
+   "price": 15,
+   "languages": [
+    "ar"
+   ],
+   "category": "acc",
+   "badges": [],
+   "payhip": "https://payhip.com/b/y9M6d",
+   "etsy": "",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة التحكم: المحصّل والمتبقي والمتأخر ونسبة التحصيل.",
+     "en": "Dashboard: collected, outstanding, overdue and collection rate.",
+     "fi": "Kojelauta: perityt, avoimet, myöhästyneet ja perintäaste."
+    },
+    {
+     "ar": "عقود التقسيط وسجل العملاء والكفلاء.",
+     "en": "Installment contracts and the customers & guarantors register.",
+     "fi": "Osamaksusopimukset sekä asiakas- ja takaajarekisteri."
+    },
+    {
+     "ar": "سند قبض A4 يُملأ تلقائيًا من رقم الدفعة.",
+     "en": "A4 receipt filled in automatically from the payment number.",
+     "fi": "A4-kuitti täyttyy automaattisesti maksun numerosta."
+    },
+    {
+     "ar": "كشف حساب العميل: العقود والدفعات والرصيد.",
+     "en": "Customer statement: contracts, payments and balance.",
+     "fi": "Asiakkaan tiliote: sopimukset, maksut ja saldo."
+    }
+   ]
   }
  ]
 }
