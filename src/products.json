@@ -855,6 +855,48 @@
      "fi": "Asiakkaan tiliote: sopimukset, maksut ja saldo."
     }
    ]
+  },
+  {
+   "slug": "realestate-pro-ar",
+   "hidden": false,
+   "name_ar": "نظام إدارة العقارات والإيجارات",
+   "name_en": "Property & Rent Management (Arabic)",
+   "name_fi": "Kiinteistöjen ja vuokrien hallinta (arabia)",
+   "desc_ar": "للملاك ومكاتب العقار: وحدات وعقود بدورات سداد شهرية أو ربعية أو سنوية، جدول استحقاقات تلقائي، تحصيلات وشيكات، متأخرات، عقود تنتهي قريبًا وصافي دخل كل عقار.",
+   "desc_en": "For landlords and property offices: units and leases with monthly, quarterly or yearly payment cycles, automatic rent schedule, collections and cheques, arrears, expiring leases and net income per property.",
+   "desc_fi": "Vuokranantajille ja kiinteistötoimistoille: yksiköt ja vuokrasopimukset kuukausi-, neljännes- tai vuosimaksuilla, automaattinen vuokra-aikataulu, maksut ja shekit, rästit, päättyvät sopimukset ja nettotulo kiinteistöittäin.",
+   "price": 15,
+   "languages": [
+    "ar"
+   ],
+   "category": "acc",
+   "badges": [],
+   "payhip": "https://payhip.com/b/3yb4Y",
+   "etsy": "",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة التحكم: الإشغال والمستحق مقابل المحصّل والمتأخرات والشيكات.",
+     "en": "Dashboard: occupancy, due vs collected, arrears and cheques.",
+     "fi": "Kojelauta: käyttöaste, erääntyneet vs. perityt, rästit ja shekit."
+    },
+    {
+     "ar": "عقود الإيجار بدورات سداد مختلفة والتأمين ورقم عقد إيجار.",
+     "en": "Leases with different payment cycles, deposit and Ejar contract number.",
+     "fi": "Vuokrasopimukset eri maksujaksoilla, vakuus ja Ejar-sopimusnumero."
+    },
+    {
+     "ar": "جدول الاستحقاقات يُنشأ تلقائيًا لكل عقد.",
+     "en": "Rent schedule generated automatically for every lease.",
+     "fi": "Vuokra-aikataulu luodaan automaattisesti jokaiselle sopimukselle."
+    },
+    {
+     "ar": "كشف حساب مستأجر جاهز للطباعة A4.",
+     "en": "Printable A4 tenant statement.",
+     "fi": "Tulostettava A4-vuokralaisen tiliote."
+    }
+   ]
   }
  ]
 }
