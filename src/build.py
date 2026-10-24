@@ -46,8 +46,8 @@ def card(p, i):
     buy_url, buy_via = (p['payhip'], "Payhip") if p.get('payhip') else (p['etsy'], "Etsy")
     alt_etsy = p.get('etsy') if p.get('payhip') else ''
     alt = (f'''    <div class="stores-alt">{tx("card.also","span","also")}
-      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if p.get('gumroad') else ''}
-    </div>''') if (alt_etsy or p.get('gumroad')) else ''
+      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if p.get('gumroad') else ''}{('<a class="store store-sikka" href="'+e(p['sikka'])+'" target="_blank" rel="noopener">'+tx("card.sikka")+'</a>') if p.get('sikka') else ''}
+    </div>''') if (alt_etsy or p.get('gumroad') or p.get('sikka')) else ''
     lazy = 'loading="lazy" decoding="async"' if i > 2 else 'decoding="async"'
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}">
@@ -116,7 +116,7 @@ for p in PRODUCTS:
         src = f"assets/demo/{p['id']}-{n}.webp"
         assert os.path.exists(f"{OUT}/{src}"), src
         sl.append({"src": src, "cap": {"ar": ar, "en": en, "fi": fi}})
-    d = {"id": p["id"], "name": p["name"], "payhip": p["payhip"], "etsy": p.get("etsy", ""), "slides": sl}
+    d = {"id": p["id"], "name": p["name"], "payhip": p["payhip"], "etsy": p.get("etsy", ""), "gumroad": p.get("gumroad", ""), "sikka": p.get("sikka", ""), "slides": sl}
     if p.get("gumroad"): d["gumroad"] = p["gumroad"]
     DEMO_DATA.append(d)
 DEMO_SEC = f'''
@@ -161,13 +161,13 @@ og_url = f'<meta property="og:url" content="{SITE_URL}">\n<link rel="canonical" 
 og_img = (SITE_URL + "assets/og-image.jpg") if SITE_URL else "assets/og-image.jpg"
 
 ld = {"@context":"https://schema.org","@type":"Store","name":"SadeekShop","email":EMAIL,
-      "address":{"@type":"PostalAddress","addressCountry":"FI"},"sameAs":[ETSY_SHOP, PAYHIP_STORE]}
+      "address":{"@type":"PostalAddress","addressCountry":"FI"},"sameAs":[ETSY_SHOP, PAYHIP_STORE, SIKKA_SHOP]}
 
 FOOT = f'''<footer class="foot">
   <div class="wrap foot-in">
     <div class="brand"><img src="assets/icon-72.png" width="28" height="28" alt="" loading="lazy"><span>Sadeek<b>Shop</b></span></div>
     <p data-i18n="footer.tagline">{e(t("footer.tagline"))}</p>
-    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a class="yt" href="https://www.youtube.com/@SadeekShopExcel" target="_blank" rel="noopener"><svg class="yt-ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg> <span data-i18n="footer.youtube">{e(t("footer.youtube"))}</span></a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
+    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a href="{SIKKA_SHOP}" target="_blank" rel="noopener">SIKKA</a> · <a class="yt" href="https://www.youtube.com/@SadeekShopExcel" target="_blank" rel="noopener"><svg class="yt-ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg> <span data-i18n="footer.youtube">{e(t("footer.youtube"))}</span></a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
     <p class="tm"><span data-i18n="footer.tm">{e(t("footer.tm"))}</span><br>© 2026 SadeekShop</p>
   </div>
 </footer>'''

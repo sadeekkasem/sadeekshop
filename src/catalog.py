@@ -80,7 +80,7 @@ def load():
             errors.append(f"{who}: الشارات badges يجب أن تكون من alv و x365 أو فارغة [].")
         if not (isinstance(p.get("payhip"), str) and URL.match(p.get("payhip", ""))) and not (p.get("payhip", "") == "" and isinstance(p.get("etsy"), str) and URL.match(p.get("etsy", ""))):
             errors.append(f"{who}: رابط payhip (أو etsy إن كان payhip فارغًا) مطلوب ويجب أن يبدأ بـ https://")
-        for k in ("etsy", "gumroad"):
+        for k in ("etsy", "gumroad", "sikka"):
             v = p.get(k, "")
             if v and (not isinstance(v, str) or not URL.match(v)):
                 errors.append(f"{who}: رابط {k} يجب أن يبدأ بـ https:// أو يبقى فارغًا \"\".")
@@ -97,7 +97,7 @@ def load():
                 if not os.path.exists(os.path.join(STATIC, "assets", "demo", f"{slug}-{n}.webp")) and not find_image(f"{slug}-{n}"):
                     errors.append(f"{who}: صورة العرض رقم {n} غير موجودة. ارفعها باسم src/images/{slug}-{n}.jpg أو احذف وصفها من demo.")
         out.append(dict(id=slug, price=pr, cat=p.get("category"), langs=langs or [], tags=badges or [],
-                        payhip=p.get("payhip", ""), etsy=p.get("etsy", ""), gumroad=p.get("gumroad", ""),
+                        payhip=p.get("payhip", ""), etsy=p.get("etsy", ""), gumroad=p.get("gumroad", ""), sikka=p.get("sikka", ""),
                         wide=p.get("wide") is True,
                         name=dict(ar=p.get("name_ar", ""), en=p.get("name_en", ""), fi=p.get("name_fi", "")),
                         ben=dict(ar=p.get("desc_ar", ""), en=p.get("desc_en", ""), fi=p.get("desc_fi", "")),

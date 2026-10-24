@@ -87,7 +87,7 @@
   }
 
   // ---------- form ----------
-  var TEXT = ["slug", "name_ar", "name_en", "name_fi", "desc_ar", "desc_en", "desc_fi", "payhip", "etsy", "gumroad"];
+  var TEXT = ["slug", "name_ar", "name_en", "name_fi", "desc_ar", "desc_en", "desc_fi", "payhip", "etsy", "gumroad", "sikka"];
   function checks(name) { return Array.prototype.slice.call(document.querySelectorAll('input[name="' + name + '"]')); }
   function openForm(i) {
     var p = i == null ? null : state.doc.products[i];
@@ -144,7 +144,7 @@
       name_ar: p.name_ar, name_en: p.name_en, name_fi: p.name_fi, desc_ar: p.desc_ar, desc_en: p.desc_en, desc_fi: p.desc_fi,
       price: Number(String($("f_price").value).replace(",", ".")), languages: checks("lang").filter(function (c) { return c.checked; }).map(function (c) { return c.value; }),
       category: $("f_category").value, badges: checks("badge").filter(function (c) { return c.checked; }).map(function (c) { return c.value; }),
-      payhip: p.payhip, etsy: p.etsy, gumroad: p.gumroad, wide: $("f_wide").checked, demo: old ? (old.demo || []) : [] };
+      payhip: p.payhip, etsy: p.etsy, gumroad: p.gumroad, sikka: p.sikka, wide: $("f_wide").checked, demo: old ? (old.demo || []) : [] };
     if (!SLUG.test(out.slug)) errs.push("الاسم المختصر (slug): حروف إنجليزية صغيرة وأرقام وشرطة فقط، مثل cafe-stock.");
     else if (!old && state.doc.products.some(function (x) { return x.slug === out.slug; })) errs.push("الاسم المختصر (slug) مستخدم لقالب آخر. اختر اسمًا مختلفًا.");
     [["name_ar", "اسم القالب بالعربية"], ["name_en", "اسم القالب بالإنجليزية"], ["name_fi", "اسم القالب بالفنلندية"],
@@ -154,6 +154,7 @@
     if (!URL_RE.test(out.payhip) && !(out.payhip === "" && URL_RE.test(out.etsy || ""))) errs.push("رابط Payhip مطلوب ويجب أن يبدأ بـ https://");
     if (out.etsy && !URL_RE.test(out.etsy)) errs.push("رابط Etsy يجب أن يبدأ بـ https:// أو يبقى فارغًا.");
     if (out.gumroad && !URL_RE.test(out.gumroad)) errs.push("رابط Gumroad يجب أن يبدأ بـ https:// أو يبقى فارغًا.");
+    if (out.sikka && !URL_RE.test(out.sikka)) errs.push("رابط سكة يجب أن يبدأ بـ https:// أو يبقى فارغًا.");
     if (!old && !$("f_image").files[0]) errs.push("صورة القالب مطلوبة للقالب الجديد.");
     var demoFiles = Array.prototype.slice.call($("f_demo").files);
     if (demoFiles.length > 7) errs.push("صور العرض: 7 صور كحد أقصى.");

@@ -2,6 +2,7 @@
 # All page text in Arabic (ar), English (en) and Finnish (fi).
 PAYHIP_STORE = "https://payhip.com/KirjanpitoPlus"
 ETSY_SHOP = "https://sadeekshop.etsy.com"
+SIKKA_SHOP = "https://sikka.me/sadeekshop"
 EMAIL = "sadeekkasem@gmail.com"
 
 # Product data lives in products.json (edited from admin.html); catalog.py loads and checks it.
@@ -53,6 +54,7 @@ T = {
  "filter.home": dict(ar="ميزانية الأسرة", en="Home budget", fi="Kotitalous"),
  "card.buy": dict(ar="اشترِ الآن", en="Buy now", fi="Osta nyt"),
  "card.etsy": dict(ar="في Etsy", en="On Etsy", fi="Etsyssä"),
+ "card.sikka": dict(ar="اشترِ من سكة", en="Buy on SIKKA", fi="Osta SIKKAsta"),
  "card.also": dict(ar="متوفر أيضًا في:", en="Also on:", fi="Myös:"),
  "card.on": dict(ar="عبر Payhip", en="via Payhip", fi="Payhipin kautta"),
  "tag.alv": dict(ar="ضريبة ALV فنلندا", en="Finnish ALV", fi="Suomen ALV"),

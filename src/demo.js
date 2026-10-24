@@ -54,6 +54,7 @@
     buy.appendChild(btn(p.payhip || p.etsy, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">" + (p.payhip ? "Payhip" : "Etsy") + "</small>"));
     if (p.etsy && p.payhip) buy.appendChild(btn(p.etsy, "store store-etsy", "Etsy"));
     if (p.gumroad) buy.appendChild(btn(p.gumroad, "store store-gum", "Gumroad"));
+    if (p.sikka) buy.appendChild(btn(p.sikka, "store store-sikka", "<span data-i18n=\"card.sikka\">" + tr("card.sikka") + "</span>"));
     // preload the rest quietly
     p.slides.forEach(function(s){ var im = new Image(); im.src = s.src; });
     go(0, false); start();

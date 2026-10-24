@@ -233,6 +233,8 @@ p{margin:0 0 1em}
 .store{display:inline-flex;align-items:center;font-weight:800;font-size:13px;text-decoration:none;padding:3px 11px;border-radius:999px;border:1.5px solid;line-height:1.5}
 .store-etsy{color:#c4511a;border-color:#f1c3a8;background:#fff6f0}
 .store-etsy:hover{background:#ffe7d8}
+.store-sikka{color:#c4511a;border-color:#f1c3a8;background:#fff6f0}
+.store-sikka:hover{background:#ffe7d8}
 .store-gum{color:#111;border-color:#f0a3d2;background:#fff0f8}
 .store-gum:hover{background:#ffdcef}
 
