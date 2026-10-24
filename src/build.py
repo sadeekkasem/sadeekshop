@@ -167,7 +167,7 @@ FOOT = f'''<footer class="foot">
   <div class="wrap foot-in">
     <div class="brand"><img src="assets/icon-72.png" width="28" height="28" alt="" loading="lazy"><span>Sadeek<b>Shop</b></span></div>
     <p data-i18n="footer.tagline">{e(t("footer.tagline"))}</p>
-    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
+    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a class="yt" href="https://www.youtube.com/@SadeekShopExcel" target="_blank" rel="noopener"><svg class="yt-ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg> <span data-i18n="footer.youtube">{e(t("footer.youtube"))}</span></a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
     <p class="tm"><span data-i18n="footer.tm">{e(t("footer.tm"))}</span><br>© 2026 SadeekShop</p>
   </div>
 </footer>'''

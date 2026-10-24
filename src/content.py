@@ -124,6 +124,7 @@ T = {
  "contact.text": dict(ar="راسلني بالعربية أو الإنجليزية أو الفنلندية، وسأرد عليك في أقرب وقت.", en="Write to me in Arabic, English or Finnish and I'll get back to you as soon as I can.", fi="Kirjoita arabiaksi, englanniksi tai suomeksi, niin vastaan mahdollisimman pian."),
  "contact.cta": dict(ar="أرسل بريدًا إلكترونيًا", en="Send an email", fi="Lähetä sähköpostia"),
  "footer.tagline": dict(ar="قوالب Excel للمشاريع الصغيرة · فنلندا", en="Excel templates for small businesses · Finland", fi="Excel-pohjat pienyrityksille · Suomi"),
+ "footer.youtube": dict(ar="قناتنا على يوتيوب", en="YouTube", fi="YouTube"),
  "footer.tm": dict(ar="Microsoft وExcel علامتان تجاريتان لشركة Microsoft. هذا المتجر مستقل وغير تابع لها.", en="Microsoft and Excel are trademarks of Microsoft Corporation. This shop is independent and not affiliated with Microsoft.", fi="Microsoft ja Excel ovat Microsoft Corporationin tavaramerkkejä. Tämä kauppa on itsenäinen eikä liity Microsoftiin."),
  "img.alt": dict(ar="صورة من القالب: ", en="Template screenshot: ", fi="Kuvakaappaus pohjasta: "),
  "free.alt": dict(ar="صورة من الحاسبة المجانية", en="Free calculator screenshot", fi="Kuvakaappaus ilmaisesta laskurista"),
