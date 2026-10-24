@@ -43,13 +43,15 @@ def card(p, i):
     langs = "".join(f'<li class="lg lg-{l}">{tx("lang."+l)}</li>' for l in p["langs"])
     tags = "".join(f'<span class="tag tag-{g}">{tx("tag."+g)}</span>' for g in p["tags"])
     pr = price(p["price"])
+    buy_url, buy_via = (p['payhip'], "Payhip") if p.get('payhip') else (p['etsy'], "Etsy")
+    alt_etsy = p.get('etsy') if p.get('payhip') else ''
     alt = (f'''    <div class="stores-alt">{tx("card.also","span","also")}
-      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if p.get('etsy') else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if p.get('gumroad') else ''}
-    </div>''') if (p.get('etsy') or p.get('gumroad')) else ''
+      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if p.get('gumroad') else ''}
+    </div>''') if (alt_etsy or p.get('gumroad')) else ''
     lazy = 'loading="lazy" decoding="async"' if i > 2 else 'decoding="async"'
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}">
-  <a class="card-media" href="{e(p['payhip'])}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+  <a class="card-media" href="{e(buy_url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
     <img src="assets/img/{pid}-480.webp" srcset="assets/img/{pid}-480.webp 480w, assets/img/{pid}-800.webp 800w" sizes="(max-width:640px) 92vw, (max-width:1024px) 46vw, {'560px' if pid in WIDE else '380px'}" width="800" height="600" {lazy} alt="{e(t(f"p.{pid}.name"))}" data-alt-key="p.{pid}.name">
     {('<div class="tags">'+tags+'</div>') if tags else ''}
   </a>
@@ -60,7 +62,7 @@ def card(p, i):
     <div class="card-foot">
       <div class="price"><bdi data-price='{json.dumps(pr)}'>{pr[L]}</bdi></div>
       <div class="actions">
-        <a class="btn btn-buy" href="{e(p['payhip'])}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">Payhip</small></a>
+        <a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>
       </div>
     </div>
 {alt}

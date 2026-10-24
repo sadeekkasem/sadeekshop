@@ -151,7 +151,7 @@
      ["desc_ar", "الوصف بالعربية"], ["desc_en", "الوصف بالإنجليزية"], ["desc_fi", "الوصف بالفنلندية"]].forEach(function (x) { if (!out[x[0]]) errs.push(x[1] + ": مطلوب."); });
     if (!(out.price > 0 && out.price <= 10000)) errs.push("السعر: اكتب رقمًا أكبر من صفر، مثل 17.");
     if (!out.languages.length) errs.push("اختر لغة واحدة على الأقل لملف القالب.");
-    if (!URL_RE.test(out.payhip)) errs.push("رابط Payhip مطلوب ويجب أن يبدأ بـ https://");
+    if (!URL_RE.test(out.payhip) && !(out.payhip === "" && URL_RE.test(out.etsy || ""))) errs.push("رابط Payhip مطلوب ويجب أن يبدأ بـ https://");
     if (out.etsy && !URL_RE.test(out.etsy)) errs.push("رابط Etsy يجب أن يبدأ بـ https:// أو يبقى فارغًا.");
     if (out.gumroad && !URL_RE.test(out.gumroad)) errs.push("رابط Gumroad يجب أن يبدأ بـ https:// أو يبقى فارغًا.");
     if (!old && !$("f_image").files[0]) errs.push("صورة القالب مطلوبة للقالب الجديد.");

@@ -78,8 +78,8 @@ def load():
         badges = p.get("badges", [])
         if not isinstance(badges, list) or not set(badges) <= BADGES:
             errors.append(f"{who}: الشارات badges يجب أن تكون من alv و x365 أو فارغة [].")
-        if not isinstance(p.get("payhip"), str) or not URL.match(p.get("payhip", "")):
-            errors.append(f"{who}: رابط payhip مطلوب ويجب أن يبدأ بـ https://")
+        if not (isinstance(p.get("payhip"), str) and URL.match(p.get("payhip", ""))) and not (p.get("payhip", "") == "" and isinstance(p.get("etsy"), str) and URL.match(p.get("etsy", ""))):
+            errors.append(f"{who}: رابط payhip (أو etsy إن كان payhip فارغًا) مطلوب ويجب أن يبدأ بـ https://")
         for k in ("etsy", "gumroad"):
             v = p.get(k, "")
             if v and (not isinstance(v, str) or not URL.match(v)):

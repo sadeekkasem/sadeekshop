@@ -51,8 +51,8 @@
       b.addEventListener("click", function(){ go(i, true); }); dots.appendChild(b);
     });
     buy.innerHTML = "";
-    buy.appendChild(btn(p.payhip, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">Payhip</small>"));
-    if (p.etsy) buy.appendChild(btn(p.etsy, "store store-etsy", "Etsy"));
+    buy.appendChild(btn(p.payhip || p.etsy, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">" + (p.payhip ? "Payhip" : "Etsy") + "</small>"));
+    if (p.etsy && p.payhip) buy.appendChild(btn(p.etsy, "store store-etsy", "Etsy"));
     if (p.gumroad) buy.appendChild(btn(p.gumroad, "store store-gum", "Gumroad"));
     // preload the rest quietly
     p.slides.forEach(function(s){ var im = new Image(); im.src = s.src; });

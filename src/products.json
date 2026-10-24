@@ -7,7 +7,7 @@
   "languages: لغات ملف القالب، من: ar و en و fi",
   "category: واحد من: acc (محاسبة وضريبة)، stock (مخزون ومبيعات)، price (تسعير ومطاعم)، hr (رواتب)، home (ميزانية الأسرة)",
   "badges: شارات اختيارية على الصورة، من: alv و x365. اتركها [] إذا لا تريد",
-  "payhip مطلوب. etsy و gumroad اختياريان: اتركهما \"\" إذا لا يوجد رابط",
+  "payhip مطلوب، أو اتركه \"\" إذا وُجد رابط etsy (يصبح زر الشراء على Etsy). etsy و gumroad اختياريان: اتركهما \"\" إذا لا يوجد رابط",
   "hidden: true يخفي القالب من الموقع بدون حذفه. wide: true يجعل البطاقة عريضة",
   "demo اختياري: صور العرض src/images/<slug>-1.jpg و -2.jpg ... مع وصف لكل صورة بالترتيب. اتركه [] إذا لا يوجد",
   "انتبه: كل قيمة نصية بين علامتي \" \"، وبين كل حقل والذي يليه فاصلة ,"
@@ -885,6 +885,48 @@
      "ar": "عقود الإيجار بدورات سداد مختلفة والتأمين ورقم عقد إيجار.",
      "en": "Leases with different payment cycles, deposit and Ejar contract number.",
      "fi": "Vuokrasopimukset eri maksujaksoilla, vakuus ja Ejar-sopimusnumero."
+    },
+    {
+     "ar": "جدول الاستحقاقات يُنشأ تلقائيًا لكل عقد.",
+     "en": "Rent schedule generated automatically for every lease.",
+     "fi": "Vuokra-aikataulu luodaan automaattisesti jokaiselle sopimukselle."
+    },
+    {
+     "ar": "كشف حساب مستأجر جاهز للطباعة A4.",
+     "en": "Printable A4 tenant statement.",
+     "fi": "Tulostettava A4-vuokralaisen tiliote."
+    }
+   ]
+  },
+  {
+   "slug": "realestate-pro-en",
+   "hidden": false,
+   "name_ar": "نظام إدارة العقارات والإيجارات (بالإنجليزية)",
+   "name_en": "Property & Rent Management (English)",
+   "name_fi": "Kiinteistöjen ja vuokrien hallinta (englanti)",
+   "desc_ar": "للملاك ومديري العقارات ومكاتب التأجير: وحدات وعقود بدورات سداد شهرية أو ربعية أو نصف سنوية أو سنوية، جدول استحقاقات تلقائي، دفعات وشيكات، متأخرات، عقود تنتهي قريبًا، ضريبة قيمة مضافة اختيارية وصافي دخل كل عقار.",
+   "desc_en": "For landlords, property managers and letting agencies: units and leases with monthly, quarterly, semi-annual or annual payment cycles, automatic rent schedule, payments and cheques, arrears, expiring leases, optional VAT and net income per property.",
+   "desc_fi": "Vuokranantajille, kiinteistönhoitajille ja vuokravälittäjille: yksiköt ja vuokrasopimukset kuukausi-, neljännes-, puolivuosi- tai vuosimaksuilla, automaattinen vuokra-aikataulu, maksut ja shekit, rästit, päättyvät sopimukset, valinnainen ALV ja nettotulo kiinteistöittäin.",
+   "price": 15,
+   "languages": [
+    "en"
+   ],
+   "category": "acc",
+   "badges": [],
+   "payhip": "",
+   "etsy": "https://www.etsy.com/listing/4602093771",
+   "gumroad": "",
+   "wide": false,
+   "demo": [
+    {
+     "ar": "لوحة التحكم: الإشغال والمستحق مقابل المحصّل والمتأخرات والشيكات.",
+     "en": "Dashboard: occupancy, due vs collected, arrears and cheques.",
+     "fi": "Kojelauta: käyttöaste, erääntyneet vs. perityt, rästit ja shekit."
+    },
+    {
+     "ar": "عقود الإيجار بدورات سداد مختلفة والتأمين ورقم تسجيل العقد.",
+     "en": "Leases with different payment cycles, deposit and lease registration / ref.",
+     "fi": "Vuokrasopimukset eri maksujaksoilla, vakuus ja sopimuksen rekisteröinti / viite."
     },
     {
      "ar": "جدول الاستحقاقات يُنشأ تلقائيًا لكل عقد.",
