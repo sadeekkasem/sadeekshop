@@ -1,0 +1,4457 @@
+{
+ "_readme": [
+  "Extra answers for the SadeekShop help widget, for fixed answers in 3 languages. Day-to-day answers go in the Google Sheet \"SadeekShop - أسئلة الزبائن\" (column F), which the widget and the build read automatically.",
+  "Add entries with: python src/tools/add_learned.py  (or edit by hand). Merged into assets/assistant-kb.json at build time.",
+  "keywords: words or short questions per language that should trigger the answer. answer: the reply per language (ar, en, fi).",
+  "links: optional buttons [{\"t\": {\"ar\":..,\"en\":..,\"fi\":..}, \"h\": \"https://...\"}]. Never put passwords or private data here: this file is public.",
+  "Keys starting with _ are ignored and never shown to visitors."
+ ],
+ "_example": {
+  "keywords": {
+   "ar": [
+    "مثال سؤال"
+   ],
+   "en": [
+    "example question"
+   ],
+   "fi": [
+    "esimerkki"
+   ]
+  },
+  "answer": {
+   "ar": "الجواب",
+   "en": "The answer",
+   "fi": "Vastaus"
+  },
+  "links": [
+   {
+    "t": {
+     "ar": "التفاصيل",
+     "en": "Details",
+     "fi": "Lisätiedot"
+    },
+    "h": "custom-template.html"
+   }
+  ]
+ },
+ "entries": [
+  {
+   "id": "buy-how",
+   "src": "content.py how.1d + card.sikka",
+   "q": "كيف اشتري",
+   "keywords": {
+    "ar": [
+     "كيف اشتري",
+     "كيف بشتري",
+     "كيف اشتري قالب",
+     "طريقه الشراء",
+     "بدي اشتري",
+     "ابغى اشتري",
+     "عايز اشتري",
+     "كيف اطلب قالب"
+    ],
+    "en": [
+     "how to buy",
+     "how do i buy",
+     "how can i order",
+     "how to purchase"
+    ],
+    "fi": [
+     "miten ostan",
+     "kuinka ostaa"
+    ]
+   },
+   "answer": {
+    "ar": "اختر القالب من صفحة القوالب واضغط زر الشراء، وادفع بأمان عبر Payhip أو Etsy (وبعض القوالب متوفرة أيضًا في متجر سكة SIKKA). الملف يصلك فورًا بعد الدفع.",
+    "en": "Pick a template on the templates page, press Buy and pay securely on Payhip or Etsy (some templates are also on SIKKA). You get the file right after payment.",
+    "fi": "Valitse pohja, paina Osta ja maksa turvallisesti Payhipissä tai Etsyssä (osa myös SIKKAssa). Saat tiedoston heti maksun jälkeen."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "كل القوالب",
+      "en": "All templates",
+      "fi": "Kaikki pohjat"
+     },
+     "h": "index.html#products"
+    }
+   ],
+   "_variants": [
+    "بدي اشتري قالب كيف",
+    "how can I buy a template"
+   ]
+  },
+  {
+   "id": "pay-methods",
+   "src": "how.1d (Payhip/Etsy) — طرق الدفع التفصيلية غير مذكورة",
+   "q": "طرق الدفع",
+   "keywords": {
+    "ar": [
+     "طرق الدفع",
+     "وسائل الدفع",
+     "كيف ادفع",
+     "شو طرق الدفع",
+     "ايش طرق الدفع",
+     "ازاي ادفع"
+    ],
+    "en": [
+     "payment methods",
+     "how can i pay",
+     "ways to pay"
+    ],
+    "fi": [
+     "maksutavat",
+     "miten maksan"
+    ]
+   },
+   "answer": {
+    "ar": "الدفع يتم بأمان داخل صفحة الدفع في Payhip أو Etsy أو سكة، وطرق الدفع المتاحة تظهر هناك.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "Payment is made securely at the Payhip, Etsy or SIKKA checkout, which shows the available methods.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Maksu tehdään turvallisesti Payhipin, Etsyn tai SIKKAn kassalla, jossa näkyvät maksutavat.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر Payhip",
+      "en": "Payhip store",
+      "fi": "Payhip-kauppa"
+     },
+     "h": "https://payhip.com/KirjanpitoPlus"
+    },
+    {
+     "t": {
+      "ar": "متجر Etsy",
+      "en": "Etsy shop",
+      "fi": "Etsy-kauppa"
+     },
+     "h": "https://sadeekshop.etsy.com"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "شو طرق الدفع عندكم",
+    "what payment methods do you accept"
+   ]
+  },
+  {
+   "id": "pay-paypal",
+   "src": "غير مذكور في الموقع",
+   "q": "باي بال",
+   "keywords": {
+    "ar": [
+     "باي بال",
+     "بايبال",
+     "paypal",
+     "بي بال"
+    ],
+    "en": [
+     "paypal",
+     "pay pal"
+    ],
+    "fi": [
+     "paypal"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "هل تقبلون باي بال",
+    "can I pay with PayPal"
+   ]
+  },
+  {
+   "id": "pay-card",
+   "src": "غير مذكور في الموقع",
+   "q": "فيزا",
+   "keywords": {
+    "ar": [
+     "فيزا",
+     "ماستر كارد",
+     "بطاقه بنكيه",
+     "بطاقه ائتمان",
+     "كريدت كارد",
+     "مدى"
+    ],
+    "en": [
+     "credit card",
+     "visa",
+     "mastercard",
+     "debit card"
+    ],
+    "fi": [
+     "luottokortti",
+     "pankkikortti"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "اقدر ادفع بالفيزا",
+    "can I pay by credit card"
+   ]
+  },
+  {
+   "id": "pay-bank",
+   "src": "غير مذكور في الموقع",
+   "q": "تحويل بنكي",
+   "keywords": {
+    "ar": [
+     "تحويل بنكي",
+     "حواله بنكيه",
+     "ويسترن يونيون",
+     "western union"
+    ],
+    "en": [
+     "bank transfer",
+     "wire transfer",
+     "western union"
+    ],
+    "fi": [
+     "pankkisiirto",
+     "tilisiirto"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "ممكن ادفع تحويل بنكي",
+    "can I pay by bank transfer"
+   ]
+  },
+  {
+   "id": "pay-shamcash-templates",
+   "src": "shipops-sales.html (شام كاش لـ ShipOps فقط)",
+   "q": "شام كاش",
+   "keywords": {
+    "ar": [
+     "شام كاش",
+     "شام كاش للقوالب",
+     "ادفع شام كاش",
+     "شامكاش",
+     "حواله محليه للقوالب"
+    ],
+    "en": [
+     "sham cash",
+     "shamcash"
+    ],
+    "fi": [
+     "sham cash"
+    ]
+   },
+   "answer": {
+    "ar": "الدفع بحوالة محلية أو شام كاش مذكور في الموقع لاشتراك نظام ShipOps فقط. أما القوالب فتُشترى من Payhip أو Etsy أو سكة.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "Local transfer or Sham Cash is listed on the site only for the ShipOps subscription. Templates are bought on Payhip, Etsy or SIKKA.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Paikallinen siirto tai Sham Cash mainitaan vain ShipOps-tilaukselle. Pohjat ostetaan Payhipistä, Etsystä tai SIKKAsta.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "بقدر ادفع شام كاش",
+    "can I pay with Sham Cash for templates"
+   ]
+  },
+  {
+   "id": "buy-syria",
+   "src": "غير مذكور في الموقع",
+   "q": "من سوريا",
+   "keywords": {
+    "ar": [
+     "من سوريا",
+     "بسوريا",
+     "انا بسوريا",
+     "داخل سوريا",
+     "شراء من سوريا",
+     "من سورية",
+     "كيف اشتري سوريا",
+     "اشتري من سوريا"
+    ],
+    "en": [
+     "from syria",
+     "in syria",
+     "how buy syria",
+     "buy from syria"
+    ],
+    "fi": [
+     "syyriasta"
+    ]
+   },
+   "answer": {
+    "ar": "يوجد متجر سكة SIKKA لبعض القوالب.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "Some templates are also on the SIKKA store.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Osa pohjista on myös SIKKA-kaupassa.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر سكة",
+      "en": "SIKKA store",
+      "fi": "SIKKA-kauppa"
+     },
+     "h": "https://sikka.me/sadeekshop"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "كيف اشتري وانا بسوريا",
+    "how can I buy from Syria"
+   ]
+  },
+  {
+   "id": "store-blocked",
+   "src": "غير مذكور في الموقع",
+   "q": "الموقع محجوب",
+   "keywords": {
+    "ar": [
+     "الموقع محجوب",
+     "Payhip محجوب",
+     "ايتسي محجوب",
+     "ما بيفتح المتجر",
+     "المتجر ما يفتح",
+     "محظور",
+     "vpn",
+     "payhip محجوب",
+     "محجوب"
+    ],
+    "en": [
+     "store blocked",
+     "site blocked",
+     "can't open payhip",
+     "vpn",
+     "blocked"
+    ],
+    "fi": [
+     "estetty"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر سكة",
+      "en": "SIKKA store",
+      "fi": "SIKKA-kauppa"
+     },
+     "h": "https://sikka.me/sadeekshop"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "متجر payhip محجوب عندي",
+    "the store is blocked in my country"
+   ]
+  },
+  {
+   "id": "same-prices",
+   "src": "content.py products.sub",
+   "q": "نفس السعر",
+   "keywords": {
+    "ar": [
+     "نفس السعر",
+     "الاسعار نفسها",
+     "ارخص في etsy",
+     "فرق السعر بين payhip و etsy",
+     "ارخص في payhip"
+    ],
+    "en": [
+     "same price",
+     "cheaper on etsy",
+     "cheaper on payhip",
+     "price difference"
+    ],
+    "fi": [
+     "sama hinta",
+     "halvempi"
+    ]
+   },
+   "answer": {
+    "ar": "نفس الأسعار في Payhip وEtsy.",
+    "en": "Prices are the same on Payhip and Etsy.",
+    "fi": "Hinnat ovat samat Payhipissä ja Etsyssä."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر Payhip",
+      "en": "Payhip store",
+      "fi": "Payhip-kauppa"
+     },
+     "h": "https://payhip.com/KirjanpitoPlus"
+    },
+    {
+     "t": {
+      "ar": "متجر Etsy",
+      "en": "Etsy shop",
+      "fi": "Etsy-kauppa"
+     },
+     "h": "https://sadeekshop.etsy.com"
+    }
+   ],
+   "_variants": [
+    "هل السعر ارخص في etsy",
+    "is it cheaper on Payhip or Etsy"
+   ]
+  },
+  {
+   "id": "store-sikka",
+   "src": "content.py card.sikka + SIKKA_SHOP",
+   "q": "سكه",
+   "keywords": {
+    "ar": [
+     "سكه",
+     "متجر سكه",
+     "sikka",
+     "شو هي سكه"
+    ],
+    "en": [
+     "sikka",
+     "sikka store"
+    ],
+    "fi": [
+     "sikka"
+    ]
+   },
+   "answer": {
+    "ar": "سكة SIKKA متجر إضافي تجد فيه كثيرًا من قوالبنا. على بطاقة القالب يظهر زر «اشترِ من سكة» إذا كان متوفرًا هناك.",
+    "en": "SIKKA is another store with many of our templates. A template card shows a 'Buy on SIKKA' button when it is available there.",
+    "fi": "SIKKA on toinen kauppa, jossa on monia pohjiamme. Kortissa näkyy 'Osta SIKKAsta', jos pohja on siellä."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر سكة",
+      "en": "SIKKA store",
+      "fi": "SIKKA-kauppa"
+     },
+     "h": "https://sikka.me/sadeekshop"
+    }
+   ],
+   "_variants": [
+    "عندكم متجر سكة",
+    "do you sell on SIKKA"
+   ]
+  },
+  {
+   "id": "store-etsy",
+   "src": "ETSY_SHOP",
+   "q": "متجر ايتسي",
+   "keywords": {
+    "ar": [
+     "متجر ايتسي",
+     "ايتسي",
+     "اتسي",
+     "رابط etsy"
+    ],
+    "en": [
+     "etsy shop",
+     "etsy store",
+     "etsy link"
+    ],
+    "fi": [
+     "etsy-kauppa"
+    ]
+   },
+   "answer": {
+    "ar": "متجرنا على Etsy:",
+    "en": "Our Etsy shop:",
+    "fi": "Etsy-kauppamme:"
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر Etsy",
+      "en": "Etsy shop",
+      "fi": "Etsy-kauppa"
+     },
+     "h": "https://sadeekshop.etsy.com"
+    }
+   ],
+   "_variants": [
+    "وين متجركم على ايتسي",
+    "link to your Etsy shop"
+   ]
+  },
+  {
+   "id": "store-payhip",
+   "src": "PAYHIP_STORE",
+   "q": "متجر payhip",
+   "keywords": {
+    "ar": [
+     "متجر payhip",
+     "بي هيب",
+     "بايهيب",
+     "رابط payhip"
+    ],
+    "en": [
+     "payhip store",
+     "payhip link",
+     "payhip"
+    ],
+    "fi": [
+     "payhip"
+    ]
+   },
+   "answer": {
+    "ar": "متجرنا على Payhip:",
+    "en": "Our Payhip store:",
+    "fi": "Payhip-kauppamme:"
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر Payhip",
+      "en": "Payhip store",
+      "fi": "Payhip-kauppa"
+     },
+     "h": "https://payhip.com/KirjanpitoPlus"
+    }
+   ],
+   "_variants": [
+    "رابط متجر بايهيب",
+    "where is your Payhip store"
+   ]
+  },
+  {
+   "id": "currency",
+   "src": "products.json (price in €)",
+   "q": "بايش عمله",
+   "keywords": {
+    "ar": [
+     "بايش عمله",
+     "باي عمله",
+     "العمله",
+     "يورو",
+     "بالدولار",
+     "بالليره"
+    ],
+    "en": [
+     "currency",
+     "euro",
+     "in dollars",
+     "usd"
+    ],
+    "fi": [
+     "valuutta",
+     "euroina"
+    ]
+   },
+   "answer": {
+    "ar": "أسعار القوالب في الموقع باليورو (€).",
+    "en": "Template prices on the site are in euros (€).",
+    "fi": "Pohjien hinnat ovat euroina (€)."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "كل القوالب",
+      "en": "All templates",
+      "fi": "Kaikki pohjat"
+     },
+     "h": "index.html#products"
+    }
+   ],
+   "_variants": [
+    "الاسعار بأي عملة",
+    "what currency are the prices in"
+   ]
+  },
+  {
+   "id": "discount",
+   "src": "غير مذكور كسياسة ثابتة",
+   "q": "كود خصم",
+   "keywords": {
+    "ar": [
+     "كود خصم",
+     "كوبون",
+     "خصم",
+     "تخفيض",
+     "عروض",
+     "اوكازيون",
+     "تنزيلات"
+    ],
+    "en": [
+     "discount",
+     "coupon",
+     "promo code",
+     "sale"
+    ],
+    "fi": [
+     "alennus",
+     "alennuskoodi",
+     "kuponki"
+    ]
+   },
+   "answer": {
+    "ar": "العروض الحالية (إن وجدت) تظهر في الشريط الأعلى من الصفحة الرئيسية.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "Current offers, when there are any, are shown in the bar at the top of the home page.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Mahdolliset tarjoukset näkyvät etusivun yläpalkissa.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "في كود خصم",
+    "do you have a discount code"
+   ]
+  },
+  {
+   "id": "tax-invoice",
+   "src": "غير مذكور في الموقع",
+   "q": "فاتوره ضريبيه",
+   "keywords": {
+    "ar": [
+     "فاتوره ضريبيه",
+     "فاتوره شراء",
+     "ايصال",
+     "وصل شراء",
+     "receipt"
+    ],
+    "en": [
+     "tax invoice",
+     "receipt",
+     "vat invoice for my purchase"
+    ],
+    "fi": [
+     "kuitti",
+     "lasku ostosta"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "بدي فاتورة ضريبية للشراء",
+    "can I get a receipt for my purchase"
+   ]
+  },
+  {
+   "id": "bundle",
+   "src": "غير مذكور في الموقع",
+   "q": "كل القوالب مع بعض",
+   "keywords": {
+    "ar": [
+     "كل القوالب مع بعض",
+     "باقه",
+     "بكج",
+     "حزمه",
+     "عرض لكل القوالب"
+    ],
+    "en": [
+     "bundle",
+     "all templates together",
+     "package deal"
+    ],
+    "fi": [
+     "paketti",
+     "kaikki pohjat yhdessä"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "في باقة لكل القوالب",
+    "do you have a bundle of all templates"
+   ]
+  },
+  {
+   "id": "secure-pay",
+   "src": "content.py how.1d",
+   "q": "الدفع امن",
+   "keywords": {
+    "ar": [
+     "الدفع امن",
+     "امان الدفع",
+     "هل الدفع آمن",
+     "موثوق",
+     "نصب"
+    ],
+    "en": [
+     "is it safe",
+     "secure payment",
+     "is payment safe",
+     "legit"
+    ],
+    "fi": [
+     "turvallinen maksu"
+    ]
+   },
+   "answer": {
+    "ar": "الدفع يتم بأمان عبر منصات Payhip أو Etsy (أو سكة).",
+    "en": "Payment is made securely through Payhip or Etsy (or SIKKA).",
+    "fi": "Maksu tehdään turvallisesti Payhipissä tai Etsyssä (tai SIKKAssa)."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "متجر Payhip",
+      "en": "Payhip store",
+      "fi": "Payhip-kauppa"
+     },
+     "h": "https://payhip.com/KirjanpitoPlus"
+    },
+    {
+     "t": {
+      "ar": "متجر Etsy",
+      "en": "Etsy shop",
+      "fi": "Etsy-kauppa"
+     },
+     "h": "https://sadeekshop.etsy.com"
+    }
+   ],
+   "_variants": [
+    "هل الدفع امن عندكم",
+    "is payment safe"
+   ]
+  },
+  {
+   "id": "refund",
+   "src": "FAQ 4",
+   "q": "استرجاع",
+   "keywords": {
+    "ar": [
+     "استرجاع",
+     "استرداد",
+     "ارجاع",
+     "ترجيع المصاري",
+     "رجعولي فلوسي",
+     "استرجاع المبلغ"
+    ],
+    "en": [
+     "refund",
+     "money back",
+     "return"
+    ],
+    "fi": [
+     "rahat takaisin",
+     "palautus",
+     "hyvitys"
+    ]
+   },
+   "answer": {
+    "ar": "لأنها ملفات رقمية، لا تُقبل الإرجاعات عادةً، وتُعالج أي طلبات استرداد حسب سياسة المنصة التي اشتريت منها (Payhip أو Etsy). إذا لم يعمل شيء كما يجب، راسلنا ونساعدك.",
+    "en": "Because these are digital files, returns are generally not accepted, and refund requests follow the policy of the platform you bought from (Payhip or Etsy). If something doesn't work, message us and we'll help.",
+    "fi": "Digitaalisia tiedostoja ei yleensä palauteta, ja hyvityspyynnöt käsitellään ostoalustan (Payhip tai Etsy) ehtojen mukaan. Jos jokin ei toimi, ota yhteyttä."
+   },
+   "_variants": [
+    "بدي استرجع المبلغ",
+    "can I get my money back"
+   ],
+   "contact": true
+  },
+  {
+   "id": "wrong-purchase",
+   "src": "FAQ 4 + تحويل",
+   "q": "اشتريت غلط",
+   "keywords": {
+    "ar": [
+     "اشتريت غلط",
+     "قالب غلط",
+     "بدي غير القالب",
+     "استبدال",
+     "تبديل القالب"
+    ],
+    "en": [
+     "wrong template",
+     "bought the wrong",
+     "exchange"
+    ],
+    "fi": [
+     "väärä pohja",
+     "vaihto"
+    ]
+   },
+   "answer": {
+    "ar": "الاسترداد يخضع لسياسة المنصة التي اشتريت منها (Payhip أو Etsy).\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "Refunds follow the policy of the platform you bought from (Payhip or Etsy).\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Hyvitykset noudattavat ostoalustan ehtoja.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "اشتريت قالب غلط شو اعمل",
+    "I bought the wrong template"
+   ]
+  },
+  {
+   "id": "receive-file",
+   "src": "FAQ 1",
+   "q": "كيف استلم",
+   "keywords": {
+    "ar": [
+     "كيف استلم",
+     "كيف بستلم",
+     "كيف يوصلني",
+     "وين الملف",
+     "استلام الملف",
+     "كيف احمل",
+     "كيف بيوصلني"
+    ],
+    "en": [
+     "how do i get the file",
+     "how do i receive",
+     "where is my file",
+     "how to download"
+    ],
+    "fi": [
+     "miten saan tiedoston",
+     "lataus"
+    ]
+   },
+   "answer": {
+    "ar": "هذه منتجات رقمية بتحميل فوري. في Payhip يظهر رابط التحميل بعد الدفع ويصلك أيضًا بالبريد الإلكتروني، وفي Etsy تجد الملفات في صفحة مشترياتك. لا يتم شحن أي شيء.",
+    "en": "These are digital products with instant download. On Payhip the download link appears after payment and is also emailed to you; on Etsy the files are in your Purchases page. Nothing is shipped.",
+    "fi": "Digitaalisia tuotteita, ladattavissa heti. Payhipissä latauslinkki näkyy maksun jälkeen ja tulee sähköpostiin, Etsyssä tiedostot ovat Ostokset-sivulla. Mitään ei postiteta."
+   },
+   "_variants": [
+    "كيف بيوصلني الملف بعد الدفع",
+    "how do I receive the file after paying"
+   ]
+  },
+  {
+   "id": "delivery-time",
+   "src": "why.5d",
+   "q": "متى يوصل",
+   "keywords": {
+    "ar": [
+     "متى يوصل",
+     "امتى يوصل",
+     "قديش بياخد وقت",
+     "كم ياخذ وقت",
+     "مده التسليم",
+     "متى بستلم",
+     "امتى بيوصل",
+     "متى بيوصل",
+     "امتى يوصل الملف",
+     "بيوصل الملف"
+    ],
+    "en": [
+     "how long",
+     "when will i get",
+     "delivery time"
+    ],
+    "fi": [
+     "milloin saan",
+     "toimitusaika"
+    ]
+   },
+   "answer": {
+    "ar": "فورًا: ملف رقمي يصلك مباشرة بعد الدفع، بدون انتظار أو شحن.",
+    "en": "Right away: it's a digital file you get immediately after payment. No waiting, no shipping.",
+    "fi": "Heti: digitaalinen tiedosto maksun jälkeen, ei odottelua eikä postitusta."
+   },
+   "_variants": [
+    "امتى بيوصل الملف",
+    "how long does delivery take"
+   ]
+  },
+  {
+   "id": "zip-contents",
+   "src": "how.2d",
+   "q": "شو بيوصلني",
+   "keywords": {
+    "ar": [
+     "شو بيوصلني",
+     "ايش يجيني",
+     "شو في بالملف",
+     "محتويات الملف",
+     "ملف zip",
+     "زيب"
+    ],
+    "en": [
+     "what do i get",
+     "whats in the zip",
+     "zip file",
+     "what is included"
+    ],
+    "fi": [
+     "mitä saan",
+     "zip"
+    ]
+   },
+   "answer": {
+    "ar": "يصلك ملف ZIP فورًا، فيه نسخة تجريبية ونسخة فارغة بلغتك. جرّب النسخة التجريبية، ثم أدخل بياناتك في النسخة الفارغة.",
+    "en": "You get a ZIP file at once, with a demo copy and an empty copy in your language. Explore the demo, then enter your own data in the empty copy.",
+    "fi": "Saat ZIP-tiedoston heti: esimerkkiversio ja tyhjä versio omalla kielelläsi."
+   },
+   "_variants": [
+    "شو بيكون جوا ملف الزيب",
+    "what is included in the download"
+   ]
+  },
+  {
+   "id": "no-shipping",
+   "src": "FAQ 1 + why.5d",
+   "q": "نسخه مطبوعه",
+   "keywords": {
+    "ar": [
+     "نسخه مطبوعه",
+     "سي دي",
+     "فلاشه",
+     "توصيل للبيت",
+     "تشحنون",
+     "بتشحنوا",
+     "شحن للبيت"
+    ],
+    "en": [
+     "physical copy",
+     "printed copy",
+     "ship to",
+     "cd",
+     "usb"
+    ],
+    "fi": [
+     "painettu",
+     "postitus"
+    ]
+   },
+   "answer": {
+    "ar": "لا يتم شحن أي شيء: القوالب ملفات رقمية تحمّلها مباشرة بعد الدفع.",
+    "en": "Nothing is shipped: the templates are digital files you download right after payment.",
+    "fi": "Mitään ei postiteta: pohjat ovat ladattavia tiedostoja."
+   },
+   "_variants": [
+    "هل بتشحنوا نسخة مطبوعة",
+    "do you ship a physical copy"
+   ]
+  },
+  {
+   "id": "lost-link",
+   "src": "FAQ 1 + تحويل",
+   "q": "ضاع الرابط",
+   "keywords": {
+    "ar": [
+     "ضاع الرابط",
+     "ضيعت الرابط",
+     "رابط التحميل ضاع",
+     "حذفت الملف",
+     "بدي احمل مره ثانيه",
+     "اعاده تحميل"
+    ],
+    "en": [
+     "lost the link",
+     "lost my download",
+     "download again",
+     "re-download",
+     "deleted the file"
+    ],
+    "fi": [
+     "kadotin linkin",
+     "lataa uudelleen"
+    ]
+   },
+   "answer": {
+    "ar": "في Payhip يصلك رابط التحميل بالبريد الإلكتروني، وفي Etsy تجد الملفات في صفحة مشترياتك.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "On Payhip the download link is emailed to you; on Etsy the files are in your Purchases page.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Payhip lähettää latauslinkin sähköpostiin, Etsyssä tiedostot ovat Ostokset-sivulla.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "ضيعت رابط التحميل",
+    "I lost my download link"
+   ]
+  },
+  {
+   "id": "email-missing",
+   "src": "FAQ 1 + تحويل",
+   "q": "ما وصلني ايميل",
+   "keywords": {
+    "ar": [
+     "ما وصلني ايميل",
+     "ما وصلني الرابط",
+     "لم يصلني الملف",
+     "ما جاني شي",
+     "ما وصلني شي",
+     "دفعت وما وصلني",
+     "دفعت ما وصلني",
+     "دفعت ما وصل"
+    ],
+    "en": [
+     "didn't get the email",
+     "no email",
+     "file not received",
+     "never received",
+     "paid didnt get",
+     "paid not received",
+     "paid didn't get"
+    ],
+    "fi": [
+     "en saanut",
+     "ei tullut"
+    ]
+   },
+   "answer": {
+    "ar": "في Payhip يظهر رابط التحميل مباشرة بعد الدفع ويُرسل للبريد أيضًا. في Etsy الملفات في صفحة مشترياتك.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "On Payhip the link appears right after payment and is also emailed. On Etsy the files are in your Purchases page.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Payhipissä linkki näkyy heti ja tulee sähköpostiin. Etsyssä Ostokset-sivulla.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "دفعت وما وصلني شي",
+    "I paid but didn't get the file"
+   ]
+  },
+  {
+   "id": "file-not-open",
+   "src": "غير مذكور — تحويل",
+   "q": "الملف ما بيفتح",
+   "keywords": {
+    "ar": [
+     "الملف ما بيفتح",
+     "ما يفتح الملف",
+     "مش راضي يفتح",
+     "الملف خربان",
+     "خطا بالملف",
+     "error"
+    ],
+    "en": [
+     "file won't open",
+     "can't open the file",
+     "file is corrupted",
+     "error message"
+    ],
+    "fi": [
+     "tiedosto ei aukea",
+     "virhe"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب مصممة لبرنامج Microsoft Excel على الكمبيوتر.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The templates are made for Microsoft Excel on a computer.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Pohjat on tehty Microsoft Excelille tietokoneella.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "الملف ما عم يفتح عندي",
+    "the file doesn't open"
+   ]
+  },
+  {
+   "id": "download-limit",
+   "src": "غير مذكور في الموقع",
+   "q": "كم مره احمل",
+   "keywords": {
+    "ar": [
+     "كم مره احمل",
+     "عدد مرات التحميل",
+     "حد التحميل"
+    ],
+    "en": [
+     "download limit",
+     "how many times can i download"
+    ],
+    "fi": [
+     "latauskerrat"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "كم مرة بقدر احمل الملف",
+    "is there a download limit"
+   ]
+  },
+  {
+   "id": "apps",
+   "src": "FAQ 2",
+   "q": "اي برنامج",
+   "keywords": {
+    "ar": [
+     "اي برنامج",
+     "على اي برنامج",
+     "شو البرنامج المطلوب",
+     "ايش البرامج",
+     "متطلبات التشغيل"
+    ],
+    "en": [
+     "which app",
+     "what software",
+     "requirements",
+     "which program"
+    ],
+    "fi": [
+     "millä ohjelmalla",
+     "vaatimukset"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب مصممة لبرنامج Microsoft Excel على الكمبيوتر (ويندوز أو ماك)، وأغلبها يعمل على Excel 2016 أو أحدث وMicrosoft 365. قالب Inventory Pro يحتاج Excel 365 أو Excel 2021 أو أحدث. المتطلبات الدقيقة مكتوبة في صفحة كل منتج.",
+    "en": "They are made for Microsoft Excel on a computer (Windows or Mac). Most work with Excel 2016 or newer and Microsoft 365; Inventory Pro needs Excel 365 or Excel 2021 or newer. Exact requirements are on each product page.",
+    "fi": "Microsoft Excelille tietokoneella (Windows tai Mac). Useimmat toimivat Excel 2016:ssa tai uudemmassa ja Microsoft 365:ssä; Inventory Pro vaatii Excel 365:n tai 2021:n."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "الأسئلة الشائعة",
+      "en": "FAQ",
+      "fi": "UKK"
+     },
+     "h": "index.html#faq"
+    }
+   ],
+   "_variants": [
+    "على اي برنامج بيشتغل القالب",
+    "what software do I need"
+   ]
+  },
+  {
+   "id": "excel-version",
+   "src": "FAQ 2",
+   "q": "نسخه الاكسل",
+   "keywords": {
+    "ar": [
+     "نسخه الاكسل",
+     "اكسل 2016",
+     "اكسل 2013",
+     "اكسل 2010",
+     "اوفيس 365",
+     "excel 2019",
+     "اصدار الاكسل"
+    ],
+    "en": [
+     "excel version",
+     "excel 2016",
+     "excel 2013",
+     "office 365",
+     "microsoft 365"
+    ],
+    "fi": [
+     "excel-versio"
+    ]
+   },
+   "answer": {
+    "ar": "أغلب القوالب تعمل على Excel 2016 أو أحدث وMicrosoft 365. قالب Inventory Pro يحتاج Excel 365 أو Excel 2021 أو أحدث. المتطلبات الدقيقة في صفحة كل منتج.",
+    "en": "Most templates work with Excel 2016 or newer and Microsoft 365. Inventory Pro needs Excel 365 or Excel 2021 or newer. Exact requirements are on each product page.",
+    "fi": "Useimmat toimivat Excel 2016:ssa tai uudemmassa; Inventory Pro vaatii Excel 365:n tai 2021:n."
+   },
+   "_variants": [
+    "بيشتغل على اكسل 2013",
+    "does it work with Excel 2016"
+   ]
+  },
+  {
+   "id": "google-sheets",
+   "src": "FAQ 2",
+   "q": "جوجل شيت",
+   "keywords": {
+    "ar": [
+     "جوجل شيت",
+     "قوقل شيت",
+     "جوجل شيتس",
+     "google sheets",
+     "جوجل درايف"
+    ],
+    "en": [
+     "google sheets",
+     "google sheet",
+     "google drive"
+    ],
+    "fi": [
+     "google sheets"
+    ]
+   },
+   "answer": {
+    "ar": "Google Sheets غير مدعوم رسميًا في أغلب القوالب؛ القوالب مصممة لبرنامج Microsoft Excel على الكمبيوتر. المتطلبات الدقيقة في صفحة كل منتج.",
+    "en": "Google Sheets is not officially supported for most templates; they are made for Microsoft Excel on a computer. Exact requirements are on each product page.",
+    "fi": "Google Sheets ei ole virallisesti tuettu useimmissa pohjissa; ne on tehty Microsoft Excelille."
+   },
+   "_variants": [
+    "بيشتغل على قوقل شيت",
+    "can I use it in Google Sheets"
+   ]
+  },
+  {
+   "id": "mobile",
+   "src": "FAQ 2",
+   "q": "هل يعمل القالب على الجوال؟",
+   "keywords": {
+    "ar": [
+     "عالموبايل",
+     "على الجوال",
+     "على الموبايل",
+     "على التلفون",
+     "على الايفون",
+     "اندرويد",
+     "ايباد",
+     "تابلت",
+     "عالجوال",
+     "عالموبايل",
+     "عالتلفون"
+    ],
+    "en": [
+     "phone",
+     "mobile",
+     "android",
+     "ipad",
+     "tablet",
+     "on iphone"
+    ],
+    "fi": [
+     "puhelin",
+     "mobiili",
+     "tabletti"
+    ]
+   },
+   "answer": {
+    "ar": "تطبيقات الجوال غير مدعومة رسميًا في أغلب القوالب؛ القوالب مصممة لبرنامج Excel على الكمبيوتر (ويندوز أو ماك).",
+    "en": "Mobile apps are not officially supported for most templates; they are made for Excel on a computer (Windows or Mac).",
+    "fi": "Mobiilisovelluksia ei virallisesti tueta useimmissa pohjissa; pohjat on tehty Excelille tietokoneella."
+   },
+   "_variants": [
+    "بيشتغل عالجوال",
+    "does it work on my phone"
+   ]
+  },
+  {
+   "id": "mac",
+   "src": "FAQ 2",
+   "q": "هل يعمل على الماك؟",
+   "keywords": {
+    "ar": [
+     "ماك",
+     "ماك بوك",
+     "macbook",
+     "ابل"
+    ],
+    "en": [
+     "mac",
+     "macbook",
+     "apple computer"
+    ],
+    "fi": [
+     "mac"
+    ]
+   },
+   "answer": {
+    "ar": "نعم، القوالب مصممة لبرنامج Microsoft Excel على الكمبيوتر، ويندوز أو ماك. المتطلبات الدقيقة لكل قالب في صفحة المنتج.",
+    "en": "Yes, they are made for Microsoft Excel on a computer, Windows or Mac. Each product page lists the exact requirements.",
+    "fi": "Kyllä, Microsoft Excelille tietokoneella, Windows tai Mac."
+   },
+   "_variants": [
+    "بيشتغل على الماك",
+    "does it work on a Mac"
+   ]
+  },
+  {
+   "id": "libreoffice",
+   "src": "FAQ 2",
+   "q": "ليبر اوفيس",
+   "keywords": {
+    "ar": [
+     "ليبر اوفيس",
+     "libreoffice",
+     "اوبن اوفيس",
+     "wps"
+    ],
+    "en": [
+     "libreoffice",
+     "open office",
+     "wps office"
+    ],
+    "fi": [
+     "libreoffice"
+    ]
+   },
+   "answer": {
+    "ar": "كثير من القوالب يفتح أيضًا في LibreOffice Calc، لكنها مصممة أساسًا لبرنامج Microsoft Excel.",
+    "en": "Many also open in LibreOffice Calc, but they are made for Microsoft Excel.",
+    "fi": "Monet aukeavat myös LibreOffice Calcissa, mutta ne on tehty Microsoft Excelille."
+   },
+   "_variants": [
+    "بيفتح على ليبر اوفيس",
+    "does it open in LibreOffice"
+   ]
+  },
+  {
+   "id": "macros",
+   "src": "FAQ 5",
+   "q": "ماكرو",
+   "keywords": {
+    "ar": [
+     "ماكرو",
+     "ماكروز",
+     "vba",
+     "في برمجه"
+    ],
+    "en": [
+     "macros",
+     "vba",
+     "macro"
+    ],
+    "fi": [
+     "makroja",
+     "makro"
+    ]
+   },
+   "answer": {
+    "ar": "لا. كلها ملفات xlsx عادية بدون ماكرو وبدون روابط خارجية.",
+    "en": "No. They are plain .xlsx files with no macros and no external links.",
+    "fi": "Ei. Tavallisia .xlsx-tiedostoja ilman makroja ja ulkoisia linkkejä."
+   },
+   "_variants": [
+    "في ماكرو بالقالب",
+    "do the templates have macros"
+   ]
+  },
+  {
+   "id": "file-format",
+   "src": "FAQ 5 + why.6d",
+   "q": "صيغه الملف",
+   "keywords": {
+    "ar": [
+     "صيغه الملف",
+     "امتداد الملف",
+     "xlsx",
+     "pdf",
+     "نوع الملف"
+    ],
+    "en": [
+     "file format",
+     "file type",
+     "xlsx",
+     "pdf"
+    ],
+    "fi": [
+     "tiedostomuoto"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب ملفات Excel بصيغة xlsx عادية، تصلك داخل ملف ZIP.",
+    "en": "The templates are plain Excel .xlsx files, delivered in a ZIP file.",
+    "fi": "Pohjat ovat tavallisia Excel .xlsx -tiedostoja ZIP-paketissa."
+   },
+   "_variants": [
+    "شو صيغة الملف",
+    "what file format is it"
+   ]
+  },
+  {
+   "id": "offline",
+   "src": "why.6d",
+   "q": "بدون انترنت",
+   "keywords": {
+    "ar": [
+     "بدون انترنت",
+     "يحتاج نت",
+     "يحتاج انترنت",
+     "اوفلاين",
+     "بدو انترنت",
+     "بده نت",
+     "انترنت"
+    ],
+    "en": [
+     "offline",
+     "need internet",
+     "without internet"
+    ],
+    "fi": [
+     "ilman nettiä",
+     "internet"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب ملفات xlsx عادية تحفظها وتعمل على جهازك.",
+    "en": "The templates are plain .xlsx files you keep and use on your own computer.",
+    "fi": "Pohjat ovat .xlsx-tiedostoja, jotka pysyvät omalla koneellasi."
+   },
+   "_variants": [
+    "هل القالب بدو انترنت",
+    "does it work offline"
+   ]
+  },
+  {
+   "id": "subscription",
+   "src": "why.6d",
+   "q": "اشتراك شهري للقوالب",
+   "keywords": {
+    "ar": [
+     "اشتراك شهري للقوالب",
+     "دفع شهري",
+     "مره وحده",
+     "دفعه وحده",
+     "اشتراك سنوي للقالب",
+     "تجديد"
+    ],
+    "en": [
+     "one time payment",
+     "monthly fee",
+     "subscription for templates",
+     "pay once"
+    ],
+    "fi": [
+     "kertamaksu",
+     "kuukausimaksu"
+    ]
+   },
+   "answer": {
+    "ar": "لا يوجد اشتراك للقوالب: ملفات xlsx تدفع ثمنها مرة واحدة وتبقى على جهازك. (الاشتراك الشهري أو السنوي هو لنظام ShipOps فقط.)",
+    "en": "No subscription for templates: plain .xlsx files you pay for once and keep on your computer. (Monthly or yearly subscription is only for ShipOps.)",
+    "fi": "Pohjissa ei ole tilausmaksua: maksat kerran. (Kuukausi-/vuositilaus koskee vain ShipOpsia.)"
+   },
+   "_variants": [
+    "القالب بدفعه مرة وحدة ولا شهري",
+    "is it a one-time payment"
+   ]
+  },
+  {
+   "id": "updates",
+   "src": "غير مذكور في الموقع",
+   "q": "تحديثات",
+   "keywords": {
+    "ar": [
+     "تحديثات",
+     "تحديث مجاني",
+     "نسخه جديده",
+     "ابديت"
+    ],
+    "en": [
+     "updates",
+     "free updates",
+     "new version"
+    ],
+    "fi": [
+     "päivitykset"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "في تحديثات مجانية",
+    "do I get free updates"
+   ]
+  },
+  {
+   "id": "devices-license",
+   "src": "غير مذكور في الموقع",
+   "q": "كم جهاز",
+   "keywords": {
+    "ar": [
+     "كم جهاز",
+     "اكثر من جهاز",
+     "ترخيص",
+     "رخصه",
+     "على جهازين",
+     "جهازين"
+    ],
+    "en": [
+     "how many computers",
+     "license",
+     "more than one computer",
+     "two computers",
+     "computers"
+    ],
+    "fi": [
+     "lisenssi",
+     "monta konetta"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "بقدر استخدمه على جهازين",
+    "can I use it on two computers"
+   ]
+  },
+  {
+   "id": "resell",
+   "src": "غير مذكور في الموقع",
+   "q": "اعيد بيعه",
+   "keywords": {
+    "ar": [
+     "اعيد بيعه",
+     "ابيعه",
+     "بيع القالب",
+     "استخدام تجاري لزبائني"
+    ],
+    "en": [
+     "resell",
+     "sell it",
+     "commercial license"
+    ],
+    "fi": [
+     "jälleenmyynti"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "بقدر ابيع القالب لغيري",
+    "can I resell the template"
+   ]
+  },
+  {
+   "id": "pw",
+   "src": "تعليمات المالك — بدون ذكر القيمة",
+   "q": "كلمه السر",
+   "keywords": {
+    "ar": [
+     "كلمه السر",
+     "كلمه المرور",
+     "باسورد",
+     "باسوورد",
+     "الباسورد",
+     "رمز الحمايه",
+     "فك الحمايه",
+     "كلمه سر الحمايه"
+    ],
+    "en": [
+     "password",
+     "unprotect",
+     "unlock sheet"
+    ],
+    "fi": [
+     "salasana",
+     "suojauksen poisto"
+    ]
+   },
+   "answer": {
+    "ar": "كلمة السر (إن وُجدت) تصلك مع الملف بعد الشراء. إذا فقدتها تواصل معنا على واتساب مع رقم الطلب ونساعدك.",
+    "en": "The password (if a file has one) comes with the file after purchase. If you lost it, message us on WhatsApp with your order number.",
+    "fi": "Salasana (jos on) tulee tiedoston mukana oston jälkeen. Jos se on hukassa, lähetä WhatsApp-viesti tilausnumerolla."
+   },
+   "_variants": [
+    "شو الباسورد تبع القالب",
+    "what is the password to unprotect"
+   ],
+   "contact": true
+  },
+  {
+   "id": "locked-cells",
+   "src": "why.1d",
+   "q": "الخلايا مقفله",
+   "keywords": {
+    "ar": [
+     "الخلايا مقفله",
+     "خلايا مقفوله",
+     "ما بقدر اعدل المعادلات",
+     "المعادلات محميه",
+     "ليش مقفول",
+     "محمي"
+    ],
+    "en": [
+     "locked cells",
+     "protected sheet",
+     "can't edit formulas",
+     "why locked"
+    ],
+    "fi": [
+     "lukitut solut",
+     "suojattu"
+    ]
+   },
+   "answer": {
+    "ar": "المعادلات والأوراق محمية من التعديل بالخطأ، فتبقى الحسابات صحيحة دائمًا. تكتب فقط في خانات الإدخال المميّزة، والباقي يُحسب تلقائيًا.",
+    "en": "Formulas and sheets are protected against accidental changes, so the math stays right. You only type in the marked input cells; everything else is calculated.",
+    "fi": "Kaavat ja välilehdet on suojattu vahingossa tehdyiltä muutoksilta. Kirjoitat vain syöttösoluihin."
+   },
+   "_variants": [
+    "ليش الخلايا مقفولة",
+    "why are the cells locked"
+   ]
+  },
+  {
+   "id": "input-cells",
+   "src": "why.2d",
+   "q": "وين اكتب",
+   "keywords": {
+    "ar": [
+     "وين اكتب",
+     "وين ادخل البيانات",
+     "الخلايا الصفراء",
+     "خانات الادخال",
+     "كيف استخدم القالب",
+     "وين بكتب",
+     "ارقامي"
+    ],
+    "en": [
+     "where do i type",
+     "input cells",
+     "yellow cells",
+     "how to use the template",
+     "enter my data",
+     "enter data"
+    ],
+    "fi": [
+     "syöttösolut",
+     "keltaiset solut"
+    ]
+   },
+   "answer": {
+    "ar": "تكتب فقط في خانات الإدخال المميّزة (صفراء في أغلب القوالب)، والباقي يُحسب تلقائيًا. ابدأ بالنسخة التجريبية ثم استخدم النسخة الفارغة لبياناتك.",
+    "en": "You only type in the marked input cells (yellow in most templates); everything else is calculated. Start with the demo copy, then use the empty copy for your data.",
+    "fi": "Kirjoitat vain merkittyihin syöttösoluihin (useimmiten keltaiset); muu lasketaan automaattisesti."
+   },
+   "_variants": [
+    "وين بكتب ارقامي",
+    "where do I enter my data"
+   ]
+  },
+  {
+   "id": "edit-template",
+   "src": "غير مذكور — قالب خاص",
+   "q": "اعدل القالب",
+   "keywords": {
+    "ar": [
+     "اعدل القالب",
+     "اضيف عمود",
+     "تعديل التصميم",
+     "تخصيص القالب",
+     "زياده اعمده",
+     "تعديل على القالب",
+     "ضيف عمود",
+     "اضافه عمود",
+     "عمود"
+    ],
+    "en": [
+     "edit the template",
+     "add a column",
+     "customize the template",
+     "modify"
+    ],
+    "fi": [
+     "muokata pohjaa",
+     "lisätä sarake"
+    ]
+   },
+   "answer": {
+    "ar": "المعادلات محمية لتبقى الحسابات صحيحة. إذا تحتاج تعديلات حسب عملك، تقدر تطلب قالبًا خاصًا.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "Formulas are protected so the math stays right. If you need changes for your business, you can request a custom template.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Kaavat on suojattu. Jos tarvitset muutoksia, voit tilata oman pohjan.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "بقدر ضيف عمود عالقالب",
+    "can I customize the template"
+   ]
+  },
+  {
+   "id": "logo",
+   "src": "غير مذكور في الموقع",
+   "q": "شعار",
+   "keywords": {
+    "ar": [
+     "شعار",
+     "لوجو",
+     "logo",
+     "اسم شركتي على الفاتوره"
+    ],
+    "en": [
+     "logo",
+     "my company name",
+     "branding"
+    ],
+    "fi": [
+     "logo"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "بقدر حط لوجو شركتي",
+    "can I add my logo"
+   ]
+  },
+  {
+   "id": "currency-change",
+   "src": "treasury desc (أي عملة) + why.4d",
+   "q": "اغير العمله",
+   "keywords": {
+    "ar": [
+     "اغير العمله",
+     "عمله ثانيه",
+     "دولار بدل يورو",
+     "ليره سوريه",
+     "ريال",
+     "درهم",
+     "جنيه",
+     "غير العمله",
+     "تغيير العمله"
+    ],
+    "en": [
+     "change currency",
+     "other currency",
+     "dollars instead",
+     "change the currency"
+    ],
+    "fi": [
+     "vaihtaa valuutta"
+    ]
+   },
+   "answer": {
+    "ar": "قالب دفتر الخزينة يدعم حسابات بأي عملة. لباقي القوالب العملة غير مذكورة بالتفصيل على الموقع.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The Cash, Bank & Treasury Book supports accounts in any currency. For other templates the site doesn't detail currency options.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Kassa- ja pankkikirja tukee mitä tahansa valuuttaa. Muista pohjista tätä ei kerrota.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "handoff": true,
+   "_variants": [
+    "بقدر غير العملة لدولار",
+    "can I change the currency"
+   ]
+  },
+  {
+   "id": "vat-rates",
+   "src": "why.4d",
+   "q": "نسبه الضريبه",
+   "keywords": {
+    "ar": [
+     "نسبه الضريبه",
+     "ضريبه بلدي",
+     "ضريبه القيمه المضافه بلدي",
+     "اغير نسبه الضريبه",
+     "15 بالميه ضريبه",
+     "vat بلدي"
+    ],
+    "en": [
+     "vat rate",
+     "my country's vat",
+     "change tax rate"
+    ],
+    "fi": [
+     "alv-kanta",
+     "veroprosentti"
+    ]
+   },
+   "answer": {
+    "ar": "نسب الضريبة الفنلندية (25.5% و13.5% و10% و0%) مُعدّة مسبقًا وقابلة للتعديل لبلدك.",
+    "en": "Finnish VAT rates (25.5%, 13.5%, 10%, 0%) are preset and editable for your country.",
+    "fi": "Suomen ALV-kannat (25,5 %, 13,5 %, 10 %, 0 %) ovat valmiina ja muokattavissa."
+   },
+   "_variants": [
+    "بقدر غير نسبة الضريبة لبلدي",
+    "can I change the VAT rate for my country"
+   ]
+  },
+  {
+   "id": "languages",
+   "src": "FAQ 3",
+   "q": "بايش لغه",
+   "keywords": {
+    "ar": [
+     "بايش لغه",
+     "باي لغه",
+     "اللغات",
+     "شو اللغات",
+     "لغه القالب"
+    ],
+    "en": [
+     "which languages",
+     "what languages",
+     "language versions"
+    ],
+    "fi": [
+     "mitä kieliä",
+     "kielet"
+    ]
+   },
+   "answer": {
+    "ar": "كل قالب يوضح لغاته على بطاقته. بعض القوالب بثلاث لغات (عربي وإنجليزي وفنلندي). النسخ العربية من اليمين إلى اليسار.",
+    "en": "Each card lists its languages. Some templates come in all three (Arabic, English, Finnish). Arabic editions run right-to-left.",
+    "fi": "Jokaisen pohjan kielet näkyvät kortissa. Osa on kolmella kielellä."
+   },
+   "_variants": [
+    "القوالب بأي لغات",
+    "what languages are the templates in"
+   ]
+  },
+  {
+   "id": "arabic-list",
+   "src": "products.json languages",
+   "q": "قوالب بالعربي",
+   "keywords": {
+    "ar": [
+     "قوالب بالعربي",
+     "عربي",
+     "بالعربيه",
+     "نسخه عربيه",
+     "من اليمين لليسار"
+    ],
+    "en": [
+     "arabic templates",
+     "in arabic",
+     "arabic version"
+    ],
+    "fi": [
+     "arabiaksi"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب المتوفرة بالعربية:",
+    "en": "Templates available in Arabic:",
+    "fi": "Arabiaksi saatavilla:"
+   },
+   "plang": "ar",
+   "_variants": [
+    "في قوالب بالعربي",
+    "do you have Arabic templates"
+   ]
+  },
+  {
+   "id": "finnish-list",
+   "src": "products.json languages",
+   "q": "بالفنلندي",
+   "keywords": {
+    "ar": [
+     "بالفنلندي",
+     "فنلندي",
+     "قوالب فنلنديه",
+     "بالفنلنديه"
+    ],
+    "en": [
+     "finnish templates",
+     "in finnish",
+     "finnish version"
+    ],
+    "fi": [
+     "suomeksi",
+     "suomenkielinen"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب المتوفرة بالفنلندية:",
+    "en": "Templates available in Finnish:",
+    "fi": "Suomeksi saatavilla:"
+   },
+   "plang": "fi",
+   "_variants": [
+    "في قوالب بالفنلندي",
+    "do you have templates in Finnish"
+   ]
+  },
+  {
+   "id": "english-list",
+   "src": "products.json languages",
+   "q": "بالانجليزي",
+   "keywords": {
+    "ar": [
+     "بالانجليزي",
+     "انجليزي",
+     "انكليزي",
+     "بالانكليزي"
+    ],
+    "en": [
+     "english templates",
+     "in english",
+     "english version"
+    ],
+    "fi": [
+     "englanniksi"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب المتوفرة بالإنجليزية:",
+    "en": "Templates available in English:",
+    "fi": "Englanniksi saatavilla:"
+   },
+   "plang": "en",
+   "_variants": [
+    "في قوالب بالانكليزي",
+    "templates in English"
+   ]
+  },
+  {
+   "id": "contact-language",
+   "src": "contact.text",
+   "q": "بايش لغه احكي",
+   "keywords": {
+    "ar": [
+     "بايش لغه احكي",
+     "بالعربي اراسلكم",
+     "تحكي عربي",
+     "تتكلم عربي",
+     "بتحكي عربي",
+     "بتحكي",
+     "تحكي"
+    ],
+    "en": [
+     "do you speak arabic",
+     "which language can i write",
+     "speak english"
+    ],
+    "fi": [
+     "puhutko suomea"
+    ]
+   },
+   "answer": {
+    "ar": "راسلنا بالعربية أو الإنجليزية أو الفنلندية، ونرد عليك في أقرب وقت.",
+    "en": "Write to us in Arabic, English or Finnish and we'll get back to you as soon as we can.",
+    "fi": "Kirjoita arabiaksi, englanniksi tai suomeksi, niin vastaamme pian."
+   },
+   "_variants": [
+    "بتحكي عربي",
+    "do you speak Arabic"
+   ],
+   "contact": true
+  },
+  {
+   "id": "fam-invoice",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "فواتير",
+   "keywords": {
+    "ar": [
+     "فواتير",
+     "فاتوره",
+     "قالب فواتير",
+     "فتوره",
+     "فواتر",
+     "طباعه فاتوره"
+    ],
+    "en": [
+     "invoice",
+     "invoices",
+     "billing"
+    ],
+    "fi": [
+     "lasku",
+     "laskupohja"
+    ]
+   },
+   "answer": {
+    "ar": "قالب الفواتير:",
+    "en": "Invoice template:",
+    "fi": "Laskupohja:"
+   },
+   "pids": [
+    "invoice-pro"
+   ],
+   "_variants": [
+    "بدي قالب فاتورة",
+    "invoice template"
+   ]
+  },
+  {
+   "id": "fam-quote",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "عرض سعر",
+   "keywords": {
+    "ar": [
+     "عرض سعر",
+     "عروض اسعار",
+     "عرض اسعار",
+     "لعروض الاسعار",
+     "عروض"
+    ],
+    "en": [
+     "quotation",
+     "quote template",
+     "price quote"
+    ],
+    "fi": [
+     "tarjous"
+    ]
+   },
+   "answer": {
+    "ar": "عروض الأسعار موجودة ضمن قالب الفواتير:",
+    "en": "Quotations are part of the invoice template:",
+    "fi": "Tarjoukset kuuluvat laskupohjaan:"
+   },
+   "pids": [
+    "invoice-pro"
+   ],
+   "_variants": [
+    "في قالب لعروض الاسعار",
+    "do you have a quotation template"
+   ]
+  },
+  {
+   "id": "fam-inventory",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "مخزون",
+   "keywords": {
+    "ar": [
+     "مخزون",
+     "مخزن",
+     "مخازن",
+     "جرد",
+     "بضاعه",
+     "ستوك"
+    ],
+    "en": [
+     "inventory",
+     "stock",
+     "stock management"
+    ],
+    "fi": [
+     "varasto",
+     "varastonhallinta"
+    ]
+   },
+   "answer": {
+    "ar": "قوالب المخزون:",
+    "en": "Inventory templates:",
+    "fi": "Varastopohjat:"
+   },
+   "pids": [
+    "inventory-pro",
+    "shop-stock-profit",
+    "warehouse-transfers",
+    "movements-ledger"
+   ],
+   "_variants": [
+    "بدي قالب للمخزن",
+    "stock management template"
+   ]
+  },
+  {
+   "id": "fam-barcode",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "باركود",
+   "keywords": {
+    "ar": [
+     "باركود",
+     "باركود سكانر",
+     "قارئ باركود"
+    ],
+    "en": [
+     "barcode",
+     "scanner"
+    ],
+    "fi": [
+     "viivakoodi"
+    ]
+   },
+   "answer": {
+    "ar": "الإدخال بالباركود موجود في:",
+    "en": "Barcode entry is in:",
+    "fi": "Viivakoodisyöttö:"
+   },
+   "pids": [
+    "inventory-pro"
+   ],
+   "_variants": [
+    "بيدعم الباركود",
+    "does it support barcode"
+   ]
+  },
+  {
+   "id": "fam-warehouses",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "مستودعات",
+   "keywords": {
+    "ar": [
+     "مستودعات",
+     "تحويل بين المستودعات",
+     "اكثر من مستودع",
+     "فروع المخزن"
+    ],
+    "en": [
+     "warehouses",
+     "warehouse transfer",
+     "multiple warehouses"
+    ],
+    "fi": [
+     "varastot"
+    ]
+   },
+   "answer": {
+    "ar": "تحويلات المخزون بين المستودعات:",
+    "en": "Transfers between warehouses:",
+    "fi": "Varastosiirrot:"
+   },
+   "pids": [
+    "warehouse-transfers"
+   ],
+   "_variants": [
+    "تحويل بضاعة بين مستودعات",
+    "multiple warehouses template"
+   ]
+  },
+  {
+   "id": "fam-gold-mobile",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "محل ذهب",
+   "keywords": {
+    "ar": [
+     "محل ذهب",
+     "ذهب",
+     "صاغه",
+     "محل جوالات",
+     "محل موبايلات"
+    ],
+    "en": [
+     "gold shop",
+     "phone shop",
+     "jewelry"
+    ],
+    "fi": [
+     "kultakauppa"
+    ]
+   },
+   "answer": {
+    "ar": "مناسب لمحلات الذهب والجوالات:",
+    "en": "Suited to gold and phone shops:",
+    "fi": "Kulta- ja puhelinliikkeille:"
+   },
+   "pids": [
+    "movements-ledger"
+   ],
+   "_variants": [
+    "عندي محل ذهب",
+    "template for a gold shop"
+   ]
+  },
+  {
+   "id": "fam-payroll",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "رواتب",
+   "keywords": {
+    "ar": [
+     "رواتب",
+     "معاشات",
+     "قسيمه راتب",
+     "مسير رواتب",
+     "رواتب الموظفين",
+     "روتب"
+    ],
+    "en": [
+     "payroll",
+     "salary",
+     "payslip"
+    ],
+    "fi": [
+     "palkka",
+     "palkanlaskenta"
+    ]
+   },
+   "answer": {
+    "ar": "قالب الرواتب:",
+    "en": "Payroll template:",
+    "fi": "Palkkapohja:"
+   },
+   "pids": [
+    "payroll-pro"
+   ],
+   "_variants": [
+    "بدي قالب معاشات",
+    "salary template"
+   ]
+  },
+  {
+   "id": "fam-attendance",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "حضور وانصراف",
+   "keywords": {
+    "ar": [
+     "حضور وانصراف",
+     "دوام الموظفين",
+     "اجازات",
+     "سلف",
+     "نهايه الخدمه"
+    ],
+    "en": [
+     "attendance",
+     "leave tracking",
+     "end of service"
+    ],
+    "fi": [
+     "läsnäolo",
+     "lomat"
+    ]
+   },
+   "answer": {
+    "ar": "الحضور والإجازات والسلف ضمن قالب الرواتب:",
+    "en": "Attendance, leave and advances are in the payroll template:",
+    "fi": "Läsnäolo ja lomat palkkapohjassa:"
+   },
+   "pids": [
+    "payroll-pro"
+   ],
+   "_variants": [
+    "قالب حضور وانصراف",
+    "attendance tracking"
+   ]
+  },
+  {
+   "id": "fam-realestate",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "عقارات",
+   "keywords": {
+    "ar": [
+     "عقارات",
+     "ايجارات",
+     "عقار",
+     "مكتب عقاري",
+     "شقق للايجار",
+     "مستاجرين"
+    ],
+    "en": [
+     "real estate",
+     "rent",
+     "property",
+     "landlord",
+     "tenants"
+    ],
+    "fi": [
+     "kiinteistö",
+     "vuokra"
+    ]
+   },
+   "answer": {
+    "ar": "قوالب العقارات والإيجارات:",
+    "en": "Property & rent templates:",
+    "fi": "Kiinteistö- ja vuokrapohjat:"
+   },
+   "pids": [
+    "realestate-pro"
+   ],
+   "_variants": [
+    "بدي نظام ايجارات",
+    "property management template"
+   ]
+  },
+  {
+   "id": "fam-installments",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "اقساط",
+   "keywords": {
+    "ar": [
+     "اقساط",
+     "تقسيط",
+     "مديونيات",
+     "ديون الزباين",
+     "بيع بالتقسيط"
+    ],
+    "en": [
+     "installments",
+     "installment",
+     "debts"
+    ],
+    "fi": [
+     "osamaksu"
+    ]
+   },
+   "answer": {
+    "ar": "نظام الأقساط:",
+    "en": "Installments system:",
+    "fi": "Osamaksujärjestelmä:"
+   },
+   "pids": [
+    "installments-pro"
+   ],
+   "_variants": [
+    "قالب للبيع بالتقسيط",
+    "installment sales template"
+   ]
+  },
+  {
+   "id": "fam-restaurant",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "مطعم",
+   "keywords": {
+    "ar": [
+     "مطعم",
+     "مطاعم",
+     "كافيه",
+     "مقهى",
+     "وصفات",
+     "منيو",
+     "تكلفه الطبق"
+    ],
+    "en": [
+     "restaurant",
+     "cafe",
+     "recipe cost",
+     "menu pricing"
+    ],
+    "fi": [
+     "ravintola",
+     "kahvila"
+    ]
+   },
+   "answer": {
+    "ar": "قالب المطاعم والمقاهي:",
+    "en": "Restaurant & café template:",
+    "fi": "Ravintolapohja:"
+   },
+   "pids": [
+    "restaurant-food-cost"
+   ],
+   "_variants": [
+    "عندي مطعم بدي قالب",
+    "template for my cafe"
+   ]
+  },
+  {
+   "id": "fam-pricing",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "تسعير",
+   "keywords": {
+    "ar": [
+     "تسعير",
+     "هامش الربح",
+     "نسبه الربح",
+     "سعر البيع",
+     "نقطه التعادل"
+    ],
+    "en": [
+     "pricing",
+     "profit margin",
+     "break even",
+     "selling price"
+    ],
+    "fi": [
+     "hinnoittelu",
+     "kate"
+    ]
+   },
+   "answer": {
+    "ar": "حاسبة الهامش والتسعير (وفي نسخة مصغّرة مجانية أيضًا):",
+    "en": "Margin & pricing calculator (there is also a free mini version):",
+    "fi": "Kate- ja hinnoittelulaskuri (myös ilmainen minilaskuri):"
+   },
+   "pids": [
+    "profit-margin-pricing"
+   ],
+   "_variants": [
+    "كيف احسب سعر البيع",
+    "pricing calculator"
+   ]
+  },
+  {
+   "id": "fam-bookkeeping",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "محاسبه",
+   "keywords": {
+    "ar": [
+     "محاسبه",
+     "دفتر محاسبه",
+     "مصاريف ومبيعات",
+     "حسابات المحل",
+     "ماركت",
+     "سوبر ماركت",
+     "بقاله"
+    ],
+    "en": [
+     "bookkeeping",
+     "accounting",
+     "minimarket",
+     "grocery"
+    ],
+    "fi": [
+     "kirjanpito"
+    ]
+   },
+   "answer": {
+    "ar": "قالب المحاسبة للماركت:",
+    "en": "Bookkeeping for shops:",
+    "fi": "Kirjanpito kaupoille:"
+   },
+   "pids": [
+    "finnish-bookkeeping-vat"
+   ],
+   "_variants": [
+    "بدي قالب محاسبة للمحل",
+    "bookkeeping template"
+   ]
+  },
+  {
+   "id": "fam-alv",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "alv",
+   "keywords": {
+    "ar": [
+     "alv",
+     "ضريبه فنلندا",
+     "الضريبه الفنلنديه",
+     "فنلندا",
+     "ضريبه القيمه المضافه"
+    ],
+    "en": [
+     "finnish vat",
+     "alv",
+     "finland"
+    ],
+    "fi": [
+     "alv",
+     "arvonlisävero"
+    ]
+   },
+   "answer": {
+    "ar": "قوالب ضريبة ALV الفنلندية:",
+    "en": "Finnish ALV/VAT templates:",
+    "fi": "ALV-pohjat:"
+   },
+   "pids": [
+    "finnish-bookkeeping-vat",
+    "sales-profit-dashboard-en-fi"
+   ],
+   "_variants": [
+    "قالب ضريبة ALV",
+    "Finnish VAT template"
+   ]
+  },
+  {
+   "id": "fam-dashboard",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "لوحه مبيعات",
+   "keywords": {
+    "ar": [
+     "لوحه مبيعات",
+     "داشبورد",
+     "تقارير الارباح",
+     "ارباح ومصاريف",
+     "رسوم بيانيه"
+    ],
+    "en": [
+     "dashboard",
+     "profit report",
+     "charts"
+    ],
+    "fi": [
+     "kojelauta"
+    ]
+   },
+   "answer": {
+    "ar": "لوحات المبيعات والأرباح:",
+    "en": "Sales & profit dashboards:",
+    "fi": "Myynnin kojelaudat:"
+   },
+   "pids": [
+    "sales-profit-dashboard"
+   ],
+   "_variants": [
+    "بدي داشبورد للارباح",
+    "profit dashboard"
+   ]
+  },
+  {
+   "id": "fam-etsy",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "بائع ايتسي",
+   "keywords": {
+    "ar": [
+     "بائع ايتسي",
+     "رسوم ايتسي",
+     "بيع على ايتسي",
+     "متجري على ايتسي",
+     "ببيع على ايتسي",
+     "ابيع ايتسي"
+    ],
+    "en": [
+     "etsy seller",
+     "etsy fees",
+     "sell on etsy"
+    ],
+    "fi": [
+     "etsy-myyjä"
+    ]
+   },
+   "answer": {
+    "ar": "لوحة أرباح بائعي Etsy:",
+    "en": "Etsy seller dashboard:",
+    "fi": "Etsy-myyjän kojelauta:"
+   },
+   "pids": [
+    "etsy-seller-dashboard"
+   ],
+   "_variants": [
+    "انا ببيع على ايتسي",
+    "track my Etsy fees"
+   ]
+  },
+  {
+   "id": "fam-crm",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "ادارة العملاء",
+   "keywords": {
+    "ar": [
+     "ادارة العملاء",
+     "crm",
+     "عملاء ومبيعات",
+     "تذاكر دعم"
+    ],
+    "en": [
+     "crm",
+     "customer management",
+     "sales pipeline"
+    ],
+    "fi": [
+     "asiakkuudet"
+    ]
+   },
+   "answer": {
+    "ar": "نظام إدارة العملاء:",
+    "en": "CRM template:",
+    "fi": "CRM-pohja:"
+   },
+   "pids": [
+    "pulse-crm"
+   ],
+   "_variants": [
+    "بدي نظام crm",
+    "customer management template"
+   ]
+  },
+  {
+   "id": "fam-treasury",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "خزينه",
+   "keywords": {
+    "ar": [
+     "خزينه",
+     "صندوق",
+     "حسابات بنكيه",
+     "دفتر الصندوق",
+     "كاش"
+    ],
+    "en": [
+     "cash book",
+     "bank book",
+     "treasury",
+     "petty cash"
+    ],
+    "fi": [
+     "kassakirja"
+    ]
+   },
+   "answer": {
+    "ar": "دفتر الخزينة:",
+    "en": "Cash & bank book:",
+    "fi": "Kassa- ja pankkikirja:"
+   },
+   "pids": [
+    "treasury-cash-bank-book"
+   ],
+   "_variants": [
+    "بدي دفتر صندوق",
+    "cash book template"
+   ]
+  },
+  {
+   "id": "fam-family",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "ميزانيه الاسره",
+   "keywords": {
+    "ar": [
+     "ميزانيه الاسره",
+     "مصاريف البيت",
+     "مصروف شخصي",
+     "ادخار",
+     "ميزانيه شخصيه"
+    ],
+    "en": [
+     "family budget",
+     "home budget",
+     "personal expenses",
+     "savings"
+    ],
+    "fi": [
+     "kotitalous",
+     "budjetti"
+    ]
+   },
+   "answer": {
+    "ar": "ميزانية الأسرة:",
+    "en": "Family budget:",
+    "fi": "Kotitalouden budjetti:"
+   },
+   "pids": [
+    "family-expense-tracker"
+   ],
+   "_variants": [
+    "بدي اتابع مصاريف البيت",
+    "family budget template"
+   ]
+  },
+  {
+   "id": "accountant",
+   "src": "FAQ 6",
+   "q": "بديل المحاسب",
+   "keywords": {
+    "ar": [
+     "بديل المحاسب",
+     "بغني عن المحاسب",
+     "اقرار ضريبي",
+     "omavero",
+     "استشاره ضريبيه",
+     "بيغنيني عن المحاسب",
+     "يغني عن المحاسب",
+     "المحاسب"
+    ],
+    "en": [
+     "replace accountant",
+     "tax return",
+     "tax advice",
+     "omavero"
+    ],
+    "fi": [
+     "kirjanpitäjä",
+     "veroilmoitus"
+    ]
+   },
+   "answer": {
+    "ar": "لا. القوالب أدوات لتنظيم أرقامك ومتابعتها، وليست استشارة ضريبية أو قانونية. راجع أرقام الضريبة في OmaVero أو مع محاسبك.",
+    "en": "No. The templates help you organise and track your numbers; they are not tax or legal advice. Check your VAT figures in OmaVero or with your accountant.",
+    "fi": "Eivät. Pohjat auttavat seuraamaan lukuja, mutta eivät ole veroneuvontaa. Tarkista ALV OmaVerossa tai kirjanpitäjältä."
+   },
+   "_variants": [
+    "هل القالب بيغنيني عن المحاسب",
+    "does it replace my accountant"
+   ]
+  },
+  {
+   "id": "demo-view",
+   "src": "nav.demo / demo section",
+   "q": "اشوف القالب",
+   "keywords": {
+    "ar": [
+     "اشوف القالب",
+     "صور القالب",
+     "شكل القالب",
+     "قبل ما اشتري",
+     "معاينه",
+     "فيديو"
+    ],
+    "en": [
+     "see the template",
+     "screenshots",
+     "preview",
+     "before buying",
+     "video"
+    ],
+    "fi": [
+     "esikatselu",
+     "kuvia"
+    ]
+   },
+   "answer": {
+    "ar": "في قسم «شوف القالب شغّال» تقدر تختار أي قالب وتشاهد صوره الحقيقية شاشةً بشاشة، وفي فيديوهات على قناتنا على يوتيوب.",
+    "en": "In the 'See it in action' section you can pick any template and view its real screens one by one; there are also videos on our YouTube channel.",
+    "fi": "'Katso toiminnassa' -osiossa näet pohjan oikeat näkymät; videoita myös YouTube-kanavalla."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "شوف القالب شغّال",
+      "en": "See it in action",
+      "fi": "Katso toiminnassa"
+     },
+     "h": "index.html#demo"
+    },
+    {
+     "t": {
+      "ar": "قناة يوتيوب",
+      "en": "YouTube channel",
+      "fi": "YouTube-kanava"
+     },
+     "h": "https://www.youtube.com/@SadeekShopExcel"
+    }
+   ],
+   "_variants": [
+    "بدي شوف القالب قبل ما اشتري",
+    "can I preview the template"
+   ]
+  },
+  {
+   "id": "trial",
+   "src": "how.2d + free calculator",
+   "q": "نسخه تجريبيه",
+   "keywords": {
+    "ar": [
+     "نسخه تجريبيه",
+     "تجربه مجانيه",
+     "جربه ببلاش",
+     "ديمو"
+    ],
+    "en": [
+     "free trial",
+     "trial version",
+     "demo version"
+    ],
+    "fi": [
+     "kokeiluversio"
+    ]
+   },
+   "answer": {
+    "ar": "ملف ZIP بعد الشراء فيه نسخة تجريبية فيها أمثلة ونسخة فارغة لبياناتك. قبل الشراء تقدر تشوف صور القوالب في قسم «شوف القالب شغّال»، وحاسبة الهامش المصغّرة مجانية بالكامل.",
+    "en": "After purchase, the ZIP has a demo copy with examples and an empty copy for your data. Before buying you can view the screens in 'See it in action', and the mini margin calculator is completely free.",
+    "fi": "Ostoksen ZIP sisältää esimerkkiversion ja tyhjän version. Ennen ostoa näet kuvat 'Katso toiminnassa' -osiossa; minilaskuri on ilmainen."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "شوف القالب شغّال",
+      "en": "See it in action",
+      "fi": "Katso toiminnassa"
+     },
+     "h": "index.html#demo"
+    },
+    {
+     "t": {
+      "ar": "حمّل الحاسبة مجانًا",
+      "en": "Download free",
+      "fi": "Lataa ilmaiseksi"
+     },
+     "h": "https://payhip.com/b/qeHTl"
+    }
+   ],
+   "_variants": [
+    "في نسخة تجريبية مجانية",
+    "is there a free trial"
+   ]
+  },
+  {
+   "id": "recommend",
+   "src": "تحويل — اختيار حسب النشاط",
+   "q": "شو بيناسبني",
+   "keywords": {
+    "ar": [
+     "شو بيناسبني",
+     "اي قالب يناسبني",
+     "ساعدني اختار",
+     "شو تنصحني",
+     "انسب قالب",
+     "بيناسب شغلي",
+     "يناسب شغلي"
+    ],
+    "en": [
+     "which template is best",
+     "recommend a template",
+     "help me choose",
+     "template should i choose",
+     "choose"
+    ],
+    "fi": [
+     "mikä pohja sopii"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب مقسمة حسب النوع: محاسبة وضريبة، مخزون ومبيعات، تسعير ومطاعم، رواتب، وميزانية الأسرة. اكتب لي نوع نشاطك (مثل مطعم، مخزن، عقارات) لأعرض لك القوالب المناسبة.",
+    "en": "Templates are grouped as Accounting & VAT, Stock & sales, Pricing & restaurants, Payroll and Home budget. Tell me your type of business (e.g. restaurant, warehouse, rentals) and I'll show matching templates.",
+    "fi": "Pohjat: kirjanpito ja ALV, varasto ja myynti, hinnoittelu ja ravintolat, palkat, kotitalous. Kerro toimialasi."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "كل القوالب",
+      "en": "All templates",
+      "fi": "Kaikki pohjat"
+     },
+     "h": "index.html#products"
+    }
+   ],
+   "_variants": [
+    "شو القالب اللي بيناسب شغلي",
+    "which template should I choose"
+   ],
+   "contact": true
+  },
+  {
+   "id": "new-templates",
+   "src": "غير مذكور في الموقع",
+   "q": "قوالب جديده",
+   "keywords": {
+    "ar": [
+     "قوالب جديده",
+     "رح تنزلوا قوالب",
+     "قالب جديد قريبا"
+    ],
+    "en": [
+     "new templates",
+     "coming soon",
+     "upcoming"
+    ],
+    "fi": [
+     "uusia pohjia"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "قناة يوتيوب",
+      "en": "YouTube channel",
+      "fi": "YouTube-kanava"
+     },
+     "h": "https://www.youtube.com/@SadeekShopExcel"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "في قوالب جديدة قريبا",
+    "are new templates coming"
+   ]
+  },
+  {
+   "id": "missing-template",
+   "src": "custom-template page + تحويل",
+   "q": "صيدليه",
+   "keywords": {
+    "ar": [
+     "صيدليه",
+     "عياده",
+     "مدرسه",
+     "تاجير سيارات",
+     "ورشه",
+     "قالب مش موجود",
+     "ما لقيت قالب",
+     "لصيدليه",
+     "لعياده",
+     "لمدرسه"
+    ],
+    "en": [
+     "pharmacy",
+     "clinic",
+     "school",
+     "car rental",
+     "workshop",
+     "not on the list"
+    ],
+    "fi": [
+     "apteekki",
+     "klinikka",
+     "koulu"
+    ]
+   },
+   "answer": {
+    "ar": "إذا ما لقيت قالب لنشاطك في القائمة، نصمم لك قالب Excel حسب طلبك.",
+    "en": "If there's no template for your business on the list, we can build an Excel template for you.",
+    "fi": "Jos sopivaa pohjaa ei ole, teemme sellaisen tilauksesta."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "_variants": [
+    "بدي قالب لصيدلية",
+    "do you have a template for a clinic"
+   ]
+  },
+  {
+   "id": "ship-what",
+   "src": "shipops-sales.html hero",
+   "q": "شيب اوبس",
+   "keywords": {
+    "ar": [
+     "شيب اوبس",
+     "شيبوبس",
+     "shipops",
+     "نظام الشحن",
+     "نظام مكاتب الشحن",
+     "برنامج شحن",
+     "برنامج مكتب شحن"
+    ],
+    "en": [
+     "shipops",
+     "shipping office system",
+     "courier system"
+    ],
+    "fi": [
+     "shipops",
+     "lähetysjärjestelmä"
+    ]
+   },
+   "answer": {
+    "ar": "ShipOps نظام لإدارة مكاتب الشحن والحوالات والتحصيل، يعمل من المتصفح بدون تنصيب: البوالص، التحصيل، الحوالات، الصندوق والتسويات — من أي جهاز وبأي وقت. السعر 15$ شهريًا أو 150$ سنويًا للمكتب الواحد.",
+    "en": "ShipOps is a browser-based system for shipping, remittance and collection offices, no installation: waybills, collections, remittances, cash box and settlements, from any device. $15/month or $150/year per office.",
+    "fi": "ShipOps on selainpohjainen järjestelmä lähetys-, rahansiirto- ja perintätoimistoille. 15 $/kk tai 150 $/vuosi toimistoa kohden."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "شو هو نظام شيب اوبس",
+    "what is ShipOps"
+   ]
+  },
+  {
+   "id": "ship-price",
+   "src": "shipops-sales.html #pricing",
+   "q": "كم سعر اشتراك ShipOps؟",
+   "keywords": {
+    "ar": [
+     "سعر shipops",
+     "سعر نظام الشحن",
+     "سعر الاشتراك",
+     "سعر",
+     "اسعار",
+     "قديش",
+     "كم"
+    ],
+    "en": [
+     "shipops price",
+     "shipops cost",
+     "subscription price",
+     "price",
+     "cost",
+     "how much",
+     "hinta"
+    ],
+    "fi": [
+     "shipops hinta"
+    ]
+   },
+   "answer": {
+    "ar": "الأسعار للمكتب الواحد: شهري 15$، أو سنوي 150$ (شهرين مجانًا).",
+    "en": "Per office: $15 monthly, or $150 yearly (two months free).",
+    "fi": "Toimistoa kohden: 15 $/kk tai 150 $/vuosi (kaksi kuukautta ilmaiseksi)."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "قديش سعر اشتراك نظام الشحن",
+    "how much is ShipOps"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-branches",
+   "src": "shipops-sales.html #pricing",
+   "q": "اكثر من فرع",
+   "keywords": {
+    "ar": [
+     "اكثر من فرع",
+     "فروع",
+     "عده فروع",
+     "فرعين",
+     "كذا مكتب",
+     "مكتب شحن بعده فروع"
+    ],
+    "en": [
+     "more than one branch",
+     "branches",
+     "several offices",
+     "multiple branches"
+    ],
+    "fi": [
+     "useita toimipisteitä",
+     "toimipisteet"
+    ]
+   },
+   "answer": {
+    "ar": "ShipOps: عندك أكثر من فرع؟ تواصل معنا على واتساب أو الإيميل ونرتب لك العرض المناسب. السعر للمكتب الواحد 15$ شهريًا أو 150$ سنويًا.",
+    "en": "ShipOps: have more than one branch? Contact us on WhatsApp or by email and we'll arrange the right offer. The price per office is $15/month or $150/year.",
+    "fi": "ShipOps: useampi toimipiste? Ota yhteyttä, niin sovitaan tarjous. Hinta 15 $/kk tai 150 $/vuosi toimistoa kohden."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "عندي مكتب شحن بعدة فروع، كم السعر؟",
+    "Do you have a plan for multiple branches?"
+   ],
+   "contact": true
+  },
+  {
+   "id": "ship-pay",
+   "src": "shipops-sales.html note",
+   "q": "كيف ادفع اشتراك ShipOps؟",
+   "keywords": {
+    "ar": [
+     "ادفع اشتراك الشحن",
+     "دفع shipops",
+     "حواله محليه",
+     "كيف ادفع لنظام الشحن",
+     "ادفع اشتراك",
+     "بدفع اشتراك",
+     "دفع الاشتراك",
+     "ادفع",
+     "بدفع",
+     "دفع"
+    ],
+    "en": [
+     "pay for shipops",
+     "shipops payment",
+     "pay",
+     "payment",
+     "maksu"
+    ],
+    "fi": [
+     "shipops maksu"
+    ]
+   },
+   "answer": {
+    "ar": "الدفع لاشتراك ShipOps بحوالة محلية أو عبر شام كاش. تواصل معنا على واتساب أو الإيميل ونرتب الاشتراك.",
+    "en": "ShipOps is paid by local transfer or Sham Cash. Contact us on WhatsApp or by email and we'll set up the subscription.",
+    "fi": "ShipOps maksetaan paikallisella siirrolla tai Sham Cashilla."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "كيف بدفع اشتراك نظام الشحن",
+    "how do I pay for ShipOps"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ],
+   "contact": true
+  },
+  {
+   "id": "ship-activation",
+   "src": "shipops-sales.html #how",
+   "q": "متى يتفعل نظام الشحن؟",
+   "keywords": {
+    "ar": [
+     "تفعيل",
+     "متى يتفعل",
+     "خلال 24 ساعه",
+     "امتى بيشتغل النظام",
+     "تفعيل",
+     "يتفعل",
+     "بيتفعل"
+    ],
+    "en": [
+     "activation",
+     "how fast",
+     "set up time",
+     "activated",
+     "activation",
+     "how fast"
+    ],
+    "fi": [
+     "aktivointi"
+    ]
+   },
+   "answer": {
+    "ar": "بعد الاشتراك يتم تفعيل نظامك خلال 24 ساعة، وتستلم رابط نظامك جاهزًا للاستخدام.",
+    "en": "After subscribing, your system is activated within 24 hours and you receive its link, ready to use.",
+    "fi": "Tilauksen jälkeen järjestelmä aktivoidaan 24 tunnin sisällä."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "امتى بيتفعل نظام الشحن",
+    "how fast is ShipOps activated"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-install",
+   "src": "shipops-sales.html",
+   "q": "هل نظام الشحن يحتاج تنصيب؟",
+   "keywords": {
+    "ar": [
+     "تنصيب",
+     "تثبيت",
+     "بدو تنزيل",
+     "يشتغل من المتصفح",
+     "اجهزه اضافيه",
+     "تنصيب",
+     "تثبيت"
+    ],
+    "en": [
+     "install",
+     "installation",
+     "browser",
+     "extra hardware",
+     "install",
+     "asennus"
+    ],
+    "fi": [
+     "asennus"
+    ]
+   },
+   "answer": {
+    "ar": "ShipOps يعمل من المتصفح بدون تنصيب، بدون رسوم تنصيب وبدون أجهزة إضافية، من أي جهاز وبأي وقت.",
+    "en": "ShipOps runs in the browser with no installation, no setup fee and no extra hardware, from any device.",
+    "fi": "ShipOps toimii selaimessa ilman asennusta."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "نظام الشحن بدو تنصيب",
+    "do I need to install ShipOps"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-cancel",
+   "src": "shipops-sales.html #how",
+   "q": "هل اقدر الغي اشتراك نظام الشحن؟",
+   "keywords": {
+    "ar": [
+     "الغاء الاشتراك",
+     "الغي الاشتراك",
+     "عقد",
+     "التزام",
+     "الغاء",
+     "الغي"
+    ],
+    "en": [
+     "cancel subscription",
+     "contract",
+     "cancel anytime",
+     "cancel",
+     "peruuttaa"
+    ],
+    "fi": [
+     "peruuttaa tilaus"
+    ]
+   },
+   "answer": {
+    "ar": "تقدر تلغي اشتراك ShipOps بأي وقت، بدون عقود طويلة أو التزامات.",
+    "en": "You can cancel ShipOps any time, with no long contracts or commitments.",
+    "fi": "ShipOpsin voi perua milloin tahansa."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "بقدر الغي اشتراك الشحن",
+    "can I cancel ShipOps"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-countries",
+   "src": "shipops-sales.html (سوريا) + تحويل",
+   "q": "هل نظام الشحن يشتغل خارج سوريا؟",
+   "keywords": {
+    "ar": [
+     "لبنان",
+     "العراق",
+     "تركيا",
+     "الاردن",
+     "مصر",
+     "دول ثانيه",
+     "خارج سوريا",
+     "بلد ثاني",
+     "لبنان",
+     "العراق",
+     "بلبنان",
+     "تركيا",
+     "الاردن",
+     "مصر",
+     "خارج سوريا"
+    ],
+    "en": [
+     "other countries",
+     "outside syria",
+     "lebanon",
+     "iraq",
+     "turkey",
+     "outside syria",
+     "other countries",
+     "lebanon"
+    ],
+    "fi": [
+     "muut maat"
+    ]
+   },
+   "answer": {
+    "ar": "ShipOps مصمم لمكاتب الشحن في سوريا، مع المحافظات السورية جاهزة بالنظام.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "ShipOps is designed for shipping offices in Syria, with the Syrian governorates built in.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "ShipOps on suunniteltu Syyrian lähetystoimistoille.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "بيشتغل نظام الشحن بلبنان",
+    "does ShipOps work outside Syria"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-trial",
+   "src": "غير مذكور في الموقع",
+   "q": "هل في فترة تجريبية لنظام الشحن؟",
+   "keywords": {
+    "ar": [
+     "تجربه نظام الشحن",
+     "تجربه shipops",
+     "ديمو shipops",
+     "فتره تجريبيه",
+     "تجربه",
+     "تجريبي",
+     "ديمو"
+    ],
+    "en": [
+     "shipops trial",
+     "shipops demo",
+     "trial period",
+     "trial",
+     "demo",
+     "kokeilu"
+    ],
+    "fi": [
+     "shipops kokeilu"
+    ]
+   },
+   "answer": {
+    "ar": "ما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "The website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Sivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "handoff": true,
+   "_variants": [
+    "في تجربة لنظام الشحن",
+    "is there a ShipOps trial"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-users",
+   "src": "shipops-sales.html features",
+   "q": "هل نظام الشحن فيه مستخدمين وصلاحيات؟",
+   "keywords": {
+    "ar": [
+     "مستخدمين",
+     "صلاحيات",
+     "موظفين بالنظام",
+     "حساب لكل موظف",
+     "مستخدمين",
+     "صلاحيات",
+     "موظف",
+     "käyttäjät"
+    ],
+    "en": [
+     "users",
+     "permissions",
+     "user accounts",
+     "users",
+     "permissions"
+    ],
+    "fi": [
+     "käyttäjät",
+     "oikeudet"
+    ]
+   },
+   "answer": {
+    "ar": "في ShipOps مستخدمين وصلاحيات: دخول بكلمة سر لكل مستخدم مع صلاحيات حسب دوره.",
+    "en": "ShipOps has users and permissions: each user signs in with their own password, with permissions by role.",
+    "fi": "ShipOpsissa on käyttäjät ja roolipohjaiset oikeudet."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "بقدر اعمل حساب لكل موظف بنظام الشحن",
+    "does ShipOps support multiple users"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-backup",
+   "src": "shipops-sales.html features",
+   "q": "هل في نسخ احتياطي بنظام الشحن؟",
+   "keywords": {
+    "ar": [
+     "نسخ احتياطي",
+     "باك اب",
+     "ارشفه",
+     "بياناتي محفوظه",
+     "خصوصيه البيانات",
+     "نسخ احتياطي",
+     "باك اب",
+     "محفوظه"
+    ],
+    "en": [
+     "backup",
+     "archive",
+     "data safety",
+     "backup",
+     "backed up",
+     "varmuuskopio"
+    ],
+    "fi": [
+     "varmuuskopio"
+    ]
+   },
+   "answer": {
+    "ar": "في ShipOps نسخ احتياطي وأرشفة تلقائية، وكل مكتب له نسخته الخاصة ببياناته فقط.",
+    "en": "ShipOps has automatic backup and archiving, and each office has its own copy with only its own data.",
+    "fi": "ShipOpsissa on automaattinen varmuuskopio, ja jokaisella toimistolla on oma kopionsa."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "بياناتي بنظام الشحن محفوظة",
+    "is ShipOps data backed up"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-features",
+   "src": "shipops-sales.html features",
+   "q": "شو مزايا ShipOps؟",
+   "keywords": {
+    "ar": [
+     "بوالص",
+     "بوليصه",
+     "تحصيل",
+     "تسويات",
+     "صندوق يومي",
+     "عمولات",
+     "سائقين",
+     "مزايا",
+     "ميزات",
+     "خصائص"
+    ],
+    "en": [
+     "waybills",
+     "collections",
+     "settlements",
+     "drivers",
+     "commissions",
+     "features",
+     "ominaisuudet"
+    ],
+    "fi": [
+     "rahtikirjat"
+    ]
+   },
+   "answer": {
+    "ar": "مزايا ShipOps: إدارة البوالص، التحصيل والحوالات والمدفوعات، العملاء والشركاء والسائقين، تسويات المكاتب والصندوق اليومي، المصاريف والعمولات، لوحة تحكم وتقارير وتنبيهات، نسخ احتياطي، ومستخدمين وصلاحيات.",
+    "en": "ShipOps features: waybills, collections, remittances and payments, customers, partners and drivers, office settlements and daily cash box, expenses and commissions, dashboard, reports and alerts, backup, and users with permissions.",
+    "fi": "ShipOps: rahtikirjat, perinnät ja siirrot, asiakkaat ja kuljettajat, tilitykset ja kassa, kulut ja palkkiot, raportit, varmuuskopiot, käyttäjät."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "شو مزايا نظام الشحن",
+    "ShipOps features"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ]
+  },
+  {
+   "id": "ship-subscribe",
+   "src": "shipops-sales.html",
+   "q": "كيف اشترك بنظام الشحن؟",
+   "keywords": {
+    "ar": [
+     "اشترك",
+     "بدي اشترك"
+    ],
+    "en": [
+     "subscribe",
+     "sign up"
+    ],
+    "fi": [
+     "tilata"
+    ]
+   },
+   "answer": {
+    "ar": "للاشتراك في ShipOps تواصل معنا على واتساب أو الإيميل ونرتب الاشتراك، ويكون نظامك شغالًا خلال 24 ساعة.",
+    "en": "To subscribe to ShipOps, contact us on WhatsApp or by email and we'll arrange it; your system is running within 24 hours.",
+    "fi": "Tilaa ShipOps ottamalla yhteyttä WhatsAppissa tai sähköpostilla."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "تفاصيل ShipOps",
+      "en": "ShipOps details",
+      "fi": "ShipOps-tiedot"
+     },
+     "h": "shipops-sales.html"
+    }
+   ],
+   "_variants": [
+    "بدي اشترك بنظام الشحن",
+    "how do I subscribe to ShipOps"
+   ],
+   "ctx": [
+    "شحن",
+    "بنظام الشحن",
+    "لنظام الشحن",
+    "اشتراك الشحن",
+    "shipops",
+    "شيب اوبس",
+    "شيبوبس",
+    "نظام الشحن",
+    "نظام شحن",
+    "مكتب شحن",
+    "برنامج الشحن",
+    "lähetysjärjestelmä"
+   ],
+   "contact": true
+  },
+  {
+   "id": "custom-how",
+   "src": "custom-template.html",
+   "q": "قالب خاص",
+   "keywords": {
+    "ar": [
+     "قالب خاص",
+     "قالب حسب الطلب",
+     "تصميم قالب",
+     "قالب مخصص",
+     "اعملولي قالب",
+     "بدي قالب لشغلي",
+     "يصمملي",
+     "حدا يصمم"
+    ],
+    "en": [
+     "custom template",
+     "bespoke",
+     "made to order",
+     "build me a template"
+    ],
+    "fi": [
+     "oma pohja",
+     "tilaustyö"
+    ]
+   },
+   "answer": {
+    "ar": "نصمم لك قالب Excel حسب طريقة عملك: املأ نموذج الطلب واشرح ما تحتاجه، نرد عليك بعرض سعر خلال 24 إلى 48 ساعة، ثم تستلم ملف Excel مجرَّبًا وجاهزًا.",
+    "en": "We build an Excel template around the way you work: fill in the request form, get a quote within 24–48 hours, then receive a tested, ready file.",
+    "fi": "Teemme Excel-pohjan tarpeidesi mukaan: täytä lomake, saat tarjouksen 24–48 tunnissa ja sitten testatun tiedoston."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "_variants": [
+    "بدي حدا يصمملي قالب",
+    "can you make a custom Excel template"
+   ]
+  },
+  {
+   "id": "custom-price",
+   "src": "custom-template.html (عرض سعر)",
+   "q": "كم سعر القالب الخاص؟",
+   "keywords": {
+    "ar": [
+     "سعر القالب الخاص",
+     "كم يكلف قالب خاص",
+     "تكلفه التصميم",
+     "سعر التصميم",
+     "سعر",
+     "يكلف",
+     "بيكلف",
+     "تكلفه",
+     "قديش"
+    ],
+    "en": [
+     "custom template price",
+     "how much for a custom",
+     "custom cost",
+     "price",
+     "cost",
+     "how much",
+     "hinta"
+    ],
+    "fi": [
+     "oman pohjan hinta"
+    ]
+   },
+   "answer": {
+    "ar": "سعر القالب الخاص يحدَّد بعرض سعر حسب طلبك: أرسل الطلب (ويمكنك ذكر ميزانيتك) ونرد بعرض سعر خلال 24 إلى 48 ساعة.",
+    "en": "A custom template is priced by quote: send your request (you can mention your budget) and you'll get a quote within 24–48 hours.",
+    "fi": "Oma pohja hinnoitellaan tarjouksella 24–48 tunnissa."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "_variants": [
+    "قديش بيكلف قالب خاص",
+    "how much does a custom template cost"
+   ],
+   "ctx": [
+    "قالب خاص",
+    "خاص",
+    "حسب الطلب",
+    "مخصص",
+    "يصمم",
+    "تصميم",
+    "custom",
+    "bespoke",
+    "oma pohja",
+    "tilaustyö",
+    "بتصمموا",
+    "بتعملوها",
+    "تصمموا"
+   ]
+  },
+  {
+   "id": "custom-time",
+   "src": "custom-template.html (الموعد النهائي)",
+   "q": "كم مدة تصميم القالب الخاص؟",
+   "keywords": {
+    "ar": [
+     "متى يجهز القالب الخاص",
+     "مده تصميم القالب",
+     "كم يوم القالب الخاص",
+     "موعد التسليم",
+     "وقت",
+     "مده",
+     "كم يوم",
+     "بياخد"
+    ],
+    "en": [
+     "custom delivery time",
+     "how long for a custom",
+     "deadline",
+     "how long",
+     "deadline",
+     "kauan"
+    ],
+    "fi": [
+     "kuinka kauan oma pohja"
+    ]
+   },
+   "answer": {
+    "ar": "نرد على طلبك بعرض سعر خلال 24 إلى 48 ساعة. في نموذج الطلب تقدر تكتب الموعد النهائي المطلوب، ونتفق على التسليم ضمن العرض.",
+    "en": "We reply with a quote within 24–48 hours. You can enter your deadline in the request form and we agree on delivery in the quote.",
+    "fi": "Vastaamme tarjouksella 24–48 tunnissa; määräajan voit kertoa lomakkeessa."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "_variants": [
+    "كم بياخد وقت القالب الخاص",
+    "how long does a custom template take"
+   ],
+   "ctx": [
+    "قالب خاص",
+    "خاص",
+    "حسب الطلب",
+    "مخصص",
+    "يصمم",
+    "تصميم",
+    "custom",
+    "bespoke",
+    "oma pohja",
+    "tilaustyö",
+    "بتصمموا",
+    "بتعملوها",
+    "تصمموا"
+   ]
+  },
+  {
+   "id": "custom-types",
+   "src": "content.py req.t.*",
+   "q": "شو انواع القوالب الخاصة اللي بتصمموها؟",
+   "keywords": {
+    "ar": [
+     "شو بتصمموا",
+     "انواع القوالب الخاصه",
+     "لوحه متابعه خاصه",
+     "اتمته اكسل",
+     "انواع",
+     "بتعملوها"
+    ],
+    "en": [
+     "what can you build",
+     "types of custom work",
+     "excel automation",
+     "what kind",
+     "types"
+    ],
+    "fi": [
+     "mitä teette"
+    ]
+   },
+   "answer": {
+    "ar": "نصمم حسب الطلب: محاسبة وضريبة، فواتير وعروض أسعار، مخزون ومبيعات، لوحات متابعة وتقارير، وإدخال البيانات وتنظيفها.",
+    "en": "Made to order: accounting & VAT, invoices & quotes, inventory & sales, dashboards & reports, and data entry & cleanup.",
+    "fi": "Tilauksesta: kirjanpito ja ALV, laskut, varasto, kojelaudat ja raportit, tietojen syöttö ja siivous."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "_variants": [
+    "شو انواع القوالب اللي بتعملوها",
+    "what kind of custom templates do you make"
+   ],
+   "ctx": [
+    "قالب خاص",
+    "خاص",
+    "حسب الطلب",
+    "مخصص",
+    "يصمم",
+    "تصميم",
+    "custom",
+    "bespoke",
+    "oma pohja",
+    "tilaustyö",
+    "بتصمموا",
+    "بتعملوها",
+    "تصمموا"
+   ]
+  },
+  {
+   "id": "data-entry",
+   "src": "content.py req.t.data",
+   "q": "ادخال بيانات",
+   "keywords": {
+    "ar": [
+     "ادخال بيانات",
+     "تنظيف بيانات",
+     "ترتيب ملف اكسل",
+     "تنسيق جدول"
+    ],
+    "en": [
+     "data entry",
+     "data cleanup",
+     "clean my excel"
+    ],
+    "fi": [
+     "tietojen syöttö",
+     "siivous"
+    ]
+   },
+   "answer": {
+    "ar": "نعم، إدخال البيانات وتنظيفها من الخدمات حسب الطلب. أرسل طلبك من صفحة القالب الخاص.",
+    "en": "Yes, data entry and cleanup is one of the made-to-order services. Send a request on the custom template page.",
+    "fi": "Kyllä, tietojen syöttö ja siivous on yksi palveluista."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "اطلب قالبًا خاصًا",
+      "en": "Request a custom template",
+      "fi": "Tilaa oma pohja"
+     },
+     "h": "custom-template.html"
+    }
+   ],
+   "_variants": [
+    "بتعملوا ادخال بيانات",
+    "do you do data cleanup"
+   ]
+  },
+  {
+   "id": "free-calc",
+   "src": "content.py free.*",
+   "q": "حاسبه مجانيه",
+   "keywords": {
+    "ar": [
+     "حاسبه مجانيه",
+     "الحاسبه المجانيه",
+     "قالب مجاني",
+     "ببلاش",
+     "مجانا",
+     "شي مجاني"
+    ],
+    "en": [
+     "free calculator",
+     "free template",
+     "free download",
+     "anything free"
+    ],
+    "fi": [
+     "ilmainen laskuri",
+     "ilmainen"
+    ]
+   },
+   "answer": {
+    "ar": "حاسبة الهامش الربحي المصغّرة مجانية بالكامل: حتى 10 منتجات، ملف Excel بالإنجليزية، بدون ماكرو وبدون مدة محددة. النسخة الكاملة تدعم 300 منتج وثلاث لغات.",
+    "en": "The Profit Margin Mini Calculator is completely free: up to 10 products, an English Excel file, no macros and no time limit. The full version handles 300 products in three languages.",
+    "fi": "Ilmainen katelaskuri: enintään 10 tuotetta, englanninkielinen, ei makroja eikä aikarajaa. Täysversiossa 300 tuotetta ja kolme kieltä."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "حمّل الحاسبة مجانًا",
+      "en": "Download free",
+      "fi": "Lataa ilmaiseksi"
+     },
+     "h": "https://payhip.com/b/qeHTl"
+    },
+    {
+     "t": {
+      "ar": "النسخة الكاملة",
+      "en": "Full version",
+      "fi": "Täysversio"
+     },
+     "h": "https://payhip.com/b/HwWAn"
+    }
+   ],
+   "_variants": [
+    "في شي ببلاش",
+    "do you have a free template"
+   ]
+  },
+  {
+   "id": "free-calc-limits",
+   "src": "content.py free.p1/free.more",
+   "q": "الحاسبه المجانيه كم منتج",
+   "keywords": {
+    "ar": [
+     "الحاسبه المجانيه كم منتج",
+     "حدود الحاسبه المجانيه",
+     "الفرق بين المجانيه والكامله"
+    ],
+    "en": [
+     "free version limit",
+     "difference free and full"
+    ],
+    "fi": [
+     "ilmaisen rajoitukset"
+    ]
+   },
+   "answer": {
+    "ar": "المجانية حتى 10 منتجات وبالإنجليزية؛ النسخة الكاملة تدعم 300 منتج وثلاث لغات.",
+    "en": "The free one handles up to 10 products in English; the full version handles 300 products in three languages.",
+    "fi": "Ilmainen: 10 tuotetta; täysversio: 300 tuotetta ja kolme kieltä."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "حمّل الحاسبة مجانًا",
+      "en": "Download free",
+      "fi": "Lataa ilmaiseksi"
+     },
+     "h": "https://payhip.com/b/qeHTl"
+    },
+    {
+     "t": {
+      "ar": "النسخة الكاملة",
+      "en": "Full version",
+      "fi": "Täysversio"
+     },
+     "h": "https://payhip.com/b/HwWAn"
+    }
+   ],
+   "_variants": [
+    "شو الفرق بين الحاسبة المجانية والكاملة",
+    "what's the limit of the free version"
+   ]
+  },
+  {
+   "id": "contact",
+   "src": "WhatsApp + EMAIL",
+   "q": "تواصل",
+   "keywords": {
+    "ar": [
+     "تواصل",
+     "رقم الواتساب",
+     "واتساب",
+     "واتس",
+     "رقمكم",
+     "كيف احكي معكم",
+     "خدمه العملاء"
+    ],
+    "en": [
+     "contact",
+     "whatsapp",
+     "phone number",
+     "customer service"
+    ],
+    "fi": [
+     "yhteys",
+     "yhteystiedot"
+    ]
+   },
+   "answer": {
+    "ar": "تقدر تتواصل معنا مباشرة على واتساب ‎+358 40 255 0588 أو بالإيميل sadeekkasem@gmail.com.",
+    "en": "You can reach us on WhatsApp +358 40 255 0588 or by email at sadeekkasem@gmail.com.",
+    "fi": "WhatsApp +358 40 255 0588 tai sähköposti sadeekkasem@gmail.com."
+   },
+   "_variants": [
+    "شو رقم الواتس",
+    "how can I contact you"
+   ],
+   "contact": true
+  },
+  {
+   "id": "email",
+   "src": "EMAIL",
+   "q": "ايميل",
+   "keywords": {
+    "ar": [
+     "ايميل",
+     "الايميل",
+     "البريد",
+     "ايميلكم",
+     "ميل"
+    ],
+    "en": [
+     "email",
+     "email address",
+     "mail"
+    ],
+    "fi": [
+     "sähköposti"
+    ]
+   },
+   "answer": {
+    "ar": "الإيميل: sadeekkasem@gmail.com",
+    "en": "Email: sadeekkasem@gmail.com",
+    "fi": "Sähköposti: sadeekkasem@gmail.com"
+   },
+   "_variants": [
+    "شو ايميلكم",
+    "what is your email"
+   ],
+   "contact": true
+  },
+  {
+   "id": "about",
+   "src": "content.py about",
+   "q": "مين انتو",
+   "keywords": {
+    "ar": [
+     "مين انتو",
+     "مين صاحب المتجر",
+     "من انتم",
+     "مين صادق",
+     "من وين انتو",
+     "وين مقركم",
+     "مين بيعمل",
+     "مين بيصمم"
+    ],
+    "en": [
+     "who are you",
+     "who is behind",
+     "where are you based",
+     "about",
+     "who makes"
+    ],
+    "fi": [
+     "keitä olette",
+     "missä olette"
+    ]
+   },
+   "answer": {
+    "ar": "صمّم هذه القوالب صادق، مصمّم أنظمة محاسبية وقوالب Excel مقيم في فنلندا، ويعمل مع المحلات والمطاعم والمشاريع الصغيرة.",
+    "en": "These templates are made by Sadeek, an accounting-systems and Excel template designer based in Finland, working with shops, restaurants and small businesses.",
+    "fi": "Pohjat on tehnyt Sadeek, Suomessa asuva Excel-pohjien suunnittelija."
+   },
+   "_variants": [
+    "مين بيعمل هالقوالب",
+    "who makes these templates"
+   ]
+  },
+  {
+   "id": "youtube",
+   "src": "footer youtube",
+   "q": "يوتيوب",
+   "keywords": {
+    "ar": [
+     "يوتيوب",
+     "قناه",
+     "فيديوهات شرح",
+     "شرح القالب"
+    ],
+    "en": [
+     "youtube",
+     "tutorial",
+     "video guide",
+     "video tutorials",
+     "tutorials"
+    ],
+    "fi": [
+     "youtube",
+     "opetusvideo"
+    ]
+   },
+   "answer": {
+    "ar": "في شروحات وفيديوهات على قناتنا على يوتيوب.",
+    "en": "There are videos on our YouTube channel.",
+    "fi": "Videoita YouTube-kanavallamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "قناة يوتيوب",
+      "en": "YouTube channel",
+      "fi": "YouTube-kanava"
+     },
+     "h": "https://www.youtube.com/@SadeekShopExcel"
+    }
+   ],
+   "_variants": [
+    "عندكم قناة يوتيوب",
+    "do you have video tutorials"
+   ]
+  },
+  {
+   "id": "response-time",
+   "src": "contact.text",
+   "q": "متى بتردوا",
+   "keywords": {
+    "ar": [
+     "متى بتردوا",
+     "امتى تردو",
+     "كم بتتأخروا بالرد",
+     "سرعه الرد",
+     "بتردوا",
+     "امتى بتردوا",
+     "تردون"
+    ],
+    "en": [
+     "how fast do you reply",
+     "response time",
+     "when will you answer"
+    ],
+    "fi": [
+     "vastausaika"
+    ]
+   },
+   "answer": {
+    "ar": "نرد عليك في أقرب وقت. لطلبات القوالب الخاصة نرد بعرض سعر خلال 24 إلى 48 ساعة.",
+    "en": "We get back to you as soon as we can. For custom template requests we reply with a quote within 24–48 hours.",
+    "fi": "Vastaamme mahdollisimman pian; omiin pohjiin tarjous 24–48 tunnissa."
+   },
+   "_variants": [
+    "امتى بتردوا عالرسائل",
+    "how fast do you reply"
+   ],
+   "contact": true
+  },
+  {
+   "id": "support-help",
+   "src": "FAQ 4 (راسلني وسأساعدك)",
+   "q": "مساعده بالقالب",
+   "keywords": {
+    "ar": [
+     "مساعده بالقالب",
+     "ما فهمت القالب",
+     "مشكله بالقالب",
+     "دعم فني",
+     "ساعدوني"
+    ],
+    "en": [
+     "help with template",
+     "technical support",
+     "problem with template"
+    ],
+    "fi": [
+     "tuki",
+     "ongelma"
+    ]
+   },
+   "answer": {
+    "ar": "إذا لم يعمل شيء كما يجب، راسلنا ونساعدك.",
+    "en": "If something doesn't work, message us and we'll help.",
+    "fi": "Jos jokin ei toimi, ota yhteyttä, niin autamme."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "قناة يوتيوب",
+      "en": "YouTube channel",
+      "fi": "YouTube-kanava"
+     },
+     "h": "https://www.youtube.com/@SadeekShopExcel"
+    }
+   ],
+   "_variants": [
+    "عندي مشكلة بالقالب",
+    "I need help with my template"
+   ],
+   "contact": true
+  },
+  {
+   "id": "greet",
+   "src": "—",
+   "q": "مرحبا",
+   "keywords": {
+    "ar": [
+     "مرحبا",
+     "مرحبتين",
+     "اهلين",
+     "هلا",
+     "السلام عليكم",
+     "صباح الخير",
+     "مسا الخير",
+     "هاي"
+    ],
+    "en": [
+     "hello",
+     "hi",
+     "good morning",
+     "hey"
+    ],
+    "fi": [
+     "moi",
+     "hei",
+     "terve",
+     "huomenta"
+    ]
+   },
+   "answer": {
+    "ar": "أهلًا وسهلًا! اسألني عن القوالب والأسعار وروابط الشراء، الدفع والتحميل، نظام ShipOps، أو طلب قالب خاص.",
+    "en": "Hello! Ask me about templates, prices and buy links, payment and download, ShipOps, or a custom template.",
+    "fi": "Hei! Kysy pohjista, hinnoista, maksusta, ShipOpsista tai omasta pohjasta."
+   },
+   "_variants": [
+    "هلا والله",
+    "good morning"
+   ]
+  },
+  {
+   "id": "thanks",
+   "src": "—",
+   "q": "شكرا",
+   "keywords": {
+    "ar": [
+     "شكرا",
+     "مشكور",
+     "يسلمو",
+     "تسلم",
+     "يعطيك العافيه",
+     "ميرسي"
+    ],
+    "en": [
+     "thanks",
+     "thank you",
+     "thx"
+    ],
+    "fi": [
+     "kiitos"
+    ]
+   },
+   "answer": {
+    "ar": "العفو! إذا احتجت أي شيء آخر اسألني.",
+    "en": "You're welcome! Ask me anything else.",
+    "fi": "Ole hyvä! Kysy lisää milloin vain."
+   },
+   "_variants": [
+    "يعطيك العافية",
+    "thank you so much"
+   ]
+  },
+  {
+   "id": "bye",
+   "src": "—",
+   "q": "مع السلامه",
+   "keywords": {
+    "ar": [
+     "مع السلامه",
+     "باي",
+     "سلام",
+     "الله معك",
+     "يلا باي"
+    ],
+    "en": [
+     "bye",
+     "goodbye",
+     "see you"
+    ],
+    "fi": [
+     "hei hei",
+     "näkemiin"
+    ]
+   },
+   "answer": {
+    "ar": "مع السلامة! نحن هنا إذا احتجت أي شيء.",
+    "en": "Goodbye! We're here if you need anything.",
+    "fi": "Näkemiin! Olemme täällä tarvittaessa."
+   },
+   "_variants": [
+    "يلا مع السلامة",
+    "goodbye"
+   ]
+  },
+  {
+   "id": "human",
+   "src": "WhatsApp",
+   "q": "احكي مع شخص",
+   "keywords": {
+    "ar": [
+     "احكي مع شخص",
+     "بدي احكي مع حدا",
+     "موظف",
+     "انسان حقيقي",
+     "صاحب المحل"
+    ],
+    "en": [
+     "talk to a person",
+     "real person",
+     "human",
+     "speak to someone"
+    ],
+    "fi": [
+     "ihminen",
+     "puhua jonkun kanssa"
+    ]
+   },
+   "answer": {
+    "ar": "أكيد، تقدر تحكي معنا مباشرة على واتساب أو بالإيميل.",
+    "en": "Sure, you can talk to us directly on WhatsApp or by email.",
+    "fi": "Toki, ota yhteyttä suoraan WhatsAppissa tai sähköpostilla."
+   },
+   "_variants": [
+    "بدي احكي مع حدا حقيقي",
+    "can I talk to a real person"
+   ],
+   "contact": true
+  },
+  {
+   "id": "templates-count",
+   "src": "products.json (عدد حيّ)",
+   "q": "كم قالب",
+   "keywords": {
+    "ar": [
+     "كم قالب",
+     "قديش قالب عندكم",
+     "عدد القوالب"
+    ],
+    "en": [
+     "how many templates",
+     "number of templates"
+    ],
+    "fi": [
+     "montako pohjaa"
+    ]
+   },
+   "answer": {
+    "ar": "هذه كل القوالب المتوفرة حاليًا:",
+    "en": "Here are all templates available now:",
+    "fi": "Kaikki saatavilla olevat pohjat:"
+   },
+   "plang": "*",
+   "_variants": [
+    "كم قالب عندكم",
+    "how many templates do you have"
+   ]
+  },
+  {
+   "id": "business-types",
+   "src": "hero.lead",
+   "q": "لمين القوالب",
+   "keywords": {
+    "ar": [
+     "لمين القوالب",
+     "مناسبه لمين",
+     "للمشاريع الصغيره",
+     "لمحلات"
+    ],
+    "en": [
+     "who are the templates for",
+     "small business"
+    ],
+    "fi": [
+     "kenelle"
+    ]
+   },
+   "answer": {
+    "ar": "القوالب مصممة لأصحاب المشاريع: المحلات والماركت والمطاعم والمشاريع الصغيرة — محاسبة، مخزون، فواتير، رواتب وضريبة.",
+    "en": "Built for business owners: shops, mini-markets, restaurants and small businesses — bookkeeping, stock, invoices, payroll and VAT.",
+    "fi": "Yrittäjille: kaupat, ravintolat ja pienyritykset."
+   },
+   "links": [
+    {
+     "t": {
+      "ar": "كل القوالب",
+      "en": "All templates",
+      "fi": "Kaikki pohjat"
+     },
+     "h": "index.html#products"
+    }
+   ],
+   "_variants": [
+    "القوالب مناسبة لمين",
+    "are the templates suitable for a small business"
+   ]
+  }
+ ]
+}
