@@ -282,3 +282,7 @@ p{margin:0 0 1em}
   .f-row2{grid-template-columns:1fr}
 }
 #custom.sec{padding-bottom:0}
+.nav a{white-space:nowrap}
+.top-in>*{flex-shrink:0}.top-in>.nav{flex-shrink:1;min-width:0}
+@media (min-width:1025px) and (max-width:1480px){.top-in{gap:12px}.nav{gap:2px}.nav a{font-size:14px;padding:7px 9px}}
+@media (min-width:1025px) and (max-width:1180px){.nav a{font-size:13px;padding:6px 6px}.brand{font-size:18px}}
