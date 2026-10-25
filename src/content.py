@@ -140,6 +140,7 @@ for p in PRODUCTS:
 REQ_TYPES = ["acc", "inv", "stock", "dash", "data", "other"]
 T.update({
  "nav.custom": dict(ar="اطلب قالب خاص", en="Custom template", fi="Oma mallipohja"),
+ "nav.shipops": dict(ar="نظام الشحن", en="Shipping system", fi="Lähetysjärjestelmä"),
  "nav.home": dict(ar="الرئيسية", en="Home", fi="Etusivu"),
  "req.meta.title": dict(ar="اطلب قالب Excel خاص | SadeekShop", en="Request a Custom Excel Template | SadeekShop", fi="Tilaa oma Excel-mallipohja | SadeekShop"),
  "req.meta.desc": dict(ar="قالب Excel مصمّم حسب احتياجك: محاسبة، فواتير، مخزون، لوحات متابعة، وإدخال البيانات وتنظيفها. أرسل طلبك واحصل على عرض سعر.",
