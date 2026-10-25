@@ -107,7 +107,20 @@
   function contactLinks(u){ return [{t:u.wa,h:waUrl(u),wa:1},
     {t:u.mail,h:"mailto:"+KB.contact.email+"?subject="+encodeURIComponent(u.subj)+(CURQ?"&body="+encodeURIComponent(u.pre+CURQ):"")}]; }
   function scrub(q){ return q.replace(/[^\s@]+@[^\s@]+/g,"[email]").replace(/\+?\d[\d\s().-]{5,}\d/g,"[number]").replace(/\s+/g," ").trim().slice(0,100); }
-  function logMiss(q){ try { var gc = window.goatcounter; if (gc && typeof gc.count === "function") gc.count({path:"faq-miss/"+scrub(q), title:"unanswered question", event:true}); } catch(e){} }
+  function logMiss(q){ // save the unanswered question to the owner's questions sheet (text only, no personal data)
+    try { var t = scrub(q); if (!KB.qurl || t.length < 3) return;
+      fetch(KB.qurl, {method:"POST", mode:"no-cors", credentials:"omit", headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify({q:t, lang:lang(), page:(location.pathname.split("/").pop()||"index.html")})}).catch(function(){}); } catch(e){} }
+  function sheetAnswers(){ // answers written in the questions sheet (also merged at build time)
+    if (!KB.qurl) return;
+    function use(items){ (items||[]).forEach(function(it){ if (!it || !it.q || !it.a) return; var kw = {}; kw[/^(ar|en|fi)$/.test(it.lang)?it.lang:"ar"] = [it.q].concat(it.kw||[]);
+      KB.learned = KB.learned || []; KB.learned.push({kw:kw, a:{ar:it.a,en:it.a,fi:it.a}, links:[]}); }); }
+    try { var c = sessionStorage.getItem("sa-sheet"); if (c) return use(JSON.parse(c)); } catch(e){}
+    if (!window.fetch) return;
+    var ctl = window.AbortController ? new AbortController() : null; if (ctl) setTimeout(function(){ ctl.abort(); }, 5000);
+    fetch(KB.qurl, {credentials:"omit", signal:ctl?ctl.signal:undefined}).then(function(r){ return r.json(); }).then(function(j){
+      var items = (j && j.items) || []; try { sessionStorage.setItem("sa-sheet", JSON.stringify(items)); } catch(e){} use(items); }).catch(function(){});
+  }
   function learned(qt,n,l){
     var best=null, bs=0;
     (KB.learned||[]).forEach(function(e){ var s=0;
@@ -188,7 +201,7 @@
     chips.innerHTML = ""; u.chips.forEach(function(c){ var b = document.createElement("button"); b.type = "button"; b.textContent = c; b.addEventListener("click", function(){ ask(c); }); chips.appendChild(b); });
   }
   function load(cb){ if (KB) return cb();
-    fetch(base + "assistant-kb.json", {credentials:"omit"}).then(function(r){ return r.json(); }).then(function(j){ KB = j; cb(); })
+    fetch(base + "assistant-kb.json", {credentials:"omit"}).then(function(r){ return r.json(); }).then(function(j){ KB = j; sheetAnswers(); cb(); })
       .catch(function(){ KB = {products:[],faq:[],cats:{},contact:{whatsapp:"https://wa.me/358402550588",email:"sadeekkasem@gmail.com"},stores:{},custom:{}}; cb(); }); }
   function ask(q){ q = String(q).trim().slice(0,300); if (!q) return; add("me", q);
     load(function(){ var a = answer(q) || {text:U[lang()].unknown, links:contactLinks(U[lang()]), miss:true}; if (a.miss) logMiss(q); setTimeout(function(){ add("it", a.text, a.links); }, 150); }); }

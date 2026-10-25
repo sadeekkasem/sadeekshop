@@ -1,6 +1,6 @@
 {
  "_readme": [
-  "Extra answers for the SadeekShop help widget, usually from questions it could not answer (see GoatCounter events under faq-miss/).",
+  "Extra answers for the SadeekShop help widget, for fixed answers in 3 languages. Day-to-day answers go in the Google Sheet \"SadeekShop - أسئلة الزبائن\" (column F), which the widget and the build read automatically.",
   "Add entries with: python src/tools/add_learned.py  (or edit by hand). Merged into assets/assistant-kb.json at build time.",
   "keywords: words or short questions per language that should trigger the answer. answer: the reply per language (ar, en, fi).",
   "links: optional buttons [{\"t\": {\"ar\":..,\"en\":..,\"fi\":..}, \"h\": \"https://...\"}]. Never put passwords or private data here: this file is public.",

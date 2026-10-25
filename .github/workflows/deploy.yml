@@ -1,4 +1,4 @@
-# Builds the site from src/ and publishes it to GitHub Pages on every change to main.
+# Builds the site from src/ and publishes it to GitHub Pages on every change to main, and once a day.
 # If the build finds a mistake it stops with a clear message and the live site stays as it is.
 name: Build and publish site
 
@@ -6,6 +6,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"   # daily rebuild so new answers from the questions sheet are built into the site
 
 permissions:
   contents: read

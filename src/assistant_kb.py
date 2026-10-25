@@ -6,6 +6,8 @@ public FAQ text). Nothing secret is ever read, and the output is scanned before 
 import json, os, re, glob, html
 
 WHATSAPP = "https://wa.me/358402550588"
+# Google Sheet "SadeekShop - أسئلة الزبائن" web app: POST = save an unanswered question, GET = answered rows only.
+QUESTIONS_URL = "https://script.google.com/macros/s/AKfycbxMZXB-2sbMleIstdHsEfI4Dg95wlTbVvpGoNUMB4hMVvRJIfjDK8kiilXR99q4_Juv/exec"
 SKIP_PAGES = {"admin.html", "shipops.html"}  # admin tool and the full-screen app iframe
 
 def _text(s):
@@ -29,6 +31,26 @@ def _shipops(out):
     feats = [_text(h) for h in re.findall(r'<ul class="fgrid">(.*?)</ul>', raw, re.S)[0:1] for h in re.findall(r"<h3>(.*?)</h3>", h)] if 'class="fgrid"' in raw else []
     return {"url": "shipops-sales.html", "title": title, "desc": desc, "plans": plans,
             "pay": _text(pay.group(1)) if pay else "", "features": feats}
+
+def _sheet_answers():
+    """Answers sadeek wrote in the questions sheet. Fail-safe: offline or error -> []."""
+    import urllib.request
+    try:
+        with urllib.request.urlopen(QUESTIONS_URL, timeout=15) as r:
+            items = json.loads(r.read().decode("utf-8")).get("items", [])
+    except Exception as ex:
+        print("questions sheet not reachable, building without it:", type(ex).__name__)
+        return []
+    res = []
+    for it in items if isinstance(items, list) else []:
+        q, a = str(it.get("q", ""))[:200].strip(), str(it.get("a", ""))[:2000].strip()
+        if not q or not a:
+            continue
+        kw = [q] + [str(k)[:80] for k in it.get("kw", []) if str(k).strip()][:20]
+        lang = it.get("lang") if it.get("lang") in ("ar", "en", "fi") else "ar"
+        res.append({"kw": {lang: kw}, "a": {"ar": a, "en": a, "fi": a}, "links": []})
+    print("questions sheet answers:", len(res))
+    return res
 
 def _learned():
     """Answers added from forwarded questions (src/assistant-learned.json). Keys starting with _ are skipped."""
@@ -95,7 +117,8 @@ def build(out, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP):
         "custom": {"url": "custom-template.html", "title": T.get("req.title"), "lead": T.get("req.lead"),
                    "reply": T.get("req.how.2d")},
         "shipops": _shipops(out),
-        "learned": _learned(),
+        "learned": _learned() + _sheet_answers(),
+        "qurl": QUESTIONS_URL,
     }
     data = json.dumps(kb, ensure_ascii=False, separators=(",", ":"))
     os.makedirs(os.path.join(out, "assets"), exist_ok=True)
