@@ -30,6 +30,25 @@ def _shipops(out):
     return {"url": "shipops-sales.html", "title": title, "desc": desc, "plans": plans,
             "pay": _text(pay.group(1)) if pay else "", "features": feats}
 
+def _learned():
+    """Answers added from forwarded questions (src/assistant-learned.json). Keys starting with _ are skipped."""
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assistant-learned.json")
+    if not os.path.exists(f):
+        return []
+    try:
+        doc = json.load(open(f, encoding="utf-8"))
+    except json.JSONDecodeError as ex:
+        raise SystemExit(f"src/assistant-learned.json: JSON error at line {ex.lineno}, column {ex.colno}")
+    res = []
+    for i, en in enumerate(doc.get("entries", []), 1):
+        kw = {l: [k for k in en.get("keywords", {}).get(l, []) if isinstance(k, str) and k.strip()] for l in ("ar", "en", "fi")}
+        ans = en.get("answer", {})
+        if not any(kw.values()) or not all(isinstance(ans.get(l), str) and ans[l].strip() for l in ("ar", "en", "fi")):
+            raise SystemExit(f"src/assistant-learned.json entry {i}: needs keywords and an answer in ar, en and fi")
+        links = [{"t": l["t"], "h": l["h"]} for l in en.get("links", []) if isinstance(l, dict) and l.get("h")]
+        res.append({"kw": kw, "a": {l: ans[l] for l in ("ar", "en", "fi")}, "links": links})
+    return res
+
 SECRET_PATTERNS = [r"AKIA[0-9A-Z]{16}", r"\bsk-[A-Za-z0-9]{20,}", r"\bghp_[A-Za-z0-9]{20,}", r"AIza[0-9A-Za-z_\-]{30,}",
                    r"(?i)\b(pass(word)?|كلمة السر|كلمة المرور)\s*[:=]\s*\S+"]
 
@@ -76,6 +95,7 @@ def build(out, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP):
         "custom": {"url": "custom-template.html", "title": T.get("req.title"), "lead": T.get("req.lead"),
                    "reply": T.get("req.how.2d")},
         "shipops": _shipops(out),
+        "learned": _learned(),
     }
     data = json.dumps(kb, ensure_ascii=False, separators=(",", ":"))
     os.makedirs(os.path.join(out, "assets"), exist_ok=True)

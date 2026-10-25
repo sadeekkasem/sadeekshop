@@ -1,0 +1,23 @@
+{
+ "_readme": [
+  "Extra answers for the SadeekShop help widget, usually from questions it could not answer (see GoatCounter events under faq-miss/).",
+  "Add entries with: python src/tools/add_learned.py  (or edit by hand). Merged into assets/assistant-kb.json at build time.",
+  "keywords: words or short questions per language that should trigger the answer. answer: the reply per language (ar, en, fi).",
+  "links: optional buttons [{\"t\": {\"ar\":..,\"en\":..,\"fi\":..}, \"h\": \"https://...\"}]. Never put passwords or private data here: this file is public.",
+  "Keys starting with _ are ignored and never shown to visitors."
+ ],
+ "_example": {
+  "keywords": {"ar": ["مثال سؤال"], "en": ["example question"], "fi": ["esimerkki"]},
+  "answer": {"ar": "الجواب", "en": "The answer", "fi": "Vastaus"},
+  "links": [{"t": {"ar": "التفاصيل", "en": "Details", "fi": "Lisätiedot"}, "h": "custom-template.html"}]
+ },
+ "entries": [
+  {
+   "keywords": {"ar": ["اكثر من فرع", "فروع", "عدة فروع", "فرعين"], "en": ["more than one branch", "branches", "several offices", "multiple branches"], "fi": ["useita toimipisteitä", "toimipisteet", "monta toimistoa"]},
+   "answer": {"ar": "ShipOps: عندك أكثر من فرع؟ تواصل معنا على واتساب أو الإيميل ونرتب لك العرض المناسب. السعر للمكتب الواحد 15$ شهريًا أو 150$ سنويًا.",
+              "en": "ShipOps: have more than one branch? Contact us on WhatsApp or by email and we'll arrange the right offer. The price per office is $15/month or $150/year.",
+              "fi": "ShipOps: onko teillä useampi toimipiste? Ota yhteyttä WhatsAppissa tai sähköpostilla, niin sovitaan sopiva tarjous. Hinta toimistoa kohden on 15 $/kk tai 150 $/vuosi."},
+   "links": [{"t": {"ar": "تفاصيل ShipOps", "en": "ShipOps details", "fi": "ShipOps-tiedot"}, "h": "shipops-sales.html"}]
+  }
+ ]
+}

@@ -10,6 +10,7 @@
       chips:["ما القوالب المتوفرة؟","كيف أدفع وأستلم الملف؟","ShipOps","قالب خاص","الحاسبة المجانية","تواصل"],
       unknown:"لا أملك إجابة مؤكدة على هذا السؤال، ولا أريد أن أخمّن. راسلنا على واتساب أو بالإيميل وسنرد عليك.",
       pwq:"كلمة السر (إن وُجدت) تصلك مع الملف بعد الشراء، ضمن ملف التعليمات. إذا فقدتها تواصل معنا على واتساب مع رقم الطلب ونساعدك.",
+      pre:"مرحبا، سؤالي: ",subj:"سؤال من موقع SadeekShop",
       contact:"تقدر تتواصل معنا مباشرة:",wa:"واتساب",mail:"إيميل",
       list:"القوالب المتوفرة حاليًا ({n}):",listEnd:"اكتب اسم القالب أو كلمة منه (مثل فواتير، مخزون، رواتب) لتحصل على السعر ورابط الشراء.",
       price:"السعر",buy:"اشترِ من",langs:"لغات الملف",found:"وجدت هذه القوالب:",
@@ -25,6 +26,7 @@
       chips:["Which templates do you have?","How do I pay and get the file?","ShipOps","Custom template","Free calculator","Contact"],
       unknown:"I don't have a confirmed answer to that and won't guess. Please message us on WhatsApp or by email and we'll get back to you.",
       pwq:"The password (if a file has one) comes with the file after purchase, in the instructions. If you lost it, message us on WhatsApp with your order number and we'll help.",
+      pre:"Hi, my question: ",subj:"Question from the SadeekShop website",
       contact:"You can reach us directly:",wa:"WhatsApp",mail:"Email",
       list:"Templates available now ({n}):",listEnd:"Type a template name or a word from it (e.g. invoice, stock, payroll) to get the price and buy link.",
       price:"Price",buy:"Buy on",langs:"File languages",found:"I found these templates:",
@@ -40,6 +42,7 @@
       chips:["Mitä pohjia on?","Miten maksan ja saan tiedoston?","ShipOps","Oma pohja","Ilmainen laskuri","Yhteys"],
       unknown:"Minulla ei ole varmaa vastausta tähän, enkä arvaa. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vastaamme.",
       pwq:"Salasana (jos tiedostossa on) tulee tiedoston mukana oston jälkeen ohjeissa. Jos se on hukassa, lähetä WhatsApp-viesti tilausnumerolla.",
+      pre:"Hei, kysymykseni: ",subj:"Kysymys SadeekShop-sivustolta",
       contact:"Ota yhteyttä suoraan:",wa:"WhatsApp",mail:"Sähköposti",
       list:"Saatavilla olevat pohjat ({n}):",listEnd:"Kirjoita pohjan nimi tai sana siitä (esim. lasku, varasto, palkka) saadaksesi hinnan ja ostolinkin.",
       price:"Hinta",buy:"Osta",langs:"Tiedoston kielet",found:"Löysin nämä pohjat:",
@@ -66,8 +69,8 @@
   function toks(s){ return norm(s).split(" ").filter(function(w){ return w.length > 1; }).map(stemAr); }
   function lev(a,b){ if (Math.abs(a.length-b.length) > 2) return 9; var p=[],i,j; for(j=0;j<=b.length;j++)p[j]=j;
     for(i=1;i<=a.length;i++){var c=[i];for(j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c;} return p[b.length]; }
-  function close(w,k){ if (w===k) return 1; if (k.length>=4 && w.indexOf(k)===0) return .9; if (w.length>=5 && k.indexOf(w)===0) return .6;
-    var d = lev(w,k); return (k.length>=5 && d<=1) || (k.length>=8 && d<=2) ? .8 : 0; }
+  function close(w,k){ if (w===k) return 1; if (k.length>=4 && w.indexOf(k)===0) return .9; var pre = (w.length>=5 && k.indexOf(w)===0) ? .6 : 0;
+    var d = lev(w,k); return (k.length>=5 && d<=1) || (k.length>=8 && d<=2) ? .8 : pre; }
   // intent keywords (stems; typo-tolerant via close())
   var KW = {
     pwq:["كلمه","سر","باسورد","باسوورد","مرور","رمز","قفل","مقفل","password","passcode","pass","pwd","locked","unlock","salasana","lukittu"],
@@ -99,7 +102,24 @@
   var PLAN = {en:{"شهري":"monthly","سنوي":"yearly"}, fi:{"شهري":"kuukausi","سنوي":"vuosi"}};
   function money(p,l){ return l==="en" ? "€"+p : p+" €"; }
   function links(arr){ return arr; }
-  function contactLinks(u){ return [{t:u.wa,h:KB.contact.whatsapp,wa:1},{t:u.mail,h:"mailto:"+KB.contact.email}]; }
+  var CURQ = "";
+  function waUrl(u){ return KB.contact.whatsapp + (CURQ ? "?text=" + encodeURIComponent(u.pre + CURQ) : ""); }
+  function contactLinks(u){ return [{t:u.wa,h:waUrl(u),wa:1},
+    {t:u.mail,h:"mailto:"+KB.contact.email+"?subject="+encodeURIComponent(u.subj)+(CURQ?"&body="+encodeURIComponent(u.pre+CURQ):"")}]; }
+  function scrub(q){ return q.replace(/[^\s@]+@[^\s@]+/g,"[email]").replace(/\+?\d[\d\s().-]{5,}\d/g,"[number]").replace(/\s+/g," ").trim().slice(0,100); }
+  function logMiss(q){ try { var gc = window.goatcounter; if (gc && typeof gc.count === "function") gc.count({path:"faq-miss/"+scrub(q), title:"unanswered question", event:true}); } catch(e){} }
+  function learned(qt,n,l){
+    var best=null, bs=0;
+    (KB.learned||[]).forEach(function(e){ var s=0;
+      ["ar","en","fi"].forEach(function(x){ (e.kw[x]||[]).forEach(function(k){
+        var kn = norm(k); if (kn && (" "+n+" ").indexOf(" "+kn+" ") >= 0) { s = Math.max(s, 2 + kn.split(" ").length); return; }
+        var kt = toks(k).filter(function(w){ return !STOP[w]; }); if (!kt.length) return;
+        var m = 0; kt.forEach(function(w){ var b=0; qt.forEach(function(v){ var c=close(v,w); if(c>b)b=c; }); m+=b; });
+        if (m/kt.length >= .8) s = Math.max(s, m); }); });
+      if (s > bs) { bs = s; best = e; } });
+    if (!best || bs < 1) return null;
+    return {text:best.a[l], links:best.links.map(function(k){ return {t:typeof k.t==="string"?k.t:(k.t[l]||k.t.en), h:k.h}; })};
+  }
   function prodText(p,l,u){
     var langs = p.langs.map(function(x){ return u.L[x]; }).join("، ".charAt(l==="ar"?0:1) === "،" ? "، " : ", ");
     return {text:"• "+p.name[l]+"\n"+u.price+": "+money(p.price,l)+"  ·  "+u.langs+": "+langs+"\n"+p.desc[l],
@@ -110,10 +130,11 @@
     return {text:u.list.replace("{n}",KB.products.length)+"\n"+lst+"\n\n"+u.listEnd, links:[{t:"Payhip",h:KB.stores.payhip},{t:"Etsy",h:KB.stores.etsy},{t:"SIKKA",h:KB.stores.sikka}]};
   }
   function answer(q){
-    var l = lang(), u = U[l], qt = toks(q), n = norm(q);
+    var l = lang(), u = U[l], qt = toks(q), n = norm(q); CURQ = String(q).trim().slice(0,300);
     if (!qt.length) return null;
     var S = {}; Object.keys(KW).forEach(function(k){ S[k] = score(qt, KW[k]); });
     if (S.pwq >= .8 && /سر|باسو|مرور|رمز|قفل|pass|pwd|lock|salasana|lukit/.test(n)) return {text:u.pwq, links:contactLinks(u)};
+    var lr = learned(qt,n,l); if (lr) return lr;
     var pm = productMatches(qt.concat(qt.slice(1).map(function(w,i){ return qt[i]+w; }).filter(function(w){ return w.length>=8; })));
     if (S.ship >= .8 && (/shipops|شيب/.test(n) || S.ship >= 1.6)) {
       var s = KB.shipops; if (!s) return {text:u.unknown, links:contactLinks(u)};
@@ -138,7 +159,7 @@
     if (S.list >= .8 || S.price >= .8) return listAns(l,u);
     if (S.thanks >= .8) return {text:u.thanks, links:[]};
     if (S.hi >= .8 && qt.length <= 3) return {text:u.hi, links:[]};
-    return {text:u.unknown, links:contactLinks(u)};
+    return {text:u.unknown, links:contactLinks(u), miss:true};
   }
   // ---- UI ----
   var ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9.5 10a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1V14M12 17h.01"/></svg>';
@@ -170,7 +191,7 @@
     fetch(base + "assistant-kb.json", {credentials:"omit"}).then(function(r){ return r.json(); }).then(function(j){ KB = j; cb(); })
       .catch(function(){ KB = {products:[],faq:[],cats:{},contact:{whatsapp:"https://wa.me/358402550588",email:"sadeekkasem@gmail.com"},stores:{},custom:{}}; cb(); }); }
   function ask(q){ q = String(q).trim().slice(0,300); if (!q) return; add("me", q);
-    load(function(){ var a = answer(q) || {text:U[lang()].unknown, links:contactLinks(U[lang()])}; setTimeout(function(){ add("it", a.text, a.links); }, 150); }); }
+    load(function(){ var a = answer(q) || {text:U[lang()].unknown, links:contactLinks(U[lang()]), miss:true}; if (a.miss) logMiss(q); setTimeout(function(){ add("it", a.text, a.links); }, 150); }); }
   function open(){ panel.hidden = false; btn.setAttribute("aria-expanded","true");
     if (!started) { started = true; add("it", U[lang()].hi); load(function(){}); }
     setTimeout(function(){ input.focus({preventScroll:true}); }, 30); }
@@ -179,5 +200,5 @@
   panel.addEventListener("keydown", function(e){ if (e.key === "Escape") shut(); });
   panel.querySelector("form").addEventListener("submit", function(e){ e.preventDefault(); var q = input.value; input.value = ""; ask(q); });
   document.addEventListener("langchange", labels); labels();
-  window.SadeekHelp = {answer:function(q){ return answer(q); }, load:load}; // used by the local test page only
+  window.SadeekHelp = {answer:function(q){ return answer(q); }, load:load, scrub:function(q){ return scrub(q); }}; // used by the local test page only
 })();
