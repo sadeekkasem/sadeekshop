@@ -450,3 +450,7 @@ req_doc = f'''<!doctype html>
 '''
 open(f"{OUT}/custom-template.html", "w", encoding="utf-8").write(req_doc)
 print("written custom-template.html", len(req_doc))
+
+# ---------- SadeekShop help widget: knowledge file built from the content above ----------
+import assistant_kb
+assistant_kb.build(OUT, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP)

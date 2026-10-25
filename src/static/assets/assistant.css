@@ -1,0 +1,31 @@
+/* SadeekShop help widget */
+.sa-btn{position:fixed;z-index:60;bottom:calc(18px + env(safe-area-inset-bottom));inset-inline-end:18px;display:inline-flex;align-items:center;gap:8px;font:inherit;font-family:var(--f);font-weight:800;font-size:15px;background:var(--g7);color:#fff;border:2px solid var(--y);border-radius:999px;padding:10px 16px 10px 14px;box-shadow:var(--sh2);cursor:pointer}
+.sa-btn:hover{background:var(--g6)}
+.sa-btn svg{width:22px;height:22px;flex:none}
+.sa-btn[aria-expanded=true]{display:none}
+.sa-panel{position:fixed;z-index:61;bottom:calc(18px + env(safe-area-inset-bottom));inset-inline-end:18px;width:min(380px,calc(100vw - 24px));height:min(560px,calc(100vh - 110px));display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh2);overflow:hidden;font-family:var(--f);color:var(--ink)}
+.sa-panel[hidden]{display:none}
+.sa-head{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--g9),var(--g6));color:#fff;padding:12px 14px}
+.sa-head img{width:30px;height:30px;border-radius:8px;background:#fff}
+.sa-head b{display:block;font-size:16px;line-height:1.2}.sa-head small{opacity:.85;font-size:12.5px}
+.sa-x{margin-inline-start:auto;background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:10px;width:34px;height:34px;cursor:pointer;font:inherit;font-size:20px;line-height:1}
+.sa-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;background:var(--g0)}
+.sa-m{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14.5px;line-height:1.55;white-space:pre-line;overflow-wrap:anywhere}
+.sa-m.me{align-self:flex-end;background:var(--g7);color:#fff;border-end-end-radius:4px}
+.sa-m.it{align-self:flex-start;background:#fff;border:1px solid var(--line);border-end-start-radius:4px}
+.sa-m a{color:var(--g6);font-weight:700}
+.sa-m .sa-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sa-m .sa-links a{background:var(--y);color:var(--ink);text-decoration:none;border-radius:9px;padding:3px 10px;font-size:13.5px}
+.sa-m .sa-links a.wa{background:#25d366;color:#fff}
+.sa-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 12px 0;background:#fff;scrollbar-width:none}
+.sa-chips button{flex:none;font:inherit;font-size:13px;font-weight:700;background:var(--g1);color:var(--g8);border:1px solid #cfe7d9;border-radius:999px;padding:4px 11px;cursor:pointer}
+.sa-form{display:flex;gap:8px;padding:10px 12px 12px;background:#fff}
+.sa-form input{flex:1;min-width:0;font:inherit;font-size:16px;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px}
+.sa-form input:focus{border-color:var(--g5);outline:none}
+.sa-form button{font:inherit;font-weight:800;background:var(--y);color:var(--ink);border:0;border-radius:12px;padding:0 16px;cursor:pointer}
+@media (max-width:640px){
+  .sa-btn{bottom:calc(14px + env(safe-area-inset-bottom));inset-inline-end:14px;padding:12px;font-size:0;gap:0}
+  .sa-btn span{display:none}
+  .sa-panel{inset:auto 0 0 0;width:100%;height:min(82vh,620px);border-radius:var(--r) var(--r) 0 0}
+}
+@media print{.sa-btn,.sa-panel{display:none!important}}
