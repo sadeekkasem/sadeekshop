@@ -705,9 +705,9 @@
     ]
    },
    "answer": {
-    "ar": "الدفع يتم بأمان عبر منصات Payhip أو Etsy (أو سكة)، ولا تُدخل بيانات الدفع في موقعنا نفسه.",
-    "en": "Payment is made securely through Payhip or Etsy (or SIKKA); you don't enter payment details on our own site.",
-    "fi": "Maksu tehdään turvallisesti Payhipissä tai Etsyssä (tai SIKKAssa), ei omalla sivustollamme."
+    "ar": "الدفع يتم بأمان عبر منصات Payhip أو Etsy (أو سكة).",
+    "en": "Payment is made securely through Payhip or Etsy (or SIKKA).",
+    "fi": "Maksu tehdään turvallisesti Payhipissä tai Etsyssä (tai SIKKAssa)."
    },
    "links": [
     {
@@ -1008,9 +1008,9 @@
     ]
    },
    "answer": {
-    "ar": "في Payhip يظهر رابط التحميل مباشرة بعد الدفع ويُرسل للبريد أيضًا (تفقد مجلد الرسائل غير المرغوبة). في Etsy الملفات في صفحة مشترياتك.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
-    "en": "On Payhip the link appears right after payment and is also emailed (check spam). On Etsy the files are in your Purchases page.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
-    "fi": "Payhipissä linkki näkyy heti ja tulee sähköpostiin (tarkista roskaposti). Etsyssä Ostokset-sivulla.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+    "ar": "في Payhip يظهر رابط التحميل مباشرة بعد الدفع ويُرسل للبريد أيضًا. في Etsy الملفات في صفحة مشترياتك.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "en": "On Payhip the link appears right after payment and is also emailed. On Etsy the files are in your Purchases page.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
+    "fi": "Payhipissä linkki näkyy heti ja tulee sähköpostiin. Etsyssä Ostokset-sivulla.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
    },
    "handoff": true,
    "_variants": [
@@ -1043,7 +1043,7 @@
     ]
    },
    "answer": {
-    "ar": "القوالب مصممة لبرنامج Microsoft Excel على الكمبيوتر. \nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
+    "ar": "القوالب مصممة لبرنامج Microsoft Excel على الكمبيوتر.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
     "en": "The templates are made for Microsoft Excel on a computer.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
     "fi": "Pohjat on tehty Microsoft Excelille tietokoneella.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
    },
@@ -1811,9 +1811,9 @@
     ]
    },
    "answer": {
-    "ar": "كل قالب يوضح لغاته على بطاقته. بعض القوالب بثلاث لغات (عربي وإنجليزي وفنلندي)، وأغلب الباقي بالعربية والإنجليزية. النسخ العربية من اليمين إلى اليسار.",
-    "en": "Each card lists its languages. Some templates come in all three (Arabic, English, Finnish); most others in Arabic and English. Arabic editions run right-to-left.",
-    "fi": "Jokaisen pohjan kielet näkyvät kortissa. Osa on kolmella kielellä, useimmat arabiaksi ja englanniksi."
+    "ar": "كل قالب يوضح لغاته على بطاقته. بعض القوالب بثلاث لغات (عربي وإنجليزي وفنلندي). النسخ العربية من اليمين إلى اليسار.",
+    "en": "Each card lists its languages. Some templates come in all three (Arabic, English, Finnish). Arabic editions run right-to-left.",
+    "fi": "Jokaisen pohjan kielet näkyvät kortissa. Osa on kolmella kielellä."
    },
    "_variants": [
     "القوالب بأي لغات",
@@ -2782,9 +2782,9 @@
     ]
    },
    "answer": {
-    "ar": "القوالب مقسمة حسب النوع: محاسبة وضريبة، مخزون ومبيعات، تسعير ومطاعم، رواتب، وميزانية الأسرة. اكتب لي نوع نشاطك (مثل مطعم، مخزن، عقارات) لأعرض لك القوالب المناسبة.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
-    "en": "Templates are grouped as Accounting & VAT, Stock & sales, Pricing & restaurants, Payroll and Home budget. Tell me your type of business (e.g. restaurant, warehouse, rentals) and I'll show matching templates.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
-    "fi": "Pohjat: kirjanpito ja ALV, varasto ja myynti, hinnoittelu ja ravintolat, palkat, kotitalous. Kerro toimialasi.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+    "ar": "القوالب مقسمة حسب النوع: محاسبة وضريبة، مخزون ومبيعات، تسعير ومطاعم، رواتب، وميزانية الأسرة. اكتب لي نوع نشاطك (مثل مطعم، مخزن، عقارات) لأعرض لك القوالب المناسبة.",
+    "en": "Templates are grouped as Accounting & VAT, Stock & sales, Pricing & restaurants, Payroll and Home budget. Tell me your type of business (e.g. restaurant, warehouse, rentals) and I'll show matching templates.",
+    "fi": "Pohjat: kirjanpito ja ALV, varasto ja myynti, hinnoittelu ja ravintolat, palkat, kotitalous. Kerro toimialasi."
    },
    "links": [
     {
@@ -2796,11 +2796,11 @@
      "h": "index.html#products"
     }
    ],
-   "handoff": true,
    "_variants": [
     "شو القالب اللي بيناسب شغلي",
     "which template should I choose"
-   ]
+   ],
+   "contact": true
   },
   {
    "id": "new-templates",
@@ -4050,15 +4050,15 @@
     ]
    },
    "answer": {
-    "ar": "تقدر تتواصل معنا مباشرة على واتساب ‎+358 40 255 0588 أو بالإيميل sadeekkasem@gmail.com.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
-    "en": "You can reach us on WhatsApp +358 40 255 0588 or by email at sadeekkasem@gmail.com.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
-    "fi": "WhatsApp +358 40 255 0588 tai sähköposti sadeekkasem@gmail.com.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+    "ar": "تقدر تتواصل معنا مباشرة على واتساب ‎+358 40 255 0588 أو بالإيميل sadeekkasem@gmail.com.",
+    "en": "You can reach us on WhatsApp +358 40 255 0588 or by email at sadeekkasem@gmail.com.",
+    "fi": "WhatsApp +358 40 255 0588 tai sähköposti sadeekkasem@gmail.com."
    },
-   "handoff": true,
    "_variants": [
     "شو رقم الواتس",
     "how can I contact you"
-   ]
+   ],
+   "contact": true
   },
   {
    "id": "email",
@@ -4082,15 +4082,15 @@
     ]
    },
    "answer": {
-    "ar": "الإيميل: sadeekkasem@gmail.com\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
-    "en": "Email: sadeekkasem@gmail.com\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
-    "fi": "Sähköposti: sadeekkasem@gmail.com\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+    "ar": "الإيميل: sadeekkasem@gmail.com",
+    "en": "Email: sadeekkasem@gmail.com",
+    "fi": "Sähköposti: sadeekkasem@gmail.com"
    },
-   "handoff": true,
    "_variants": [
     "شو ايميلكم",
     "what is your email"
-   ]
+   ],
+   "contact": true
   },
   {
    "id": "about",
@@ -4196,15 +4196,15 @@
     ]
    },
    "answer": {
-    "ar": "نرد عليك في أقرب وقت. لطلبات القوالب الخاصة نرد بعرض سعر خلال 24 إلى 48 ساعة.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
-    "en": "We get back to you as soon as we can. For custom template requests we reply with a quote within 24–48 hours.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
-    "fi": "Vastaamme mahdollisimman pian; omiin pohjiin tarjous 24–48 tunnissa.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+    "ar": "نرد عليك في أقرب وقت. لطلبات القوالب الخاصة نرد بعرض سعر خلال 24 إلى 48 ساعة.",
+    "en": "We get back to you as soon as we can. For custom template requests we reply with a quote within 24–48 hours.",
+    "fi": "Vastaamme mahdollisimman pian; omiin pohjiin tarjous 24–48 tunnissa."
    },
-   "handoff": true,
    "_variants": [
     "امتى بتردوا عالرسائل",
     "how fast do you reply"
-   ]
+   ],
+   "contact": true
   },
   {
    "id": "support-help",
@@ -4229,9 +4229,9 @@
     ]
    },
    "answer": {
-    "ar": "إذا لم يعمل شيء كما يجب، راسلنا ونساعدك.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
-    "en": "If something doesn't work, message us and we'll help.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
-    "fi": "Jos jokin ei toimi, ota yhteyttä, niin autamme.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+    "ar": "إذا لم يعمل شيء كما يجب، راسلنا ونساعدك.",
+    "en": "If something doesn't work, message us and we'll help.",
+    "fi": "Jos jokin ei toimi, ota yhteyttä, niin autamme."
    },
    "links": [
     {
@@ -4243,11 +4243,11 @@
      "h": "https://www.youtube.com/@SadeekShopExcel"
     }
    ],
-   "handoff": true,
    "_variants": [
     "عندي مشكلة بالقالب",
     "I need help with my template"
-   ]
+   ],
+   "contact": true
   },
   {
    "id": "greet",
@@ -4375,15 +4375,15 @@
     ]
    },
    "answer": {
-    "ar": "أكيد، تقدر تحكي معنا مباشرة على واتساب أو بالإيميل.\nما عندي معلومة مؤكدة عن هذا على الموقع، وما بدي أعطيك جواب غير دقيق. راسلنا على واتساب أو الإيميل ونأكد لك.",
-    "en": "Sure, you can talk to us directly on WhatsApp or by email.\nThe website doesn't state this, and I don't want to give you an unconfirmed answer. Message us on WhatsApp or by email and we'll confirm.",
-    "fi": "Toki, ota yhteyttä suoraan WhatsAppissa tai sähköpostilla.\nSivustolla ei kerrota tätä, enkä halua antaa vahvistamatonta vastausta. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vahvistamme."
+    "ar": "أكيد، تقدر تحكي معنا مباشرة على واتساب أو بالإيميل.",
+    "en": "Sure, you can talk to us directly on WhatsApp or by email.",
+    "fi": "Toki, ota yhteyttä suoraan WhatsAppissa tai sähköpostilla."
    },
-   "handoff": true,
    "_variants": [
     "بدي احكي مع حدا حقيقي",
     "can I talk to a real person"
-   ]
+   ],
+   "contact": true
   },
   {
    "id": "templates-count",
