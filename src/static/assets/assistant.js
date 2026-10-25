@@ -121,17 +121,33 @@
     fetch(KB.qurl, {credentials:"omit", signal:ctl?ctl.signal:undefined}).then(function(r){ return r.json(); }).then(function(j){
       var items = (j && j.items) || []; try { sessionStorage.setItem("sa-sheet", JSON.stringify(items)); } catch(e){} use(items); }).catch(function(){});
   }
+  var LSTOP = {"ال":1,"the":1,"for":1,"and":1,"of":1,"a":1,"قالب":1,"قوالب":1,"template":1,"templates":1,"excel":1,"اكسل":1,"pohja":1,"بدي":1,"بدنا":1,"ابغى":1,"عايز":1,"شو":1,"ايش":1,"هل":1,"في":1,"عندكم":1,"ممكن":1,"بقدر":1,"اقدر":1,"انا":1,"عندي":1,"يا":1,"لو":1,"مع":1,"على":1,"عن":1,"من":1,"الى":1,"او":1,"و":1,"can":1,"i":1,"do":1,"does":1,"my":1,"it":1,"to":1,"is":1,"are":1,"you":1,"your":1,"me":1,"there":1,"any":1,"an":1,"in":1,"on":1,"with":1};
+  function sig(w){ return !LSTOP[w] && w.length > 1; }
+  function kwScore(q2,k){
+    var kt = toks(k).filter(sig); if (!kt.length) kt = toks(k); if (!kt.length) return 0;
+    var m = 0; kt.forEach(function(w){ var b=0; q2.forEach(function(v){ var c=close(v,w); if(c>b)b=c; }); if (b >= .8) m += b; });
+    return m/kt.length >= .79 ? m + kt.length*.5 : 0;
+  }
+  function kwBest(q2,list){ var top=0, hits=0; (list||[]).forEach(function(k){ var sc=kwScore(q2,k); if (sc) { hits++; if (sc>top) top=sc; } }); return [top,hits]; }
   function learned(qt,n,l){
-    var best=null, bs=0;
-    (KB.learned||[]).forEach(function(e){ var s=0;
-      ["ar","en","fi"].forEach(function(x){ (e.kw[x]||[]).forEach(function(k){
-        var kn = norm(k); if (kn && (" "+n+" ").indexOf(" "+kn+" ") >= 0) { s = Math.max(s, 2 + kn.split(" ").length); return; }
-        var kt = toks(k).filter(function(w){ return !STOP[w]; }); if (!kt.length) return;
-        var m = 0; kt.forEach(function(w){ var b=0; qt.forEach(function(v){ var c=close(v,w); if(c>b)b=c; }); m+=b; });
-        if (m/kt.length >= .8) s = Math.max(s, m); }); });
+    var q2 = qt.filter(sig), best=null, bs=0;
+    if (!q2.length) q2 = qt;
+    (KB.learned||[]).forEach(function(e){
+      var c = 0; if (e.ctx) { c = kwBest(q2, e.ctx)[0]; if (!c) return; }   // ctx: topic words the question must also mention
+      var r = kwBest(q2, [].concat(e.kw.ar||[], e.kw.en||[], e.kw.fi||[]));
+      var s = r[0] ? r[0] + Math.min(r[1]-1, 4)*.25 + c + (e.id ? 0 : 1) : 0;   // answers typed in the questions sheet (no id) win ties
       if (s > bs) { bs = s; best = e; } });
-    if (!best || bs < 1) return null;
-    return {text:best.a[l], links:best.links.map(function(k){ return {t:typeof k.t==="string"?k.t:(k.t[l]||k.t.en), h:k.h}; })};
+    if (!best || bs < 1.4) return null;
+    var u = U[l], text = best.a[l], lk = best.links.map(function(k){ return {t:typeof k.t==="string"?k.t:(k.t[l]||k.t.en), h:k.h}; });
+    var ps = [];
+    if (best.pids) ps = KB.products.filter(function(p){ return best.pids.some(function(x){ return p.id.indexOf(x) === 0; }); });
+    if (best.plang) ps = KB.products.filter(function(p){ return best.plang === "*" || p.langs.indexOf(best.plang) >= 0; });
+    if (best.plang) { text += "\n" + ps.map(function(p){ return "• "+p.name[l]+" — "+money(p.price,l); }).join("\n"); }
+    else if (ps.length) { var parts = ps.map(function(p){ return prodText(p,l,u); });
+      text += "\n\n" + parts.map(function(x){ return x.text; }).join("\n\n");
+      lk = (parts.length === 1 ? parts[0].links : [].concat.apply([], parts.map(function(x,i){ return x.links.slice(0,1).map(function(k){ return {t:ps[i].name[l].split(/[–(—:]/)[0].trim()+" · "+k.t.split(" ").pop(), h:k.h}; }); }))).concat(lk); }
+    if (best.handoff || best.contact) lk = lk.concat(contactLinks(u));
+    return {text:text, links:lk, id:best.id};
   }
   function prodText(p,l,u){
     var langs = p.langs.map(function(x){ return u.L[x]; }).join("، ".charAt(l==="ar"?0:1) === "،" ? "، " : ", ");
@@ -145,9 +161,9 @@
   function answer(q){
     var l = lang(), u = U[l], qt = toks(q), n = norm(q); CURQ = String(q).trim().slice(0,300);
     if (!qt.length) return null;
+    var lr = learned(qt,n,l); if (lr) return lr;
     var S = {}; Object.keys(KW).forEach(function(k){ S[k] = score(qt, KW[k]); });
     if (S.pwq >= .8 && /سر|باسو|مرور|رمز|قفل|pass|pwd|lock|salasana|lukit/.test(n)) return {text:u.pwq, links:contactLinks(u)};
-    var lr = learned(qt,n,l); if (lr) return lr;
     var pm = productMatches(qt.concat(qt.slice(1).map(function(w,i){ return qt[i]+w; }).filter(function(w){ return w.length>=8; })));
     if (S.ship >= .8 && (/shipops|شيب/.test(n) || S.ship >= 1.6)) {
       var s = KB.shipops; if (!s) return {text:u.unknown, links:contactLinks(u)};

@@ -68,7 +68,11 @@ def _learned():
         if not any(kw.values()) or not all(isinstance(ans.get(l), str) and ans[l].strip() for l in ("ar", "en", "fi")):
             raise SystemExit(f"src/assistant-learned.json entry {i}: needs keywords and an answer in ar, en and fi")
         links = [{"t": l["t"], "h": l["h"]} for l in en.get("links", []) if isinstance(l, dict) and l.get("h")]
-        res.append({"kw": kw, "a": {l: ans[l] for l in ("ar", "en", "fi")}, "links": links})
+        item = {"kw": kw, "a": {l: ans[l] for l in ("ar", "en", "fi")}, "links": links}
+        for k in ("id", "handoff", "contact", "pids", "plang", "ctx"):  # pids/plang: product cards filled in live from products.json
+            if en.get(k):
+                item[k] = en[k]
+        res.append(item)
     return res
 
 SECRET_PATTERNS = [r"AKIA[0-9A-Z]{16}", r"\bsk-[A-Za-z0-9]{20,}", r"\bghp_[A-Za-z0-9]{20,}", r"AIza[0-9A-Za-z_\-]{30,}",
