@@ -81,6 +81,7 @@ def header(pre, cur=""):
       <a href="{pre}#faq" data-i18n="nav.faq">{e(t("nav.faq"))}</a>
       <a href="{pre}#contact" data-i18n="nav.contact">{e(t("nav.contact"))}</a>
       <a href="shipops-sales.html" data-i18n="nav.shipops">{e(t("nav.shipops"))}</a>
+      <a href="data-cleaning.html" data-i18n="nav.dataclean">{e(t("nav.dataclean"))}</a>
       <a class="nav-cta" href="custom-template.html"{cur} data-i18n="nav.custom">{e(t("nav.custom"))}</a>
     </nav>
     <div class="lang" role="group" aria-label="{e(t("nav.lang"))}" data-i18n-aria="nav.lang">

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تنظيف وتحليل ملفك المحاسبي (Excel / CSV) | SadeekShop</title>
+<meta name="description" content="خدمة تنظيف وتحليل ملفات الإكسل والـCSV المحاسبية: حذف المكرر، توحيد التواريخ والأرقام، التحقق من توازن المدين والدائن، وسجل كامل بكل تغيير. التسليم خلال 24-48 ساعة.">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.hero-s{background:linear-gradient(160deg,var(--g9),var(--g6));color:#fff;padding:64px 0 56px}
+.hero-s h1{font-size:clamp(28px,4.5vw,46px)}.hero-s p{font-size:18px;opacity:.92;max-width:680px}
+.hero-s .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.shot{margin-top:36px;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh2);background:#fff;border:6px solid rgba(255,255,255,.15)}
+@media (max-width:600px){.hero-s .shot{position:relative;inset:auto;transform:none;width:auto;margin-top:28px}}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;padding:0;list-style:none}
+.fgrid li{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+.fgrid h3{font-size:18px;color:var(--g7)}.fgrid p{margin:0;color:var(--mut)}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:760px;margin-inline:auto}
+.plan{background:#fff;border:2px solid var(--line);border-radius:var(--r);padding:26px;text-align:center;box-shadow:var(--sh)}
+.plan.best{border-color:var(--y2)}.plan .p{font-size:40px;font-weight:800;color:var(--g7)}.plan .tag{display:inline-block;background:var(--y);border-radius:99px;padding:2px 12px;font-weight:700;font-size:14px}
+.note{background:var(--g1);border-inline-start:4px solid var(--g6);padding:14px 18px;border-radius:10px;max-width:760px;margin:22px auto 0}
+.ssteps{counter-reset:s}.ssteps li{counter-increment:s}.ssteps li h3::before{content:counter(s) ". "}
+.center{text-align:center}
+
+.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:6px 8px;text-align:start;white-space:nowrap}
+.tbl th{background:var(--g1)}.bad{background:#fdecec}.fix{background:#e8f6ec}.blank{background:#fff7d6}
+.tw{overflow-x:auto;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:10px}
+.ba{display:grid;grid-template-columns:1fr;gap:18px}.lbl{display:inline-block;background:var(--y);border-radius:99px;padding:2px 12px;font-weight:700;font-size:14px}
+.ba>div{min-width:0}
+.en{direction:ltr;text-align:left}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="./" aria-label="SadeekShop"><img src="assets/icon-72.png" width="36" height="36" alt=""><span>Sadeek<b>Shop</b></span></a>
+    <nav class="nav" aria-label="main">
+      <a href="#features">ماذا تستلم</a><a href="#sample">مثال</a><a href="#pricing">الأسعار</a><a href="#order">اطلب</a><a href="#en" lang="en">English</a>
+      <a class="nav-cta" href="mailto:sadeekkasem@gmail.com?subject=%D8%B7%D9%84%D8%A8%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%AA%D9%86%D8%B8%D9%8A%D9%81%20%D9%88%D8%AA%D8%AD%D9%84%D9%8A%D9%84%20%D9%85%D9%84%D9%81%20%D9%85%D8%AD%D8%A7%D8%B3%D8%A8%D9%8A&body=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%20SadeekShop%D8%8C%0A%0A%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AA%D9%86%D8%B8%D9%8A%D9%81%20%D9%88%D8%AA%D8%AD%D9%84%D9%8A%D9%84%20%D9%85%D9%84%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D8%AD%D8%A7%D8%B3%D8%A8%D9%8A.%0A%0A-%20%D9%86%D9%88%D8%B9%20%D8%A7%D9%84%D9%85%D9%84%D9%81%20%28%D9%83%D8%B4%D9%81%20%D8%AD%D8%B3%D8%A7%D8%A8%20/%20%D9%85%D8%A8%D9%8A%D8%B9%D8%A7%D8%AA%20/%20%D9%85%D8%B5%D8%B1%D9%88%D9%81%D8%A7%D8%AA%20/%20%D8%AF%D9%81%D8%AA%D8%B1%20%D9%8A%D9%88%D9%85%D9%8A%D8%A9%29%3A%0A-%20%D8%B9%D8%AF%D8%AF%20%D8%A7%D9%84%D9%85%D9%84%D9%81%D8%A7%D8%AA%3A%0A-%20%D8%B9%D8%AF%D8%AF%20%D8%A7%D9%84%D8%B5%D9%81%D9%88%D9%81%20%D8%AA%D9%82%D8%B1%D9%8A%D8%A8%D9%8B%D8%A7%3A%0A-%20%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A7%D8%AA%20%D8%A3%D9%88%20%D9%85%D8%B7%D8%A7%D9%84%D8%A8%20%D8%AE%D8%A7%D8%B5%D8%A9%3A%0A%0A%D8%B3%D8%A3%D8%B1%D9%81%D9%82%20%D8%A7%D9%84%D9%85%D9%84%D9%81%20%D8%A8%D9%87%D8%B0%D9%87%20%D8%A7%D9%84%D8%B1%D8%B3%D8%A7%D9%84%D8%A9.%0A%0A%D8%B4%D9%83%D8%B1%D9%8B%D8%A7">أرسل ملفك</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="hero-s"><div class="wrap">
+  <h1>تنظيف وتحليل ملفك المحاسبي</h1>
+  <p>ملف إكسل أو CSV مليء بالتكرار والتواريخ المختلطة والأرقام غير الموحدة؟ نرتّبه لك بعناية ونسلّمك ملفًا نظيفًا جاهزًا للتقارير، مع سجل واضح بكل تعديل. <b>ملفك الأصلي يبقى كما هو.</b></p>
+  <p>كشوف حساب، مبيعات، مصروفات، دفاتر يومية — بالعربي أو الإنجليزي.</p>
+  <div class="btns"><a class="btn btn-yellow btn-lg" href="mailto:sadeekkasem@gmail.com?subject=%D8%B7%D9%84%D8%A8%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%AA%D9%86%D8%B8%D9%8A%D9%81%20%D9%88%D8%AA%D8%AD%D9%84%D9%8A%D9%84%20%D9%85%D9%84%D9%81%20%D9%85%D8%AD%D8%A7%D8%B3%D8%A8%D9%8A&body=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%20SadeekShop%D8%8C%0A%0A%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AA%D9%86%D8%B8%D9%8A%D9%81%20%D9%88%D8%AA%D8%AD%D9%84%D9%8A%D9%84%20%D9%85%D9%84%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D8%AD%D8%A7%D8%B3%D8%A8%D9%8A.%0A%0A-%20%D9%86%D9%88%D8%B9%20%D8%A7%D9%84%D9%85%D9%84%D9%81%20%28%D9%83%D8%B4%D9%81%20%D8%AD%D8%B3%D8%A7%D8%A8%20/%20%D9%85%D8%A8%D9%8A%D8%B9%D8%A7%D8%AA%20/%20%D9%85%D8%B5%D8%B1%D9%88%D9%81%D8%A7%D8%AA%20/%20%D8%AF%D9%81%D8%AA%D8%B1%20%D9%8A%D9%88%D9%85%D9%8A%D8%A9%29%3A%0A-%20%D8%B9%D8%AF%D8%AF%20%D8%A7%D9%84%D9%85%D9%84%D9%81%D8%A7%D8%AA%3A%0A-%20%D8%B9%D8%AF%D8%AF%20%D8%A7%D9%84%D8%B5%D9%81%D9%88%D9%81%20%D8%AA%D9%82%D8%B1%D9%8A%D8%A8%D9%8B%D8%A7%3A%0A-%20%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A7%D8%AA%20%D8%A3%D9%88%20%D9%85%D8%B7%D8%A7%D9%84%D8%A8%20%D8%AE%D8%A7%D8%B5%D8%A9%3A%0A%0A%D8%B3%D8%A3%D8%B1%D9%81%D9%82%20%D8%A7%D9%84%D9%85%D9%84%D9%81%20%D8%A8%D9%87%D8%B0%D9%87%20%D8%A7%D9%84%D8%B1%D8%B3%D8%A7%D9%84%D8%A9.%0A%0A%D8%B4%D9%83%D8%B1%D9%8B%D8%A7">أرسل ملفك واطلب عرض سعر</a><a class="btn btn-ghost btn-lg" href="#sample" style="color:#fff">شوف مثال</a></div>
+</div></section>
+
+<section class="sec" id="features"><div class="wrap">
+  <h2 class="center">ماذا تستلم؟</h2>
+  <ul class="fgrid">
+    <li><h3>ملف Excel نظيف</h3><p>بيانات موحدة: تواريخ بصيغة واحدة، أرقام عربية وغربية موحدة، عملات وأقواس سالبة مصححة، أسماء عملاء متطابقة بدون مسافات زائدة.</p></li>
+    <li><h3>سجل كامل بكل تغيير</h3><p>لكل تعديل: الصف، العمود، القيمة القديمة، القيمة الجديدة، والسبب. تراجع كل شيء بنفسك.</p></li>
+    <li><h3>ورقة المكرر المحذوف</h3><p>كل صف مكرر محذوف محفوظ في ورقة مستقلة، لا يضيع شيء.</p></li>
+    <li><h3>قائمة الخلايا الفارغة</h3><p>نحدد كل خلية ناقصة ونسردها لك — <b>ولا نخترع أي قيمة أبدًا</b>.</p></li>
+    <li><h3>فحص توازن المدين والدائن</h3><p>نتحقق من تطابق الإجماليات ونوضح الفرق إن وُجد.</p></li>
+    <li><h3>ملخص قصير مع المعادلات</h3><p>الإجماليات، الإيرادات، المصروفات، هامش الربح، أعلى العملاء والاتجاه الشهري — وكل رقم بمعادلته داخل الملف.</p></li>
+  </ul>
+  <p class="note"><b>الخصوصية:</b> ملفاتك تُستخدم فقط لتنفيذ المهمة وتُحذف بعد التسليم.</p>
+</div></section>
+
+<section class="sec sec-tint" id="sample"><div class="wrap">
+  <h2 class="center">مثال: قبل وبعد</h2>
+  <p class="center"><span class="lbl">مثال</span> بيانات تجريبية وهمية لأغراض العرض فقط.</p>
+  <div class="ba">
+    <div><h3>قبل</h3><div class="tw"><table class="tbl"><thead><tr><th>التاريخ</th><th>اسم العميل</th><th>البيان</th><th>مدين</th><th>دائن</th></tr></thead><tbody><tr><td>2026-01-05</td><td>شركة النور</td><td>فاتورة مبيعات</td><td class="bad">1,200.00</td><td></td></tr><tr><td class="bad">05/01/2026</td><td>شركة النور</td><td>فاتورة مبيعات</td><td class="bad">1,200.00</td><td></td></tr><tr><td class="bad">١٥/٠١/٢٠٢٦</td><td class="bad">&nbsp;&nbsp;محمد أحمد </td><td>خدمات استشارية</td><td class="bad">٣٥٠٠</td><td></td></tr><tr><td class="bad"></td><td>مؤسسة الفجر</td><td>كهرباء</td><td></td><td>450</td></tr><tr><td>2026-03-01</td><td class="bad">شركه النور</td><td>فاتورة مبيعات</td><td class="bad">SAR 2,750</td><td></td></tr><tr><td>2026-03-15</td><td>مؤسسة الفجر</td><td>رواتب</td><td></td><td class="bad">(3000)</td></tr></tbody></table></div></div>
+    <div><h3>بعد</h3><div class="tw"><table class="tbl"><thead><tr><th>التاريخ</th><th>اسم العميل</th><th>البيان</th><th>مدين</th><th>دائن</th></tr></thead><tbody><tr><td>2026-01-05</td><td>شركة النور</td><td>فاتورة مبيعات</td><td class="fix">1200.00</td><td></td></tr><tr><td class="fix">2026-01-15</td><td class="fix">محمد أحمد</td><td>خدمات استشارية</td><td class="fix">3500.00</td><td></td></tr><tr><td class="blank">— فارغ —</td><td>مؤسسة الفجر</td><td>كهرباء</td><td></td><td>450.00</td></tr><tr><td>2026-03-01</td><td class="fix">شركة النور</td><td>فاتورة مبيعات</td><td class="fix">2750.00</td><td></td></tr><tr><td>2026-03-15</td><td>مؤسسة الفجر</td><td>رواتب</td><td></td><td class="fix">-3000.00</td></tr></tbody></table></div></div>
+    <div><h3>من سجل التغييرات</h3><div class="tw"><table class="tbl"><thead><tr><th>الصف</th><th>العمود</th><th>القيمة القديمة</th><th>القيمة الجديدة</th><th>السبب</th></tr></thead><tbody><tr><td>3</td><td>التاريخ</td><td>05/01/2026</td><td>—</td><td>صف مكرر لنفس الفاتورة، نُقل إلى ورقة المكرر</td></tr><tr><td>4</td><td>التاريخ</td><td>١٥/٠١/٢٠٢٦</td><td>2026-01-15</td><td>توحيد صيغة التاريخ والأرقام العربية</td></tr><tr><td>4</td><td>اسم العميل</td><td>␣␣محمد أحمد␣</td><td>محمد أحمد</td><td>إزالة المسافات الزائدة</td></tr><tr><td>9</td><td>اسم العميل</td><td>شركه النور</td><td>شركة النور</td><td>توحيد الاسم المتشابه</td></tr><tr><td>10</td><td>دائن</td><td>(3000)</td><td>-3000.00</td><td>تحويل الأقواس إلى رقم سالب</td></tr><tr><td>7</td><td>التاريخ</td><td>(فارغ)</td><td>(فارغ)</td><td>خلية فارغة — أُدرجت في قائمة الفراغات دون تعبئة</td></tr></tbody></table></div></div>
+  </div>
+  <p class="center" style="font-size:14px">🟥 خلية بها مشكلة &nbsp; 🟩 تم تصحيحها &nbsp; 🟨 فارغة — مُدرجة في قائمة الفراغات</p>
+</div></section>
+
+<section class="sec" id="pricing"><div class="wrap">
+  <h2 class="center">الأسعار تبدأ من</h2>
+  <p class="center"><span class="lbl">أسعار مقترحة</span> السعر النهائي يُحدد في عرض السعر بعد الاطلاع على ملفك.</p>
+  <div class="plans" style="max-width:900px">
+    <div class="plan"><h3>حتى 1,000 صف</h3><div class="p">15€</div><p>ابتداءً من</p></div>
+    <div class="plan best"><h3>حتى 10,000 صف</h3><div class="p">35€</div><p>للملف الواحد</p></div>
+    <div class="plan"><h3>عدة ملفات / طلب خاص</h3><div class="p" style="font-size:28px">حسب العرض</div><p>دمج ملفات، أعمدة خاصة، تقارير إضافية</p></div>
+  </div>
+  <p class="note"><b>مدة التسليم:</b> خلال 24–48 ساعة من تأكيد الطلب.</p>
+</div></section>
+
+<section class="sec sec-tint" id="how"><div class="wrap">
+  <h2 class="center">طريقة الطلب</h2>
+  <ul class="fgrid ssteps">
+    <li><h3>أرسل ملفك</h3><p>اضغط الزر، أرفق الملف واكتب وصفًا قصيرًا لما تحتاجه.</p></li>
+    <li><h3>استلم عرض السعر</h3><p>نرد عليك بالإيميل بعرض سعر واضح ومدة التسليم.</p></li>
+    <li><h3>الدفع بعد الموافقة</h3><p>بعد موافقتك على العرض نتفق على طريقة الدفع.</p></li>
+    <li><h3>التسليم</h3><p>تستلم الملف النظيف مع السجل والملخص خلال 24–48 ساعة.</p></li>
+  </ul>
+</div></section>
+
+<section class="sec" id="order"><div class="wrap"><div class="contact">
+  <h2>جاهز ترتّب ملفك؟</h2>
+  <p>أرسل ملفك الآن واحصل على عرض سعر بدون أي التزام.</p>
+  <a class="btn btn-yellow btn-lg" href="mailto:sadeekkasem@gmail.com?subject=%D8%B7%D9%84%D8%A8%20%D8%AE%D8%AF%D9%85%D8%A9%20%D8%AA%D9%86%D8%B8%D9%8A%D9%81%20%D9%88%D8%AA%D8%AD%D9%84%D9%8A%D9%84%20%D9%85%D9%84%D9%81%20%D9%85%D8%AD%D8%A7%D8%B3%D8%A8%D9%8A&body=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%20SadeekShop%D8%8C%0A%0A%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AA%D9%86%D8%B8%D9%8A%D9%81%20%D9%88%D8%AA%D8%AD%D9%84%D9%8A%D9%84%20%D9%85%D9%84%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D8%AD%D8%A7%D8%B3%D8%A8%D9%8A.%0A%0A-%20%D9%86%D9%88%D8%B9%20%D8%A7%D9%84%D9%85%D9%84%D9%81%20%28%D9%83%D8%B4%D9%81%20%D8%AD%D8%B3%D8%A7%D8%A8%20/%20%D9%85%D8%A8%D9%8A%D8%B9%D8%A7%D8%AA%20/%20%D9%85%D8%B5%D8%B1%D9%88%D9%81%D8%A7%D8%AA%20/%20%D8%AF%D9%81%D8%AA%D8%B1%20%D9%8A%D9%88%D9%85%D9%8A%D8%A9%29%3A%0A-%20%D8%B9%D8%AF%D8%AF%20%D8%A7%D9%84%D9%85%D9%84%D9%81%D8%A7%D8%AA%3A%0A-%20%D8%B9%D8%AF%D8%AF%20%D8%A7%D9%84%D8%B5%D9%81%D9%88%D9%81%20%D8%AA%D9%82%D8%B1%D9%8A%D8%A8%D9%8B%D8%A7%3A%0A-%20%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A7%D8%AA%20%D8%A3%D9%88%20%D9%85%D8%B7%D8%A7%D9%84%D8%A8%20%D8%AE%D8%A7%D8%B5%D8%A9%3A%0A%0A%D8%B3%D8%A3%D8%B1%D9%81%D9%82%20%D8%A7%D9%84%D9%85%D9%84%D9%81%20%D8%A8%D9%87%D8%B0%D9%87%20%D8%A7%D9%84%D8%B1%D8%B3%D8%A7%D9%84%D8%A9.%0A%0A%D8%B4%D9%83%D8%B1%D9%8B%D8%A7">أرسل ملفك بالإيميل</a>
+  <p class="mail"><a href="mailto:sadeekkasem@gmail.com"><bdi>sadeekkasem@gmail.com</bdi></a></p>
+</div></div></section>
+
+<section class="sec sec-tint en" id="en" lang="en" dir="ltr"><div class="wrap narrow">
+  <h2>Accounting file cleaning &amp; analysis (Excel / CSV)</h2>
+  <p>A professional service by SadeekShop. You receive: a cleaned .xlsx, a full change log (row, column, old value, new value, reason), a sheet of removed duplicates, a list of blank cells (never filled in or invented), a debit/credit balance check, and a short summary with the formula behind every number. Your original file stays untouched.</p>
+  <p><b>Prices from (suggested):</b> up to 1,000 rows from €15 · up to 10,000 rows €35 · multiple files / custom work by quote. Delivery within 24–48h.</p>
+  <p><b>How to order:</b> email your file and a short description, get a quote, payment is arranged after you accept. Files are used only for the job and deleted after delivery.</p>
+  <a class="btn btn-primary btn-lg" href="mailto:sadeekkasem@gmail.com?subject=Accounting%20file%20cleaning%20request&body=Hello%20SadeekShop%2C%0A%0AI%27d%20like%20my%20accounting%20file%20cleaned%20and%20analyzed.%0A%0A-%20File%20type%3A%0A-%20Number%20of%20files%3A%0A-%20Approx.%20rows%3A%0A-%20Notes%3A%0A%0AFile%20attached.%0A%0AThanks">Email your file for a quote</a>
+</div></section>
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="brand"><img src="assets/icon-72.png" width="28" height="28" alt="" loading="lazy"><span>Sadeek<b>Shop</b></span></div>
+    <p class="foot-links"><a href="mailto:sadeekkasem@gmail.com"><bdi>sadeekkasem@gmail.com</bdi></a></p>
+    <p class="tm">© 2026 SadeekShop</p>
+  </div>
+</footer>
+<script data-goatcounter="https://sadeekshop.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
