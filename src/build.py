@@ -203,13 +203,6 @@ doc = f'''<!doctype html>
 <body>
 <a class="skip" href="#main" data-i18n="skip">{e(t("skip"))}</a>
 
-<div class="promo" id="promo" data-until="2026-10-29T00:00:00+02:00" hidden>
-  <div class="wrap promo-in">
-    <p>{icon("gift")}<span data-i18n="promo.text">{e(t("promo.text"))}</span> <button type="button" class="code" id="copyCode" title="{e(t("promo.copy"))}"><bdi>OCT30</bdi>{icon("copy","ic sm")}<span class="sr" data-i18n="promo.copy">{e(t("promo.copy"))}</span></button> <span class="until" data-i18n="promo.until">{e(t("promo.until"))}</span></p>
-    <button type="button" class="promo-x" id="promoClose" aria-label="{e(t("promo.close"))}" data-i18n-aria="promo.close">{icon("x","ic sm")}</button>
-  </div>
-</div>
-
 {header("")}
 
 <main id="main">

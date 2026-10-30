@@ -22,22 +22,6 @@
   if (start !== "ar") setLang(start);
   document.querySelectorAll(".lang button").forEach(function(b){ b.addEventListener("click", function(){ setLang(b.dataset.lang); }); });
 
-  // promo banner: shown only until the coupon end date
-  var promo = document.getElementById("promo");
-  if (promo) {
-    var until = new Date(promo.dataset.until).getTime(), closed = false;
-    try { closed = sessionStorage.getItem("promoClosed") === "1"; } catch(e){}
-    if (Date.now() < until && !closed) promo.hidden = false;
-    var x = document.getElementById("promoClose");
-    if (x) x.addEventListener("click", function(){ promo.hidden = true; try { sessionStorage.setItem("promoClosed","1"); } catch(e){} });
-    var c = document.getElementById("copyCode");
-    if (c) c.addEventListener("click", function(){
-      var l = root.lang, sr = c.querySelector(".sr");
-      function done(){ if (sr) sr.textContent = T["promo.copied"][l]; c.title = T["promo.copied"][l]; c.classList.add("ok"); }
-      if (navigator.clipboard) navigator.clipboard.writeText("OCT30").then(done, function(){});
-    });
-  }
-
   // hide the small nav wordmark while the shop banner is visible
   var ban = document.querySelector(".storebanner"), top = document.querySelector(".top");
   if (ban && top && "IntersectionObserver" in window) {

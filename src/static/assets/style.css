@@ -23,15 +23,6 @@ p{margin:0 0 1em}
 [dir=rtl] .ic.flip{transform:scaleX(-1)}
 :focus-visible{outline:3px solid var(--y2);outline-offset:2px;border-radius:6px}
 
-/* promo */
-.promo{background:linear-gradient(90deg,var(--y),#ffe27a);color:var(--ink);font-size:14.5px;font-weight:600}
-.promo-in{display:flex;align-items:center;justify-content:center;gap:10px;min-height:42px;padding-block:6px;position:relative;padding-inline:28px}
-.promo p{margin:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;text-align:center}
-.promo .code{font:inherit;font-weight:800;letter-spacing:.06em;display:inline-flex;align-items:center;gap:5px;background:var(--ink);color:var(--y);border:0;border-radius:7px;padding:2px 9px;cursor:pointer}
-.promo .until{opacity:.75;font-weight:500}
-.promo-x{position:absolute;inset-inline-end:0;background:none;border:0;cursor:pointer;color:var(--ink);padding:6px;opacity:.6}
-.promo-x:hover{opacity:1}
-
 /* header */
 .top{position:sticky;top:0;z-index:50;background:rgba(251,252,251,.86);backdrop-filter:saturate(1.6) blur(12px);-webkit-backdrop-filter:saturate(1.6) blur(12px);border-bottom:1px solid var(--line)}
 .top-in{display:flex;align-items:center;gap:20px;height:64px}
@@ -195,8 +186,6 @@ p{margin:0 0 1em}
   .grid,.why,.steps{grid-template-columns:1fr}
   .free{padding:26px 20px;border-radius:22px}
   .card-foot{flex-wrap:wrap}
-  .promo{font-size:13.5px}
-  .promo p>.ic{display:none}
   .hero-art{min-height:0}
   .f2{display:none}
 }
