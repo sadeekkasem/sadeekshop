@@ -3,7 +3,7 @@
   "هذا الملف فيه كل القوالب المعروضة في الموقع. الترتيب هنا هو نفس ترتيب البطاقات في الموقع.",
   "الأسهل: استخدم صفحة الإدارة admin.html لإضافة أو تعديل القوالب بدل تعديل هذا الملف يدويًا.",
   "slug: اسم قصير بالإنجليزية بحروف صغيرة وأرقام وشرطة فقط، مثل invoice-pro. يجب أن تكون صورة القالب باسم src/images/<slug>.jpg",
-  "price: السعر باليورو رقم فقط بدون رمز €، مثل 17",
+  "price: السعر باليورو رقم فقط بدون رمز €، مثل 5",
   "languages: لغات ملف القالب، من: ar و en و fi",
   "category: واحد من: acc (محاسبة وضريبة)، stock (مخزون ومبيعات)، price (تسعير ومطاعم)، hr (رواتب)، home (ميزانية الأسرة)",
   "badges: شارات اختيارية على الصورة، من: alv و x365. اتركها [] إذا لا تريد",
@@ -22,7 +22,7 @@
   "desc_ar": "وصف قصير بالعربية",
   "desc_en": "Short description in English",
   "desc_fi": "Lyhyt kuvaus suomeksi",
-  "price": 15,
+  "price": 5,
   "languages": [
    "ar",
    "en"
@@ -46,7 +46,7 @@
    "desc_ar": "سجّل المبيعات والمشتريات والمصاريف يوميًا، واحصل على حساب الضريبة (ALV ‎25.5%) شهريًا وربع سنويًا مع لوحة سنوية.",
    "desc_en": "Daily sales, purchases and expenses with automatic VAT (ALV 25.5%), monthly and quarterly VAT and an annual dashboard.",
    "desc_fi": "Päivän myynnit, ostot ja kulut, automaattinen ALV (25,5 %), kuukausi- ja neljännesvuosilaskelma sekä vuosikojelauta.",
-   "price": 19,
+   "price": 5,
    "languages": [
     "fi",
     "ar",
@@ -98,7 +98,7 @@
    "desc_ar": "شهرك في نظرة واحدة: الإيرادات والمصروفات وصافي الربح والهامش والضريبة مع 6 رسوم بيانية، بالعربية بالكامل من اليمين إلى اليسار.",
    "desc_en": "Your month at a glance: revenue, expenses, net profit, margin and VAT with 6 charts. Fully right-to-left Arabic.",
    "desc_fi": "Kuukausi yhdellä silmäyksellä: liikevaihto, kulut, nettotulos, kate ja ALV sekä 6 kaaviota. Kokonaan arabiaksi, oikealta vasemmalle.",
-   "price": 17,
+   "price": 5,
    "languages": [
     "ar"
    ],
@@ -148,7 +148,7 @@
    "desc_ar": "نفس لوحة المتابعة الشهرية بالإنجليزية والفنلندية، مع ملخص لضريبة ALV الفنلندية شهريًا وربع سنويًا.",
    "desc_en": "The same monthly dashboard in English and Finnish, with a Finland ALV summary by month and quarter.",
    "desc_fi": "Sama kuukausikojelauta englanniksi ja suomeksi, ALV-yhteenveto kuukausittain ja neljännesvuosittain.",
-   "price": 17,
+   "price": 5,
    "languages": [
     "en",
     "fi"
@@ -199,7 +199,7 @@
    "desc_ar": "سجّل طلبات Etsy واحسب كل رسوم Etsy لكل طلب وصافي الربح والهامش، مع لوحة شهرية لأفضل المنتجات والخاسرة منها والمخزون المنخفض، وحاسبة تسعير. Excel 2016 أو أحدث، الملف بالإنجليزية.",
    "desc_en": "Track Etsy orders with every Etsy fee calculated per order, net profit and margin, a monthly dashboard with top and loss-making products and low stock, plus a pricing calculator. Excel 2016+, English file.",
    "desc_fi": "Etsy-tilausten seuranta: jokaisen tilauksen kaikki Etsy-maksut, nettotulos ja kate, kuukausikojelauta parhaista ja tappiollisista tuotteista sekä vähissä olevasta varastosta, ja hinnoittelulaskuri. Excel 2016+, englanninkielinen tiedosto.",
-   "price": 17,
+   "price": 5,
    "languages": [
     "en"
    ],
@@ -247,7 +247,7 @@
    "desc_ar": "العملاء ومسار المبيعات (القيمة المرجّحة ونسبة الفوز) والحملات التسويقية مع العائد على الاستثمار، وتذاكر الدعم مع مدة الاستجابة (SLA) ورضا العملاء، ولوحة وتقارير مع 7 رسوم بيانية. Excel 2016 أو أحدث، باليورو، الملف بالإنجليزية.",
    "desc_en": "Customers, sales pipeline with weighted value and win rate, marketing campaigns with ROI, support tickets with SLA and CSAT, plus a dashboard and reports with 7 charts. Excel 2016+, EUR, English file.",
    "desc_fi": "Asiakkaat, myyntiputki painotetulla arvolla ja voittoprosentilla, markkinointikampanjat ja niiden ROI, tukipyynnöt SLA- ja CSAT-seurannalla sekä kojelauta ja raportit 7 kaaviolla. Excel 2016+, euroina, englanninkielinen tiedosto.",
-   "price": 17,
+   "price": 5,
    "languages": [
     "en"
    ],
@@ -300,7 +300,7 @@
    "desc_ar": "المخزون والمبيعات والربح للمحلات والتجار: إدخال بالباركود، قائمة إعادة الطلب وتنبيهات انتهاء الصلاحية، وورقة جديدة لكمية الطلب الاقتصادية (EOQ) ونقطة إعادة الطلب مع حالة «اطلب الآن».",
    "desc_en": "Stock, sales and gross profit for shops and traders: barcode entry, reorder list and expiry alerts. New: EOQ (economic order quantity) & reorder point sheet with an order-now status.",
    "desc_fi": "Varasto, myynti ja myyntikate kaupoille: viivakoodisyöttö, tilauslista ja vanhenemishälytykset. Uutta: EOQ (taloudellinen tilauserä) ja tilauspiste -välilehti, jossa tilaa nyt -tila.",
-   "price": 17,
+   "price": 5,
    "languages": [
     "ar",
     "en",
@@ -362,7 +362,7 @@
    "desc_ar": "التكلفة الدقيقة لكل طبق وكوب، وأسعار بيع مقترحة حسب نسبة تكلفة الطعام المستهدفة، مع تحليل ربحية المنيو.",
    "desc_en": "Exact cost of every plate and cup, suggested menu prices from your target food-cost % and menu engineering.",
    "desc_fi": "Jokaisen annoksen ja kupin tarkka hinta, hintaehdotukset tavoitellun raaka-aineprosentin mukaan ja ruokalistan kannattavuusanalyysi.",
-   "price": 17,
+   "price": 5,
    "languages": [
     "ar",
     "en",
@@ -417,7 +417,7 @@
    "desc_ar": "سعّر حتى 300 منتج مع احتساب كل التكاليف والعمولات، مع محاكي للخصومات وحساب نقطة التعادل.",
    "desc_en": "Price up to 300 products with every cost and fee counted, plus a discount simulator and break-even.",
    "desc_fi": "Hinnoittele jopa 300 tuotetta kaikki kulut ja palkkiot huomioiden. Mukana alennussimulaattori ja kannattavuusraja.",
-   "price": 15,
+   "price": 5,
    "languages": [
     "ar",
     "en",
@@ -467,7 +467,7 @@
    "desc_ar": "رواتب شهرية بدون ماكرو: الحضور، قسائم الرواتب، مسير الرواتب، السلف، الإجازات ومكافأة نهاية الخدمة.",
    "desc_en": "Monthly payroll without macros: attendance, payslips, payroll register, advances, leave and end-of-service.",
    "desc_fi": "Kuukausipalkat ilman makroja: läsnäolo, palkkalaskelmat, palkkalista, ennakot, lomasaldot ja loppukorvaus.",
-   "price": 19,
+   "price": 5,
    "languages": [
     "ar",
     "en"
@@ -526,7 +526,7 @@
    "desc_ar": "كل حساباتك البنكية وصناديق النقد والعُهد بأي عملة، مع إقفال يومي للصندوق وقائمة أرباح وخسائر شهرية.",
    "desc_en": "Every bank account, cash box and petty cash in any currency, with daily cash closing and a monthly P&L.",
    "desc_fi": "Kaikki pankkitilit, kassat ja käteisvarat eri valuutoissa, päivittäinen kassan täsmäytys ja kuukauden tuloslaskelma.",
-   "price": 15,
+   "price": 5,
    "languages": [
     "ar",
     "en"
@@ -580,7 +580,7 @@
    "desc_ar": "فواتير A4 جاهزة للطباعة خلال دقيقة، بترقيم وضريبة تلقائيين، مع سجل للفواتير المدفوعة وغير المدفوعة. جديد: عروض الأسعار (ورقة عرض سعر وسجل العروض وبنود العرض).",
    "desc_en": "Print-ready A4 invoices in a minute, automatic numbering and VAT, and a register of paid and unpaid invoices. New: quotations (quote sheet, quotes register and quote lines).",
    "desc_fi": "Tulostusvalmiit A4-laskut minuutissa, automaattinen numerointi ja ALV sekä maksettujen ja avoimien laskujen seuranta. Uutta: tarjoukset (tarjouspohja, tarjousrekisteri ja tarjousrivit).",
-   "price": 15,
+   "price": 5,
    "languages": [
     "ar",
     "en"
@@ -639,7 +639,7 @@
    "desc_ar": "سجّل المشتريات والمبيعات لترى المخزون المتبقي ومتوسط التكلفة والربح في كل قطعة.",
    "desc_en": "Record deliveries and sales to see stock on hand, average cost and the profit on every piece.",
    "desc_fi": "Kirjaa ostot ja myynnit: näet varastosaldon, keskihinnan ja jokaisen tuotteen katteen.",
-   "price": 12,
+   "price": 5,
    "languages": [
     "ar",
     "en"
@@ -688,7 +688,7 @@
    "desc_ar": "انقل البضاعة بين 3 مستودعات، وتابع الأرصدة أولًا بأول، واطبع أذونات التحويل، واحصل على تنبيه عند انخفاض المخزون.",
    "desc_en": "Move stock between 3 warehouses, see up-to-date balances, print transfer vouchers and get low-stock alerts.",
    "desc_fi": "Siirrä tavaraa kolmen varaston välillä, seuraa ajantasaisia saldoja, tulosta siirtotositteet ja saa hälytys vähistä varastoista.",
-   "price": 12,
+   "price": 5,
    "languages": [
     "ar",
     "en"
@@ -737,7 +737,7 @@
    "desc_ar": "دفتر واحد لكل عمليات الشراء والبيع مع رصيد تراكمي ومتوسط التكلفة وربح كل عملية بيع، مناسب لمحلات الذهب والجوالات.",
    "desc_en": "One ledger for every purchase and sale with running balance, average cost and profit per sale, e.g. for gold or phone shops.",
    "desc_fi": "Yksi kirja kaikille ostoille ja myynneille: juokseva saldo, keskihinta ja myynnin kate. Sopii esim. kulta- ja puhelinliikkeille.",
-   "price": 9,
+   "price": 5,
    "languages": [
     "ar",
     "en"
@@ -786,7 +786,7 @@
    "desc_ar": "ميزانية شهرية لكل فئة مع تنبيه قبل تجاوزها، ومتابعة الفواتير وأهداف الادخار وسداد الديون.",
    "desc_en": "Monthly budget per category with overspend alerts, bills, savings goals and debt payoff tracking.",
    "desc_fi": "Kuukausibudjetti luokittain ja hälytys ennen ylitystä, laskut, säästötavoitteet ja velkojen takaisinmaksu.",
-   "price": 12,
+   "price": 5,
    "languages": [
     "ar",
     "en"
@@ -840,7 +840,7 @@
    "desc_ar": "لمحلات البيع بالتقسيط: عقود بنسبة ربح ثابتة، جدول أقساط تلقائي، سندات قبض وكشف حساب للطباعة، ومتابعة المتأخرات ولوحة تحكم للتحصيل.",
    "desc_en": "For shops selling on installments: fixed-markup contracts, automatic payment schedule, printable receipts and customer statements, overdue tracking and a collections dashboard.",
    "desc_fi": "Osamaksumyyntiin: kiinteän katteen sopimukset, automaattinen maksuaikataulu, tulostettavat kuitit ja tiliotteet, myöhästyneiden seuranta ja perintäkojelauta.",
-   "price": 15,
+   "price": 5,
    "languages": [
     "ar"
    ],
@@ -883,7 +883,7 @@
    "desc_ar": "للملاك ومكاتب العقار: وحدات وعقود بدورات سداد شهرية أو ربعية أو سنوية، جدول استحقاقات تلقائي، تحصيلات وشيكات، متأخرات، عقود تنتهي قريبًا وصافي دخل كل عقار.",
    "desc_en": "For landlords and property offices: units and leases with monthly, quarterly or yearly payment cycles, automatic rent schedule, collections and cheques, arrears, expiring leases and net income per property.",
    "desc_fi": "Vuokranantajille ja kiinteistötoimistoille: yksiköt ja vuokrasopimukset kuukausi-, neljännes- tai vuosimaksuilla, automaattinen vuokra-aikataulu, maksut ja shekit, rästit, päättyvät sopimukset ja nettotulo kiinteistöittäin.",
-   "price": 15,
+   "price": 5,
    "languages": [
     "ar"
    ],
@@ -926,7 +926,7 @@
    "desc_ar": "للملاك ومديري العقارات ومكاتب التأجير: وحدات وعقود بدورات سداد شهرية أو ربعية أو نصف سنوية أو سنوية، جدول استحقاقات تلقائي، دفعات وشيكات، متأخرات، عقود تنتهي قريبًا، ضريبة قيمة مضافة اختيارية وصافي دخل كل عقار.",
    "desc_en": "For landlords, property managers and letting agencies: units and leases with monthly, quarterly, semi-annual or annual payment cycles, automatic rent schedule, payments and cheques, arrears, expiring leases, optional VAT and net income per property.",
    "desc_fi": "Vuokranantajille, kiinteistönhoitajille ja vuokravälittäjille: yksiköt ja vuokrasopimukset kuukausi-, neljännes-, puolivuosi- tai vuosimaksuilla, automaattinen vuokra-aikataulu, maksut ja shekit, rästit, päättyvät sopimukset, valinnainen ALV ja nettotulo kiinteistöittäin.",
-   "price": 15,
+   "price": 5,
    "languages": [
     "en"
    ],
