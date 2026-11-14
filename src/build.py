@@ -6,7 +6,7 @@ OUT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path
 from content import *
 import catalog
 catalog.prepare_assets(OUT)
-SITE_URL = "https://sadeekkasem.github.io/sadeekshop/"
+SITE_URL = "https://www.skillpostapp.com/"
 L = "ar"
 def t(k): return T[k][L]
 def e(s): return html.escape(s, quote=True)
@@ -226,6 +226,10 @@ doc = f'''<!doctype html>
 <script data-goatcounter="https://sadeekshop.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
+<script>
+/* After the shop takes skillpostapp.com, leftover religious hashes go to النور. */
+(function(){{var h=(location.hash||"").replace(/^#/,"").split("/")[0];if(/^(home|quran-reader|adhkar-reader|prayer-tools)$/.test(h))location.replace("https://www.noorislamsite.com/"+location.hash);}})();
+</script>
 <a class="skip" href="#main" data-i18n="skip">{e(t("skip"))}</a>
 
 {header("")}

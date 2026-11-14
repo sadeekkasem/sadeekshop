@@ -1,7 +1,7 @@
 # دليل إضافة القوالب إلى موقع SadeekShop
 
 كل شيء يتم من صفحة الإدارة في موقعك:
-**https://sadeekkasem.github.io/sadeekshop/admin.html**
+**https://www.skillpostapp.com/admin.html**
 
 هذه الصفحة غير موجودة في قائمة الموقع ولا تظهر في محركات البحث، ولا تعمل إلا بمفتاح خاص (Token) تنشئه أنت من حسابك في GitHub. احفظ رابطها في المفضّلة.
 

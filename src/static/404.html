@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>الصفحة غير موجودة | SadeekShop</title>
+<style>
+  body{margin:0;font-family:system-ui,sans-serif;background:#f6f4ee;color:#143326;line-height:1.7}
+  main{max-width:36rem;margin:12vh auto;padding:0 24px;text-align:center}
+  a{color:#0e5a35}
+  .muted{color:#5a6b62;font-size:15px}
+</style>
+<script>
+(function(){
+  var NEW = "https://www.noorislamsite.com";
+  var path = location.pathname || "/";
+  /* Exact paths and prefixes that belonged to the religious site.
+     Do not catch SadeekShop's /admin.html. */
+  var exact = {
+    "/privacy": NEW + "/privacy",
+    "/privacy.html": NEW + "/privacy",
+    "/sources": NEW + "/sources",
+    "/sources.html": NEW + "/sources",
+    "/sheikhs": NEW + "/sheikhs",
+    "/sheikhs.html": NEW + "/sheikhs",
+    "/terms": NEW + "/privacy",
+    "/login": NEW + "/login",
+    "/admin": NEW + "/admin",
+    "/sheikh": NEW + "/sheikh",
+    "/student": NEW + "/student",
+    "/hero-image": NEW + "/hero-image",
+    "/published-content": NEW + "/published-content",
+    "/pv": NEW + "/pv"
+  };
+  var prefixes = [
+    "/sheikhs/", "/login/", "/admin/", "/sheikh/", "/student/", "/auth/",
+    "/api/", "/pv/", "/hero-image/", "/published-content/",
+    "/challenges/", "/projects/", "/profile/", "/moderation/", "/u/"
+  ];
+  var legacyHome = [
+    "/pricing","/plans","/upgrade","/advertise","/about","/videos","/news",
+    "/search","/challenges","/projects","/friends","/account","/moderation",
+    "/posts","/feed","/messages","/chat","/notifications","/settings","/dashboard"
+  ];
+  var target = exact[path];
+  if (!target) {
+    for (var i = 0; i < prefixes.length; i++) {
+      if (path === prefixes[i].slice(0, -1) || path.indexOf(prefixes[i]) === 0) {
+        target = NEW + path + (location.search || "");
+        break;
+      }
+    }
+  }
+  if (!target && legacyHome.indexOf(path) !== -1) target = NEW + "/";
+  if (target) location.replace(target);
+})();
+</script>
+</head>
+<body>
+<main>
+  <h1>هذه الصفحة غير موجودة</h1>
+  <p>عُد إلى <a href="/">الصفحة الرئيسية لـ SadeekShop</a>.</p>
+  <p class="muted">If you followed an old religious-site link, you should be redirected automatically to noorislamsite.com.</p>
+</main>
+</body>
+</html>

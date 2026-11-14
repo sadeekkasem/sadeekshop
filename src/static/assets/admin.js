@@ -199,7 +199,7 @@
   function done(id, res, text) {
     if (res.dry) { msg(id, "info", "وضع التجربة: لم يُحفظ شيء. كان سيتم حفظ:\n" + res.files.join("\n")); return; }
     msg(id, "ok", text + "\nيتم الآن تحديث الموقع تلقائيًا خلال دقيقتين تقريبًا. إذا ظهرت علامة ❌ حمراء في صفحة Actions فالموقع الحالي يبقى كما هو؛ افتح التشغيل لترى سبب الخطأ.",
-      [["افتح صفحة Actions لمتابعة النشر", REPO_URL + "/actions"], ["عرض هذا الحفظ في GitHub", REPO_URL + "/commit/" + res.sha], ["افتح الموقع", "https://" + OWNER + ".github.io/" + REPO + "/"]]);
+      [["افتح صفحة Actions لمتابعة النشر", REPO_URL + "/actions"], ["عرض هذا الحفظ في GitHub", REPO_URL + "/commit/" + res.sha], ["افتح الموقع", "https://www.skillpostapp.com/"]]);
   }
 
   function save(ev) {
