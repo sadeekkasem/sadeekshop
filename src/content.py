@@ -7,7 +7,7 @@ EMAIL = "sadeekkasem@gmail.com"
 
 # Product data lives in products.json (edited from admin.html); catalog.py loads and checks it.
 from catalog import PRODUCTS, DEMO
-FREE = dict(payhip="https://payhip.com/b/qeHTl")
+FREE = dict(url="downloads/Free_Profit_Margin_Mini_Calculator_EN.zip")
 
 T = {
  "meta.title": dict(ar="SadeekShop | قوالب Excel جاهزة للمشاريع الصغيرة – عربي، إنجليزي، فنلندي",
@@ -53,6 +53,8 @@ T = {
  "card.sikka": dict(ar="اشترِ من سكة", en="Buy on SIKKA", fi="Osta SIKKAsta"),
  "card.also": dict(ar="متوفر أيضًا في:", en="Also on:", fi="Myös:"),
  "card.on": dict(ar="عبر Payhip", en="via Payhip", fi="Payhipin kautta"),
+ "card.soon": dict(ar="قريباً", en="Coming soon", fi="Tulossa pian"),
+ "card.download": dict(ar="تحميل مجاني", en="Free download", fi="Lataa ilmaiseksi"),
  "tag.alv": dict(ar="ضريبة ALV فنلندا", en="Finnish ALV", fi="Suomen ALV"),
  "tag.x365": dict(ar="Excel 365 / 2021+", en="Excel 365 / 2021+", fi="Excel 365 / 2021+"),
  "lang.ar": dict(ar="عربي", en="Arabic", fi="arabia"),

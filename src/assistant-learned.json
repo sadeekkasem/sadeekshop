@@ -2366,7 +2366,8 @@
     "fi": "Kate- ja hinnoittelulaskuri (myös ilmainen minilaskuri):"
    },
    "pids": [
-    "profit-margin-pricing"
+    "profit-margin-pricing",
+    "free-profit-margin-mini"
    ],
    "_variants": [
     "كيف احسب سعر البيع",
@@ -2385,7 +2386,10 @@
      "حسابات المحل",
      "ماركت",
      "سوبر ماركت",
-     "بقاله"
+     "بقاله",
+     "n8n",
+     "فواتير جيميل",
+     "محاسبه الماركت مع n8n"
     ],
     "en": [
      "bookkeeping",
@@ -2398,12 +2402,13 @@
     ]
    },
    "answer": {
-    "ar": "قالب المحاسبة للماركت:",
-    "en": "Bookkeeping for shops:",
-    "fi": "Kirjanpito kaupoille:"
+    "ar": "قالب المحاسبة للماركت، وحزمة الأتمتة مع n8n (قريباً):",
+    "en": "Bookkeeping for shops, and the n8n automation pack (coming soon):",
+    "fi": "Kirjanpito kaupoille, sekä n8n-automaatiopaketti (tulossa pian):"
    },
    "pids": [
-    "finnish-bookkeeping-vat"
+    "finnish-bookkeeping-vat",
+    "kirjanpito-n8n"
    ],
    "_variants": [
     "بدي قالب محاسبة للمحل",
@@ -2864,7 +2869,7 @@
       "en": "Download free",
       "fi": "Lataa ilmaiseksi"
      },
-     "h": "https://payhip.com/b/qeHTl"
+     "h": "downloads/Free_Profit_Margin_Mini_Calculator_EN.zip"
     }
    ],
    "_variants": [
@@ -4053,13 +4058,17 @@
      "قالب مجاني",
      "ببلاش",
      "مجانا",
-     "شي مجاني"
+     "شي مجاني",
+     "تكلفه الطبق",
+     "حاسبه تكلفه الطبق"
     ],
     "en": [
      "free calculator",
      "free template",
      "free download",
-     "anything free"
+     "anything free",
+     "dish cost",
+     "free dish"
     ],
     "fi": [
      "ilmainen laskuri",
@@ -4067,9 +4076,9 @@
     ]
    },
    "answer": {
-    "ar": "حاسبة الهامش الربحي المصغّرة مجانية بالكامل: حتى 10 منتجات، ملف Excel بالإنجليزية، بدون ماكرو وبدون مدة محددة. النسخة الكاملة تدعم 300 منتج وثلاث لغات.",
-    "en": "The Profit Margin Mini Calculator is completely free: up to 10 products, an English Excel file, no macros and no time limit. The full version handles 300 products in three languages.",
-    "fi": "Ilmainen katelaskuri: enintään 10 tuotetta, englanninkielinen, ei makroja eikä aikarajaa. Täysversiossa 300 tuotetta ja kolme kieltä."
+    "ar": "حاسبتان مجانيتان للتحميل مباشرة من الموقع: حاسبة الهامش الربحي المصغّرة (حتى 10 منتجات، ملف Excel بالإنجليزية) وحاسبة تكلفة الطبق (حتى 5 أطباق، بالعربية). بلا ماكرو وبلا مدة محددة.",
+    "en": "Two free calculators you can download directly from this site: the Profit Margin Mini Calculator (up to 10 products, English Excel) and the Dish Cost Calculator (up to 5 dishes, in Arabic). No macros and no time limit.",
+    "fi": "Kaksi ilmaista laskuria suoraan tältä sivustolta: katelaskuri (enintään 10 tuotetta, englanniksi) ja annoskustannuslaskuri (enintään 5 annosta, arabiaksi). Ei makroja eikä aikarajaa."
    },
    "links": [
     {
@@ -4078,7 +4087,15 @@
       "en": "Download free",
       "fi": "Lataa ilmaiseksi"
      },
-     "h": "https://payhip.com/b/qeHTl"
+     "h": "downloads/Free_Profit_Margin_Mini_Calculator_EN.zip"
+    },
+    {
+     "t": {
+      "ar": "حمّل حاسبة تكلفة الطبق مجانًا",
+      "en": "Download the dish-cost calculator free",
+      "fi": "Lataa annoslaskuri ilmaiseksi"
+     },
+     "h": "downloads/free-dish-cost-calculator.xlsx"
     },
     {
      "t": {
@@ -4092,6 +4109,10 @@
    "_variants": [
     "في شي ببلاش",
     "do you have a free template"
+   ],
+   "pids": [
+    "free-profit-margin-mini",
+    "free-dish-cost"
    ]
   },
   {
@@ -4124,7 +4145,7 @@
       "en": "Download free",
       "fi": "Lataa ilmaiseksi"
      },
-     "h": "https://payhip.com/b/qeHTl"
+     "h": "downloads/Free_Profit_Margin_Mini_Calculator_EN.zip"
     },
     {
      "t": {
@@ -4567,6 +4588,126 @@
    "_variants": [
     "القوالب مناسبة لمين",
     "are the templates suitable for a small business"
+   ]
+  },
+  {
+   "id": "fam-ma-laka-wa-ma-alayk",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "ما لك وما عليك",
+   "keywords": {
+    "ar": [
+     "ما لك وما عليك",
+     "مالك وما عليك",
+     "دفتر الديون",
+     "مستحقات",
+     "من لك عليه",
+     "من عليك له",
+     "متأخر"
+    ],
+    "en": [
+     "receivables",
+     "payables",
+     "what you are owed",
+     "debt ledger",
+     "overdue"
+    ],
+    "fi": [
+     "saatavat",
+     "velat",
+     "myöhästyneet"
+    ]
+   },
+   "answer": {
+    "ar": "ما لك وما عليك: دفتر ديون عربي في Excel، يظهر قريباً على الموقع.",
+    "en": "What You Are Owed & What You Owe: an Arabic receivables and payables book in Excel. Coming soon on the site.",
+    "fi": "Saatavat ja velat: arabiankielinen velkakirja Excelissä. Tulossa pian sivustolle."
+   },
+   "pids": [
+    "ma-laka-wa-ma-alayk"
+   ],
+   "_variants": [
+    "بدي دفتر ديون",
+    "receivables and payables template"
+   ]
+  },
+  {
+   "id": "fam-kirjanpito-n8n",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "محاسبة الماركت مع n8n",
+   "keywords": {
+    "ar": [
+     "محاسبه الماركت مع n8n",
+     "n8n",
+     "فواتير جيميل",
+     "اتمتة الفواتير",
+     "جيميل الى اكسل"
+    ],
+    "en": [
+     "n8n bookkeeping",
+     "gmail invoices to excel",
+     "market bookkeeping n8n"
+    ],
+    "fi": [
+     "n8n kirjanpito",
+     "gmail-laskut exceliin"
+    ]
+   },
+   "answer": {
+    "ar": "محاسبة الماركت مع n8n: أتمتة فواتير Gmail إلى ملف المحاسبة على جهازك، مع ضريبة ALV. تظهر قريباً على الموقع.",
+    "en": "Market Bookkeeping with n8n: automate Gmail invoices into the bookkeeping file on your computer, with Finnish VAT (ALV). Coming soon on the site.",
+    "fi": "Market-kirjanpito n8n:llä: Gmail-laskut automaattisesti tietokoneesi kirjanpitoon, ALV mukana. Tulossa pian sivustolle."
+   },
+   "pids": [
+    "kirjanpito-n8n"
+   ],
+   "_variants": [
+    "بدي الفواتير تروح للاكسل لحاله",
+    "gmail invoices to excel"
+   ]
+  },
+  {
+   "id": "fam-free-dish-cost",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "حاسبة تكلفة الطبق",
+   "keywords": {
+    "ar": [
+     "تكلفه الطبق",
+     "حاسبه تكلفه الطبق",
+     "تكلفه الطعام",
+     "تسعير المنيو المجاني"
+    ],
+    "en": [
+     "dish cost calculator",
+     "food cost calculator",
+     "free menu pricing"
+    ],
+    "fi": [
+     "annoskustannus",
+     "raaka-aineprosentti",
+     "ilmainen menu"
+    ]
+   },
+   "answer": {
+    "ar": "حاسبة تكلفة الطبق المجانية:",
+    "en": "Free Dish Cost Calculator:",
+    "fi": "Ilmainen annoskustannuslaskuri:"
+   },
+   "pids": [
+    "free-dish-cost"
+   ],
+   "links": [
+    {
+     "t": {
+      "ar": "حمّل حاسبة تكلفة الطبق مجانًا",
+      "en": "Download the dish-cost calculator free",
+      "fi": "Lataa annoslaskuri ilmaiseksi"
+     },
+     "h": "downloads/free-dish-cost-calculator.xlsx"
+    }
+   ],
+   "_variants": [
+    "بدي احسب تكلفه الطبق",
+    "free dish cost calculator"
    ]
   }
  ]

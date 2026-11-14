@@ -98,6 +98,7 @@
     $("imgHint").textContent = p ? "(اختياري: اختر صورة فقط إذا أردت تغيير الصورة الحالية)" : "(مطلوبة للقالب الجديد. JPG أو PNG، ويُفضّل بنسبة 4:3)";
     TEXT.forEach(function (k) { $("f_" + k).value = p ? (p[k] || "") : ""; });
     $("f_price").value = p ? p.price : ""; $("f_category").value = p ? p.category : "acc"; $("f_wide").checked = !!(p && p.wide);
+    $("f_status").value = (p && p.status) || ""; $("f_download").value = (p && p.download) || "";
     checks("lang").forEach(function (c) { c.checked = !!(p && (p.languages || []).indexOf(c.value) >= 0); });
     checks("badge").forEach(function (c) { c.checked = !!(p && (p.badges || []).indexOf(c.value) >= 0); });
     $("formBox").hidden = false; $("formBox").scrollIntoView({ behavior: "smooth" });
@@ -144,14 +145,22 @@
       name_ar: p.name_ar, name_en: p.name_en, name_fi: p.name_fi, desc_ar: p.desc_ar, desc_en: p.desc_en, desc_fi: p.desc_fi,
       price: Number(String($("f_price").value).replace(",", ".")), languages: checks("lang").filter(function (c) { return c.checked; }).map(function (c) { return c.value; }),
       category: $("f_category").value, badges: checks("badge").filter(function (c) { return c.checked; }).map(function (c) { return c.value; }),
-      payhip: p.payhip, etsy: p.etsy, gumroad: p.gumroad, sikka: p.sikka, wide: $("f_wide").checked, demo: old ? (old.demo || []) : [] };
+      payhip: p.payhip, etsy: p.etsy, gumroad: p.gumroad, sikka: p.sikka, wide: $("f_wide").checked, demo: old ? (old.demo || []) : [],
+      status: $("f_status").value || "", download: $("f_download").value.trim() };
+    if (!out.status) delete out.status;
+    if (!out.download) delete out.download;
     if (!SLUG.test(out.slug)) errs.push("الاسم المختصر (slug): حروف إنجليزية صغيرة وأرقام وشرطة فقط، مثل cafe-stock.");
     else if (!old && state.doc.products.some(function (x) { return x.slug === out.slug; })) errs.push("الاسم المختصر (slug) مستخدم لقالب آخر. اختر اسمًا مختلفًا.");
     [["name_ar", "اسم القالب بالعربية"], ["name_en", "اسم القالب بالإنجليزية"], ["name_fi", "اسم القالب بالفنلندية"],
      ["desc_ar", "الوصف بالعربية"], ["desc_en", "الوصف بالإنجليزية"], ["desc_fi", "الوصف بالفنلندية"]].forEach(function (x) { if (!out[x[0]]) errs.push(x[1] + ": مطلوب."); });
-    if (!(out.price > 0 && out.price <= 10000)) errs.push("السعر: اكتب رقمًا أكبر من صفر، مثل 17.");
+    var isSoon = out.status === "soon";
+    var isFree = !!out.download && !isSoon;
+    if (isFree) { if (!(out.price >= 0 && out.price <= 10000)) errs.push("السعر: للمجاني اكتب 0، أو رقمًا أكبر من صفر."); }
+    else if (!(out.price > 0 && out.price <= 10000)) errs.push("السعر: اكتب رقمًا أكبر من صفر، مثل 17.");
+    if (out.download && !/^downloads\/[A-Za-z0-9][A-Za-z0-9._-]*\.(zip|xlsx)$/.test(out.download)) errs.push("ملف التحميل: مسار مثل downloads/file.zip فقط.");
+    if (isSoon && out.download) errs.push("القالب بعلامة قريبًا لا يوضع له ملف تحميل.");
     if (!out.languages.length) errs.push("اختر لغة واحدة على الأقل لملف القالب.");
-    if (!URL_RE.test(out.payhip) && !(out.payhip === "" && URL_RE.test(out.etsy || "")) && !(out.payhip === "" && !(out.etsy || "") && URL_RE.test(out.sikka || ""))) errs.push("رابط Payhip أو Etsy أو سكة مطلوب ويجب أن يبدأ بـ https://");
+    if (!isSoon && !isFree && !URL_RE.test(out.payhip) && !(out.payhip === "" && URL_RE.test(out.etsy || "")) && !(out.payhip === "" && !(out.etsy || "") && URL_RE.test(out.sikka || ""))) errs.push("رابط Payhip أو Etsy أو سكة مطلوب ويجب أن يبدأ بـ https://");
     if (out.etsy && !URL_RE.test(out.etsy)) errs.push("رابط Etsy يجب أن يبدأ بـ https:// أو يبقى فارغًا.");
     if (out.gumroad && !URL_RE.test(out.gumroad)) errs.push("رابط Gumroad يجب أن يبدأ بـ https:// أو يبقى فارغًا.");
     if (out.sikka && !URL_RE.test(out.sikka)) errs.push("رابط سكة يجب أن يبدأ بـ https:// أو يبقى فارغًا.");

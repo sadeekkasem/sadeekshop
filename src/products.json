@@ -9,6 +9,7 @@
   "badges: شارات اختيارية على الصورة، من: alv و x365. اتركها [] إذا لا تريد",
   "payhip مطلوب، أو اتركه \"\" إذا وُجد رابط etsy أو sikka (يصبح زر الشراء على تلك المنصة). etsy و gumroad و sikka اختياريان: اتركهما \"\" إذا لا يوجد رابط",
   "sikka: رابط المنتج في متجر سكة https://sikka.me/sadeekshop. إن كان رابط الشراء الوحيد يظهر زر \"اشترِ الآن\" عبر سكة، وإلا يظهر زر \"اشترِ من سكة\". اتركه \"\" إذا لا يوجد رابط",
+  "status: اختياري. ضع \"soon\" ليظهر القالب بعلامة «قريباً» بلا زر شراء وبلا رابط متجر. download: مسار ملف التحميل المجاني داخل الموقع مثل downloads/file.zip، مع السعر 0. لا تضف status أو download إذا كان القالب للبيع كالعادة.",
   "hidden: true يخفي القالب من الموقع بدون حذفه. wide: true يجعل البطاقة عريضة",
   "demo اختياري: صور العرض src/images/<slug>-1.jpg و -2.jpg ... مع وصف لكل صورة بالترتيب. اتركه [] إذا لا يوجد",
   "انتبه: كل قيمة نصية بين علامتي \" \"، وبين كل حقل والذي يليه فاصلة ,"
@@ -37,6 +38,100 @@
   "demo": []
  },
  "products": [
+{
+ "slug": "ma-laka-wa-ma-alayk",
+ "hidden": false,
+ "name_ar": "ما لك وما عليك",
+ "name_en": "What You Are Owed & What You Owe",
+ "name_fi": "Saatavat ja velat",
+ "desc_ar": "دفتر ديون عربي في Excel: من لك ومن عليك، مع متأخر تلقائي وتقرير شهري.",
+ "desc_en": "An Arabic receivables and payables book in Excel: who owes you and whom you owe, with automatic overdue amounts and a monthly report.",
+ "desc_fi": "Arabiankielinen saatavien ja velkojen kirja Excelissä: automaattiset myöhästyneet ja kuukausiraportti.",
+ "price": 5,
+ "languages": [
+  "ar"
+ ],
+ "category": "acc",
+ "badges": [],
+ "payhip": "",
+ "etsy": "",
+ "gumroad": "",
+ "sikka": "",
+ "status": "soon",
+ "wide": false,
+ "demo": []
+},
+{
+ "slug": "kirjanpito-n8n",
+ "hidden": false,
+ "name_ar": "محاسبة الماركت مع n8n",
+ "name_en": "Market Bookkeeping with n8n",
+ "name_fi": "Market-kirjanpito n8n:llä",
+ "desc_ar": "أتمتة فواتير Gmail إلى ملف محاسبة الماركت على جهازك، مع ضريبة ALV.",
+ "desc_en": "Automate Gmail invoices into the market bookkeeping file on your computer, with Finnish VAT (ALV).",
+ "desc_fi": "Automaattinen Gmail-laskujen siirto tietokoneesi market-kirjanpitoon, ALV mukana.",
+ "price": 10,
+ "languages": [
+  "ar"
+ ],
+ "category": "auto",
+ "badges": [
+  "alv"
+ ],
+ "payhip": "",
+ "etsy": "",
+ "gumroad": "",
+ "sikka": "",
+ "status": "soon",
+ "wide": false,
+ "demo": []
+},
+{
+ "slug": "free-profit-margin-mini",
+ "hidden": false,
+ "name_ar": "حاسبة الهامش الربحي المجانية",
+ "name_en": "Free Profit Margin Mini Calculator",
+ "name_fi": "Ilmainen katelaskuri (minilaskuri)",
+ "desc_ar": "حاسبة مجانية لسعر البيع من التكلفة والهامش، مع الضريبة ورسوم المنصة.",
+ "desc_en": "A free calculator from cost and target margin to a suggested selling price, with VAT and platform fees.",
+ "desc_fi": "Ilmainen laskuri: hankintahinnasta ja tavoitekatteesta ehdotettuun myyntihintaan, ALV ja alustamaksut mukana.",
+ "price": 0,
+ "languages": [
+  "en"
+ ],
+ "category": "price",
+ "badges": [],
+ "payhip": "",
+ "etsy": "",
+ "gumroad": "",
+ "sikka": "",
+ "download": "downloads/Free_Profit_Margin_Mini_Calculator_EN.zip",
+ "wide": false,
+ "demo": []
+},
+{
+ "slug": "free-dish-cost",
+ "hidden": false,
+ "name_ar": "حاسبة تكلفة الطبق المجانية",
+ "name_en": "Free Dish Cost Calculator",
+ "name_fi": "Ilmainen annoskustannuslaskuri",
+ "desc_ar": "حاسبة مجانية لتكلفة الطبق وسعر المنيو من مكوناتك، بالعربية.",
+ "desc_en": "A free Arabic calculator for dish cost and a suggested menu price from your ingredients.",
+ "desc_fi": "Ilmainen arabiankielinen laskuri annoksen kustannukselle ja menuhinnalle raaka-aineistasi.",
+ "price": 0,
+ "languages": [
+  "ar"
+ ],
+ "category": "price",
+ "badges": [],
+ "payhip": "",
+ "etsy": "",
+ "gumroad": "",
+ "sikka": "",
+ "download": "downloads/free-dish-cost-calculator.xlsx",
+ "wide": false,
+ "demo": []
+},
  {
   "slug": "american-journal",
   "hidden": false,

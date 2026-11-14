@@ -100,7 +100,17 @@
     return res.slice(0,4).map(function(r){ return r.p; });
   }
   var PLAN = {en:{"شهري":"monthly","سنوي":"yearly"}, fi:{"شهري":"kuukausi","سنوي":"vuosi"}};
-  function money(p,l){ return l==="en" ? "€"+p : p+" €"; }
+  function money(p,l){
+    if (!p) return l==="en" ? "Free" : (l==="fi" ? "Ilmainen" : "مجاني");
+    var t = l==="en" ? "€"+p : p+" €";
+    return t;
+  }
+  function soonLabel(l){ return l==="en" ? "Coming soon" : (l==="fi" ? "Tulossa pian" : "قريباً"); }
+  function prodLinks(p,u){
+    if (p.download) return [{t:u.freeBtn, h:p.download}];
+    return (p.buy||[]).map(function(b){ return {t:u.buy+" "+b.via, h:b.url}; });
+  }
+  function priceLabel(p,l){ return money(p.price,l) + (p.status==="soon" ? " · "+soonLabel(l) : ""); }
   function links(arr){ return arr; }
   var CURQ = "";
   function waUrl(u){ return KB.contact.whatsapp + (CURQ ? "?text=" + encodeURIComponent(u.pre + CURQ) : ""); }
@@ -142,7 +152,7 @@
     var ps = [];
     if (best.pids) ps = KB.products.filter(function(p){ return best.pids.some(function(x){ return p.id.indexOf(x) === 0; }); });
     if (best.plang) ps = KB.products.filter(function(p){ return best.plang === "*" || p.langs.indexOf(best.plang) >= 0; });
-    if (best.plang) { text += "\n" + ps.map(function(p){ return "• "+p.name[l]+" — "+money(p.price,l); }).join("\n"); }
+    if (best.plang) { text += "\n" + ps.map(function(p){ return "• "+p.name[l]+" — "+priceLabel(p,l); }).join("\n"); }
     else if (ps.length) { var parts = ps.map(function(p){ return prodText(p,l,u); });
       text += "\n\n" + parts.map(function(x){ return x.text; }).join("\n\n");
       lk = (parts.length === 1 ? parts[0].links : [].concat.apply([], parts.map(function(x,i){ return x.links.slice(0,1).map(function(k){ return {t:ps[i].name[l].split(/[–(—:]/)[0].trim()+" · "+k.t.split(" ").pop(), h:k.h}; }); }))).concat(lk); }
@@ -151,11 +161,11 @@
   }
   function prodText(p,l,u){
     var langs = p.langs.map(function(x){ return u.L[x]; }).join("، ".charAt(l==="ar"?0:1) === "،" ? "، " : ", ");
-    return {text:"• "+p.name[l]+"\n"+u.price+": "+money(p.price,l)+"  ·  "+u.langs+": "+langs+"\n"+p.desc[l],
-            links:p.buy.map(function(b){ return {t:u.buy+" "+b.via, h:b.url}; })};
+    return {text:"• "+p.name[l]+"\n"+u.price+": "+priceLabel(p,l)+"  ·  "+u.langs+": "+langs+"\n"+p.desc[l],
+            links:prodLinks(p,u)};
   }
   function listAns(l,u){
-    var lst = KB.products.map(function(p){ return "• "+p.name[l]+" — "+money(p.price,l); }).join("\n");
+    var lst = KB.products.map(function(p){ return "• "+p.name[l]+" — "+priceLabel(p,l); }).join("\n");
     return {text:u.list.replace("{n}",KB.products.length)+"\n"+lst+"\n\n"+u.listEnd, links:[{t:"Payhip",h:KB.stores.payhip},{t:"Etsy",h:KB.stores.etsy},{t:"SIKKA",h:KB.stores.sikka}]};
   }
   function answer(q){

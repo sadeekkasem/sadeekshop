@@ -103,8 +103,13 @@ def build(out, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP):
         for via, k in (("Payhip", "payhip"), ("Etsy", "etsy"), ("SIKKA", "sikka"), ("Gumroad", "gumroad")):
             if p.get(k):
                 buy.append({"via": via, "url": p[k]})
-        prods.append({"id": p["id"], "name": p["name"], "desc": p["ben"], "price": p["price"],
-                      "cat": p["cat"], "langs": p["langs"], "buy": buy})
+        item = {"id": p["id"], "name": p["name"], "desc": p["ben"], "price": p["price"],
+                "cat": p["cat"], "langs": p["langs"], "buy": buy}
+        if p.get("status"):
+            item["status"] = p["status"]
+        if p.get("download"):
+            item["download"] = p["download"]
+        prods.append(item)
     faq, n = [], 1
     while f"faq.{n}q" in T:
         faq.append({"q": T[f"faq.{n}q"], "a": T[f"faq.{n}a"]}); n += 1
@@ -117,7 +122,7 @@ def build(out, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP):
         "cats": cats,
         "faq": faq,
         "how": how,
-        "free": {"url": FREE["payhip"], "title": T.get("free.title"), "text": T.get("free.text")},
+        "free": {"url": FREE["url"], "title": T.get("free.title"), "text": T.get("free.text")},
         "custom": {"url": "custom-template.html", "title": T.get("req.title"), "lead": T.get("req.lead"),
                    "reply": T.get("req.how.2d")},
         "shipops": _shipops(out),

@@ -10,8 +10,10 @@ STATIC = os.path.join(HERE, "static")
 CATS = {"acc", "stock", "price", "hr", "home", "auto"}
 LANGS = {"ar", "en", "fi"}
 BADGES = {"alv", "x365"}
+STATUSES = {"", "soon"}
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 URL = re.compile(r"^https://[^\s\"'<>]+$")
+DL = re.compile(r"^downloads/[A-Za-z0-9][A-Za-z0-9._-]*\.(zip|xlsx)$")
 IMG_EXT = (".jpg", ".jpeg", ".png", ".webp")
 
 
@@ -66,8 +68,23 @@ def load():
         if isinstance(pr, str):
             try: pr = float(pr.replace(",", ".").replace("€", "").strip())
             except ValueError: pass
-        if isinstance(pr, bool) or not isinstance(pr, (int, float)) or pr <= 0 or pr > 10000:
-            errors.append(f"{who}: السعر price يجب أن يكون رقمًا أكبر من صفر، مثل 17.")
+        status = p.get("status") or ""
+        if status not in STATUSES:
+            errors.append(f"{who}: الحقل status يجب أن يكون \"soon\" أو فارغًا \"\".")
+        download = p.get("download") or ""
+        if download and (not isinstance(download, str) or not DL.match(download)):
+            errors.append(f"{who}: الحقل download يجب أن يكون مسارًا مثل downloads/file.zip أو فارغًا.")
+        elif download and not os.path.exists(os.path.join(STATIC, download)):
+            errors.append(f"{who}: ملف التحميل غير موجود. ضعه في src/static/{download}")
+        if status == "soon" and download:
+            errors.append(f"{who}: القالب بعلامة قريبًا لا يوضع له ملف تحميل.")
+        is_free = bool(download) and status != "soon"
+        min_price = 0 if is_free else 0.0001
+        if isinstance(pr, bool) or not isinstance(pr, (int, float)) or pr < min_price or pr > 10000:
+            if is_free:
+                errors.append(f"{who}: السعر price للقالب المجاني يجب أن يكون 0 أو رقمًا أكبر من صفر.")
+            else:
+                errors.append(f"{who}: السعر price يجب أن يكون رقمًا أكبر من صفر، مثل 17.")
         elif float(pr).is_integer():
             pr = int(pr)
         langs = p.get("languages")
@@ -82,8 +99,8 @@ def load():
         has_payhip = isinstance(payhip, str) and URL.match(payhip)
         has_etsy = isinstance(etsy, str) and URL.match(etsy)
         has_sikka = isinstance(sikka, str) and URL.match(sikka)
-        if p.get("hidden") is not True and not (has_payhip or (payhip == "" and has_etsy) or (payhip == "" and etsy == "" and has_sikka)):
-            errors.append(f"{who}: رابط payhip أو etsy أو sikka مطلوب ويجب أن يبدأ بـ https://")
+        if p.get("hidden") is not True and status != "soon" and not download and not (has_payhip or (payhip == "" and has_etsy) or (payhip == "" and etsy == "" and has_sikka)):
+            errors.append(f"{who}: رابط payhip أو etsy أو sikka مطلوب ويجب أن يبدأ بـ https:// (إلا إذا كان القالب مجانيًا بملف download أو بعلامة قريبًا).")
         for k in ("payhip", "etsy", "gumroad", "sikka"):
             v = p.get(k, "")
             if v and (not isinstance(v, str) or not URL.match(v)):
@@ -102,7 +119,7 @@ def load():
                     errors.append(f"{who}: صورة العرض رقم {n} غير موجودة. ارفعها باسم src/images/{slug}-{n}.jpg أو احذف وصفها من demo.")
         out.append(dict(id=slug, price=pr, cat=p.get("category"), langs=langs or [], tags=badges or [],
                         payhip=p.get("payhip", ""), etsy=p.get("etsy", ""), gumroad=p.get("gumroad", ""), sikka=p.get("sikka", ""),
-                        wide=p.get("wide") is True,
+                        status=status, download=download, wide=p.get("wide") is True,
                         name=dict(ar=p.get("name_ar", ""), en=p.get("name_en", ""), fi=p.get("name_fi", "")),
                         ben=dict(ar=p.get("desc_ar", ""), en=p.get("desc_en", ""), fi=p.get("desc_fi", "")),
                         demo=[(d.get("en", ""), d.get("ar", ""), d.get("fi", "")) for d in demo]))

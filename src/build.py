@@ -36,6 +36,8 @@ def icon(n, cls="ic"):
     return f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{ICON[n]}</svg>'
 
 def price(p):
+    if not p:
+        return {"ar": "مجاني", "en": "Free", "fi": "Ilmainen"}
     return {"ar": f"{p} €", "en": f"€{p}", "fi": f"{p} €"}
 
 def buy_link(p):
@@ -51,20 +53,33 @@ def card(p, i):
     pid = p["id"]
     langs = "".join(f'<li class="lg lg-{l}">{tx("lang."+l)}</li>' for l in p["langs"])
     tags = "".join(f'<span class="tag tag-{g}">{tx("tag."+g)}</span>' for g in p["tags"])
+    soon = p.get("status") == "soon"
+    dl = p.get("download") or ""
+    if soon:
+        tags += f'<span class="tag tag-soon">{tx("card.soon")}</span>'
     pr = price(p["price"])
-    buy_url, buy_via = buy_link(p)
-    alt_etsy = p.get('etsy') if p.get('payhip') else ''
-    show_sikka = bool(p.get('sikka') and buy_via != "SIKKA")
+    buy_url, buy_via = (("", "") if soon or dl else buy_link(p))
+    alt_etsy = p.get('etsy') if p.get('payhip') and not soon and not dl else ''
+    show_sikka = bool(p.get('sikka') and buy_via != "SIKKA") and not soon and not dl
+    gum_ok = bool(p.get('gumroad') and not soon and not dl)
     alt = (f'''    <div class="stores-alt">{tx("card.also","span","also")}
-      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if p.get('gumroad') else ''}{('<a class="store store-sikka" href="'+e(p['sikka'])+'" target="_blank" rel="noopener">'+tx("card.sikka")+'</a>') if show_sikka else ''}
-    </div>''') if (alt_etsy or p.get('gumroad') or show_sikka) else ''
+      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if gum_ok else ''}{('<a class="store store-sikka" href="'+e(p['sikka'])+'" target="_blank" rel="noopener">'+tx("card.sikka")+'</a>') if show_sikka else ''}
+    </div>''') if (alt_etsy or gum_ok or show_sikka) else ''
     lazy = 'loading="lazy" decoding="async"' if i > 2 else 'decoding="async"'
+    media_img = f'<img src="assets/img/{pid}-480.webp" srcset="assets/img/{pid}-480.webp 480w, assets/img/{pid}-800.webp 800w" sizes="(max-width:640px) 92vw, (max-width:1024px) 46vw, {"560px" if pid in WIDE else "380px"}" width="800" height="600" {lazy} alt="{e(t(f"p.{pid}.name"))}" data-alt-key="p.{pid}.name">'
+    tags_html = ('<div class="tags">'+tags+'</div>') if tags else ''
+    if dl:
+        media = f'<a class="card-media" href="{e(dl)}" download tabindex="-1" aria-hidden="true">\n    {media_img}\n    {tags_html}\n  </a>'
+        action = f'<a class="btn btn-dl" href="{e(dl)}" download>{icon("download")}{tx("card.download")}</a>'
+    elif soon or not buy_url:
+        media = f'<div class="card-media">\n    {media_img}\n    {tags_html}\n  </div>'
+        action = f'<span class="btn btn-soon" aria-disabled="true">{tx("card.soon")}</span>' if soon else ''
+    else:
+        media = f'<a class="card-media" href="{e(buy_url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">\n    {media_img}\n    {tags_html}\n  </a>'
+        action = f'<a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>'
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}">
-  <a class="card-media" href="{e(buy_url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-    <img src="assets/img/{pid}-480.webp" srcset="assets/img/{pid}-480.webp 480w, assets/img/{pid}-800.webp 800w" sizes="(max-width:640px) 92vw, (max-width:1024px) 46vw, {'560px' if pid in WIDE else '380px'}" width="800" height="600" {lazy} alt="{e(t(f"p.{pid}.name"))}" data-alt-key="p.{pid}.name">
-    {('<div class="tags">'+tags+'</div>') if tags else ''}
-  </a>
+  {media}
   <div class="card-body">
     <ul class="langs">{langs}</ul>
     <h3 class="card-title" data-i18n="p.{pid}.name">{e(t(f"p.{pid}.name"))}</h3>
@@ -72,7 +87,7 @@ def card(p, i):
     <div class="card-foot">
       <div class="price"><bdi data-price='{json.dumps(pr)}'>{pr[L]}</bdi></div>
       <div class="actions">
-        <a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>
+        {action}
       </div>
     </div>
 {alt}
@@ -107,7 +122,7 @@ cats = ["all", "acc", "stock", "price", "hr", "home", "auto"]
 filters = "".join(f'<button type="button" class="chip{" is-on" if c=="all" else ""}" data-filter="{c}" aria-pressed="{"true" if c=="all" else "false"}">{tx("filter."+c)}</button>' for c in cats)
 WIDE = {p["id"] for p in PRODUCTS if p.get("wide")}
 cards = "".join(card(p, i) for i, p in enumerate(PRODUCTS))
-minp = min(p["price"] for p in PRODUCTS)
+minp = min((p["price"] for p in PRODUCTS if p["price"] > 0), default=0)
 
 why = "".join(f'''<li class="why-item"><span class="why-ic">{icon(ic)}</span><h3 data-i18n="why.{n}t">{e(t(f"why.{n}t"))}</h3><p data-i18n="why.{n}d">{e(t(f"why.{n}d"))}</p></li>'''
               for n, ic in zip(range(1,7), ["lock","cell","globe","receipt","download","shield"]))
@@ -277,7 +292,7 @@ doc = f'''<!doctype html>
           <li>{icon("check","ic sm")}{tx("free.p3")}</li>
         </ul>
         <div class="cta-row">
-          <a class="btn btn-yellow btn-lg" href="{FREE['payhip']}" target="_blank" rel="noopener">{icon("download")}{tx("free.cta")}</a>
+          <a class="btn btn-yellow btn-lg" href="{e(FREE['url'])}" download>{icon("download")}{tx("free.cta")}</a>
         </div>
         <p class="free-more"><a href="https://payhip.com/b/HwWAn" target="_blank" rel="noopener" data-i18n="free.more">{e(t("free.more"))}</a></p>
       </div>

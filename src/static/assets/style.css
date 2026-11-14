@@ -48,6 +48,11 @@ p{margin:0 0 1em}
 .btn-yellow:hover{background:var(--y2)}
 .btn-buy{background:var(--g7);color:#fff;padding:9px 16px}
 .btn-buy:hover{background:var(--g8)}
+.btn-dl{background:var(--y);color:var(--ink);padding:9px 16px}
+.btn-dl:hover{background:var(--y2)}
+.btn-soon{background:var(--g1);color:var(--g7);padding:9px 16px;cursor:default;pointer-events:none}
+.btn-soon:hover{transform:none;box-shadow:none}
+.tag-soon{background:var(--ink);color:#fff}
 
 /* hero */
 .hero{position:relative;color:#fff;background:radial-gradient(1200px 500px at 85% -10%,rgba(255,213,74,.18),transparent 60%),radial-gradient(900px 600px at 0% 110%,rgba(28,138,79,.55),transparent 60%),linear-gradient(160deg,var(--g9),var(--g7) 70%,var(--g6));overflow:hidden}
