@@ -47,6 +47,7 @@ T = {
  "filter.price": dict(ar="تسعير ومطاعم", en="Pricing & restaurants", fi="Hinnoittelu ja ravintolat"),
  "filter.hr": dict(ar="رواتب", en="Payroll", fi="Palkat"),
  "filter.home": dict(ar="ميزانية الأسرة", en="Home budget", fi="Kotitalous"),
+ "filter.auto": dict(ar="أتمتة ونشر", en="Automation & posting", fi="Automaatio ja julkaisu"),
  "card.buy": dict(ar="اشترِ الآن", en="Buy now", fi="Osta nyt"),
  "card.etsy": dict(ar="في Etsy", en="On Etsy", fi="Etsyssä"),
  "card.sikka": dict(ar="اشترِ من سكة", en="Buy on SIKKA", fi="Osta SIKKAsta"),

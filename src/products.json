@@ -5,10 +5,10 @@
   "slug: اسم قصير بالإنجليزية بحروف صغيرة وأرقام وشرطة فقط، مثل invoice-pro. يجب أن تكون صورة القالب باسم src/images/<slug>.jpg",
   "price: السعر باليورو رقم فقط بدون رمز €، مثل 5",
   "languages: لغات ملف القالب، من: ar و en و fi",
-  "category: واحد من: acc (محاسبة وضريبة)، stock (مخزون ومبيعات)، price (تسعير ومطاعم)، hr (رواتب)، home (ميزانية الأسرة)",
+  "category: واحد من: acc (محاسبة وضريبة)، stock (مخزون ومبيعات)، price (تسعير ومطاعم)، hr (رواتب)، home (ميزانية الأسرة)، auto (أتمتة ونشر)",
   "badges: شارات اختيارية على الصورة، من: alv و x365. اتركها [] إذا لا تريد",
-  "payhip مطلوب، أو اتركه \"\" إذا وُجد رابط etsy (يصبح زر الشراء على Etsy). etsy و gumroad اختياريان: اتركهما \"\" إذا لا يوجد رابط",
-  "sikka اختياري: رابط القالب في متجر سكة https://sikka.me/sadeekshop، يظهر زر \"اشترِ من سكة\". اتركه \"\" إذا لا يوجد رابط",
+  "payhip مطلوب، أو اتركه \"\" إذا وُجد رابط etsy أو sikka (يصبح زر الشراء على تلك المنصة). etsy و gumroad و sikka اختياريان: اتركهما \"\" إذا لا يوجد رابط",
+  "sikka: رابط المنتج في متجر سكة https://sikka.me/sadeekshop. إن كان رابط الشراء الوحيد يظهر زر \"اشترِ الآن\" عبر سكة، وإلا يظهر زر \"اشترِ من سكة\". اتركه \"\" إذا لا يوجد رابط",
   "hidden: true يخفي القالب من الموقع بدون حذفه. wide: true يجعل البطاقة عريضة",
   "demo اختياري: صور العرض src/images/<slug>-1.jpg و -2.jpg ... مع وصف لكل صورة بالترتيب. اتركه [] إذا لا يوجد",
   "انتبه: كل قيمة نصية بين علامتي \" \"، وبين كل حقل والذي يليه فاصلة ,"
@@ -37,6 +37,125 @@
   "demo": []
  },
  "products": [
+ {
+  "slug": "american-journal",
+  "hidden": false,
+  "name_ar": "اليومية الأمريكية الذكية",
+  "name_en": "Smart American Journal",
+  "name_fi": "Älykäs amerikkalainen kirjanpitopäiväkirja",
+  "desc_ar": "وداعًا للكتابة اليدوية في Excel: افتح اختصار «تسجيل قيد» من سطح المكتب، املأ فورم عربي بسيط لقيود المدين والدائن (مع رفض القيود الخاطئة برسالة واضحة)، فيُكتب القيد تلقائيًا في ملف اليومية الأمريكية وتنتقل فورًا إلى صفحة التقارير. التثبيت بضغطة زر واحدة. صفحة التقارير تعرض ميزان المراجعة والإيرادات والمصروفات وصافي الربح ورسومًا بيانية وآخر القيود وتنبيهات عدم التوازن، مع فلترة حسب الشهر وطباعة. ملف Excel احترافي يتسع لـ 5000 قيد و27 حسابًا، مع ميزان مراجعة وملخص ورسوم بيانية، محمي ومحافظ على التنسيق. يعمل على جهازك بدون إنترنت بعد التثبيت وبياناتك تبقى عندك، مع دليل مستخدم عربي PDF وملف إزالة آمن. مناسب للمحلات الصغيرة والميني ماركت والمكاتب والمحاسبين وطلاب المحاسبة. يتطلب Windows 10/11 وMicrosoft Excel، والإنترنت أثناء التثبيت لأول مرة فقط. الترخيص لمستخدم واحد ويُمنع إعادة البيع أو التوزيع.",
+  "desc_en": "Stop typing journal entries by hand in Excel. Open the desktop shortcut, fill a simple Arabic web form for debit/credit entries (invalid entries are rejected with a clear message), and the entry is written in the correct place in your American journal file; you are taken straight to the reports page. One-click install. The reports page shows the trial balance, income and expenses, net profit, charts, recent entries and imbalance alerts, with month filtering and print. A professional Excel file holds 5,000 entries and 27 accounts, with a trial balance, summary and charts, protected so the layout stays intact. It runs on your computer offline after setup and your data stays with you, plus an Arabic PDF guide and a safe uninstaller. Built for small shops, mini-markets, offices, accountants and accounting students. Requires Windows 10/11 and Microsoft Excel; internet is needed only during the first install. Single-user licence; resale or redistribution is not allowed.",
+  "desc_fi": "Lopeta kirjanpitovientien kirjoittaminen käsin Exceliin. Avaa työpöydän pikakuvake, täytä yksinkertainen arabiankielinen lomake debet-/kredit-viennille (virheelliset viennit hylätään selvällä viestillä), ja vienti kirjoitetaan oikeaan kohtaan amerikkalaiseen päiväkirjatiedostoon; siirryt heti raporttisivulle. Asennus yhdellä napsautuksella. Raporttisivulla näkyvät koetase, tuotot ja kulut, nettotulos, kaaviot, viimeisimmät viennit ja epätasapainohälytykset, sekä suodatus kuukauden mukaan ja tulostus. Ammattimainen Excel-tiedosto vetää 5 000 vientiä ja 27 tiliä; mukana koetase, yhteenveto ja kaaviot, suojattu niin että asettelu säilyy. Toimii tietokoneellasi ilman internetiä asennuksen jälkeen, ja tietosi pysyvät sinulla. Mukana arabiankielinen PDF-opas ja turvallinen poisto-ohjelma. Sopii pienille kaupoille, marketeille, toimistoille, kirjanpitäjille ja alan opiskelijoille. Vaatii Windows 10/11:n ja Microsoft Excelin; internetiä tarvitaan vain ensimmäisessä asennuksessa. Lisenssi yhdelle käyttäjälle; jälleenmyynti tai levitys ei ole sallittua.",
+  "price": 10,
+  "languages": [
+   "ar"
+  ],
+  "category": "acc",
+  "badges": [],
+  "payhip": "",
+  "etsy": "",
+  "gumroad": "",
+  "sikka": "https://sikka.me/sadeekshop/product/%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A%D8%A9-%D8%A7%D9%84%D8%B0%D9%83%D9%8A%D8%A9-%D8%B3%D8%AC%D9%91%D9%84-%D9%82%D9%8A%D9%88%D8%AF%D9%83-%D9%85%D9%86-%D9%81%D9%88%D8%B1%D9%85-%D9%88%D9%8A%D8%A8-%D9%88%D8%A7%D9%84%D8%AA%D9%82%D8%A7%D8%B1%D9%8A%D8%B1-%D8%AA%D8%B8%D9%87%D8%B1-%D9%81%D9%88%D8%B1%D9%8B%D8%A7-%D8%AA%D8%AB%D8%A8%D9%8A%D8%AA-%D8%A8%D8%B6%D8%BA%D8%B7%D8%A9-%D8%B2%D8%B1-excel-n8n-mwbwvbuh",
+  "wide": true,
+  "demo": [
+   {
+    "ar": "صفحة تقارير اليومية: ميزان المراجعة، حالة التوازن، صافي الربح، وبطاقات المدين والدائن مع إمكانية الطباعة والفلترة حسب الشهر.",
+    "en": "Journal reports page: trial balance, balance status, net profit, and debit/credit totals, with print and month filtering.",
+    "fi": "Päiväkirjan raporttisivu: koetase, tasapainon tila, nettotulos sekä debet- ja kredit-summat, tulostus ja suodatus kuukauden mukaan."
+   },
+   {
+    "ar": "فورم ويب عربي لتسجيل القيد (مدين / دائن) مع التاريخ والبيان والحسابات والمبلغ، ويُرفض القيد الخاطئ برسالة واضحة.",
+    "en": "Arabic web form for a journal entry (debit/credit) with date, description, accounts and amount; invalid entries are rejected with a clear message.",
+    "fi": "Arabiankielinen verkkolomake vientiä varten (debet/kredit): päivä, selite, tilit ja summa. Virheelliset viennit hylätään selvällä viestillä."
+   },
+   {
+    "ar": "تنبيه عدم التوازن يظهر فورًا في التقارير مع ميزان المراجعة الكامل لأرقام الحسابات، لتكتشف الخطأ وتصحّحه.",
+    "en": "An imbalance alert appears at once on the reports page with the full trial balance, so you can find and fix the error.",
+    "fi": "Epätasapainohälytys näkyy heti raporteissa yhdessä täyden koetaseen kanssa, jotta virheen löytää ja korjaa."
+   },
+   {
+    "ar": "ملف Excel احترافي يتسع لـ 5000 قيد و27 حسابًا، مع ميزان مراجعة وملخص ورسوم بيانية، محمي ومحافظ على التنسيق.",
+    "en": "A professional Excel file for 5,000 entries and 27 accounts, with a trial balance, summary and charts, protected so the layout stays intact.",
+    "fi": "Ammattimainen Excel-tiedosto 5 000 viennille ja 27 tilille: koetase, yhteenveto ja kaaviot, suojattu niin että asettelu säilyy."
+   }
+  ]
+ },
+ {
+  "slug": "masarifi",
+  "hidden": false,
+  "name_ar": "مصروفي الذكي",
+  "name_en": "Smart Masarifi Expense Tracker",
+  "name_fi": "Älykäs Masarifi-kuluseuranta",
+  "desc_ar": "تطبيق مصاريف عربي يعمل على جهازك: سجّل من فورم بسيط أو بجملة عادية في الشات مثل «غداء 12 يورو بطاقة» مع تأكيد قبل الحفظ، واسأله «كم صرفت هذا الشهر؟» أو «أكثر فئة؟» أو قارن بالشهر الماضي. تنبيهات ذكية عند 80٪ و100٪ من الميزانية أو زيادة فئة بنسبة 30٪، وتقرير شهري عربي PDF جاهز للطباعة، ولوحة تحكم برسومات تتسع لـ 20,000 عملية، ونسخة احتياطية تلقائية قبل كل حفظ (آخر 20 نسخة). التثبيت بضغطة زر يجهّز كل شيء على جهازك، مع دليل عربي PDF واختصارات على سطح المكتب وملف إزالة آمن. كل الميزات مجانية بعد الشراء: لا اشتراك ولا مفاتيح API ولا ذكاء سحابي، وبياناتك لا تغادر جهازك. يتطلب Windows 10/11، والإنترنت أثناء التثبيت لأول مرة فقط. الترخيص لمستخدم واحد ويُمنع إعادة البيع أو التوزيع.",
+  "desc_en": "An Arabic expense app that runs on your computer: add an expense from a simple form or by typing a normal sentence in the chat, such as “lunch 12 euros card”, then confirm before it is saved. Ask “how much did I spend this month?”, “which category is highest?”, or compare with last month. Smart alerts at 80% and 100% of the budget or when a category rises by 30%, a printable monthly Arabic PDF report, a dashboard with charts for up to 20,000 transactions, and an automatic backup before every save (the last 20 copies are kept). One-click install sets everything up on your machine, with an Arabic PDF guide, desktop shortcuts and a safe uninstaller. After purchase every feature is included: no subscription, no API keys and no cloud AI, and your data never leaves your computer. Requires Windows 10/11; internet is needed only during the first install. Single-user licence; resale or redistribution is not allowed.",
+  "desc_fi": "Arabiankielinen kulusovellus omalla tietokoneellasi: lisää kulu yksinkertaisella lomakkeella tai kirjoittamalla tavallinen lause chattiin, esimerkiksi “lounas 12 euroa kortti”, ja vahvista ennen tallennusta. Kysy “paljonko käytin tässä kuussa?”, “mikä kategoria on suurin?” tai vertaa edelliseen kuukauteen. Älykkäät hälytykset kun budjetista on käytetty 80 % tai 100 % tai kun jokin kategoria nousee 30 %, tulostettava kuukausittainen arabiankielinen PDF-raportti, kojelauta kaavioineen jopa 20 000 tapahtumalle, ja automaattinen varmuuskopio ennen jokaista tallennusta (viimeiset 20 kopiota säilytetään). Asennus yhdellä napsautuksella laittaa kaiken valmiiksi koneellesi; mukana arabiankielinen PDF-opas, työpöydän pikakuvakkeet ja turvallinen poisto-ohjelma. Oston jälkeen kaikki ominaisuudet kuuluvat hintaan: ei tilausmaksua, ei API-avaimia eikä pilvessä toimivaa tekoälyä, ja tietosi eivät poistu koneeltasi. Vaatii Windows 10/11:n; internetiä tarvitaan vain ensimmäisessä asennuksessa. Lisenssi yhdelle käyttäjälle; jälleenmyynti tai levitys ei ole sallittua.",
+  "price": 10,
+  "languages": [
+   "ar"
+  ],
+  "category": "home",
+  "badges": [],
+  "payhip": "",
+  "etsy": "",
+  "gumroad": "",
+  "sikka": "https://sikka.me/sadeekshop/product/%D9%85%D8%B5%D8%B1%D9%88%D9%81%D9%8A-%D8%A7%D9%84%D8%B0%D9%83%D9%8A-%D8%B3%D8%AC%D9%91%D9%84-%D9%85%D8%B5%D8%A7%D8%B1%D9%8A%D9%81%D9%83-%D9%88%D8%A7%D8%B3%D8%A3%D9%84-%D8%B9%D9%86%D9%87%D8%A7-%D8%A8%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A-%D8%AA%D9%86%D8%A8%D9%8A%D9%87%D8%A7%D8%AA-%D9%88%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-pdf%D8%8C-%D8%AA%D8%AB%D8%A8%D9%8A%D8%AA-%D8%A8%D8%B6%D8%BA%D8%B7%D8%A9-%D8%B2%D8%B1-excel-n8n-mwejs3uc",
+  "wide": true,
+  "demo": [
+   {
+    "ar": "لوحة التحكم: مصاريف الشهر، الميزانية والمتبقي، الرسوم البيانية، وربط الفورم مع ملف Excel على جهازك.",
+    "en": "Dashboard: this month’s spending, budget and remaining amount, charts, and the form linked to the Excel file on your computer.",
+    "fi": "Kojelauta: kuukauden kulut, budjetti ja jäljellä oleva summa, kaaviot, sekä lomake yhdistettynä tietokoneesi Excel-tiedostoon."
+   },
+   {
+    "ar": "إدخال بجملة عادية في الشات مثل «بنزين 40 كاش أمس»، مع معاينة وتأكيد قبل الحفظ، ويمكنك سؤاله عن مصاريفك بالعربية.",
+    "en": "Add an expense in a normal sentence in the chat, such as “petrol 40 cash yesterday”, preview and confirm before saving, and ask about your spending in Arabic.",
+    "fi": "Lisää kulu tavallisella lauseella chattiin, esimerkiksi “bensa 40 käteinen eilen”, tarkista ja vahvista ennen tallennusta, ja kysy kuluistasi arabiaksi."
+   },
+   {
+    "ar": "تنبيهات ذكية عند الاقتراب من حد الميزانية (80٪ و100٪) أو عند زيادة فئة بنسبة 30٪ أو أكثر مقارنة بالشهر السابق.",
+    "en": "Smart alerts when you approach the budget limit (80% and 100%) or when a category rises by 30% or more versus last month.",
+    "fi": "Älykkäät hälytykset kun lähestyt budjettirajaa (80 % ja 100 %) tai kun jokin kategoria nousee 30 % tai enemmän edelliseen kuukauteen verrattuna."
+   },
+   {
+    "ar": "تقرير شهري عربي PDF جاهز للطباعة: الإجمالي والميزانية والمتبقي، المصاريف حسب الفئة، أكبر المصاريف، وملاحظات من بياناتك.",
+    "en": "A printable monthly Arabic PDF report: total, budget and remaining amount, spending by category, the largest expenses, and notes from your data.",
+    "fi": "Tulostettava kuukausittainen arabiankielinen PDF-raportti: kokonaissumma, budjetti ja jäljellä oleva, kulut kategoriottain, suurimmat kulut ja havainnot tiedoistasi."
+   }
+  ]
+ },
+ {
+  "slug": "daily-autopost",
+  "hidden": false,
+  "name_ar": "النشر التلقائي اليومي",
+  "name_en": "Daily Auto-Posting",
+  "name_fi": "Päivittäinen automaattijulkaisu",
+  "desc_ar": "اكتب منشوراتك في ملف Excel، واختر المنصات والمواعيد من صفحة إعدادات عربية، فتُنشر وحدها كل يوم على فيسبوك وإنستغرام ولينكدإن وX وتيليغرام وبنترست وثريدز وبلوسكاي وديسكورد. التثبيت بضغطة زر واحدة يجهّز n8n وكل شيء على جهازك. صفحة الإعدادات تتيح اختيار المنصات وحتى 3 مواعيد يوميًا وأيام النشر والمنطقة الزمنية، ونوع المحتوى (بالترتيب، أو ترويج فقط، أو نصائح فقط، أو بالتناوب)، مع إضافة رابط متجرك والوسوم تلقائيًا. صفحة السجل تعرض المنشور القادم وآخر العمليات ونتيجة كل منصة، مع زر «انشر الآن للتجربة» وإيقاف مؤقت بضغطة، وتعويض الموعد الفائت إذا كان الجهاز مطفأً. يعمل على جهازك، وبياناتك ومفاتيح حساباتك تبقى عندك، مع دليل عربي PDF يشرح ربط كل منصة وملف إزالة آمن. يربط المشتري حساباته بنفسه عبر مفاتيح كل منصة كما يشرح الدليل، وتخضع كل منصة لشروطها وحدودها. يتطلب Windows 10/11 وإنترنت. الترخيص لمستخدم واحد ويُمنع إعادة البيع أو التوزيع.",
+  "desc_en": "Write your posts in an Excel file, choose the platforms and times on an Arabic settings page, and they are published every day on Facebook, Instagram, LinkedIn, X, Telegram, Pinterest, Threads, Bluesky and Discord. One-click install sets up n8n and everything on your computer. The settings page lets you pick the platforms, up to 3 daily times, posting days and time zone, and the content type (in order, promo only, tips only, or alternating), and can add your store link and hashtags automatically. The log page shows the next post, recent runs and the result on each platform, with a “post now to test” button, one-click pause, and catch-up if the computer was off. It runs on your machine; your data and account keys stay with you, plus an Arabic PDF guide on connecting each platform and a safe uninstaller. You connect your own accounts with each platform’s keys as the guide explains, and each platform’s terms and limits apply. Requires Windows 10/11 and internet. Single-user licence; resale or redistribution is not allowed.",
+  "desc_fi": "Kirjoita julkaisusi Excel-tiedostoon, valitse alustat ja ajankohdat arabiankieliseltä asetussivulta, niin ne julkaistaan joka päivä Facebookissa, Instagramissa, LinkedInissä, X:ssä, Telegramissa, Pinterestissä, Threadsissä, Blueskyssa ja Discordissa. Asennus yhdellä napsautuksella laittaa n8n:n ja kaiken valmiiksi tietokoneellesi. Asetussivulla valitset alustat, enintään 3 päivittäistä kellonaikaa, julkaisupäivät ja aikavyöhykkeen sekä sisällön tyypin (järjestyksessä, vain tarjous, vain vinkit tai vuorotellen), ja kaupan linkki sekä avainsanat voidaan lisätä automaattisesti. Lokisivulla näkyvät seuraava julkaisu, viimeisimmät ajot ja tulos kullakin alustalla; mukana “julkaise nyt kokeeksi” -painike, tauko yhdellä napsautuksella ja korvaava ajo jos kone oli pois päältä. Toimii omalla koneellasi; tietosi ja tilien avaimet pysyvät sinulla. Mukana arabiankielinen PDF-opas kunkin alustan yhdistämiseen ja turvallinen poisto-ohjelma. Ostaja yhdistää omat tilinsä kunkin alustan avaimilla oppaan ohjeen mukaan, ja kunkin alustan ehdot ja rajat pätevät. Vaatii Windows 10/11:n ja internetin. Lisenssi yhdelle käyttäjälle; jälleenmyynti tai levitys ei ole sallittua.",
+  "price": 10,
+  "languages": [
+   "ar"
+  ],
+  "category": "auto",
+  "badges": [],
+  "payhip": "",
+  "etsy": "",
+  "gumroad": "",
+  "sikka": "https://sikka.me/sadeekshop/product/%D8%A7%D9%84%D9%86%D8%B4%D8%B1-%D8%A7%D9%84%D8%AA%D9%84%D9%82%D8%A7%D8%A6%D9%8A-%D8%A7%D9%84%D9%8A%D9%88%D9%85%D9%8A-%D9%85%D9%86%D8%B4%D9%88%D8%B1%D8%A7%D8%AA%D9%83-%D8%AA%D9%8F%D9%86%D8%B4%D8%B1-%D9%88%D8%AD%D8%AF%D9%87%D8%A7-%D8%B9%D9%84%D9%89-9-%D9%85%D9%86%D8%B5%D8%A7%D8%AA-%D9%85%D9%86-%D9%85%D9%84%D9%81-excel-%D8%AA%D8%AB%D8%A8%D9%8A%D8%AA-%D8%A8%D8%B6%D8%BA%D8%B7%D8%A9-%D8%B2%D8%B1-n8n-mwg3t2v7",
+  "wide": true,
+  "demo": [
+   {
+    "ar": "صفحة إعدادات عربية: تختار المنصات، وحتى 3 مواعيد يوميًا، وأيام النشر، والمنطقة الزمنية، ونوع المحتوى، مع رابط المتجر والوسوم.",
+    "en": "Arabic settings page: choose the platforms, up to 3 daily times, posting days, time zone and content type, plus your store link and hashtags.",
+    "fi": "Arabiankielinen asetussivu: valitse alustat, enintään 3 päivittäistä kellonaikaa, julkaisupäivät, aikavyöhyke ja sisällön tyyppi, sekä kaupan linkki ja avainsanat."
+   },
+   {
+    "ar": "صفحة السجل: المنشور القادم، وآخر العمليات، ونتيجة كل منصة، مع زر «انشر الآن للتجربة» وإيقاف مؤقت بضغطة.",
+    "en": "Log page: the next post, recent runs and the result on each platform, with a “post now to test” button and one-click pause.",
+    "fi": "Lokisivu: seuraava julkaisu, viimeisimmät ajot ja tulos kullakin alustalla, sekä “julkaise nyt kokeeksi” -painike ja tauko yhdellä napsautuksella."
+   }
+  ]
+ },
   {
    "slug": "finnish-bookkeeping-vat",
    "hidden": false,

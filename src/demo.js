@@ -51,10 +51,12 @@
       b.addEventListener("click", function(){ go(i, true); }); dots.appendChild(b);
     });
     buy.innerHTML = "";
-    buy.appendChild(btn(p.payhip || p.etsy, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">" + (p.payhip ? "Payhip" : "Etsy") + "</small>"));
+    var buyUrl = p.payhip || p.etsy || p.sikka || "";
+    var buyVia = p.payhip ? "Payhip" : (p.etsy ? "Etsy" : (p.sikka ? "SIKKA" : ""));
+    buy.appendChild(btn(buyUrl, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">" + buyVia + "</small>"));
     if (p.etsy && p.payhip) buy.appendChild(btn(p.etsy, "store store-etsy", "Etsy"));
     if (p.gumroad) buy.appendChild(btn(p.gumroad, "store store-gum", "Gumroad"));
-    if (p.sikka) buy.appendChild(btn(p.sikka, "store store-sikka", "<span data-i18n=\"card.sikka\">" + tr("card.sikka") + "</span>"));
+    if (p.sikka && buyVia !== "SIKKA") buy.appendChild(btn(p.sikka, "store store-sikka", "<span data-i18n=\"card.sikka\">" + tr("card.sikka") + "</span>"));
     // preload the rest quietly
     p.slides.forEach(function(s){ var im = new Image(); im.src = s.src; });
     go(0, false); start();

@@ -7,7 +7,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "products.json")
 IMAGES = os.path.join(HERE, "images")
 STATIC = os.path.join(HERE, "static")
-CATS = {"acc", "stock", "price", "hr", "home"}
+CATS = {"acc", "stock", "price", "hr", "home", "auto"}
 LANGS = {"ar", "en", "fi"}
 BADGES = {"alv", "x365"}
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -78,9 +78,13 @@ def load():
         badges = p.get("badges", [])
         if not isinstance(badges, list) or not set(badges) <= BADGES:
             errors.append(f"{who}: الشارات badges يجب أن تكون من alv و x365 أو فارغة [].")
-        if not (isinstance(p.get("payhip"), str) and URL.match(p.get("payhip", ""))) and not (p.get("payhip", "") == "" and isinstance(p.get("etsy"), str) and URL.match(p.get("etsy", ""))):
-            errors.append(f"{who}: رابط payhip (أو etsy إن كان payhip فارغًا) مطلوب ويجب أن يبدأ بـ https://")
-        for k in ("etsy", "gumroad", "sikka"):
+        payhip, etsy, sikka = p.get("payhip", "") or "", p.get("etsy", "") or "", p.get("sikka", "") or ""
+        has_payhip = isinstance(payhip, str) and URL.match(payhip)
+        has_etsy = isinstance(etsy, str) and URL.match(etsy)
+        has_sikka = isinstance(sikka, str) and URL.match(sikka)
+        if p.get("hidden") is not True and not (has_payhip or (payhip == "" and has_etsy) or (payhip == "" and etsy == "" and has_sikka)):
+            errors.append(f"{who}: رابط payhip أو etsy أو sikka مطلوب ويجب أن يبدأ بـ https://")
+        for k in ("payhip", "etsy", "gumroad", "sikka"):
             v = p.get(k, "")
             if v and (not isinstance(v, str) or not URL.match(v)):
                 errors.append(f"{who}: رابط {k} يجب أن يبدأ بـ https:// أو يبقى فارغًا \"\".")

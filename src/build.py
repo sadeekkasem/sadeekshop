@@ -38,16 +38,26 @@ def icon(n, cls="ic"):
 def price(p):
     return {"ar": f"{p} €", "en": f"€{p}", "fi": f"{p} €"}
 
+def buy_link(p):
+    if p.get("payhip"):
+        return p["payhip"], "Payhip"
+    if p.get("etsy"):
+        return p["etsy"], "Etsy"
+    if p.get("sikka"):
+        return p["sikka"], "SIKKA"
+    return "", ""
+
 def card(p, i):
     pid = p["id"]
     langs = "".join(f'<li class="lg lg-{l}">{tx("lang."+l)}</li>' for l in p["langs"])
     tags = "".join(f'<span class="tag tag-{g}">{tx("tag."+g)}</span>' for g in p["tags"])
     pr = price(p["price"])
-    buy_url, buy_via = (p['payhip'], "Payhip") if p.get('payhip') else (p['etsy'], "Etsy")
+    buy_url, buy_via = buy_link(p)
     alt_etsy = p.get('etsy') if p.get('payhip') else ''
+    show_sikka = bool(p.get('sikka') and buy_via != "SIKKA")
     alt = (f'''    <div class="stores-alt">{tx("card.also","span","also")}
-      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if p.get('gumroad') else ''}{('<a class="store store-sikka" href="'+e(p['sikka'])+'" target="_blank" rel="noopener">'+tx("card.sikka")+'</a>') if p.get('sikka') else ''}
-    </div>''') if (alt_etsy or p.get('gumroad') or p.get('sikka')) else ''
+      {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if p.get('gumroad') else ''}{('<a class="store store-sikka" href="'+e(p['sikka'])+'" target="_blank" rel="noopener">'+tx("card.sikka")+'</a>') if show_sikka else ''}
+    </div>''') if (alt_etsy or p.get('gumroad') or show_sikka) else ''
     lazy = 'loading="lazy" decoding="async"' if i > 2 else 'decoding="async"'
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}">
@@ -93,7 +103,7 @@ def header(pre, cur=""):
 </header>'''
     return h
 
-cats = ["all", "acc", "stock", "price", "hr", "home"]
+cats = ["all", "acc", "stock", "price", "hr", "home", "auto"]
 filters = "".join(f'<button type="button" class="chip{" is-on" if c=="all" else ""}" data-filter="{c}" aria-pressed="{"true" if c=="all" else "false"}">{tx("filter."+c)}</button>' for c in cats)
 WIDE = {p["id"] for p in PRODUCTS if p.get("wide")}
 cards = "".join(card(p, i) for i, p in enumerate(PRODUCTS))

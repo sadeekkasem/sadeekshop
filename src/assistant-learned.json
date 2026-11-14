@@ -2612,11 +2612,127 @@
     "fi": "Kotitalouden budjetti:"
    },
    "pids": [
-    "family-expense-tracker"
+    "family-expense-tracker",
+    "masarifi"
    ],
    "_variants": [
     "بدي اتابع مصاريف البيت",
     "family budget template"
+   ]
+  },
+  {
+   "id": "fam-american-journal",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "يومية امريكية",
+   "keywords": {
+    "ar": [
+     "يومية امريكية",
+     "اليوميه الامريكيه",
+     "قيود يوميه",
+     "مدين دائن",
+     "ميزان مراجعه",
+     "تسجيل قيد",
+     "يومية"
+    ],
+    "en": [
+     "american journal",
+     "general journal",
+     "journal entry",
+     "trial balance",
+     "debit credit"
+    ],
+    "fi": [
+     "amerikkalainen päiväkirja",
+     "kirjanpitopäiväkirja",
+     "koetase"
+    ]
+   },
+   "answer": {
+    "ar": "اليومية الأمريكية الذكية:",
+    "en": "Smart American Journal:",
+    "fi": "Älykäs amerikkalainen kirjanpitopäiväkirja:"
+   },
+   "pids": [
+    "american-journal"
+   ],
+   "_variants": [
+    "بدي اسجل القيود من فورم",
+    "smart american journal"
+   ]
+  },
+  {
+   "id": "fam-masarifi",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "مصروفي",
+   "keywords": {
+    "ar": [
+     "مصروفي",
+     "مصروفي الذكي",
+     "شات المصاريف",
+     "تقرير مصاريف pdf",
+     "تنبيهات الميزانيه",
+     "كم صرفت"
+    ],
+    "en": [
+     "masarifi",
+     "expense chat",
+     "monthly expense report",
+     "budget alerts"
+    ],
+    "fi": [
+     "masarifi",
+     "kuluseuranta",
+     "kuluhälytykset"
+    ]
+   },
+   "answer": {
+    "ar": "مصروفي الذكي:",
+    "en": "Smart Masarifi:",
+    "fi": "Älykäs Masarifi:"
+   },
+   "pids": [
+    "masarifi"
+   ],
+   "_variants": [
+    "بدي اسجل المصروف بجملة",
+    "expense tracker with chat"
+   ]
+  },
+  {
+   "id": "fam-daily-autopost",
+   "src": "products.json (بيانات حيّة وقت البناء)",
+   "q": "نشر تلقائي",
+   "keywords": {
+    "ar": [
+     "نشر تلقائي",
+     "النشر التلقائي",
+     "نشر على السوشيال",
+     "نشر من excel",
+     "نشر يومي"
+    ],
+    "en": [
+     "auto post",
+     "daily auto posting",
+     "social media posting",
+     "schedule posts"
+    ],
+    "fi": [
+     "automaattijulkaisu",
+     "some-julkaisu",
+     "ajastettu julkaisu"
+    ]
+   },
+   "answer": {
+    "ar": "النشر التلقائي اليومي:",
+    "en": "Daily Auto-Posting:",
+    "fi": "Päivittäinen automaattijulkaisu:"
+   },
+   "pids": [
+    "daily-autopost"
+   ],
+   "_variants": [
+    "بدي انشر على المنصات تلقائي",
+    "auto post from excel"
    ]
   },
   {
