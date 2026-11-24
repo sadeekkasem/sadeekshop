@@ -354,3 +354,13 @@ p{margin:0 0 1em}
 .storebanner picture{max-width:620px}
 .cart-panel[hidden],.cart-fab[hidden]{display:none}
 @media (max-width:640px){.storebanner picture{max-width:100%}}
+
+/* ---- burger menu (narrow screens) ---- */
+.burger{display:none;position:relative}
+.burger>summary{list-style:none;cursor:pointer;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);display:grid;place-content:center;gap:4px;background:#fff}
+.burger>summary::-webkit-details-marker{display:none}
+.burger>summary span{display:block;width:20px;height:2px;background:var(--g8);border-radius:2px}
+.burger-menu{position:absolute;inset-inline-start:0;top:calc(100% + 8px);min-width:230px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh2);padding:8px;display:grid;gap:2px;z-index:80}
+.burger-menu a{display:block;padding:11px 14px;border-radius:9px;color:var(--ink);text-decoration:none;font-weight:600}
+.burger-menu a:hover{background:var(--g1)}
+@media (max-width:1024px){.burger{display:block}.lang{margin-inline-start:0}.top-in{gap:10px}.brand{margin-inline-end:auto}}

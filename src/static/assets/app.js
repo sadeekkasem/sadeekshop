@@ -30,10 +30,10 @@
 
   // "more" menu: close when clicking elsewhere
   document.addEventListener("click", function(ev){
-    document.querySelectorAll("details.more[open]").forEach(function(d){ if (!d.contains(ev.target)) d.removeAttribute("open"); });
+    document.querySelectorAll("details.more[open],details.burger[open]").forEach(function(d){ if (!d.contains(ev.target)) d.removeAttribute("open"); });
   });
   document.addEventListener("keydown", function(ev){
-    if (ev.key === "Escape") document.querySelectorAll("details.more[open]").forEach(function(d){ d.removeAttribute("open"); });
+    if (ev.key === "Escape") document.querySelectorAll("details.more[open],details.burger[open]").forEach(function(d){ d.removeAttribute("open"); });
   });
 
   // category filter

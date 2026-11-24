@@ -116,6 +116,21 @@ def header(pre, cur=""):
       </details>
       <a class="nav-cta" href="custom-template.html"{cur} data-i18n="nav.custom">{e(t("nav.custom"))}</a>
     </nav>
+    <details class="burger">
+      <summary aria-label="menu"><span></span><span></span><span></span></summary>
+      <div class="burger-menu" onclick="this.parentNode.removeAttribute('open')">
+      <a href="{pre}#products" data-i18n="nav.products">{e(t("nav.products"))}</a>
+      <a href="{pre}#web" data-i18n="nav.web">{e(t("nav.web"))}</a>
+      <a href="{pre}#demo" data-i18n="nav.demo">{e(t("nav.demo"))}</a>
+      <a href="{pre}#free" data-i18n="nav.free">{e(t("nav.free"))}</a>
+      <a href="{pre}#why" data-i18n="nav.why">{e(t("nav.why"))}</a>
+      <a href="{pre}#faq" data-i18n="nav.faq">{e(t("nav.faq"))}</a>
+      <a href="{pre}#contact" data-i18n="nav.contact">{e(t("nav.contact"))}</a>
+      <a href="shipops-sales.html" data-i18n="nav.shipops">{e(t("nav.shipops"))}</a>
+      <a href="data-cleaning.html" data-i18n="nav.dataclean">{e(t("nav.dataclean"))}</a>
+      <a href="custom-template.html" data-i18n="nav.custom">{e(t("nav.custom"))}</a>
+      </div>
+    </details>
     <div class="lang" role="group" aria-label="{e(t("nav.lang"))}" data-i18n-aria="nav.lang">
       <button type="button" data-lang="ar" lang="ar" aria-pressed="true">عربي</button>
       <button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button>
@@ -125,6 +140,7 @@ def header(pre, cur=""):
 </header>'''
     return h
 
+STRIP = "".join(f"<span>{tx(k)}</span>" for k in ("strip.1","strip.2","strip.3","strip.4","strip.5","strip.6"))
 cats = ["all", "acc", "stock", "price", "hr", "home", "auto"]
 filters = "".join(f'<button type="button" class="chip{" is-on" if c=="all" else ""}" data-filter="{c}" aria-pressed="{"true" if c=="all" else "false"}">{tx("filter."+c)}</button>' for c in cats)
 WIDE = {p["id"] for p in PRODUCTS if p.get("wide")}
@@ -229,6 +245,7 @@ doc = f'''<!doctype html>
 <link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/demo.css">
+<link rel="stylesheet" href="assets/theme.css">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 <script data-goatcounter="https://sadeekshop.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -242,12 +259,7 @@ doc = f'''<!doctype html>
 {header("")}
 
 <main id="main">
-<div class="storebanner">
-  <picture>
-    <source media="(max-width:640px)" srcset="assets/banner-m-780.webp 780w, assets/banner-m-1170.webp 1170w" sizes="100vw" width="2420" height="680">
-    <img src="assets/banner-1920.webp" srcset="assets/banner-1280.webp 1280w, assets/banner-1920.webp 1920w, assets/banner-2560.webp 2560w" sizes="(min-width:1440px) 1440px, 100vw" width="3360" height="840" alt="{e(t("banner.alt"))}" data-alt-key="banner.alt" fetchpriority="high" decoding="async">
-  </picture>
-</div>
+
 <section class="hero">
   <div class="wrap hero-in">
     <div class="hero-copy">
@@ -275,6 +287,8 @@ doc = f'''<!doctype html>
     </div>
   </div>
 </section>
+
+<div class="strip" aria-hidden="true"><div class="strip-track">{STRIP}{STRIP}</div></div>
 
 <section class="sec" id="products">
   <div class="wrap">
@@ -410,6 +424,7 @@ doc = f'''<!doctype html>
 <script src="assets/app.js" defer></script>
 <script src="assets/demo.js" defer></script>
 <script src="assets/cart.js" defer></script>
+<script src="assets/fx.js" defer></script>
 </body>
 </html>
 '''
@@ -452,6 +467,7 @@ req_doc = f'''<!doctype html>
 <link rel="apple-touch-icon" href="assets/icon-180.png">
 <link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/theme.css">
 <script data-goatcounter="https://sadeekshop.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="page-req">

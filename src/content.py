@@ -246,3 +246,12 @@ T.update({
  "cart.msg.total": dict(ar="المجموع", en="Total", fi="Yhteensä"),
  "req.msg.hi": dict(ar="مرحباً، أريد طلباً خاصاً من SadeekShop:", en="Hello, I would like a custom order from SadeekShop:", fi="Hei, haluan tilaustyön SadeekShopilta:"),
 })
+
+T.update({
+ "strip.1": dict(ar="قوالب Excel جاهزة", en="Ready-made Excel templates", fi="Valmiit Excel-pohjat"),
+ "strip.2": dict(ar="ثلاث لغات: عربي · English · Suomi", en="Three languages: عربي · English · Suomi", fi="Kolme kieltä: عربي · English · Suomi"),
+ "strip.3": dict(ar="ضريبة ALV الفنلندية", en="Finnish ALV (VAT)", fi="Suomalainen ALV"),
+ "strip.4": dict(ar="بدون ماكرو · آمنة", en="No macros · safe to open", fi="Ei makroja · turvallinen"),
+ "strip.5": dict(ar="تسليم فوري للملف", en="Instant file delivery", fi="Tiedosto heti"),
+ "strip.6": dict(ar="تصميم قالب خاص بطلبك", en="Custom templates on request", fi="Räätälöidyt pohjat"),
+})
