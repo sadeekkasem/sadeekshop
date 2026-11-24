@@ -98,7 +98,7 @@ def card(p, i):
 def header(pre, cur=""):
     h = f'''<header class="top">
   <div class="wrap top-in">
-    <a class="brand" href="{pre or "#main"}" aria-label="SadeekShop"><img src="assets/icon-72.png" width="36" height="36" alt=""><span>Sadeek<b>Shop</b></span></a>
+    <a class="brand" href="{pre or "#main"}" aria-label="SkillPostApp"><img src="assets/icon-72.png" width="36" height="36" alt=""><span>SkillPost<b>App</b></span></a>
     <nav class="nav" aria-label="main">
       <a href="{pre}#products" data-i18n="nav.products">{e(t("nav.products"))}</a>
       <a href="{pre}#web" data-i18n="nav.web">{e(t("nav.web"))}</a>
@@ -210,15 +210,15 @@ T["stat.count"] = {"ar": str(len(PRODUCTS)), "en": str(len(PRODUCTS)), "fi": str
 og_url = f'<meta property="og:url" content="{SITE_URL}">\n<link rel="canonical" href="{SITE_URL}">' if SITE_URL else ""
 og_img = (SITE_URL + "assets/og-image.jpg") if SITE_URL else "assets/og-image.jpg"
 
-ld = {"@context":"https://schema.org","@type":"Store","name":"SadeekShop","email":EMAIL,
+ld = {"@context":"https://schema.org","@type":"Store","name":"SkillPostApp","email":EMAIL,
       "address":{"@type":"PostalAddress","addressCountry":"FI"},"sameAs":[ETSY_SHOP, PAYHIP_STORE, SIKKA_SHOP]}
 
 FOOT = f'''<footer class="foot">
   <div class="wrap foot-in">
-    <div class="brand"><img src="assets/icon-72.png" width="28" height="28" alt="" loading="lazy"><span>Sadeek<b>Shop</b></span></div>
+    <div class="brand"><img src="assets/icon-72.png" width="28" height="28" alt="" loading="lazy"><span>SkillPost<b>App</b></span></div>
     <p data-i18n="footer.tagline">{e(t("footer.tagline"))}</p>
-    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a href="{SIKKA_SHOP}" target="_blank" rel="noopener">SIKKA</a> · <a class="yt" href="https://www.youtube.com/@SadeekShopExcel" target="_blank" rel="noopener"><svg class="yt-ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg> <span data-i18n="footer.youtube">{e(t("footer.youtube"))}</span></a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
-    <p class="tm"><span data-i18n="footer.tm">{e(t("footer.tm"))}</span><br>© 2026 SadeekShop</p>
+    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a href="{SIKKA_SHOP}" target="_blank" rel="noopener">SIKKA</a> · <a class="yt" href="https://www.youtube.com/@SkillPostAppExcel" target="_blank" rel="noopener"><svg class="yt-ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg> <span data-i18n="footer.youtube">{e(t("footer.youtube"))}</span></a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
+    <p class="tm"><span data-i18n="footer.tm">{e(t("footer.tm"))}</span><br>© 2026 SkillPostApp</p>
   </div>
 </footer>'''
 
@@ -231,7 +231,7 @@ doc = f'''<!doctype html>
 <meta name="description" content="{e(t("meta.desc"))}" data-i18n-content="meta.desc">
 <meta name="theme-color" content="#0e5a35">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="SadeekShop">
+<meta property="og:site_name" content="SkillPostApp">
 <meta property="og:title" content="{e(t("meta.title"))}" data-i18n-content="meta.title">
 <meta property="og:description" content="{e(t("meta.desc"))}" data-i18n-content="meta.desc">
 <meta property="og:image" content="{og_img}">
@@ -455,7 +455,7 @@ req_doc = f'''<!doctype html>
 <meta name="author" content="Sadeek Trablsia">
 <meta name="theme-color" content="#0e5a35">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="SadeekShop">
+<meta property="og:site_name" content="SkillPostApp">
 <meta property="og:title" content="{e(t("req.meta.title"))}" data-i18n-content="req.meta.title">
 <meta property="og:description" content="{e(t("req.meta.desc"))}" data-i18n-content="req.meta.desc">
 <meta property="og:image" content="{og_img}">
@@ -531,6 +531,6 @@ req_doc = f'''<!doctype html>
 open(f"{OUT}/custom-template.html", "w", encoding="utf-8").write(req_doc)
 print("written custom-template.html", len(req_doc))
 
-# ---------- SadeekShop help widget: knowledge file built from the content above ----------
+# ---------- SkillPostApp help widget: knowledge file built from the content above ----------
 import assistant_kb
 assistant_kb.build(OUT, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP)

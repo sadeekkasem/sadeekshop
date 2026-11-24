@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Builds assets/assistant-kb.json for the SadeekShop help widget from the site's own content,
+"""Builds assets/assistant-kb.json for the SkillPostApp help widget from the site's own content,
 and adds the widget script to every public page. Runs at the end of build.py.
 Only whitelisted public fields are copied (names, descriptions, prices, public store links,
 public FAQ text). Nothing secret is ever read, and the output is scanned before it is written."""
 import json, os, re, glob, html
 
 WHATSAPP = "https://wa.me/358402550588"
-# Google Sheet "SadeekShop - أسئلة الزبائن" web app: POST = save an unanswered question, GET = answered rows only.
+# Google Sheet "SkillPostApp - أسئلة الزبائن" web app: POST = save an unanswered question, GET = answered rows only.
 QUESTIONS_URL = "https://script.google.com/macros/s/AKfycbxMZXB-2sbMleIstdHsEfI4Dg95wlTbVvpGoNUMB4hMVvRJIfjDK8kiilXR99q4_Juv/exec"
 SKIP_PAGES = {"admin.html", "shipops.html", "dashboard.html", "demo-restaurant.html"}  # admin tool and the full-screen app iframe
 

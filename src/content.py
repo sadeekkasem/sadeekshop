@@ -11,9 +11,9 @@ from catalog import PRODUCTS, DEMO
 FREE = dict(url="downloads/Free_Profit_Margin_Mini_Calculator_EN.zip")
 
 T = {
- "meta.title": dict(ar="SadeekShop | قوالب Excel جاهزة للمشاريع الصغيرة – عربي، إنجليزي، فنلندي",
-                    en="SadeekShop | Ready Excel Templates for Small Businesses – Arabic, English, Finnish",
-                    fi="SadeekShop | Valmiit Excel-pohjat pienyrityksille – arabia, englanti, suomi"),
+ "meta.title": dict(ar="SkillPostApp | قوالب Excel جاهزة للمشاريع الصغيرة – عربي، إنجليزي، فنلندي",
+                    en="SkillPostApp | Ready Excel Templates for Small Businesses – Arabic, English, Finnish",
+                    fi="SkillPostApp | Valmiit Excel-pohjat pienyrityksille – arabia, englanti, suomi"),
  "meta.desc": dict(ar="قوالب Excel جاهزة للمحلات والماركت والمطاعم والمشاريع الصغيرة: محاسبة وضريبة ALV الفنلندية، مخزون، فواتير، رواتب وتسعير. بالعربية والإنجليزية والفنلندية، تحميل فوري.",
                    en="Ready-made Excel templates for shops, mini-markets, restaurants and small businesses: bookkeeping and Finnish VAT (ALV), stock, invoices, payroll and pricing. Arabic, English and Finnish. Instant download.",
                    fi="Valmiit Excel-pohjat kaupoille, ravintoloille ja pienyrityksille: kirjanpito ja ALV, varasto, laskutus, palkat ja hinnoittelu. Arabiaksi, englanniksi ja suomeksi. Välitön lataus."),
@@ -129,7 +129,7 @@ T = {
  "footer.tm": dict(ar="Microsoft وExcel علامتان تجاريتان لشركة Microsoft. هذا المتجر مستقل وغير تابع لها.", en="Microsoft and Excel are trademarks of Microsoft Corporation. This shop is independent and not affiliated with Microsoft.", fi="Microsoft ja Excel ovat Microsoft Corporationin tavaramerkkejä. Tämä kauppa on itsenäinen eikä liity Microsoftiin."),
  "img.alt": dict(ar="صورة من القالب: ", en="Template screenshot: ", fi="Kuvakaappaus pohjasta: "),
  "free.alt": dict(ar="صورة من الحاسبة المجانية", en="Free calculator screenshot", fi="Kuvakaappaus ilmaisesta laskurista"),
- "banner.alt": dict(ar="SadeekShop – قوالب Excel للمشاريع الصغيرة", en="SadeekShop – Excel Templates for Small Business", fi="SadeekShop – Excel-pohjat pienyrityksille"),
+ "banner.alt": dict(ar="SkillPostApp – قوالب Excel للمشاريع الصغيرة", en="SkillPostApp – Excel Templates for Small Business", fi="SkillPostApp – Excel-pohjat pienyrityksille"),
  "hero.alt": dict(ar="صور من قوالب Excel", en="Excel template screenshots", fi="Kuvakaappauksia Excel-pohjista"),
 }
 for p in PRODUCTS:
@@ -159,7 +159,7 @@ T.update({
  "web.i4d": dict(ar="نحدد معك الصفحات والألوان والسعر قبل أن نبدأ.", en="We agree pages, colours and price with you before we start.", fi="Sovimme sivut, värit ja hinnan kanssasi ennen aloitusta."),
  "web.cta": dict(ar="اطلب موقعك", en="Order your site", fi="Tilaa sivusi"),
  "nav.home": dict(ar="الرئيسية", en="Home", fi="Etusivu"),
- "req.meta.title": dict(ar="اطلب قالب Excel خاص | SadeekShop", en="Request a Custom Excel Template | SadeekShop", fi="Tilaa oma Excel-mallipohja | SadeekShop"),
+ "req.meta.title": dict(ar="اطلب قالب Excel خاص | SkillPostApp", en="Request a Custom Excel Template | SkillPostApp", fi="Tilaa oma Excel-mallipohja | SkillPostApp"),
  "req.meta.desc": dict(ar="قالب Excel مصمّم حسب احتياجك: محاسبة، فواتير، مخزون، لوحات متابعة، وإدخال البيانات وتنظيفها. أرسل طلبك واحصل على عرض سعر.",
                        en="An Excel template built around your needs: accounting, invoices, inventory, dashboards, data entry and cleanup. Send a request and get a quote.",
                        fi="Tarpeisiisi tehty Excel-pohja: kirjanpito, laskut, varasto, kojelaudat sekä tietojen syöttö ja siivous. Lähetä pyyntö ja saat tarjouksen."),
@@ -242,9 +242,9 @@ T.update({
  "cart.remove": dict(ar="حذف", en="Remove", fi="Poista"),
  "cart.send": dict(ar="أرسل الطلب عبر واتساب", en="Send order via WhatsApp", fi="Lähetä tilaus WhatsAppilla"),
  "cart.note": dict(ar="سنرد عليك على واتساب بطريقة الدفع وتسليم الملفات.", en="I'll reply on WhatsApp with the payment method and file delivery.", fi="Vastaan WhatsAppissa maksutavalla ja tiedostojen toimituksella."),
- "cart.msg.hi": dict(ar="مرحباً، أريد طلب القوالب التالية من SadeekShop:", en="Hello, I would like to order these templates from SadeekShop:", fi="Hei, haluan tilata nämä pohjat SadeekShopista:"),
+ "cart.msg.hi": dict(ar="مرحباً، أريد طلب القوالب التالية من SkillPostApp:", en="Hello, I would like to order these templates from SkillPostApp:", fi="Hei, haluan tilata nämä pohjat SkillPostAppista:"),
  "cart.msg.total": dict(ar="المجموع", en="Total", fi="Yhteensä"),
- "req.msg.hi": dict(ar="مرحباً، أريد طلباً خاصاً من SadeekShop:", en="Hello, I would like a custom order from SadeekShop:", fi="Hei, haluan tilaustyön SadeekShopilta:"),
+ "req.msg.hi": dict(ar="مرحباً، أريد طلباً خاصاً من SkillPostApp:", en="Hello, I would like a custom order from SkillPostApp:", fi="Hei, haluan tilaustyön SkillPostAppilta:"),
 })
 
 T.update({
@@ -254,4 +254,9 @@ T.update({
  "strip.4": dict(ar="بدون ماكرو · آمنة", en="No macros · safe to open", fi="Ei makroja · turvallinen"),
  "strip.5": dict(ar="تسليم فوري للملف", en="Instant file delivery", fi="Tiedosto heti"),
  "strip.6": dict(ar="تصميم قالب خاص بطلبك", en="Custom templates on request", fi="Räätälöidyt pohjat"),
+})
+T.update({
+ "shop.search": dict(ar="ابحث عن قالب…", en="Search templates…", fi="Hae pohjaa…"),
+ "shop.more": dict(ar="عرض المزيد من القوالب", en="Show more templates", fi="Näytä lisää pohjia"),
+ "shop.none": dict(ar="لا توجد قوالب مطابقة. جرّب كلمة أخرى أو اطلب قالبًا خاصًا.", en="No matching templates. Try another word or request a custom one.", fi="Ei hakutuloksia. Kokeile toista sanaa tai tilaa räätälöity pohja."),
 })

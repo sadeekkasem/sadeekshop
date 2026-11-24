@@ -1,16 +1,16 @@
-/* SadeekShop help widget. Rule-based answers from assets/assistant-kb.json (built from the site content).
+/* SkillPostApp help widget. Rule-based answers from assets/assistant-kb.json (built from the site content).
    No external calls, nothing stored or sent: questions stay in this browser tab. */
 (function(){
   "use strict";
   var me = document.currentScript, base = me ? me.src.replace(/assistant\.js(\?.*)?$/, "") : "assets/";
   var KB = null, root = document.documentElement;
   var U = {
-    ar:{title:"مساعد SadeekShop",sub:"أسئلة القوالب والشراء والتواصل",open:"مساعدة",close:"إغلاق",ph:"اكتب سؤالك…",send:"إرسال",
-      hi:"أهلًا بك في SadeekShop! اسألني عن القوالب والأسعار وروابط الشراء، الدفع والتحميل، نظام ShipOps، أو طلب قالب خاص.",
+    ar:{title:"مساعد SkillPostApp",sub:"أسئلة القوالب والشراء والتواصل",open:"مساعدة",close:"إغلاق",ph:"اكتب سؤالك…",send:"إرسال",
+      hi:"أهلًا بك في SkillPostApp! اسألني عن القوالب والأسعار وروابط الشراء، الدفع والتحميل، نظام ShipOps، أو طلب قالب خاص.",
       chips:["ما القوالب المتوفرة؟","كيف أدفع وأستلم الملف؟","ShipOps","قالب خاص","الحاسبة المجانية","تواصل"],
       unknown:"لا أملك إجابة مؤكدة على هذا السؤال، ولا أريد أن أخمّن. راسلنا على واتساب أو بالإيميل وسنرد عليك.",
       pwq:"كلمة السر (إن وُجدت) تصلك مع الملف بعد الشراء، ضمن ملف التعليمات. إذا فقدتها تواصل معنا على واتساب مع رقم الطلب ونساعدك.",
-      pre:"مرحبا، سؤالي: ",subj:"سؤال من موقع SadeekShop",
+      pre:"مرحبا، سؤالي: ",subj:"سؤال من موقع SkillPostApp",
       contact:"تقدر تتواصل معنا مباشرة:",wa:"واتساب",mail:"إيميل",
       list:"القوالب المتوفرة حاليًا ({n}):",listEnd:"اكتب اسم القالب أو كلمة منه (مثل فواتير، مخزون، رواتب) لتحصل على السعر ورابط الشراء.",
       price:"السعر",buy:"اشترِ من",langs:"لغات الملف",found:"وجدت هذه القوالب:",
@@ -21,12 +21,12 @@
       free:"الحاسبة المجانية:",freeBtn:"حمّلها مجانًا",
       thanks:"العفو! إذا احتجت أي شيء آخر اسألني.",
       L:{ar:"عربي",en:"إنجليزي",fi:"فنلندي"}},
-    en:{title:"SadeekShop help",sub:"Templates, buying and contact",open:"Help",close:"Close",ph:"Type your question…",send:"Send",
-      hi:"Welcome to SadeekShop! Ask about templates, prices and buy links, payment and download, ShipOps, or a custom template.",
+    en:{title:"SkillPostApp help",sub:"Templates, buying and contact",open:"Help",close:"Close",ph:"Type your question…",send:"Send",
+      hi:"Welcome to SkillPostApp! Ask about templates, prices and buy links, payment and download, ShipOps, or a custom template.",
       chips:["Which templates do you have?","How do I pay and get the file?","ShipOps","Custom template","Free calculator","Contact"],
       unknown:"I don't have a confirmed answer to that and won't guess. Please message us on WhatsApp or by email and we'll get back to you.",
       pwq:"The password (if a file has one) comes with the file after purchase, in the instructions. If you lost it, message us on WhatsApp with your order number and we'll help.",
-      pre:"Hi, my question: ",subj:"Question from the SadeekShop website",
+      pre:"Hi, my question: ",subj:"Question from the SkillPostApp website",
       contact:"You can reach us directly:",wa:"WhatsApp",mail:"Email",
       list:"Templates available now ({n}):",listEnd:"Type a template name or a word from it (e.g. invoice, stock, payroll) to get the price and buy link.",
       price:"Price",buy:"Buy on",langs:"File languages",found:"I found these templates:",
@@ -37,12 +37,12 @@
       free:"Free calculator:",freeBtn:"Download free",
       thanks:"You're welcome! Ask me anything else.",
       L:{ar:"Arabic",en:"English",fi:"Finnish"}},
-    fi:{title:"SadeekShop-apu",sub:"Pohjat, ostaminen ja yhteys",open:"Apua",close:"Sulje",ph:"Kirjoita kysymys…",send:"Lähetä",
-      hi:"Tervetuloa SadeekShopiin! Kysy pohjista, hinnoista ja ostolinkeistä, maksusta ja latauksesta, ShipOpsista tai omasta pohjasta.",
+    fi:{title:"SkillPostApp-apu",sub:"Pohjat, ostaminen ja yhteys",open:"Apua",close:"Sulje",ph:"Kirjoita kysymys…",send:"Lähetä",
+      hi:"Tervetuloa SkillPostAppiin! Kysy pohjista, hinnoista ja ostolinkeistä, maksusta ja latauksesta, ShipOpsista tai omasta pohjasta.",
       chips:["Mitä pohjia on?","Miten maksan ja saan tiedoston?","ShipOps","Oma pohja","Ilmainen laskuri","Yhteys"],
       unknown:"Minulla ei ole varmaa vastausta tähän, enkä arvaa. Lähetä viesti WhatsAppissa tai sähköpostilla, niin vastaamme.",
       pwq:"Salasana (jos tiedostossa on) tulee tiedoston mukana oston jälkeen ohjeissa. Jos se on hukassa, lähetä WhatsApp-viesti tilausnumerolla.",
-      pre:"Hei, kysymykseni: ",subj:"Kysymys SadeekShop-sivustolta",
+      pre:"Hei, kysymykseni: ",subj:"Kysymys SkillPostApp-sivustolta",
       contact:"Ota yhteyttä suoraan:",wa:"WhatsApp",mail:"Sähköposti",
       list:"Saatavilla olevat pohjat ({n}):",listEnd:"Kirjoita pohjan nimi tai sana siitä (esim. lasku, varasto, palkka) saadaksesi hinnan ja ostolinkin.",
       price:"Hinta",buy:"Osta",langs:"Tiedoston kielet",found:"Löysin nämä pohjat:",

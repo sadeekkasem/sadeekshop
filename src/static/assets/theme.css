@@ -156,3 +156,11 @@ body{background:#f4f9f6}
 .price{white-space:nowrap}
 .top{background:rgba(3,18,10,.94)}
 .contact .kicker{display:inline-block}
+
+/* search + show more */
+.shop-search{max-width:520px;margin:0 auto 22px}
+.shop-search input{width:100%;font:inherit;font-size:16px;padding:14px 22px;border-radius:999px;border:0;background:#fff;box-shadow:0 6px 24px rgba(6,36,20,.1);color:var(--ink)}
+.shop-search input:focus{outline:3px solid #ffd54a;outline-offset:2px}
+.card.cut{display:none}
+.shop-more-wrap{text-align:center;margin-top:40px}
+.shop-none{text-align:center;color:var(--mut);font-size:17px;padding:30px 0}
