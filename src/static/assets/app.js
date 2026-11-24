@@ -28,6 +28,14 @@
     new IntersectionObserver(function(en){ top.classList.toggle("at-banner", en[0].isIntersecting); }, {rootMargin:"-64px 0px 0px 0px"}).observe(ban);
   }
 
+  // "more" menu: close when clicking elsewhere
+  document.addEventListener("click", function(ev){
+    document.querySelectorAll("details.more[open]").forEach(function(d){ if (!d.contains(ev.target)) d.removeAttribute("open"); });
+  });
+  document.addEventListener("keydown", function(ev){
+    if (ev.key === "Escape") document.querySelectorAll("details.more[open]").forEach(function(d){ d.removeAttribute("open"); });
+  });
+
   // category filter
   var chips = document.querySelectorAll(".chip"), cards = document.querySelectorAll(".card");
   chips.forEach(function(ch){ ch.addEventListener("click", function(){

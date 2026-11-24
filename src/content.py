@@ -4,6 +4,7 @@ PAYHIP_STORE = "https://payhip.com/KirjanpitoPlus"
 ETSY_SHOP = "https://sadeekshop.etsy.com"
 SIKKA_SHOP = "https://sikka.me/sadeekshop"
 EMAIL = "sadeekkasem@gmail.com"
+WA_NUMBER = "358402550588"   # WhatsApp in international form, no + or 00
 
 # Product data lives in products.json (edited from admin.html); catalog.py loads and checks it.
 from catalog import PRODUCTS, DEMO
@@ -135,7 +136,7 @@ for p in PRODUCTS:
     T[f"p.{p['id']}.name"] = p["name"]; T[f"p.{p['id']}.ben"] = p["ben"]
 
 # ---- "Request a custom template" page (custom-template.html) ----
-REQ_TYPES = ["acc", "inv", "stock", "dash", "data", "other"]
+REQ_TYPES = ["acc", "inv", "stock", "dash", "data", "web", "other"]
 T.update({
  "nav.custom": dict(ar="اطلب قالب خاص", en="Custom template", fi="Oma mallipohja"),
  "nav.shipops": dict(ar="نظام الشحن", en="Shipping system", fi="Lähetysjärjestelmä"),
@@ -220,4 +221,28 @@ T.update({
  "demo.play": dict(ar="تشغيل", en="Play", fi="Toista"),
  "demo.slide": dict(ar="الشريحة", en="Slide", fi="Dia"),
  "demo.clear": dict(ar="مسح", en="Clear", fi="Tyhjennä"),
+})
+
+
+# ---- cart, WhatsApp ordering, nav "more" menu ----
+T.update({
+ "nav.more": dict(ar="المزيد", en="More", fi="Lisää"),
+ "req.t.web": dict(ar="تصميم موقع ويب", en="Website design", fi="Verkkosivun suunnittelu"),
+ "req.submit": dict(ar="أرسل الطلب عبر واتساب", en="Send request via WhatsApp", fi="Lähetä pyyntö WhatsAppilla"),
+ "req.ok": dict(ar="فتحنا واتساب ورسالتك جاهزة. اضغط «إرسال» هناك لإتمام الطلب.", en="WhatsApp is open with your message ready. Press Send there to complete the request.", fi="WhatsApp on auki ja viestisi on valmis. Paina siellä Lähetä."),
+ "req.fallback": dict(ar="لم يفتح واتساب؟ راسلني على البريد:", en="WhatsApp didn't open? Email me at:", fi="Eikö WhatsApp auennut? Kirjoita sähköpostilla:"),
+ "contact.wa": dict(ar="راسلني على واتساب", en="Message me on WhatsApp", fi="Kirjoita WhatsAppilla"),
+ "cart.add": dict(ar="أضف إلى السلة", en="Add to cart", fi="Lisää koriin"),
+ "cart.added": dict(ar="تمت الإضافة", en="Added", fi="Lisätty"),
+ "cart.title": dict(ar="سلة الطلب", en="Your order", fi="Tilauskori"),
+ "cart.open": dict(ar="افتح سلة الطلب", en="Open your order", fi="Avaa tilauskori"),
+ "cart.close": dict(ar="إغلاق", en="Close", fi="Sulje"),
+ "cart.empty": dict(ar="السلة فارغة. أضف قالباً من القائمة.", en="Your cart is empty. Add a template from the list.", fi="Kori on tyhjä. Lisää pohja listalta."),
+ "cart.total": dict(ar="المجموع", en="Total", fi="Yhteensä"),
+ "cart.remove": dict(ar="حذف", en="Remove", fi="Poista"),
+ "cart.send": dict(ar="أرسل الطلب عبر واتساب", en="Send order via WhatsApp", fi="Lähetä tilaus WhatsAppilla"),
+ "cart.note": dict(ar="سنرد عليك على واتساب بطريقة الدفع وتسليم الملفات.", en="I'll reply on WhatsApp with the payment method and file delivery.", fi="Vastaan WhatsAppissa maksutavalla ja tiedostojen toimituksella."),
+ "cart.msg.hi": dict(ar="مرحباً، أريد طلب القوالب التالية من SadeekShop:", en="Hello, I would like to order these templates from SadeekShop:", fi="Hei, haluan tilata nämä pohjat SadeekShopista:"),
+ "cart.msg.total": dict(ar="المجموع", en="Total", fi="Yhteensä"),
+ "req.msg.hi": dict(ar="مرحباً، أريد طلباً خاصاً من SadeekShop:", en="Hello, I would like a custom order from SadeekShop:", fi="Hei, haluan tilaustyön SadeekShopilta:"),
 })

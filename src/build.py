@@ -77,6 +77,7 @@ def card(p, i):
     else:
         media = f'<a class="card-media" href="{e(buy_url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">\n    {media_img}\n    {tags_html}\n  </a>'
         action = f'<a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>'
+    cart_btn = (f'<button type="button" class="btn btn-cart" data-add="{pid}" data-price="{p["price"]}">{icon("cart")}<span data-i18n="cart.add">{e(t("cart.add"))}</span></button>') if (p["price"] and not soon and not dl) else ''
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}">
   {media}
@@ -87,7 +88,7 @@ def card(p, i):
     <div class="card-foot">
       <div class="price"><bdi data-price='{json.dumps(pr)}'>{pr[L]}</bdi></div>
       <div class="actions">
-        {action}
+        {cart_btn}{action}
       </div>
     </div>
 {alt}
@@ -100,14 +101,19 @@ def header(pre, cur=""):
     <a class="brand" href="{pre or "#main"}" aria-label="SadeekShop"><img src="assets/icon-72.png" width="36" height="36" alt=""><span>Sadeek<b>Shop</b></span></a>
     <nav class="nav" aria-label="main">
       <a href="{pre}#products" data-i18n="nav.products">{e(t("nav.products"))}</a>
-      <a href="{pre}#demo" data-i18n="nav.demo">{e(t("nav.demo"))}</a>
       <a href="{pre}#web" data-i18n="nav.web">{e(t("nav.web"))}</a>
+      <a href="{pre}#demo" data-i18n="nav.demo">{e(t("nav.demo"))}</a>
       <a href="{pre}#free" data-i18n="nav.free">{e(t("nav.free"))}</a>
-      <a href="{pre}#why" data-i18n="nav.why">{e(t("nav.why"))}</a>
-      <a href="{pre}#faq" data-i18n="nav.faq">{e(t("nav.faq"))}</a>
-      <a href="{pre}#contact" data-i18n="nav.contact">{e(t("nav.contact"))}</a>
-      <a href="shipops-sales.html" data-i18n="nav.shipops">{e(t("nav.shipops"))}</a>
-      <a href="data-cleaning.html" data-i18n="nav.dataclean">{e(t("nav.dataclean"))}</a>
+      <details class="more">
+        <summary data-i18n="nav.more">{e(t("nav.more"))}</summary>
+        <div class="more-menu">
+          <a href="{pre}#why" data-i18n="nav.why">{e(t("nav.why"))}</a>
+          <a href="{pre}#faq" data-i18n="nav.faq">{e(t("nav.faq"))}</a>
+          <a href="{pre}#contact" data-i18n="nav.contact">{e(t("nav.contact"))}</a>
+          <a href="shipops-sales.html" data-i18n="nav.shipops">{e(t("nav.shipops"))}</a>
+          <a href="data-cleaning.html" data-i18n="nav.dataclean">{e(t("nav.dataclean"))}</a>
+        </div>
+      </details>
       <a class="nav-cta" href="custom-template.html"{cur} data-i18n="nav.custom">{e(t("nav.custom"))}</a>
     </nav>
     <div class="lang" role="group" aria-label="{e(t("nav.lang"))}" data-i18n-aria="nav.lang">
@@ -311,7 +317,7 @@ doc = f'''<!doctype html>
         <li>{icon("shield")}<div><h3 data-i18n="web.i4t">{e(t("web.i4t"))}</h3><p data-i18n="web.i4d">{e(t("web.i4d"))}</p></div></li>
       </ul>
     </div>
-    <p class="web-cta"><a class="btn btn-yellow btn-lg" href="custom-template.html">{tx("web.cta")}</a></p>
+    <p class="web-cta"><a class="btn btn-yellow btn-lg" href="custom-template.html?type=web">{tx("web.cta")}</a></p>
   </div>
 </section>
 <section class="sec" id="free">
@@ -388,7 +394,8 @@ doc = f'''<!doctype html>
       <p class="kicker" data-i18n="contact.kicker">{e(t("contact.kicker"))}</p>
       <h2 data-i18n="contact.title">{e(t("contact.title"))}</h2>
       <p data-i18n="contact.text">{e(t("contact.text"))}</p>
-      <a class="btn btn-yellow btn-lg" href="mailto:{EMAIL}">{icon("mail")}{tx("contact.cta")}</a>
+      <a class="btn btn-yellow btn-lg" href="https://wa.me/{WA_NUMBER}" target="_blank" rel="noopener">{icon("cart")}{tx("contact.wa")}</a>
+      <a class="btn btn-ghost btn-lg" href="mailto:{EMAIL}">{icon("mail")}{tx("contact.cta")}</a>
       <p class="mail"><a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
     </div>
   </div>
@@ -397,10 +404,12 @@ doc = f'''<!doctype html>
 
 {FOOT}
 
+<script>window.SITE={{"wa":"{WA_NUMBER}"}};</script>
 <script>window.I18N={json.dumps(T, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
 <script>window.DEMO={json.dumps(DEMO_DATA, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
 <script src="assets/app.js" defer></script>
 <script src="assets/demo.js" defer></script>
+<script src="assets/cart.js" defer></script>
 </body>
 </html>
 '''
@@ -486,7 +495,7 @@ req_doc = f'''<!doctype html>
         <div class="f">{lab("f-deadline","req.f.deadline",False)}<input id="f-deadline" name="deadline" type="date"></div>
         <div class="f">{lab("f-budget","req.f.budget",False)}<input id="f-budget" name="budget" type="text" maxlength="60" placeholder="{e(t("req.f.budget.ph"))}" data-i18n-ph="req.f.budget.ph"></div>
       </div>
-      <button class="btn btn-primary btn-lg" type="submit">{icon("mail")}{tx("req.submit")}</button>
+      <button class="btn btn-primary btn-lg" type="submit">{icon("arrow","ic flip")}{tx("req.submit")}</button>
       <p class="f-ok" id="reqOk" role="status" data-i18n="req.ok" hidden>{e(t("req.ok"))}</p>
       <p class="f-fallback"><span data-i18n="req.fallback">{e(t("req.fallback"))}</span> <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
     </form>
@@ -496,6 +505,7 @@ req_doc = f'''<!doctype html>
 
 {FOOT}
 
+<script>window.SITE={{"wa":"{WA_NUMBER}"}};</script>
 <script>window.I18N={json.dumps(T, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
 <script src="assets/app.js" defer></script>
 <script src="assets/request.js" defer></script>

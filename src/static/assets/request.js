@@ -38,6 +38,10 @@
     return "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
   }
   window.buildRequestMailto = buildMailto;
+  try {
+    var qt = new URLSearchParams(location.search).get("type"), sel = f.elements.type;
+    if (qt && sel) { for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === qt) { sel.value = qt; break; } } }
+  } catch (x) {}
   f.addEventListener("input", function(ev){
     var el = ev.target, msg = document.getElementById(el.id + "-err");
     if (el.getAttribute("aria-invalid") === "true" && msg) { el.setAttribute("aria-invalid","false"); msg.hidden = true; }
@@ -46,9 +50,24 @@
     ev.preventDefault();
     document.getElementById("reqOk").hidden = true;
     if (!check()) return;
-    var href = buildMailto();
-    f.dataset.lastHref = href;
-    window.location.href = href;
+    var wa = (window.SITE && window.SITE.wa) || "";
+    if (wa) {
+      var l = root.lang, typeL = L("req.t." + val("type"), l);
+      var text = [L("req.msg.hi", l), "",
+        L("req.f.name", l) + ": " + val("name"),
+        L("req.f.email", l) + ": " + val("email"),
+        L("req.f.type", l) + ": " + typeL,
+        L("req.f.deadline", l) + ": " + (val("deadline") || "-"),
+        L("req.f.budget", l) + ": " + (val("budget") || "-"), "",
+        L("req.f.desc", l) + ":", val("desc")].join("\n");
+      var url = "https://wa.me/" + wa + "?text=" + encodeURIComponent(text);
+      f.dataset.lastHref = url;
+      window.open(url, "_blank", "noopener");
+    } else {
+      var href = buildMailto();
+      f.dataset.lastHref = href;
+      window.location.href = href;
+    }
     document.getElementById("reqOk").hidden = false;
   });
 })();
