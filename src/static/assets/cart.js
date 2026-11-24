@@ -24,18 +24,12 @@
   var list = el("ul", "cart-list"), foot = el("div", "cart-foot");
   var totalRow = el("div", "cart-total"), totalLbl = el("span"), totalVal = el("b");
   totalRow.appendChild(totalLbl); totalRow.appendChild(totalVal);
-  var send = el("a", "btn btn-yellow btn-lg cart-send"); send.target = "_blank"; send.rel = "noopener";
+  var send = el("a", "btn btn-yellow btn-lg cart-send"); send.href = "checkout.html";
   var note = el("p", "cart-note");
   foot.appendChild(totalRow); foot.appendChild(send); foot.appendChild(note);
   panel.appendChild(head); panel.appendChild(list); panel.appendChild(foot);
   document.body.appendChild(fab); document.body.appendChild(panel);
 
-  function message(){
-    var lines = [tr("cart.msg.hi"), ""];
-    ids.forEach(function(id){ lines.push("• " + name(id) + " — " + money(info[id])); });
-    lines.push("", tr("cart.msg.total") + ": " + money(total()));
-    return lines.join("\n");
-  }
   function render(){
     title.textContent = tr("cart.title");
     close.setAttribute("aria-label", tr("cart.close"));
@@ -53,8 +47,7 @@
     });
     totalLbl.textContent = tr("cart.total"); totalVal.textContent = money(total());
     send.textContent = tr("cart.send");
-    send.href = (WA && ids.length) ? "https://wa.me/" + WA + "?text=" + encodeURIComponent(message()) : "#";
-    send.setAttribute("aria-disabled", ids.length ? "false" : "true");
+        send.setAttribute("aria-disabled", ids.length ? "false" : "true");
     note.textContent = tr("cart.note");
   }
   function mark(){
@@ -74,7 +67,7 @@
   });
   fab.addEventListener("click", function(){ panel.hidden = !panel.hidden; });
   close.addEventListener("click", function(){ panel.hidden = true; });
-  send.addEventListener("click", function(ev){ if (!ids.length || !WA) ev.preventDefault(); });
+  send.addEventListener("click", function(ev){ if (!ids.length) ev.preventDefault(); });
   document.addEventListener("keydown", function(ev){ if (ev.key === "Escape") panel.hidden = true; });
   document.addEventListener("langchange", function(){ render(); mark(); });
   load(); render(); mark();

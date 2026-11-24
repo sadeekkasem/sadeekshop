@@ -164,3 +164,13 @@ body{background:#f4f9f6}
 .card.cut{display:none}
 .shop-more-wrap{text-align:center;margin-top:40px}
 .shop-none{text-align:center;color:var(--mut);font-size:17px;padding:30px 0}
+
+/* checkout */
+.co-box{max-width:640px;margin-inline:auto}
+.co-list{list-style:none;margin:0 0 6px;padding:0}
+.co-item{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-weight:600}
+.co-total{display:flex;justify-content:space-between;font-size:22px;margin:16px 0 20px}
+.co-pay{width:100%}
+.co-empty{text-align:center;color:var(--mut)}
+.co-empty .btn{margin-top:12px}
+.co-box h2{font-size:26px}

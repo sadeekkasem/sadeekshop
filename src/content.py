@@ -260,3 +260,19 @@ T.update({
  "shop.more": dict(ar="عرض المزيد من القوالب", en="Show more templates", fi="Näytä lisää pohjia"),
  "shop.none": dict(ar="لا توجد قوالب مطابقة. جرّب كلمة أخرى أو اطلب قالبًا خاصًا.", en="No matching templates. Try another word or request a custom one.", fi="Ei hakutuloksia. Kokeile toista sanaa tai tilaa räätälöity pohja."),
 })
+
+T.update({
+ "cart.send": dict(ar="إتمام الشراء", en="Checkout", fi="Kassalle"),
+ "cart.note": dict(ar="القوالب الجاهزة تُشترى من السلة. الطلب الخاص يصلنا عبر واتساب.", en="Ready templates are bought via the cart. Custom requests come to us on WhatsApp.", fi="Valmiit pohjat ostetaan ostoskorin kautta. Räätälöidyt pyynnöt tulevat WhatsAppiin."),
+ "co.meta.title": dict(ar="إتمام الشراء | SkillPostApp", en="Checkout | SkillPostApp", fi="Kassa | SkillPostApp"),
+ "co.title": dict(ar="إتمام الشراء", en="Checkout", fi="Kassa"),
+ "co.lead": dict(ar="راجع قوالبك، أدخل بريدك، وسيصلك رابط التحميل بعد الدفع.", en="Review your templates, enter your email, and the download link arrives after payment.", fi="Tarkista pohjat, anna sähköposti, ja latauslinkki tulee maksun jälkeen."),
+ "co.items": dict(ar="طلبك", en="Your order", fi="Tilauksesi"),
+ "co.empty": dict(ar="سلتك فارغة.", en="Your cart is empty.", fi="Ostoskorisi on tyhjä."),
+ "co.back": dict(ar="تصفّح القوالب", en="Browse templates", fi="Selaa pohjia"),
+ "co.email": dict(ar="بريدك الإلكتروني (لاستلام الملف)", en="Your email (to receive the file)", fi="Sähköposti (tiedostoa varten)"),
+ "co.pay": dict(ar="ادفع الآن", en="Pay now", fi="Maksa nyt"),
+ "co.soon": dict(ar="الدفع الإلكتروني الآمن قيد التجهيز وسيُفعَّل قريبًا. سلتك محفوظة على جهازك.", en="Secure online payment is being set up and will be enabled soon. Your cart is saved on your device.", fi="Turvallinen verkkomaksu otetaan pian käyttöön. Ostoskorisi on tallessa laitteellasi."),
+ "co.err": dict(ar="اكتب بريدًا إلكترونيًا صحيحًا.", en="Enter a valid email.", fi="Anna kelvollinen sähköposti."),
+ "co.custom": dict(ar="تحتاج قالبًا مخصصًا؟ اطلبه عبر واتساب.", en="Need a custom template? Request it on WhatsApp.", fi="Tarvitsetko räätälöidyn pohjan? Pyydä WhatsAppissa."),
+})

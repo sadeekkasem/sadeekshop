@@ -531,6 +531,59 @@ req_doc = f'''<!doctype html>
 open(f"{OUT}/custom-template.html", "w", encoding="utf-8").write(req_doc)
 print("written custom-template.html", len(req_doc))
 
+# ---------- checkout page ----------
+PRICES = {pp["id"]: pp["price"] for pp in PRODUCTS}
+co_doc = f'''<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="co.meta.title">{e(t("co.meta.title"))}</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e5a35">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/theme.css">
+</head>
+<body class="page-req">
+{header("index.html")}
+<main id="main">
+<section class="req-hero">
+  <div class="wrap narrow">
+    <h1 data-i18n="co.title">{e(t("co.title"))}</h1>
+    <p class="lead" data-i18n="co.lead">{e(t("co.lead"))}</p>
+  </div>
+</section>
+<section class="sec sec-tint">
+  <div class="wrap narrow">
+    <div class="req-form co-box">
+      <h2 data-i18n="co.items">{e(t("co.items"))}</h2>
+      <ul class="co-list" id="coList"></ul>
+      <p class="co-empty" id="coEmpty" hidden><span data-i18n="co.empty">{e(t("co.empty"))}</span> <a class="btn btn-primary" href="index.html#products">{tx("co.back")}</a></p>
+      <div id="coForm">
+        <div class="co-total"><span data-i18n="cart.total">{e(t("cart.total"))}</span><b id="coTotal"></b></div>
+        <div class="f"><label for="coEmail" data-i18n="co.email">{e(t("co.email"))}</label><input id="coEmail" type="email" dir="ltr" autocomplete="email" maxlength="160"><p class="f-err" id="coErr" hidden data-i18n="co.err">{e(t("co.err"))}</p></div>
+        <button class="btn btn-primary btn-lg co-pay" id="coPay" type="button">{icon("cart")}{tx("co.pay")}</button>
+        <p class="f-ok" id="coSoon" role="status" hidden data-i18n="co.soon">{e(t("co.soon"))}</p>
+        <p class="f-fallback"><a href="custom-template.html" data-i18n="co.custom">{e(t("co.custom"))}</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+{FOOT}
+<script>window.SITE={{"wa":"{WA_NUMBER}","pay":"","prices":{json.dumps(PRICES)}}};</script>
+<script>window.I18N={json.dumps(T, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
+<script src="assets/app.js" defer></script>
+<script src="assets/checkout.js" defer></script>
+</body>
+</html>
+'''
+open(f"{OUT}/checkout.html", "w", encoding="utf-8").write(co_doc)
+print("written checkout.html", len(co_doc))
+
 # ---------- SkillPostApp help widget: knowledge file built from the content above ----------
 import assistant_kb
 assistant_kb.build(OUT, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP)
