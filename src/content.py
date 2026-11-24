@@ -276,3 +276,8 @@ T.update({
  "co.err": dict(ar="اكتب بريدًا إلكترونيًا صحيحًا.", en="Enter a valid email.", fi="Anna kelvollinen sähköposti."),
  "co.custom": dict(ar="تحتاج قالبًا مخصصًا؟ اطلبه عبر واتساب.", en="Need a custom template? Request it on WhatsApp.", fi="Tarvitsetko räätälöidyn pohjan? Pyydä WhatsAppissa."),
 })
+
+T.update({
+ "co.thanks.t": dict(ar="تم الدفع، شكرًا لك!", en="Payment received, thank you!", fi="Maksu vastaanotettu, kiitos!"),
+ "co.thanks.d": dict(ar="سيصلك رابط تحميل القوالب على بريدك الإلكتروني خلال دقائق. تم تفريغ السلة.", en="Your download links will arrive by email within minutes. Your cart has been cleared.", fi="Latauslinkit saapuvat sähköpostiisi muutamassa minuutissa. Ostoskori on tyhjennetty."),
+})

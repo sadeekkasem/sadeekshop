@@ -29,5 +29,8 @@
     $("coSoon").hidden = false;
   });
   document.addEventListener("langchange", render);
+  var paid = /[?&]paid=1\b/.test(location.search);
+  if (paid) { ids = []; save(); try { localStorage.removeItem("cart"); } catch(e){} }
   load(); render();
+  if (paid) { $("coEmpty").hidden = true; $("coForm").hidden = true; $("coList").hidden = true; $("coThanks").hidden = false; }
 })();

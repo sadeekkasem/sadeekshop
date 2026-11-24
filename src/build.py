@@ -561,6 +561,7 @@ co_doc = f'''<!doctype html>
     <div class="req-form co-box">
       <h2 data-i18n="co.items">{e(t("co.items"))}</h2>
       <ul class="co-list" id="coList"></ul>
+      <div class="co-thanks" id="coThanks" hidden><h2 data-i18n="co.thanks.t">{e(t("co.thanks.t"))}</h2><p data-i18n="co.thanks.d">{e(t("co.thanks.d"))}</p><a class="btn btn-primary" href="index.html#products">{tx("co.back")}</a></div>
       <p class="co-empty" id="coEmpty" hidden><span data-i18n="co.empty">{e(t("co.empty"))}</span> <a class="btn btn-primary" href="index.html#products">{tx("co.back")}</a></p>
       <div id="coForm">
         <div class="co-total"><span data-i18n="cart.total">{e(t("cart.total"))}</span><b id="coTotal"></b></div>
@@ -587,3 +588,18 @@ print("written checkout.html", len(co_doc))
 # ---------- SkillPostApp help widget: knowledge file built from the content above ----------
 import assistant_kb
 assistant_kb.build(OUT, PRODUCTS, T, FREE, EMAIL, PAYHIP_STORE, ETSY_SHOP, SIKKA_SHOP)
+
+# ---------- cache busting: every local .js/.css gets ?v=<content hash> so browsers never keep stale copies ----------
+import re, hashlib, glob
+def _v(rel):
+    try:
+        return hashlib.md5(open(os.path.join(OUT, rel), "rb").read()).hexdigest()[:8]
+    except OSError:
+        return None
+_pat = re.compile(r'((?:src|href)=")((?:assets/)[\w./-]+\.(?:js|css))(")')
+for _f in glob.glob(f"{OUT}/*.html"):
+    _s = open(_f, encoding="utf-8").read()
+    _n = _pat.sub(lambda m: f'{m.group(1)}{m.group(2)}?v={_v(m.group(2))}{m.group(3)}' if _v(m.group(2)) else m.group(0), _s)
+    if _n != _s:
+        open(_f, "w", encoding="utf-8").write(_n)
+print("cache-busted asset links")
