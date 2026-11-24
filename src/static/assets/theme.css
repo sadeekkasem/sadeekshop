@@ -178,3 +178,5 @@ body{background:#f4f9f6}
 .co-files{display:grid;gap:12px;margin:20px 0}
 .co-dl{width:100%}
 .btn-ghost-dark{border-color:var(--line);color:var(--g8);background:#fff}
+.cart-clear{font:inherit;font-size:14px;color:#b3261e;background:none;border:0;cursor:pointer;text-decoration:underline;padding:4px;justify-self:center}
+.co-clearwrap{margin:0;text-align:end}

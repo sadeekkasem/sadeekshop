@@ -21,6 +21,7 @@
     $("coTotal").textContent = money(total);
     $("coEmpty").hidden = ids.length > 0; $("coForm").hidden = ids.length === 0; list.hidden = ids.length === 0;
   }
+  var clrBtn = $("coClear"); if (clrBtn) clrBtn.addEventListener("click", function(){ ids = []; save(); render(); });
   function show(id, on){ var e = $(id); if (e) e.hidden = !on; }
   $("coPay").addEventListener("click", function(){
     var em = $("coEmail").value.trim(), ok = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(em);

@@ -25,8 +25,9 @@
   var totalRow = el("div", "cart-total"), totalLbl = el("span"), totalVal = el("b");
   totalRow.appendChild(totalLbl); totalRow.appendChild(totalVal);
   var send = el("a", "btn btn-yellow btn-lg cart-send"); send.href = "checkout.html";
-  var note = el("p", "cart-note");
-  foot.appendChild(totalRow); foot.appendChild(send); foot.appendChild(note);
+  var note = el("p", "cart-note"), clr = el("button", "cart-clear"); clr.type = "button";
+  clr.addEventListener("click", function(){ ids = []; save(); render(); mark(); });
+  foot.appendChild(totalRow); foot.appendChild(send); foot.appendChild(clr); foot.appendChild(note);
   panel.appendChild(head); panel.appendChild(list); panel.appendChild(foot);
   document.body.appendChild(fab); document.body.appendChild(panel);
 
@@ -46,7 +47,7 @@
       li.appendChild(n); li.appendChild(p); li.appendChild(rm); list.appendChild(li);
     });
     totalLbl.textContent = tr("cart.total"); totalVal.textContent = money(total());
-    send.textContent = tr("cart.send");
+    send.textContent = tr("cart.send"); clr.textContent = tr("cart.clear");
         send.setAttribute("aria-disabled", ids.length ? "false" : "true");
     note.textContent = tr("cart.note");
   }
@@ -55,15 +56,16 @@
       var inCart = ids.indexOf(b.dataset.add) >= 0, s = b.querySelector("span");
       b.classList.toggle("is-in", inCart);
       if (s) s.textContent = tr(inCart ? "cart.added" : "cart.add");
+      b.title = inCart ? tr("cart.undo") : "";
     });
   }
   document.addEventListener("click", function(ev){
     var b = ev.target.closest && ev.target.closest("[data-add]");
     if (!b) return;
     var id = b.dataset.add;
-    if (ids.indexOf(id) < 0) { ids.push(id); save(); }
-    render(); mark();
-    fab.classList.remove("pop"); void fab.offsetWidth; fab.classList.add("pop");
+    if (ids.indexOf(id) < 0) { ids.push(id); fab.classList.remove("pop"); void fab.offsetWidth; fab.classList.add("pop"); }
+    else { ids = ids.filter(function(x){ return x !== id; }); }
+    save(); render(); mark();
   });
   fab.addEventListener("click", function(){ panel.hidden = !panel.hidden; });
   close.addEventListener("click", function(){ panel.hidden = true; });

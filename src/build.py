@@ -564,6 +564,7 @@ co_doc = f'''<!doctype html>
       <div class="co-thanks" id="coThanks" hidden><h2 data-i18n="co.thanks.t">{e(t("co.thanks.t"))}</h2><p data-i18n="co.thanks.d">{e(t("co.thanks.d"))}</p><p class="f-ok" id="coWait" hidden data-i18n="co.dl.wait">{e(t("co.dl.wait"))}</p><div id="coFiles" class="co-files"></div><p class="f-err" id="coDlErr" hidden data-i18n="co.dl.err">{e(t("co.dl.err"))}</p><p class="f-note" data-i18n="co.dl.note">{e(t("co.dl.note"))}</p><a class="btn btn-ghost-dark" href="index.html#products">{tx("co.back")}</a></div>
       <p class="co-empty" id="coEmpty" hidden><span data-i18n="co.empty">{e(t("co.empty"))}</span> <a class="btn btn-primary" href="index.html#products">{tx("co.back")}</a></p>
       <div id="coForm">
+        <p class="co-clearwrap"><button type="button" class="cart-clear" id="coClear" data-i18n="cart.clear">{e(t("cart.clear"))}</button></p>
         <div class="co-total"><span data-i18n="cart.total">{e(t("cart.total"))}</span><b id="coTotal"></b></div>
         <div class="f"><label for="coEmail" data-i18n="co.email">{e(t("co.email"))}</label><input id="coEmail" type="email" dir="ltr" autocomplete="email" maxlength="160"><p class="f-err" id="coErr" hidden data-i18n="co.err">{e(t("co.err"))}</p></div>
         <button class="btn btn-primary btn-lg co-pay" id="coPay" type="button">{icon("cart")}{tx("co.pay")}</button>

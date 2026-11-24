@@ -290,3 +290,8 @@ T.update({
  "co.dl.note": dict(ar="الروابط صالحة لمدة ساعة. احفظ هذه الصفحة في المفضلة لتعيد التحميل لاحقًا.", en="Links are valid for one hour. Bookmark this page to download again later.", fi="Linkit ovat voimassa tunnin. Lisää sivu kirjanmerkkeihin ladataksesi myöhemmin."),
  "co.fail": dict(ar="أحد القوالب لم يعد متاحًا للشراء. أزله من السلة أو راسلنا.", en="One of the templates is no longer available. Remove it or contact us.", fi="Jokin pohjista ei ole enää saatavilla. Poista se tai ota yhteyttä."),
 })
+
+T.update({
+ "cart.clear": dict(ar="إفراغ السلة", en="Empty cart", fi="Tyhjennä ostoskori"),
+ "cart.undo": dict(ar="اضغط لإزالته من السلة", en="Click to remove from cart", fi="Poista ostoskorista klikkaamalla"),
+})
