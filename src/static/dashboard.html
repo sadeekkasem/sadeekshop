@@ -65,7 +65,7 @@ dialog::backdrop{background:#0008}
 <section id="mainView" hidden>
   <div class="bar">
     <h1>لوحة تحكم SkillPostApp</h1>
-    <div class="row-act"><span class="muted" id="who"></span><button id="logout">خروج</button></div>
+    <div class="row-act"><span class="muted" id="who"></span><button id="publish" class="primary" title="يحدّث الموقع العام بآخر تعديلاتك">نشر الآن ↑</button><button id="logout">خروج</button></div>
   </div>
   <div class="stats" id="stats"></div>
   <div class="tabs">
@@ -170,6 +170,22 @@ $("loginForm").addEventListener("submit",async function(ev){ev.preventDefault();
   $("loginBtn").disabled=false;
   if(r.error){toast("فشل الدخول: "+r.error.message,true);return;}
   $("pw").value="";await enter(r.data.user);
+});
+
+$("publish").addEventListener("click",async function(){
+  var b=$("publish");
+  if(b.dataset.arm!=="1"){b.dataset.arm="1";b.textContent="اضغط مرة ثانية للتأكيد";setTimeout(function(){b.dataset.arm="";b.textContent="نشر الآن ↑";},4000);return;}
+  b.dataset.arm="";b.disabled=true;b.textContent="جارٍ الطلب…";
+  try{
+    var r=await sb.auth.getSession();var tok=r.data&&r.data.session?r.data.session.access_token:"";
+    var res=await fetch(SB_URL+"/functions/v1/publish-site",{method:"POST",headers:{"content-type":"application/json","apikey":SB_KEY,"authorization":"Bearer "+tok},body:"{}"});
+    var j={};try{j=await res.json();}catch(e){}
+    if(res.ok&&j.ok){toast("تم طلب النشر. يتحدث الموقع خلال دقيقة تقريباً.");}
+    else if(j.error==="not_configured"){toast("زر النشر غير مفعّل بعد (يلزم إعداد المفتاح مرة واحدة).",true);}
+    else if(res.status===401||res.status===403){toast("هذا الحساب غير مسموح له بالنشر.",true);}
+    else{toast("تعذّر طلب النشر"+(j.detail?": "+j.detail:"."),true);}
+  }catch(e){toast("تعذّر الاتصال بدالة النشر.",true);}
+  b.disabled=false;b.textContent="نشر الآن ↑";
 });
 $("logout").addEventListener("click",async function(){await sb.auth.signOut();products=[];show(false);});
 
