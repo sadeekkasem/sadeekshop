@@ -281,3 +281,12 @@ T.update({
  "co.thanks.t": dict(ar="تم الدفع، شكرًا لك!", en="Payment received, thank you!", fi="Maksu vastaanotettu, kiitos!"),
  "co.thanks.d": dict(ar="سيصلك رابط تحميل القوالب على بريدك الإلكتروني خلال دقائق. تم تفريغ السلة.", en="Your download links will arrive by email within minutes. Your cart has been cleared.", fi="Latauslinkit saapuvat sähköpostiisi muutamassa minuutissa. Ostoskori on tyhjennetty."),
 })
+
+T.update({
+ "co.thanks.d": dict(ar="تم تفريغ السلة. حمّل ملفاتك من الأزرار أدناه.", en="Your cart is cleared. Download your files below.", fi="Ostoskori on tyhjennetty. Lataa tiedostosi alta."),
+ "co.dl.btn": dict(ar="تحميل", en="Download", fi="Lataa"),
+ "co.dl.wait": dict(ar="نتأكد من الدفع، لحظات…", en="Confirming your payment, one moment…", fi="Vahvistetaan maksua, hetki…"),
+ "co.dl.err": dict(ar="لم نستطع تجهيز الروابط بعد. حدّث الصفحة بعد دقيقة، أو راسلنا وسنرسل ملفاتك.", en="We could not prepare the links yet. Refresh in a minute, or contact us and we will send your files.", fi="Linkkejä ei voitu vielä valmistella. Päivitä sivu minuutin päästä tai ota yhteyttä."),
+ "co.dl.note": dict(ar="الروابط صالحة لمدة ساعة. احفظ هذه الصفحة في المفضلة لتعيد التحميل لاحقًا.", en="Links are valid for one hour. Bookmark this page to download again later.", fi="Linkit ovat voimassa tunnin. Lisää sivu kirjanmerkkeihin ladataksesi myöhemmin."),
+ "co.fail": dict(ar="أحد القوالب لم يعد متاحًا للشراء. أزله من السلة أو راسلنا.", en="One of the templates is no longer available. Remove it or contact us.", fi="Jokin pohjista ei ole enää saatavilla. Poista se tai ota yhteyttä."),
+})

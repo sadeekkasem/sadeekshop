@@ -561,12 +561,13 @@ co_doc = f'''<!doctype html>
     <div class="req-form co-box">
       <h2 data-i18n="co.items">{e(t("co.items"))}</h2>
       <ul class="co-list" id="coList"></ul>
-      <div class="co-thanks" id="coThanks" hidden><h2 data-i18n="co.thanks.t">{e(t("co.thanks.t"))}</h2><p data-i18n="co.thanks.d">{e(t("co.thanks.d"))}</p><a class="btn btn-primary" href="index.html#products">{tx("co.back")}</a></div>
+      <div class="co-thanks" id="coThanks" hidden><h2 data-i18n="co.thanks.t">{e(t("co.thanks.t"))}</h2><p data-i18n="co.thanks.d">{e(t("co.thanks.d"))}</p><p class="f-ok" id="coWait" hidden data-i18n="co.dl.wait">{e(t("co.dl.wait"))}</p><div id="coFiles" class="co-files"></div><p class="f-err" id="coDlErr" hidden data-i18n="co.dl.err">{e(t("co.dl.err"))}</p><p class="f-note" data-i18n="co.dl.note">{e(t("co.dl.note"))}</p><a class="btn btn-ghost-dark" href="index.html#products">{tx("co.back")}</a></div>
       <p class="co-empty" id="coEmpty" hidden><span data-i18n="co.empty">{e(t("co.empty"))}</span> <a class="btn btn-primary" href="index.html#products">{tx("co.back")}</a></p>
       <div id="coForm">
         <div class="co-total"><span data-i18n="cart.total">{e(t("cart.total"))}</span><b id="coTotal"></b></div>
         <div class="f"><label for="coEmail" data-i18n="co.email">{e(t("co.email"))}</label><input id="coEmail" type="email" dir="ltr" autocomplete="email" maxlength="160"><p class="f-err" id="coErr" hidden data-i18n="co.err">{e(t("co.err"))}</p></div>
         <button class="btn btn-primary btn-lg co-pay" id="coPay" type="button">{icon("cart")}{tx("co.pay")}</button>
+        <p class="f-err" id="coFail" role="alert" hidden data-i18n="co.fail">{e(t("co.fail"))}</p>
         <p class="f-ok" id="coSoon" role="status" hidden data-i18n="co.soon">{e(t("co.soon"))}</p>
         <p class="f-fallback"><a href="custom-template.html" data-i18n="co.custom">{e(t("co.custom"))}</a></p>
       </div>
@@ -575,7 +576,7 @@ co_doc = f'''<!doctype html>
 </section>
 </main>
 {FOOT}
-<script>window.SITE={{"wa":"{WA_NUMBER}","pay":"","prices":{json.dumps(PRICES)}}};</script>
+<script>window.SITE={{"wa":"{WA_NUMBER}","api":"https://opauvtpuiqrywpsgcorv.supabase.co/functions/v1","prices":{json.dumps(PRICES)}}};</script>
 <script>window.I18N={json.dumps(T, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
 <script src="assets/app.js" defer></script>
 <script src="assets/checkout.js" defer></script>
