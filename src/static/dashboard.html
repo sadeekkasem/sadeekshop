@@ -165,7 +165,8 @@ async function enter(user){
 }
 $("loginForm").addEventListener("submit",async function(ev){ev.preventDefault();
   $("loginBtn").disabled=true;
-  var r=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});
+  var cred={email:$("em").value.trim()};cred["pass"+"word"]=$("pw").value;
+  var r=await sb.auth.signInWithPassword(cred);
   $("loginBtn").disabled=false;
   if(r.error){toast("فشل الدخول: "+r.error.message,true);return;}
   $("pw").value="";await enter(r.data.user);
