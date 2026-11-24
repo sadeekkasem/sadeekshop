@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة تحكم SadeekShop</title>
+<style>
+@font-face{font-family:Cairo;src:url(assets/fonts/cairo.woff2) format("woff2");font-display:swap}
+:root{--bg:#f4f6f8;--card:#fff;--fg:#1c2530;--mut:#66727f;--line:#dde3e9;--acc:#0f7a5a;--acc-fg:#fff;--bad:#c0392b;--warn:#b7791f;--soft:#e8f3ef}
+@media (prefers-color-scheme:dark){:root{--bg:#12171c;--card:#1b222a;--fg:#e8edf2;--mut:#93a0ad;--line:#2b3540;--acc:#2fb88a;--acc-fg:#0b1511;--bad:#ff7b6b;--warn:#e3b04b;--soft:#1d2d28}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 Cairo,system-ui,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:0}h2{font-size:17px;margin:0 0 10px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.stat b{display:block;font-size:22px}.stat span{color:var(--mut);font-size:13px}
+button,.btn{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:6px 12px;border-radius:8px;cursor:pointer}
+button.pri{background:var(--acc);color:var(--acc-fg);border-color:var(--acc)}
+button.bad{color:var(--bad);border-color:var(--bad)}
+button:disabled{opacity:.5;cursor:default}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button.on{background:var(--soft);border-color:var(--acc);color:var(--acc);font-weight:700}
+input,select,textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 10px;width:100%}
+label{display:block;font-size:13px;color:var(--mut);margin:8px 0 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr}}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);vertical-align:middle}
+th{color:var(--mut);font-weight:600;font-size:13px}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;background:var(--soft);color:var(--acc)}
+.tag.off{background:#0000;border:1px solid var(--line);color:var(--mut)}
+.tag.warn{background:#0000;border:1px solid var(--warn);color:var(--warn)}
+.row-act{display:flex;gap:6px;flex-wrap:wrap}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);width:min(640px,94vw);padding:16px;max-height:92vh;overflow:auto}
+dialog::backdrop{background:#0008}
+.langs{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.langs label{display:flex;gap:5px;align-items:center;margin:0;color:var(--fg)}
+.langs input{width:auto}
+.files li{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.files{list-style:none;margin:0;padding:0}
+.muted{color:var(--mut);font-size:13px}
+#toast{position:fixed;bottom:16px;inset-inline:16px;max-width:520px;margin-inline:auto;background:var(--fg);color:var(--bg);padding:10px 14px;border-radius:10px;display:none;z-index:50}
+#toast.err{background:var(--bad);color:#fff}
+.login{max-width:380px;margin:12vh auto}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="loginView" class="login card" hidden>
+  <h1>لوحة تحكم SadeekShop</h1>
+  <p class="muted">للمدير فقط. سجّل الدخول ببريدك وكلمة السر.</p>
+  <form id="loginForm">
+    <label for="em">البريد</label><input id="em" dir="ltr" type="email" autocomplete="username" required>
+    <label for="pw">كلمة السر</label><input id="pw" dir="ltr" type="password" autocomplete="current-password" required>
+    <p style="margin-top:14px"><button class="pri" type="submit" id="loginBtn">دخول</button></p>
+  </form>
+</section>
+
+<section id="mainView" hidden>
+  <div class="bar">
+    <h1>لوحة تحكم SadeekShop</h1>
+    <div class="row-act"><span class="muted" id="who"></span><button id="logout">خروج</button></div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="tabs">
+    <button id="tabP" class="on">المنتجات</button>
+    <button id="tabO">الطلبات</button>
+  </div>
+
+  <div id="paneP">
+    <div class="bar"><span class="muted">الملفات المدفوعة تُحفظ في مخزن خاص، ولا يراها أحد بدون دفع.</span><button class="pri" id="addP">+ منتج جديد</button></div>
+    <div class="card tw"><table><thead><tr><th>المنتج</th><th>السعر</th><th>الملف</th><th>الحالة</th><th></th></tr></thead><tbody id="pBody"></tbody></table></div>
+  </div>
+
+  <div id="paneO" hidden>
+    <div class="card tw"><table><thead><tr><th>التاريخ</th><th>البريد</th><th>المنتج</th><th>المبلغ</th><th>الحالة</th></tr></thead><tbody id="oBody"></tbody></table>
+    <p class="muted" id="oEmpty" hidden>لا توجد طلبات بعد.</p></div>
+  </div>
+</section>
+</div>
+
+<dialog id="dlg">
+  <h2 id="dTitle">منتج</h2>
+  <form id="pForm" method="dialog">
+    <div class="grid2">
+      <div><label for="f_slug">الاسم المختصر (slug) بالإنجليزية</label><input id="f_slug" dir="ltr" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="invoice-pro"></div>
+      <div><label for="f_price">السعر باليورو</label><input id="f_price" type="number" min="0" step="0.01" value="5" required></div>
+    </div>
+    <label for="f_ar">الاسم بالعربية</label><input id="f_ar" required>
+    <div class="grid2">
+      <div><label for="f_en">الاسم بالإنجليزية</label><input id="f_en"></div>
+      <div><label for="f_fi">الاسم بالفنلندية</label><input id="f_fi"></div>
+    </div>
+    <label for="f_desc">الوصف</label><textarea id="f_desc" rows="3"></textarea>
+    <div class="grid2">
+      <div><label for="f_cat">التصنيف</label>
+        <select id="f_cat">
+          <option value="acc">محاسبة وضريبة</option><option value="stock">مخزون ومبيعات</option>
+          <option value="price">تسعير ومطاعم</option><option value="hr">رواتب</option>
+          <option value="home">ميزانية الأسرة</option><option value="auto">أتمتة ونشر</option>
+        </select></div>
+      <div><label for="f_sort">الترتيب (الأصغر أولاً)</label><input id="f_sort" type="number" value="100"></div>
+    </div>
+    <label>اللغات</label>
+    <div class="langs"><label><input type="checkbox" value="ar" class="lg"> العربية</label><label><input type="checkbox" value="en" class="lg"> English</label><label><input type="checkbox" value="fi" class="lg"> Suomi</label></div>
+    <label for="f_chk">رابط الدفع (نضيفه في آخر خطوة)</label><input id="f_chk" dir="ltr" type="url" placeholder="https://...">
+    <label class="langs" style="margin-top:10px"><input type="checkbox" id="f_active"> ظاهر في الموقع</label>
+    <p style="margin-top:14px" class="row-act"><button class="pri" type="submit" id="saveP">حفظ</button><button type="button" id="cancelP">إغلاق</button></p>
+  </form>
+
+  <div id="fileBox" hidden>
+    <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+    <h2>ملف المنتج</h2>
+    <p class="muted" id="curFile"></p>
+    <label for="upFile">رفع نسخة جديدة (xlsx أو zip أو أي ملف)</label>
+    <input id="upFile" type="file">
+    <label for="upNote">ملاحظة عن النسخة (اختياري)</label><input id="upNote" placeholder="مثال: إصلاح معادلة الضريبة">
+    <p><button class="pri" id="upBtn">رفع واعتماد كنسخة جديدة</button></p>
+    <h2 style="margin-top:14px">النسخ السابقة</h2>
+    <ul class="files" id="fileList"></ul>
+  </div>
+</dialog>
+
+<div id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+"use strict";
+var SB_URL="https://opauvtpuiqrywpsgcorv.supabase.co";
+var SB_KEY="sb_publishable_FqN53bpc23Le9WVCuUnc5g_ZQQTqnDD";
+var BUCKET="paid-files";
+var CATS={acc:"محاسبة وضريبة",stock:"مخزون ومبيعات",price:"تسعير ومطاعم",hr:"رواتب",home:"ميزانية الأسرة",auto:"أتمتة ونشر"};
+var STATUS={"new":"جديد",paid:"مدفوع",delivered:"سُلّم",refunded:"مُسترد",cancelled:"ملغى"};
+var $=function(id){return document.getElementById(id);};
+var sb=window.supabase.createClient(SB_URL,SB_KEY);
+var products=[],editing=null,toastT=null;
+
+function el(tag,props,kids){var e=document.createElement(tag);
+  Object.keys(props||{}).forEach(function(k){if(k==="class")e.className=props[k];else if(k==="text")e.textContent=props[k];else if(k.slice(0,2)==="on")e.addEventListener(k.slice(2),props[k]);else e.setAttribute(k,props[k]);});
+  (kids||[]).forEach(function(c){if(c)e.appendChild(c);});return e;}
+function toast(msg,err){var t=$("toast");t.textContent=msg;t.className=err?"err":"";t.style.display="block";clearTimeout(toastT);toastT=setTimeout(function(){t.style.display="none";},err?7000:3500);}
+function explain(e){var m=(e&&e.message)||String(e);
+  if(/permission denied|row-level security|violates row/i.test(m))return "ليست لديك صلاحية: تأكد أن بريدك مضاف في جدول admins وأن أمر الصلاحيات (grant) نُفّذ. التفاصيل: "+m;
+  return m;}
+function safeName(n){var i=n.lastIndexOf("."),ext=i>0?n.slice(i).replace(/[^A-Za-z0-9.]/g,""):"";
+  var base=(i>0?n.slice(0,i):n).replace(/[^A-Za-z0-9_-]+/g,"_").replace(/^_+|_+$/g,"")||"file";return base+ext;}
+
+/* ---------- session ---------- */
+function show(loggedIn){$("loginView").hidden=loggedIn;$("mainView").hidden=!loggedIn;}
+async function boot(){
+  var r=await sb.auth.getSession();
+  if(r.data.session){await enter(r.data.session.user);}else{show(false);}
+}
+async function enter(user){
+  var a=await sb.from("admins").select("email").limit(1);
+  if(a.error||!a.data||!a.data.length){await sb.auth.signOut();show(false);toast("هذا الحساب ليس مديراً لهذا الموقع.",true);return;}
+  $("who").textContent=user.email;show(true);await refresh();
+}
+$("loginForm").addEventListener("submit",async function(ev){ev.preventDefault();
+  $("loginBtn").disabled=true;
+  var r=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});
+  $("loginBtn").disabled=false;
+  if(r.error){toast("فشل الدخول: "+r.error.message,true);return;}
+  $("pw").value="";await enter(r.data.user);
+});
+$("logout").addEventListener("click",async function(){await sb.auth.signOut();products=[];show(false);});
+
+/* ---------- tabs ---------- */
+function tab(p){$("paneP").hidden=!p;$("paneO").hidden=p;$("tabP").className=p?"on":"";$("tabO").className=p?"":"on";}
+$("tabP").addEventListener("click",function(){tab(true);});
+$("tabO").addEventListener("click",function(){tab(false);loadOrders();});
+
+/* ---------- products ---------- */
+async function refresh(){await loadProducts();await loadOrders();}
+async function loadProducts(){
+  var r=await sb.from("products").select("*").order("sort_order").order("slug");
+  if(r.error){toast(explain(r.error),true);return;}
+  products=r.data;renderProducts();renderStats();
+}
+function renderStats(orders){
+  var s=$("stats");s.textContent="";
+  var act=products.filter(function(p){return p.active;}).length;
+  var withFile=products.filter(function(p){return p.file_path;}).length;
+  var items=[["المنتجات",products.length],["الظاهرة في الموقع",act],["لها ملف مرفوع",withFile]];
+  if(orders)items.push(["الطلبات المدفوعة",orders.filter(function(o){return o.status==="paid"||o.status==="delivered";}).length]);
+  items.forEach(function(x){s.appendChild(el("div",{class:"stat"},[el("b",{text:String(x[1])}),el("span",{text:x[0]})]));});
+}
+function renderProducts(){
+  var b=$("pBody");b.textContent="";
+  products.forEach(function(p){
+    var tr=el("tr");
+    tr.appendChild(el("td",{},[el("b",{text:p.name_ar}),el("div",{class:"muted",text:p.slug+" · "+(CATS[p.category]||p.category)})]));
+    tr.appendChild(el("td",{text:Number(p.price_eur)===0?"مجاني":Number(p.price_eur).toFixed(2)+" €"}));
+    tr.appendChild(el("td",{},[p.file_path?el("span",{class:"tag",text:"نسخة "+p.version}):el("span",{class:"tag warn",text:"بدون ملف"})]));
+    tr.appendChild(el("td",{},[el("span",{class:"tag"+(p.active?"":" off"),text:p.active?"ظاهر":"مخفي"})]));
+    var act=el("td",{},[el("div",{class:"row-act"},[
+      el("button",{text:"تعديل",onclick:function(){openDlg(p);}}),
+      el("button",{text:p.active?"إخفاء":"إظهار",onclick:function(){toggleActive(p);}}),
+      delBtn(p)
+    ])]);
+    tr.appendChild(act);b.appendChild(tr);
+  });
+  if(!products.length)b.appendChild(el("tr",{},[el("td",{colspan:"5",class:"muted",text:"لا توجد منتجات. اضغط «+ منتج جديد»."})]));
+}
+function delBtn(p){
+  var b=el("button",{class:"bad",text:"حذف"});var armed=false,t=null;
+  b.addEventListener("click",function(){
+    if(!armed){armed=true;b.textContent="تأكيد الحذف؟";t=setTimeout(function(){armed=false;b.textContent="حذف";},4000);return;}
+    clearTimeout(t);deleteProduct(p);
+  });return b;
+}
+async function toggleActive(p){
+  var r=await sb.from("products").update({active:!p.active,updated_at:new Date().toISOString()}).eq("slug",p.slug);
+  if(r.error){toast(explain(r.error),true);return;}toast(p.active?"تم الإخفاء":"تم الإظهار");loadProducts();
+}
+async function deleteProduct(p){
+  var fl=await sb.from("product_files").select("file_path").eq("product_slug",p.slug);
+  var paths=(fl.data||[]).map(function(x){return x.file_path;});if(p.file_path&&paths.indexOf(p.file_path)<0)paths.push(p.file_path);
+  if(paths.length){var rm=await sb.storage.from(BUCKET).remove(paths);if(rm.error){toast("تعذر حذف الملفات: "+explain(rm.error),true);return;}}
+  var r=await sb.from("products").delete().eq("slug",p.slug);
+  if(r.error){toast(explain(r.error),true);return;}toast("تم حذف المنتج وملفاته");loadProducts();
+}
+
+/* ---------- dialog ---------- */
+function fill(p){
+  $("f_slug").value=p?p.slug:"";$("f_slug").disabled=!!p;
+  $("f_price").value=p?p.price_eur:5;$("f_ar").value=p?p.name_ar:"";$("f_en").value=p&&p.name_en||"";$("f_fi").value=p&&p.name_fi||"";
+  $("f_desc").value=p&&p.description||"";$("f_cat").value=p?p.category:"acc";$("f_sort").value=p?p.sort_order:100;
+  $("f_chk").value=p&&p.checkout_url||"";$("f_active").checked=p?p.active:true;
+  var langs=p?p.languages:["ar"];document.querySelectorAll(".lg").forEach(function(c){c.checked=langs.indexOf(c.value)>=0;});
+}
+function openDlg(p){editing=p||null;$("dTitle").textContent=p?"تعديل: "+p.name_ar:"منتج جديد";fill(p);
+  $("fileBox").hidden=!p;if(p)loadFiles();$("dlg").showModal();}
+$("addP").addEventListener("click",function(){openDlg(null);});
+$("cancelP").addEventListener("click",function(){$("dlg").close();});
+$("pForm").addEventListener("submit",async function(ev){ev.preventDefault();
+  var langs=[];document.querySelectorAll(".lg").forEach(function(c){if(c.checked)langs.push(c.value);});
+  if(!langs.length){toast("اختر لغة واحدة على الأقل",true);return;}
+  var row={slug:$("f_slug").value.trim(),name_ar:$("f_ar").value.trim(),name_en:$("f_en").value.trim()||null,name_fi:$("f_fi").value.trim()||null,
+    description:$("f_desc").value.trim()||null,price_eur:Number($("f_price").value),category:$("f_cat").value,languages:langs,
+    sort_order:Number($("f_sort").value)||100,checkout_url:$("f_chk").value.trim()||null,active:$("f_active").checked,updated_at:new Date().toISOString()};
+  $("saveP").disabled=true;var r;
+  if(editing){delete row.slug;r=await sb.from("products").update(row).eq("slug",editing.slug);}
+  else{r=await sb.from("products").insert(row);}
+  $("saveP").disabled=false;
+  if(r.error){toast(explain(r.error),true);return;}
+  toast("تم الحفظ");await loadProducts();
+  if(!editing){var np=products.filter(function(x){return x.slug===row.slug;})[0];if(np)openDlg(np);toast("تم الحفظ. الآن يمكنك رفع ملف المنتج.");}
+});
+
+/* ---------- files ---------- */
+async function loadFiles(){
+  var r=await sb.from("product_files").select("*").eq("product_slug",editing.slug).order("version",{ascending:false});
+  var ul=$("fileList");ul.textContent="";
+  var cur=products.filter(function(x){return x.slug===editing.slug;})[0]||editing;editing=cur;
+  $("curFile").textContent=cur.file_path?("الملف الحالي: نسخة "+cur.version+" — "+cur.file_path):"لا يوجد ملف بعد. ارفع الملف الأول.";
+  if(r.error){toast(explain(r.error),true);return;}
+  r.data.forEach(function(f){
+    var isCur=f.file_path===cur.file_path;
+    var li=el("li",{},[el("span",{text:"نسخة "+f.version+(f.note?" — "+f.note:"")+" · "+new Date(f.created_at).toLocaleDateString("ar")}),
+      el("span",{class:"row-act"},[
+        isCur?el("span",{class:"tag",text:"الحالية"}):el("button",{text:"اعتمد هذه النسخة",onclick:function(){useVersion(f);}}),
+        isCur?null:el("button",{class:"bad",text:"حذف النسخة",onclick:function(){delVersion(f);}})
+      ])]);
+    ul.appendChild(li);
+  });
+  if(!r.data.length)ul.appendChild(el("li",{class:"muted",text:"لا توجد نسخ."}));
+}
+$("upBtn").addEventListener("click",async function(){
+  var f=$("upFile").files[0];if(!f){toast("اختر ملفاً أولاً",true);return;}
+  if(f.size>50*1024*1024){toast("الملف أكبر من 50 ميغابايت (حد الخطة المجانية).",true);return;}
+  $("upBtn").disabled=true;
+  try{
+    var m=await sb.from("product_files").select("version").eq("product_slug",editing.slug).order("version",{ascending:false}).limit(1);
+    if(m.error)throw m.error;
+    var ver=(m.data.length?m.data[0].version:0)+1;
+    var path=editing.slug+"/v"+ver+"-"+safeName(f.name);
+    var up=await sb.storage.from(BUCKET).upload(path,f,{upsert:false,contentType:f.type||"application/octet-stream"});
+    if(up.error)throw up.error;
+    var ins=await sb.from("product_files").insert({product_slug:editing.slug,version:ver,file_path:path,note:$("upNote").value.trim()||null});
+    if(ins.error){await sb.storage.from(BUCKET).remove([path]);throw ins.error;}
+    var upd=await sb.from("products").update({file_path:path,version:ver,updated_at:new Date().toISOString()}).eq("slug",editing.slug);
+    if(upd.error)throw upd.error;
+    $("upFile").value="";$("upNote").value="";toast("تم رفع النسخة "+ver+" واعتمادها");
+    await loadProducts();await loadFiles();
+  }catch(e){toast(explain(e),true);}
+  $("upBtn").disabled=false;
+});
+async function useVersion(f){
+  var r=await sb.from("products").update({file_path:f.file_path,version:f.version,updated_at:new Date().toISOString()}).eq("slug",editing.slug);
+  if(r.error){toast(explain(r.error),true);return;}toast("تم اعتماد النسخة "+f.version);await loadProducts();await loadFiles();
+}
+async function delVersion(f){
+  var rm=await sb.storage.from(BUCKET).remove([f.file_path]);if(rm.error){toast(explain(rm.error),true);return;}
+  var r=await sb.from("product_files").delete().eq("id",f.id);if(r.error){toast(explain(r.error),true);return;}
+  toast("تم حذف النسخة");loadFiles();
+}
+
+/* ---------- orders ---------- */
+async function loadOrders(){
+  var r=await sb.from("orders").select("*").order("created_at",{ascending:false}).limit(200);
+  if(r.error){toast(explain(r.error),true);return;}
+  renderStats(r.data);
+  var b=$("oBody");b.textContent="";$("oEmpty").hidden=r.data.length>0;
+  r.data.forEach(function(o){
+    var sel=el("select",{});Object.keys(STATUS).forEach(function(k){var op=el("option",{value:k,text:STATUS[k]});if(k===o.status)op.selected=true;sel.appendChild(op);});
+    sel.addEventListener("change",async function(){var u=await sb.from("orders").update({status:sel.value}).eq("id",o.id);
+      if(u.error){toast(explain(u.error),true);return;}toast("تم تحديث الحالة");});
+    var pn=products.filter(function(p){return p.slug===o.product_slug;})[0];
+    var tr=el("tr",{},[el("td",{text:new Date(o.created_at).toLocaleString("ar")}),el("td",{text:o.customer_email}),
+      el("td",{text:pn?pn.name_ar:o.product_slug}),el("td",{text:o.amount_eur==null?"":Number(o.amount_eur).toFixed(2)+" €"}),el("td",{},[sel])]);
+    b.appendChild(tr);
+  });
+}
+
+boot();
+})();
+</script>
+</body>
+</html>
