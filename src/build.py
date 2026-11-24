@@ -101,6 +101,7 @@ def header(pre, cur=""):
     <nav class="nav" aria-label="main">
       <a href="{pre}#products" data-i18n="nav.products">{e(t("nav.products"))}</a>
       <a href="{pre}#demo" data-i18n="nav.demo">{e(t("nav.demo"))}</a>
+      <a href="{pre}#web" data-i18n="nav.web">{e(t("nav.web"))}</a>
       <a href="{pre}#free" data-i18n="nav.free">{e(t("nav.free"))}</a>
       <a href="{pre}#why" data-i18n="nav.why">{e(t("nav.why"))}</a>
       <a href="{pre}#faq" data-i18n="nav.faq">{e(t("nav.faq"))}</a>
@@ -283,6 +284,36 @@ doc = f'''<!doctype html>
 </section>
 
 {DEMO_SEC}
+<section class="sec sec-web" id="web">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker" data-i18n="web.kicker">{e(t("web.kicker"))}</p>
+      <h2 data-i18n="web.title">{e(t("web.title"))}</h2>
+      <p class="sub" data-i18n="web.sub">{e(t("web.sub"))}</p>
+    </div>
+    <div class="web-grid">
+      <a class="web-demo" href="demo-restaurant.html" target="_blank" rel="noopener">
+        <div class="mock" aria-hidden="true">
+          <div class="mock-bar"><i></i><i></i><i></i><span>oasis-restaurant.example</span></div>
+          <div class="mock-body"><div class="mock-hero"><b></b><em></em><u></u></div><div class="mock-cards"><s></s><s></s><s></s></div></div>
+        </div>
+        <div class="web-demo-txt">
+          <span class="web-tag" data-i18n="web.demo.tag">{e(t("web.demo.tag"))}</span>
+          <h3 data-i18n="web.demo.name">{e(t("web.demo.name"))}</h3>
+          <p data-i18n="web.demo.desc">{e(t("web.demo.desc"))}</p>
+          <span class="btn btn-primary">{tx("web.demo.cta")}{icon("arrow","ic flip")}</span>
+        </div>
+      </a>
+      <ul class="web-feats">
+        <li>{icon("cell")}<div><h3 data-i18n="web.i1t">{e(t("web.i1t"))}</h3><p data-i18n="web.i1d">{e(t("web.i1d"))}</p></div></li>
+        <li>{icon("globe")}<div><h3 data-i18n="web.i2t">{e(t("web.i2t"))}</h3><p data-i18n="web.i2d">{e(t("web.i2d"))}</p></div></li>
+        <li>{icon("cart")}<div><h3 data-i18n="web.i3t">{e(t("web.i3t"))}</h3><p data-i18n="web.i3d">{e(t("web.i3d"))}</p></div></li>
+        <li>{icon("shield")}<div><h3 data-i18n="web.i4t">{e(t("web.i4t"))}</h3><p data-i18n="web.i4d">{e(t("web.i4d"))}</p></div></li>
+      </ul>
+    </div>
+    <p class="web-cta"><a class="btn btn-yellow btn-lg" href="custom-template.html">{tx("web.cta")}</a></p>
+  </div>
+</section>
 <section class="sec" id="free">
   <div class="wrap">
     <div class="free">

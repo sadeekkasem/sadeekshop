@@ -8,7 +8,7 @@ import json, os, re, glob, html
 WHATSAPP = "https://wa.me/358402550588"
 # Google Sheet "SadeekShop - أسئلة الزبائن" web app: POST = save an unanswered question, GET = answered rows only.
 QUESTIONS_URL = "https://script.google.com/macros/s/AKfycbxMZXB-2sbMleIstdHsEfI4Dg95wlTbVvpGoNUMB4hMVvRJIfjDK8kiilXR99q4_Juv/exec"
-SKIP_PAGES = {"admin.html", "shipops.html"}  # admin tool and the full-screen app iframe
+SKIP_PAGES = {"admin.html", "shipops.html", "dashboard.html", "demo-restaurant.html"}  # admin tool and the full-screen app iframe
 
 def _text(s):
     return html.unescape(re.sub(r"<[^>]+>", " ", s or "")).strip()

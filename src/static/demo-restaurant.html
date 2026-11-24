@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>مطعم الواحة | موقع تجريبي من SadeekShop</title>
+<meta name="description" content="موقع تجريبي لمطعم صغير: قائمة طعام وساعات عمل وطلب عبر واتساب. نموذج من تصميم SadeekShop.">
+<style>
+@font-face{font-family:Cairo;src:url(assets/fonts/cairo.woff2) format("woff2");font-display:swap}
+:root{--c1:#7a2e12;--c2:#c8541f;--c3:#f4a340;--cream:#fff8ee;--ink:#2b1a10;--mut:#7b6657;--line:#ecd9c3;--card:#ffffff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Cairo,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.7}
+a{color:inherit}
+.wrap{width:min(1100px,100% - 32px);margin-inline:auto}
+.demo-bar{background:#13321f;color:#fff;text-align:center;padding:8px 12px;font-size:14px}
+.demo-bar a{color:#ffd54a;font-weight:700}
+header.nav{position:sticky;top:0;z-index:20;background:#fff8eecc;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;text-decoration:none;color:var(--c1)}
+.logo i{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--c2),var(--c3));display:grid;place-items:center;color:#fff;font-style:normal}
+.links{display:flex;gap:20px;flex-wrap:wrap}
+.links a{text-decoration:none;font-weight:600;color:var(--mut)}
+.links a:hover{color:var(--c2)}
+.btn{display:inline-block;background:var(--c2);color:#fff;padding:11px 22px;border-radius:999px;text-decoration:none;font-weight:700;box-shadow:0 8px 20px #c8541f40}
+.btn.alt{background:transparent;color:var(--c1);border:2px solid var(--c1);box-shadow:none}
+.hero{position:relative;overflow:hidden;background:radial-gradient(1200px 500px at 85% -10%,#f4a34066,transparent 60%),linear-gradient(160deg,#fff1dc,#ffe0b8)}
+.hero-in{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-block:70px}
+.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.15;margin:0 0 14px;color:var(--c1)}
+.hero p{font-size:19px;color:var(--mut);max-width:520px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.plate{aspect-ratio:1;border-radius:50%;max-width:380px;margin-inline:auto;width:100%;background:radial-gradient(circle at 50% 50%,#e8903a 0 38%,#c8541f 39% 55%,#fff 56% 62%,#f0dcc3 63% 100%);box-shadow:0 30px 60px #7a2e1244,inset 0 0 0 10px #fff;position:relative}
+.plate::after{content:"";position:absolute;inset:26%;border-radius:50%;background:conic-gradient(from 20deg,#7a2e12,#c8541f,#f4a340,#a63c17,#7a2e12);opacity:.9}
+.badge{position:absolute;inset-inline-start:-6px;top:12%;background:#fff;border-radius:14px;padding:8px 14px;box-shadow:0 10px 30px #7a2e1233;font-weight:700;font-size:14px}
+.badge.b2{inset-inline-start:auto;inset-inline-end:-6px;top:auto;bottom:10%}
+section{padding-block:64px}
+.head{text-align:center;margin-bottom:30px}
+.head small{color:var(--c2);font-weight:800;letter-spacing:.04em}
+.head h2{font-size:clamp(26px,3.4vw,38px);margin:4px 0 6px;color:var(--c1)}
+.head p{color:var(--mut);margin:0}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.tabs button{font:inherit;border:1px solid var(--line);background:#fff;padding:8px 18px;border-radius:999px;cursor:pointer;color:var(--mut);font-weight:600}
+.tabs button.on{background:var(--c1);color:#fff;border-color:var(--c1)}
+.menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.dish{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:6px;box-shadow:0 6px 18px #7a2e120d}
+.dish .pic{height:110px;border-radius:12px;margin-bottom:6px}
+.dish h3{margin:0;font-size:18px}
+.dish p{margin:0;color:var(--mut);font-size:14px;flex:1}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.price{font-weight:800;color:var(--c2);font-size:18px}
+.add{font:inherit;border:0;background:var(--c3);color:#3b1c05;padding:6px 14px;border-radius:999px;font-weight:700;cursor:pointer}
+.why{background:#fff;border-block:1px solid var(--line)}
+.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.feat{padding:20px;border-radius:18px;background:var(--cream);border:1px solid var(--line)}
+.feat b{display:block;font-size:18px;margin-bottom:4px;color:var(--c1)}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.box h3{margin:0 0 10px;color:var(--c1)}
+.box ul{list-style:none;margin:0;padding:0}
+.box li{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line)}
+.box li:last-child{border:0}
+footer{background:#2b1a10;color:#e9d6c0;text-align:center;padding:26px 16px;font-size:14px}
+#cart{position:fixed;inset-inline:16px;bottom:16px;max-width:520px;margin-inline:auto;background:#13321f;color:#fff;border-radius:16px;padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 14px 40px #0006;z-index:30}
+#cart a{background:#25d366;color:#06361a;padding:8px 16px;border-radius:999px;font-weight:800;text-decoration:none}
+@media (max-width:760px){.hero-in,.info{grid-template-columns:1fr}.plate{max-width:260px}.links{display:none}}
+</style>
+</head>
+<body>
+<div class="demo-bar">هذا موقع تجريبي صممه SadeekShop كنموذج. <a href="index.html#web">أريد موقعاً مثله</a></div>
+
+<header class="nav"><div class="wrap nav-in">
+  <a class="logo" href="#top"><i>و</i> مطعم الواحة</a>
+  <nav class="links"><a href="#menu">القائمة</a><a href="#why">لماذا نحن</a><a href="#visit">زورونا</a></nav>
+  <a class="btn" href="#menu">اطلب الآن</a>
+</div></header>
+
+<section class="hero" id="top" style="padding:0"><div class="wrap hero-in">
+  <div>
+    <h1>طعم البيت،<br>بجودة المطعم</h1>
+    <p>أطباق شرقية طازجة تُحضَّر يومياً بمكونات مختارة. اطلب من القائمة وأرسل طلبك عبر واتساب خلال ثوانٍ.</p>
+    <div class="cta"><a class="btn" href="#menu">شاهد القائمة</a><a class="btn alt" href="#visit">ساعات العمل</a></div>
+  </div>
+  <div class="plate" role="img" aria-label="طبق رئيسي"><span class="badge">توصيل سريع</span><span class="badge b2">مكونات طازجة</span></div>
+</div></section>
+
+<section id="menu"><div class="wrap">
+  <div class="head"><small>القائمة</small><h2>اختر ما تحب</h2><p>الأسعار بالـ€ شاملة الضريبة</p></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="menu" id="menuGrid"></div>
+</div></section>
+
+<section class="why" id="why"><div class="wrap">
+  <div class="head"><small>لماذا نحن</small><h2>ثلاثة أسباب تجعلك تعود</h2></div>
+  <div class="feats">
+    <div class="feat"><b>طازج كل يوم</b>نحضّر الأطباق صباحاً ولا نعيد التسخين.</div>
+    <div class="feat"><b>طلب بنقرتين</b>اختر أطباقك ونرسل لك رسالة جاهزة على واتساب.</div>
+    <div class="feat"><b>أسعار واضحة</b>لا رسوم خفية، والسعر المعروض هو ما تدفعه.</div>
+  </div>
+</div></section>
+
+<section id="visit"><div class="wrap">
+  <div class="head"><small>زورونا</small><h2>أين نحن ومتى نعمل</h2></div>
+  <div class="info">
+    <div class="box"><h3>ساعات العمل</h3><ul><li><span>الاثنين – الخميس</span><b>11:00 – 22:00</b></li><li><span>الجمعة – السبت</span><b>12:00 – 23:30</b></li><li><span>الأحد</span><b>مغلق</b></li></ul></div>
+    <div class="box"><h3>التواصل</h3><ul><li><span>العنوان</span><b>شارع المثال 12، هلسنكي</b></li><li><span>الهاتف</span><b dir="ltr">+358 40 000 0000</b></li><li><span>واتساب</span><b>اضغط «أرسل الطلب»</b></li></ul></div>
+  </div>
+</div></section>
+
+<footer>© مطعم الواحة (موقع تجريبي) · تصميم SadeekShop</footer>
+
+<div id="cart"><span id="cartTxt"></span><a id="cartGo" href="#" rel="noopener">أرسل الطلب</a></div>
+
+<script>
+(function(){
+var DISHES=[
+ {c:"main",n:"مندي دجاج",d:"أرز بالتوابل مع دجاج مشوي وصلصة حارة",p:12.9,g:"#e8903a,#c8541f"},
+ {c:"main",n:"كبسة لحم",d:"لحم طري على أرز بسمتي مع سلطة",p:14.5,g:"#c8541f,#7a2e12"},
+ {c:"main",n:"مشاوي مشكلة",d:"كباب وشيش طاووق وكفتة مع خبز",p:16.0,g:"#a63c17,#7a2e12"},
+ {c:"starters",n:"حمص بالطحينة",d:"حمص كريمي مع زيت زيتون",p:5.5,g:"#f4a340,#e8903a"},
+ {c:"starters",n:"فتوش",d:"خضار طازجة مع دبس الرمان",p:6.0,g:"#8fb34a,#4f7d2a"},
+ {c:"starters",n:"سمبوسة (4)",d:"محشوة لحم أو جبنة",p:5.0,g:"#e0a85a,#b8742b"},
+ {c:"sweets",n:"كنافة",d:"جبن حلو وقطر وفستق",p:6.5,g:"#f4c46a,#e8903a"},
+ {c:"sweets",n:"أم علي",d:"حلوى ساخنة بالمكسرات",p:5.9,g:"#ffe0b8,#e8b27a"},
+ {c:"drinks",n:"شاي بالنعناع",d:"إبريق للشخصين",p:3.5,g:"#7fb069,#4f7d2a"},
+ {c:"drinks",n:"قهوة عربية",d:"مع تمر",p:3.0,g:"#8a5a3a,#4a2c18"}
+];
+var CATS=[["all","الكل"],["main","أطباق رئيسية"],["starters","مقبلات"],["sweets","حلويات"],["drinks","مشروبات"]];
+var cart={},cur="all";
+var tabs=document.getElementById("tabs"),grid=document.getElementById("menuGrid");
+function fmt(n){return n.toFixed(2).replace(".",",")+" €";}
+function drawTabs(){tabs.textContent="";CATS.forEach(function(c){var b=document.createElement("button");b.type="button";b.textContent=c[1];b.className=c[0]===cur?"on":"";b.onclick=function(){cur=c[0];drawTabs();drawMenu();};tabs.appendChild(b);});}
+function drawMenu(){grid.textContent="";DISHES.forEach(function(d,i){if(cur!=="all"&&d.c!==cur)return;
+ var a=document.createElement("article");a.className="dish";
+ var pic=document.createElement("div");pic.className="pic";pic.style.background="linear-gradient(135deg,"+d.g+")";
+ var h=document.createElement("h3");h.textContent=d.n;
+ var p=document.createElement("p");p.textContent=d.d;
+ var r=document.createElement("div");r.className="row";
+ var pr=document.createElement("span");pr.className="price";pr.textContent=fmt(d.p);
+ var bt=document.createElement("button");bt.className="add";bt.type="button";bt.textContent="+ أضف";bt.onclick=function(){cart[i]=(cart[i]||0)+1;drawCart();};
+ r.appendChild(pr);r.appendChild(bt);[pic,h,p,r].forEach(function(x){a.appendChild(x);});grid.appendChild(a);});}
+function drawCart(){var n=0,tot=0,lines=[];Object.keys(cart).forEach(function(k){var q=cart[k],d=DISHES[k];n+=q;tot+=q*d.p;lines.push(q+" × "+d.n);});
+ var box=document.getElementById("cart");if(!n){box.style.display="none";return;}
+ box.style.display="flex";document.getElementById("cartTxt").textContent=n+" أطباق · "+fmt(tot);
+ var msg="مرحباً، أريد أن أطلب:\n"+lines.join("\n")+"\nالمجموع: "+fmt(tot);
+ document.getElementById("cartGo").href="https://wa.me/358400000000?text="+encodeURIComponent(msg);}
+drawTabs();drawMenu();
+})();
+</script>
+</body>
+</html>
