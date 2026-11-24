@@ -36,6 +36,86 @@ def find_image(name):
     return None
 
 
+SB_URL = "https://opauvtpuiqrywpsgcorv.supabase.co"
+SB_KEY = "sb_publishable_FqN53bpc23Le9WVCuUnc5g_ZQQTqnDD"  # public (publishable) key: it can only read what the public may see
+
+
+def fetch_db():
+    """Reads the products table from Supabase (the control panel). Returns None if it cannot be reached,
+    so the build then simply uses src/products.json and the site never breaks."""
+    import urllib.request
+    try:
+        req = urllib.request.Request(
+            SB_URL + "/rest/v1/products?select=slug,name_ar,name_en,name_fi,description,price_eur,category,languages,active,file_path,sort_order&order=sort_order.asc",
+            headers={"apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            rows = json.loads(r.read().decode("utf-8"))
+        return rows if isinstance(rows, list) else None
+    except Exception as ex:  # network, auth, JSON...
+        print("تنبيه: تعذّر قراءة لوحة التحكم (Supabase)، سيُستخدم products.json فقط:", type(ex).__name__)
+        return None
+
+
+def merge_db(items):
+    """The control panel wins for: name, description, price, category, languages, visible/hidden, order,
+    and whether the template is sold from this site (a private file is uploaded)."""
+    rows = fetch_db()
+    if rows is None:
+        return items
+    by = {r.get("slug"): r for r in rows if r.get("slug")}
+    order = {r["slug"]: i for i, r in enumerate(rows) if r.get("slug")}
+    out = []
+    for p in items:
+        r = by.get(p.get("slug"))
+        if not r:
+            out.append(p); continue
+        q = dict(p)
+        for k_db, k in (("name_ar", "name_ar"), ("name_en", "name_en"), ("name_fi", "name_fi"), ("description", "desc_ar")):
+            if isinstance(r.get(k_db), str) and r[k_db].strip():
+                q[k] = r[k_db].strip()
+        try:
+            pr = float(r.get("price_eur"))
+            if pr > 0:
+                q["price"] = pr
+        except (TypeError, ValueError):
+            pass
+        if r.get("category") in CATS:
+            q["category"] = r["category"]
+        if isinstance(r.get("languages"), list) and r["languages"] and set(r["languages"]) <= LANGS:
+            q["languages"] = r["languages"]
+        has_ext = any(p.get(k) for k in ("payhip", "etsy", "sikka")) or p.get("download")
+        q["_site"] = bool(r.get("file_path"))
+        if r.get("active"):
+            q["hidden"] = False
+            q["status"] = "" if (has_ext or q["_site"]) else "soon"
+        else:
+            if p.get("status") == "soon":
+                pass
+            else:
+                q["hidden"] = True
+        out.append(q)
+    known = {p.get("slug") for p in items}
+    for slug, r in by.items():
+        if slug in known or not r.get("active") or not SLUG.match(slug):
+            continue
+        if not (os.path.exists(os.path.join(STATIC, "assets", "img", f"{slug}-480.webp")) or find_image(slug)):
+            print(f"تنبيه: القالب الجديد {slug} فعّال في اللوحة لكن صورته غير موجودة. ارفع src/images/{slug}.jpg ليظهر في الموقع.")
+            continue
+        ar = (r.get("name_ar") or slug).strip(); desc = (r.get("description") or ar).strip()
+        try: pr = float(r.get("price_eur") or 0)
+        except (TypeError, ValueError): pr = 0
+        if pr <= 0 or not r.get("file_path"):
+            print(f"تنبيه: القالب الجديد {slug} يحتاج سعرًا أكبر من صفر وملفًا مرفوعًا من اللوحة ليظهر.")
+            continue
+        out.append(dict(slug=slug, hidden=False, name_ar=ar, name_en=(r.get("name_en") or ar).strip(), name_fi=(r.get("name_fi") or r.get("name_en") or ar).strip(),
+                        desc_ar=desc, desc_en=desc, desc_fi=desc, price=pr, languages=r.get("languages") or ["ar"],
+                        category=r.get("category") if r.get("category") in CATS else "acc", badges=[], payhip="", etsy="", gumroad="", sikka="",
+                        status="", wide=False, demo=[], _site=True))
+    out.sort(key=lambda x: order.get(x.get("slug"), 9999))
+    print(f"تمت مزامنة {len(by)} قالبًا من لوحة التحكم.")
+    return out
+
+
 def load():
     try:
         raw = open(DATA, encoding="utf-8").read()
@@ -49,6 +129,7 @@ def load():
     items = doc.get("products") if isinstance(doc, dict) else None
     if not isinstance(items, list):
         fail(["الملف src/products.json يجب أن يحتوي على قائمة \"products\"."])
+    items = merge_db(items)
     errors, seen, out = [], set(), []
     for i, p in enumerate(items, 1):
         if not isinstance(p, dict):
@@ -99,7 +180,7 @@ def load():
         has_payhip = isinstance(payhip, str) and URL.match(payhip)
         has_etsy = isinstance(etsy, str) and URL.match(etsy)
         has_sikka = isinstance(sikka, str) and URL.match(sikka)
-        if p.get("hidden") is not True and status != "soon" and not download and not (has_payhip or (payhip == "" and has_etsy) or (payhip == "" and etsy == "" and has_sikka)):
+        if p.get("hidden") is not True and status != "soon" and not download and not p.get("_site") and not (has_payhip or (payhip == "" and has_etsy) or (payhip == "" and etsy == "" and has_sikka)):
             errors.append(f"{who}: رابط payhip أو etsy أو sikka مطلوب ويجب أن يبدأ بـ https:// (إلا إذا كان القالب مجانيًا بملف download أو بعلامة قريبًا).")
         for k in ("payhip", "etsy", "gumroad", "sikka"):
             v = p.get(k, "")
@@ -119,7 +200,7 @@ def load():
                     errors.append(f"{who}: صورة العرض رقم {n} غير موجودة. ارفعها باسم src/images/{slug}-{n}.jpg أو احذف وصفها من demo.")
         out.append(dict(id=slug, price=pr, cat=p.get("category"), langs=langs or [], tags=badges or [],
                         payhip=p.get("payhip", ""), etsy=p.get("etsy", ""), gumroad=p.get("gumroad", ""), sikka=p.get("sikka", ""),
-                        status=status, download=download, wide=p.get("wide") is True,
+                        status=status, download=download, wide=p.get("wide") is True, site=bool(p.get("_site")),
                         name=dict(ar=p.get("name_ar", ""), en=p.get("name_en", ""), fi=p.get("name_fi", "")),
                         ben=dict(ar=p.get("desc_ar", ""), en=p.get("desc_en", ""), fi=p.get("desc_fi", "")),
                         demo=[(d.get("en", ""), d.get("ar", ""), d.get("fi", "")) for d in demo]))

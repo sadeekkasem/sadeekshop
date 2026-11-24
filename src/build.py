@@ -77,7 +77,7 @@ def card(p, i):
     else:
         media = f'<a class="card-media" href="{e(buy_url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">\n    {media_img}\n    {tags_html}\n  </a>'
         action = f'<a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>'
-    cart_btn = (f'<button type="button" class="btn btn-cart" data-add="{pid}" data-price="{p["price"]}">{icon("cart")}<span data-i18n="cart.add">{e(t("cart.add"))}</span></button>') if (p["price"] and not soon and not dl) else ''
+    cart_btn = (f'<button type="button" class="btn btn-cart" data-add="{pid}" data-price="{p["price"]}">{icon("cart")}<span data-i18n="cart.add">{e(t("cart.add"))}</span></button>') if (p["price"] and not soon and not dl and p.get("site")) else ''
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}">
   {media}
