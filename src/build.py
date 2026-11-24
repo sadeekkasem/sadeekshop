@@ -58,10 +58,11 @@ def card(p, i):
     if soon:
         tags += f'<span class="tag tag-soon">{tx("card.soon")}</span>'
     pr = price(p["price"])
-    buy_url, buy_via = (("", "") if soon or dl else buy_link(p))
-    alt_etsy = p.get('etsy') if p.get('payhip') and not soon and not dl else ''
-    show_sikka = bool(p.get('sikka') and buy_via != "SIKKA") and not soon and not dl
-    gum_ok = bool(p.get('gumroad') and not soon and not dl)
+    own = bool(p.get("site") and p["price"] and not soon and not dl)  # يُباع من موقعنا: سلة ودفع داخلي فقط
+    buy_url, buy_via = (("", "") if soon or dl or own else buy_link(p))
+    alt_etsy = p.get('etsy') if p.get('payhip') and not soon and not dl and not own else ''
+    show_sikka = bool(p.get('sikka') and buy_via != "SIKKA") and not soon and not dl and not own
+    gum_ok = bool(p.get('gumroad') and not soon and not dl and not own)
     alt = (f'''    <div class="stores-alt">{tx("card.also","span","also")}
       {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if gum_ok else ''}{('<a class="store store-sikka" href="'+e(p['sikka'])+'" target="_blank" rel="noopener">'+tx("card.sikka")+'</a>') if show_sikka else ''}
     </div>''') if (alt_etsy or gum_ok or show_sikka) else ''
