@@ -51,21 +51,25 @@
         send.setAttribute("aria-disabled", ids.length ? "false" : "true");
     note.textContent = tr("cart.note");
   }
+  var flash = {};
   function mark(){
     document.querySelectorAll("[data-add]").forEach(function(b){
-      var inCart = ids.indexOf(b.dataset.add) >= 0, s = b.querySelector("span");
-      b.classList.toggle("is-in", inCart);
-      if (s) s.textContent = tr(inCart ? "cart.added" : "cart.add");
-      b.title = inCart ? tr("cart.undo") : "";
+      var on = !!flash[b.dataset.add], s = b.querySelector("span");
+      b.classList.toggle("is-in", on);
+      if (s) s.textContent = tr(on ? "cart.added" : "cart.add");
+      b.removeAttribute("title");
     });
   }
   document.addEventListener("click", function(ev){
     var b = ev.target.closest && ev.target.closest("[data-add]");
     if (!b) return;
     var id = b.dataset.add;
-    if (ids.indexOf(id) < 0) { ids.push(id); fab.classList.remove("pop"); void fab.offsetWidth; fab.classList.add("pop"); }
-    else { ids = ids.filter(function(x){ return x !== id; }); }
-    save(); render(); mark();
+    if (ids.indexOf(id) >= 0) { panel.hidden = false; return; }
+    ids.push(id); save(); render();
+    flash[id] = true; mark();
+    clearTimeout(flash["t" + id]);
+    flash["t" + id] = setTimeout(function(){ flash[id] = false; mark(); }, 1600);
+    fab.classList.remove("pop"); void fab.offsetWidth; fab.classList.add("pop");
   });
   fab.addEventListener("click", function(){ panel.hidden = !panel.hidden; });
   close.addEventListener("click", function(){ panel.hidden = true; });
