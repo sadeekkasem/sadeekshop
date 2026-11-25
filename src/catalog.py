@@ -7,7 +7,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "products.json")
 IMAGES = os.path.join(HERE, "images")
 STATIC = os.path.join(HERE, "static")
-CATS = {"acc", "stock", "price", "hr", "home", "auto"}
+# Field (domain) of a product. Kept the old keys so existing products and the control panel keep working.
+CATS = {"acc", "stock", "hr", "clinic", "price", "shop", "ship", "home", "auto", "edu"}
+# Product type (what the customer receives). Optional: defaults to excel, or n8n for the automation field.
+TYPES = {"excel", "gsheets", "web", "n8n", "custom"}
+def default_type(cat): return "n8n" if cat == "auto" else "excel"
 LANGS = {"ar", "en", "fi"}
 BADGES = {"alv", "x365"}
 STATUSES = {"", "soon"}
@@ -44,13 +48,23 @@ def fetch_db():
     """Reads the products table from Supabase (the control panel). Returns None if it cannot be reached,
     so the build then simply uses src/products.json and the site never breaks."""
     import urllib.request
+    import urllib.error
+    base = "slug,name_ar,name_en,name_fi,description,price_eur,category,languages,active,file_path,sort_order"
     try:
-        req = urllib.request.Request(
-            SB_URL + "/rest/v1/products?select=slug,name_ar,name_en,name_fi,description,price_eur,category,languages,active,file_path,sort_order&order=sort_order.asc",
-            headers={"apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY})
-        with urllib.request.urlopen(req, timeout=20) as r:
-            rows = json.loads(r.read().decode("utf-8"))
-        return rows if isinstance(rows, list) else None
+        # product_type is optional: older databases without the column are read without it.
+        for cols in (base + ",product_type", base):
+            req = urllib.request.Request(
+                SB_URL + "/rest/v1/products?select=" + cols + "&order=sort_order.asc",
+                headers={"apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY})
+            try:
+                with urllib.request.urlopen(req, timeout=20) as r:
+                    rows = json.loads(r.read().decode("utf-8"))
+                return rows if isinstance(rows, list) else None
+            except urllib.error.HTTPError as he:
+                if he.code == 400 and cols != base:
+                    continue
+                raise
+        return None
     except Exception as ex:  # network, auth, JSON...
         print("تنبيه: تعذّر قراءة لوحة التحكم (Supabase)، سيُستخدم products.json فقط:", type(ex).__name__)
         return None
@@ -81,6 +95,8 @@ def merge_db(items):
             pass
         if r.get("category") in CATS:
             q["category"] = r["category"]
+        if r.get("product_type") in TYPES:
+            q["type"] = r["product_type"]
         if isinstance(r.get("languages"), list) and r["languages"] and set(r["languages"]) <= LANGS:
             q["languages"] = r["languages"]
         has_ext = any(p.get(k) for k in ("payhip", "etsy", "sikka")) or p.get("download")
@@ -109,7 +125,8 @@ def merge_db(items):
             continue
         out.append(dict(slug=slug, hidden=False, name_ar=ar, name_en=(r.get("name_en") or ar).strip(), name_fi=(r.get("name_fi") or r.get("name_en") or ar).strip(),
                         desc_ar=desc, desc_en=desc, desc_fi=desc, price=pr, languages=r.get("languages") or ["ar"],
-                        category=r.get("category") if r.get("category") in CATS else "acc", badges=[], payhip="", etsy="", gumroad="", sikka="",
+                        category=r.get("category") if r.get("category") in CATS else "acc",
+                        type=r.get("product_type") if r.get("product_type") in TYPES else default_type(r.get("category")), badges=[], payhip="", etsy="", gumroad="", sikka="",
                         status="", wide=False, demo=[], _site=True))
     out.sort(key=lambda x: order.get(x.get("slug"), 9999))
     print(f"تمت مزامنة {len(by)} قالبًا من لوحة التحكم.")
@@ -173,6 +190,9 @@ def load():
             errors.append(f"{who}: اللغات languages يجب أن تكون من ar و en و fi، مثل [\"ar\", \"en\"].")
         if p.get("category") not in CATS:
             errors.append(f"{who}: التصنيف category يجب أن يكون واحدًا من: {', '.join(sorted(CATS))}.")
+        ptype = p.get("type") or default_type(p.get("category"))
+        if ptype not in TYPES:
+            errors.append(f"{who}: النوع type يجب أن يكون واحدًا من: {', '.join(sorted(TYPES))} أو يُترك فارغًا.")
         badges = p.get("badges", [])
         if not isinstance(badges, list) or not set(badges) <= BADGES:
             errors.append(f"{who}: الشارات badges يجب أن تكون من alv و x365 أو فارغة [].")
@@ -198,7 +218,7 @@ def load():
             for n in range(1, len(demo) + 1):
                 if not os.path.exists(os.path.join(STATIC, "assets", "demo", f"{slug}-{n}.webp")) and not find_image(f"{slug}-{n}"):
                     errors.append(f"{who}: صورة العرض رقم {n} غير موجودة. ارفعها باسم src/images/{slug}-{n}.jpg أو احذف وصفها من demo.")
-        out.append(dict(id=slug, price=pr, cat=p.get("category"), langs=langs or [], tags=badges or [],
+        out.append(dict(id=slug, price=pr, cat=p.get("category"), type=p.get("type") or default_type(p.get("category")), langs=langs or [], tags=badges or [],
                         payhip=p.get("payhip", ""), etsy=p.get("etsy", ""), gumroad=p.get("gumroad", ""), sikka=p.get("sikka", ""),
                         status=status, download=download, wide=p.get("wide") is True, site=bool(p.get("_site")),
                         name=dict(ar=p.get("name_ar", ""), en=p.get("name_en", ""), fi=p.get("name_fi", "")),

@@ -97,7 +97,7 @@
     $("f_slug").readOnly = !!p;
     $("imgHint").textContent = p ? "(اختياري: اختر صورة فقط إذا أردت تغيير الصورة الحالية)" : "(مطلوبة للقالب الجديد. JPG أو PNG، ويُفضّل بنسبة 4:3)";
     TEXT.forEach(function (k) { $("f_" + k).value = p ? (p[k] || "") : ""; });
-    $("f_price").value = p ? p.price : ""; $("f_category").value = p ? p.category : "acc"; $("f_wide").checked = !!(p && p.wide);
+    $("f_price").value = p ? p.price : ""; $("f_category").value = p ? p.category : "acc"; $("f_type").value = p && p.type ? p.type : (p && p.category === "auto" ? "n8n" : "excel"); $("f_wide").checked = !!(p && p.wide);
     $("f_status").value = (p && p.status) || ""; $("f_download").value = (p && p.download) || "";
     checks("lang").forEach(function (c) { c.checked = !!(p && (p.languages || []).indexOf(c.value) >= 0); });
     checks("badge").forEach(function (c) { c.checked = !!(p && (p.badges || []).indexOf(c.value) >= 0); });
@@ -144,7 +144,7 @@
     var out = { slug: p.slug, hidden: old ? !!old.hidden : false,
       name_ar: p.name_ar, name_en: p.name_en, name_fi: p.name_fi, desc_ar: p.desc_ar, desc_en: p.desc_en, desc_fi: p.desc_fi,
       price: Number(String($("f_price").value).replace(",", ".")), languages: checks("lang").filter(function (c) { return c.checked; }).map(function (c) { return c.value; }),
-      category: $("f_category").value, badges: checks("badge").filter(function (c) { return c.checked; }).map(function (c) { return c.value; }),
+      category: $("f_category").value, type: $("f_type").value, badges: checks("badge").filter(function (c) { return c.checked; }).map(function (c) { return c.value; }),
       payhip: p.payhip, etsy: p.etsy, gumroad: p.gumroad, sikka: p.sikka, wide: $("f_wide").checked, demo: old ? (old.demo || []) : [],
       status: $("f_status").value || "", download: $("f_download").value.trim() };
     if (!out.status) delete out.status;

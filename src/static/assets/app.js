@@ -37,10 +37,10 @@
   });
 
   // category filter
-  var chips = document.querySelectorAll(".chip"), cards = document.querySelectorAll(".card");
+  // two filter rows (product type + field): each row keeps one active chip; fx.js shows the matching cards
+  var chips = document.querySelectorAll(".chip[data-filter]");
   chips.forEach(function(ch){ ch.addEventListener("click", function(){
-    var f = ch.dataset.filter;
-    chips.forEach(function(o){ var on = o === ch; o.classList.toggle("is-on", on); o.setAttribute("aria-pressed", on ? "true" : "false"); });
-    cards.forEach(function(cd){ cd.hidden = !(f === "all" || cd.dataset.cat === f); });
+    var kind = ch.dataset.kind || "cat";
+    chips.forEach(function(o){ if ((o.dataset.kind || "cat") !== kind) return; var on = o === ch; o.classList.toggle("is-on", on); o.setAttribute("aria-pressed", on ? "true" : "false"); });
   }); });
 })();

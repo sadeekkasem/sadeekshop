@@ -33,11 +33,11 @@
   var more = el("button", "btn btn-primary btn-lg shop-more"); more.type = "button";
   var wrap = el("div", "shop-more-wrap"); wrap.appendChild(more); grid.parentNode.insertBefore(wrap, none.nextSibling);
   function cards(){ return Array.prototype.slice.call(grid.querySelectorAll(".card")); }
-  function activeCat(){ var c = chipsBox.querySelector(".chip.is-on"); return c ? c.dataset.filter : "all"; }
+  function active(kind){ var c = chipsBox.querySelector('.chip.is-on[data-kind="' + kind + '"]') || (kind === "cat" ? chipsBox.querySelector(".chip.is-on:not([data-kind])") : null); return c ? c.dataset.filter : "all"; }
   function apply(){
-    var cat = activeCat(), limit = (cat === "all" && !q) ? shown : 9999, n = 0, total = 0;
+    var cat = active("cat"), type = active("type"), limit = (cat === "all" && type === "all" && !q) ? shown : 9999, n = 0, total = 0;
     cards().forEach(function(cd){
-      var okCat = cat === "all" || cd.dataset.cat === cat;
+      var okCat = (cat === "all" || cd.dataset.cat === cat) && (type === "all" || cd.dataset.type === type);
       var okQ = !q || cd.textContent.toLowerCase().indexOf(q) >= 0;
       var ok = okCat && okQ; cd.hidden = !ok;
       if (ok) { total++; n++; cd.classList.toggle("cut", n > limit); if (n <= limit) cd.classList.add("in"); }

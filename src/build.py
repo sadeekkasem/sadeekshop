@@ -80,7 +80,7 @@ def card(p, i):
         action = f'<a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>'
     cart_btn = (f'<button type="button" class="btn btn-cart" data-add="{pid}" data-price="{p["price"]}">{icon("cart")}<span data-i18n="cart.add">{e(t("cart.add"))}</span></button>') if (p["price"] and not soon and not dl and p.get("site")) else ''
     return f'''
-<article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}">
+<article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}" data-type="{p['type']}">
   {media}
   <div class="card-body">
     <ul class="langs">{langs}</ul>
@@ -142,8 +142,15 @@ def header(pre, cur=""):
     return h
 
 STRIP = "".join(f"<span>{tx(k)}</span>" for k in ("strip.1","strip.2","strip.3","strip.4","strip.5","strip.6"))
-cats = ["all", "acc", "stock", "price", "hr", "home", "auto"]
-filters = "".join(f'<button type="button" class="chip{" is-on" if c=="all" else ""}" data-filter="{c}" aria-pressed="{"true" if c=="all" else "false"}">{tx("filter."+c)}</button>' for c in cats)
+# Two filter rows: product type, then field. Only values that have at least one product are shown.
+TYPE_ORDER = ["excel", "gsheets", "web", "n8n", "custom"]
+CAT_ORDER = ["acc", "stock", "hr", "clinic", "price", "shop", "ship", "home", "auto", "edu"]
+_types = [c for c in TYPE_ORDER if any(p["type"] == c for p in PRODUCTS)]
+_cats = [c for c in CAT_ORDER if any(p["cat"] == c for p in PRODUCTS)]
+def _chips(kind, keys, prefix, all_key):
+    return "".join(f'<button type="button" class="chip{" is-on" if c=="all" else ""}" data-kind="{kind}" data-filter="{c}" aria-pressed="{"true" if c=="all" else "false"}">{tx(all_key if c=="all" else prefix+c)}</button>' for c in ["all"] + keys)
+filters = ((f'<div class="chips-row"><span class="chips-label" data-i18n="filter.typeLabel">{e(t("filter.typeLabel"))}</span>{_chips("type", _types, "type.", "type.all")}</div>' if len(_types) > 1 else "")
+           + f'<div class="chips-row"><span class="chips-label" data-i18n="filter.catLabel">{e(t("filter.catLabel"))}</span>{_chips("cat", _cats, "filter.", "filter.all")}</div>')
 WIDE = {p["id"] for p in PRODUCTS if p.get("wide")}
 cards = "".join(card(p, i) for i, p in enumerate(PRODUCTS))
 minp = min((p["price"] for p in PRODUCTS if p["price"] > 0), default=0)
