@@ -89,12 +89,20 @@ tr.is-hidden td{color:#8a958f}
     <label for="f_desc_fi">الوصف بالفنلندية</label><textarea id="f_desc_fi" class="ltr" maxlength="600"></textarea>
     <div class="row">
       <div><label for="f_price">السعر باليورو <span class="hint">رقم فقط، مثل 17</span></label><input id="f_price" type="number" min="0" step="0.01" class="ltr"></div>
-      <div><label for="f_category">التصنيف</label>
+      <div><label for="f_category">المجال</label>
         <select id="f_category">
-          <option value="acc">محاسبة وضريبة</option><option value="stock">مخزون ومبيعات</option>
-          <option value="price">تسعير ومطاعم</option><option value="hr">رواتب</option><option value="home">ميزانية الأسرة</option><option value="auto">أتمتة ونشر</option>
+          <option value="acc">المحاسبة والضرائب</option><option value="stock">المبيعات والمخزون</option>
+          <option value="hr">الرواتب والموارد البشرية</option><option value="clinic">العيادات والصحة</option>
+          <option value="price">المطاعم والتسعير</option><option value="shop">المتاجر والتجارة الإلكترونية</option>
+          <option value="ship">الشحن والحوالات</option><option value="home">الميزانية الشخصية والأسرة</option>
+          <option value="auto">التسويق والنشر</option><option value="edu">التعليم والتدريب</option>
         </select></div>
     </div>
+    <label for="f_type">نوع المنتج</label>
+    <select id="f_type">
+          <option value="excel">ملفات Excel</option><option value="gsheets">Google Sheets</option><option value="web">قوالب مواقع</option>
+          <option value="n8n">أتمتة n8n</option><option value="custom">خدمات حسب الطلب</option>
+    </select>
     <label>لغات ملف القالب</label>
     <div class="checks"><label><input type="checkbox" name="lang" value="ar"> عربي</label><label><input type="checkbox" name="lang" value="en"> إنجليزي</label><label><input type="checkbox" name="lang" value="fi"> فنلندي</label></div>
     <label>شارات على الصورة <span class="hint">(اختياري)</span></label>

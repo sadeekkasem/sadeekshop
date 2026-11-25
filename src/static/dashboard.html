@@ -99,13 +99,23 @@ dialog::backdrop{background:#0008}
     </div>
     <label for="f_desc">الوصف</label><textarea id="f_desc" rows="3"></textarea>
     <div class="grid2">
-      <div><label for="f_cat">التصنيف</label>
-        <select id="f_cat">
-          <option value="acc">محاسبة وضريبة</option><option value="stock">مخزون ومبيعات</option>
-          <option value="price">تسعير ومطاعم</option><option value="hr">رواتب</option>
-          <option value="home">ميزانية الأسرة</option><option value="auto">أتمتة ونشر</option>
+      <div><label for="f_type">نوع المنتج</label>
+        <select id="f_type">
+          <option value="excel">ملفات Excel</option><option value="gsheets">Google Sheets</option><option value="web">قوالب مواقع</option>
+          <option value="n8n">أتمتة n8n</option><option value="custom">خدمات حسب الطلب</option>
         </select></div>
-      <div><label for="f_sort">الترتيب (الأصغر أولاً)</label><input id="f_sort" type="number" value="100"></div>
+      <div><label for="f_cat">المجال</label>
+        <select id="f_cat">
+          <option value="acc">المحاسبة والضرائب</option><option value="stock">المبيعات والمخزون</option>
+          <option value="hr">الرواتب والموارد البشرية</option><option value="clinic">العيادات والصحة</option>
+          <option value="price">المطاعم والتسعير</option><option value="shop">المتاجر والتجارة الإلكترونية</option>
+          <option value="ship">الشحن والحوالات</option><option value="home">الميزانية الشخصية والأسرة</option>
+          <option value="auto">التسويق والنشر</option><option value="edu">التعليم والتدريب</option>
+        </select></div>
+    </div>
+    <div class="grid2">
+      <div><label for="f_sort">الترتيب في الموقع (الرقم الأصغر يظهر أولاً)</label><input id="f_sort" type="number" value="100"></div>
+      <div></div>
     </div>
     <label>اللغات</label>
     <div class="langs"><label><input type="checkbox" value="ar" class="lg"> العربية</label><label><input type="checkbox" value="en" class="lg"> English</label><label><input type="checkbox" value="fi" class="lg"> Suomi</label></div>
@@ -136,7 +146,9 @@ dialog::backdrop{background:#0008}
 var SB_URL="https://opauvtpuiqrywpsgcorv.supabase.co";
 var SB_KEY="sb_publishable_FqN53bpc23Le9WVCuUnc5g_ZQQTqnDD";
 var BUCKET="paid-files";
-var CATS={acc:"محاسبة وضريبة",stock:"مخزون ومبيعات",price:"تسعير ومطاعم",hr:"رواتب",home:"ميزانية الأسرة",auto:"أتمتة ونشر"};
+var CATS={acc:"المحاسبة والضرائب",stock:"المبيعات والمخزون",hr:"الرواتب والموارد البشرية",clinic:"العيادات والصحة",price:"المطاعم والتسعير",shop:"المتاجر والتجارة الإلكترونية",ship:"الشحن والحوالات",home:"الميزانية الشخصية والأسرة",auto:"التسويق والنشر",edu:"التعليم والتدريب"};
+var TYPES={excel:"ملفات Excel",gsheets:"Google Sheets",web:"قوالب مواقع",n8n:"أتمتة n8n",custom:"خدمات حسب الطلب"};
+var HAS_TYPE=true; /* becomes false if the database has no product_type column yet (see docs/categories.sql) */
 var STATUS={"new":"جديد",paid:"مدفوع",delivered:"سُلّم",refunded:"مُسترد",cancelled:"ملغى"};
 var $=function(id){return document.getElementById(id);};
 var sb=window.supabase.createClient(SB_URL,SB_KEY);
@@ -147,6 +159,7 @@ function el(tag,props,kids){var e=document.createElement(tag);
   (kids||[]).forEach(function(c){if(c)e.appendChild(c);});return e;}
 function toast(msg,err){var t=$("toast");t.textContent=msg;t.className=err?"err":"";t.style.display="block";clearTimeout(toastT);toastT=setTimeout(function(){t.style.display="none";},err?7000:3500);}
 function explain(e){var m=(e&&e.message)||String(e);
+  if(/check constraint|violates check/i.test(m)&&/category/i.test(m))return "قاعدة البيانات لا تعرف هذا المجال الجديد بعد: نفّذ الملف docs/categories.sql في Supabase (SQL Editor) مرة واحدة ثم احفظ مرة أخرى.";
   if(/permission denied|row-level security|violates row/i.test(m))return "ليست لديك صلاحية: تأكد أن بريدك مضاف في جدول admins وأن أمر الصلاحيات (grant) نُفّذ. التفاصيل: "+m;
   return m;}
 function safeName(n){var i=n.lastIndexOf("."),ext=i>0?n.slice(i).replace(/[^A-Za-z0-9.]/g,""):"";
@@ -213,7 +226,7 @@ function renderProducts(){
   var b=$("pBody");b.textContent="";
   products.forEach(function(p){
     var tr=el("tr");
-    tr.appendChild(el("td",{},[el("b",{text:p.name_ar}),el("div",{class:"muted",text:p.slug+" · "+(CATS[p.category]||p.category)})]));
+    tr.appendChild(el("td",{},[el("b",{text:p.name_ar}),el("div",{class:"muted",text:p.slug+" · "+(TYPES[p.product_type||(p.category==="auto"?"n8n":"excel")]||"")+" · "+(CATS[p.category]||p.category)})]));
     tr.appendChild(el("td",{text:Number(p.price_eur)===0?"مجاني":Number(p.price_eur).toFixed(2)+" €"}));
     tr.appendChild(el("td",{},[p.file_path?el("span",{class:"tag",text:"نسخة "+p.version}):el("span",{class:"tag warn",text:"بدون ملف"})]));
     tr.appendChild(el("td",{},[el("span",{class:"tag"+(p.active?"":" off"),text:p.active?"ظاهر":"مخفي"})]));
@@ -249,7 +262,7 @@ async function deleteProduct(p){
 function fill(p){
   $("f_slug").value=p?p.slug:"";$("f_slug").disabled=!!p;
   $("f_price").value=p?p.price_eur:5;$("f_ar").value=p?p.name_ar:"";$("f_en").value=p&&p.name_en||"";$("f_fi").value=p&&p.name_fi||"";
-  $("f_desc").value=p&&p.description||"";$("f_cat").value=p?p.category:"acc";$("f_sort").value=p?p.sort_order:100;
+  $("f_desc").value=p&&p.description||"";$("f_cat").value=p?p.category:"acc";$("f_type").value=p&&p.product_type?p.product_type:(p&&p.category==="auto"?"n8n":"excel");$("f_sort").value=p?p.sort_order:100;
   $("f_chk").value=p&&p.checkout_url||"";$("f_active").checked=p?p.active:true;
   var langs=p?p.languages:["ar"];document.querySelectorAll(".lg").forEach(function(c){c.checked=langs.indexOf(c.value)>=0;});
 }
@@ -264,8 +277,14 @@ $("pForm").addEventListener("submit",async function(ev){ev.preventDefault();
     description:$("f_desc").value.trim()||null,price_eur:Number($("f_price").value),category:$("f_cat").value,languages:langs,
     sort_order:Number($("f_sort").value)||100,checkout_url:$("f_chk").value.trim()||null,active:$("f_active").checked,updated_at:new Date().toISOString()};
   $("saveP").disabled=true;var r;
-  if(editing){delete row.slug;r=await sb.from("products").update(row).eq("slug",editing.slug);}
-  else{r=await sb.from("products").insert(row);}
+  if(HAS_TYPE)row.product_type=$("f_type").value;
+  var save=function(){return editing?sb.from("products").update(row).eq("slug",editing.slug):sb.from("products").insert(row);};
+  if(editing)delete row.slug;
+  r=await save();
+  if(r.error&&HAS_TYPE&&/product_type/i.test(r.error.message||"")){ /* old database: save without the type and tell how to add it */
+    HAS_TYPE=false;delete row.product_type;r=await save();
+    if(!r.error)toast("حُفظ المنتج، لكن «نوع المنتج» لم يُحفظ لأن قاعدة البيانات تحتاج تحديثاً: نفّذ docs/categories.sql في Supabase مرة واحدة.",true);
+  }
   $("saveP").disabled=false;
   if(r.error){toast(explain(r.error),true);return;}
   toast("تم الحفظ");await loadProducts();
