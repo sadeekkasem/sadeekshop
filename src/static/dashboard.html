@@ -57,6 +57,14 @@ dialog::backdrop{background:#0008}
 .note-bad{color:var(--bad)}.note-warn{color:var(--warn)}.note-ok{color:var(--acc)}
 code.u{display:block;direction:ltr;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px;word-break:break-all;margin:4px 0}
 .chk{display:flex;gap:8px;align-items:center;margin:8px 0;color:var(--fg);font-size:14px}.chk input{width:auto}
+#prepDlg{width:min(900px,96vw)}
+.pc{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px}
+.pc h3{margin:0;font-size:16px}
+.fld{margin-top:8px}.fld .fh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fld textarea{resize:vertical;font-size:13px;min-height:38px}
+.fld .cnt{font-size:12px;color:var(--mut)}.fld .cnt.over{color:var(--bad);font-weight:700}
+.prices{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}@media (max-width:640px){.prices{grid-template-columns:1fr 1fr}}
+.steps{margin:6px 0 0;padding-inline-start:20px;font-size:13px;color:var(--mut)}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -220,6 +228,52 @@ code.u{display:block;direction:ltr;text-align:left;background:var(--bg);border:1
   </form>
 </dialog>
 
+<dialog id="prepDlg">
+  <div class="bar"><h2 id="pr_title" style="margin:0">📤 تجهيز للنشر</h2><button type="button" id="pr_close">إغلاق</button></div>
+
+  <div class="card">
+    <h2>1. معلومات المنتج</h2>
+    <p class="muted" style="margin:0">تُحفظ هذه المعلومات في هذا المتصفح فقط، وتُبنى منها النصوص أدناه تلقائياً.</p>
+    <div class="grid2">
+      <div><label for="pr_ar">الاسم بالعربية</label><input id="pr_ar"></div>
+      <div><label for="pr_en">الاسم بالإنجليزية (مطلوب لـ Etsy وGumroad)</label><input id="pr_en" dir="ltr"></div>
+    </div>
+    <div class="grid2" id="pr_webBox" hidden>
+      <div><label for="pr_web">صيغة القالب</label><select id="pr_web"><option value="elementor">Elementor (ووردبريس)</option><option value="html">HTML</option></select></div><div></div>
+    </div>
+    <label for="pr_fa">أهم المميزات بالعربية (سطر لكل ميزة)</label>
+    <textarea id="pr_fa" rows="4" placeholder="4 صفحات جاهزة&#10;متوافق مع الجوال&#10;نموذج حجز مواعيد"></textarea>
+    <label for="pr_fe">أهم المميزات بالإنجليزية (سطر لكل ميزة، اختياري لكن أفضل)</label>
+    <textarea id="pr_fe" rows="4" dir="ltr" placeholder="4 ready-made pages&#10;Mobile friendly&#10;Appointment booking form"></textarea>
+    <label>السعر في كل منصة (تحدده أنت)</label>
+    <div class="prices">
+      <div><label for="pr_p_payhip">Payhip €</label><input id="pr_p_payhip" type="number" min="0" step="0.01"></div>
+      <div><label for="pr_p_gumroad">Gumroad €</label><input id="pr_p_gumroad" type="number" min="0" step="0.01"></div>
+      <div><label for="pr_p_etsy">Etsy €</label><input id="pr_p_etsy" type="number" min="0" step="0.01"></div>
+      <div><label for="pr_p_sikka">سكة (بعملة متجرك)</label><input id="pr_p_sikka" type="number" min="0" step="0.01"></div>
+    </div>
+    <label for="pr_sup">وسيلة الدعم للزبون (بريد أو رابط، اختياري)</label><input id="pr_sup" dir="ltr" placeholder="support@example.com">
+  </div>
+
+  <div class="card">
+    <h2>2. ملف المنتج المضغوط (ZIP)</h2>
+    <div class="grid2">
+      <div><label for="pr_files">اختر ملفات المنتج</label><input id="pr_files" type="file" multiple></div>
+      <div><label for="pr_dir">أو اختر مجلداً كاملاً</label><input id="pr_dir" type="file" webkitdirectory multiple></div>
+    </div>
+    <p class="muted" id="pr_fileInfo">لم تختر ملفات بعد.</p>
+    <label class="chk"><input type="checkbox" id="pr_extra" checked> أضف دليل التثبيت (Installation-Guide.txt) وملف الترخيص (License.txt) تلقائياً</label>
+    <p><button class="pri" type="button" id="pr_zip">⬇ تنزيل ملف ZIP</button></p>
+    <p class="muted">بعد التنزيل: ارفع ملف الـ ZIP في كل منصة كملف المنتج.</p>
+  </div>
+
+  <div class="card">
+    <h2>3. النصوص لكل منصة</h2>
+    <p class="muted" style="margin:0">اضغط «فتح المنصة»، ثم انسخ كل حقل والصقه في مكانه، وارفع ملف الـ ZIP. بعد النشر الصق رابط المنتج واضغط «اعتمده».</p>
+    <div id="pr_out"></div>
+  </div>
+</dialog>
+
 <div id="toast" role="status"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -321,6 +375,7 @@ function renderProducts(){
     tr.appendChild(el("td",{},[el("span",{class:"tag"+(p.active?"":" off"),text:p.active?"ظاهر":"مخفي"})]));
     var act=el("td",{},[el("div",{class:"row-act"},[
       el("button",{text:"تعديل",onclick:function(){openDlg(p);}}),
+      el("button",{text:"📤 تجهيز للنشر",onclick:function(){openPrep(p);}}),
       el("button",{text:p.active?"إخفاء":"إظهار",onclick:function(){toggleActive(p);}}),
       delBtn(p)
     ])]);
@@ -574,6 +629,169 @@ $("aTest").addEventListener("click",async function(){
   }catch(e){toast("تعذّر الاتصال بدالة التقارير.",true);}
   b.disabled=false;
 });
+
+/* ---------- publish prep: ZIP + ready texts for every store (no AI yet) ---------- */
+var TYPE_EN={excel:"Excel Template",gsheets:"Google Sheets Template",web:"Website Template",n8n:"n8n Automation Workflow",custom:"Custom Service"};
+var CAT_EN={acc:"Accounting & Tax",stock:"Sales & Inventory",hr:"Payroll & HR",clinic:"Clinic & Healthcare",price:"Restaurant & Pricing",shop:"Online Store",ship:"Shipping & Remittance",home:"Personal Budget",auto:"Marketing Automation",edu:"Education & Training"};
+var CAT_TAGS={acc:["accounting","bookkeeping","tax tracker"],stock:["inventory tracker","sales tracker","stock management"],hr:["payroll template","hr template","employee tracker"],
+  clinic:["clinic management","healthcare","medical template"],price:["restaurant","food cost","menu pricing"],shop:["online store","ecommerce","shop template"],
+  ship:["shipping","logistics","remittance"],home:["budget planner","personal finance","family budget"],auto:["marketing","social media","automation"],edu:["education","teacher resource","training"]};
+function kindOf(p,web){var t=p.product_type||(p.category==="auto"?"n8n":"excel");return t==="web"?(web==="html"?"html":"elementor"):t;}
+var KIND={
+  excel:{tags:["excel template","spreadsheet","excel"],req_ar:"Microsoft Excel 2016 أو أحدث (أو Microsoft 365)",req_en:"Microsoft Excel 2016 or newer (or Microsoft 365)",
+    box_ar:"ملف Excel جاهز (.xlsx) بمعادلات تعمل تلقائياً",box_en:"Ready-to-use Excel file (.xlsx) with automatic formulas",
+    ar:["فك ضغط الملف.","افتح ملف ‎.xlsx‎ ببرنامج Excel 2016 أو أحدث.","إذا ظهر شريط أصفر اضغط «تمكين التحرير».","اكتب بياناتك في الخانات المخصصة للإدخال، والمعادلات تحسب تلقائياً.","احفظ نسخة احتياطية قبل أي تعديل كبير."],
+    en:["Unzip the file.","Open the .xlsx file in Excel 2016 or newer.","If a yellow bar appears, click \"Enable Editing\".","Type your data in the input cells; formulas calculate automatically.","Keep a backup copy before big changes."]},
+  gsheets:{tags:["google sheets","spreadsheet template","sheets template"],req_ar:"حساب Google (مجاني)",req_en:"A free Google account",
+    box_ar:"قالب Google Sheets جاهز",box_en:"Ready-to-use Google Sheets template",
+    ar:["افتح الرابط أو الملف في Google Drive.","اختر: ملف ← إنشاء نسخة.","اكتب بياناتك في الخانات المخصصة للإدخال."],
+    en:["Open the link or file in Google Drive.","Choose File → Make a copy.","Type your data in the input cells."]},
+  elementor:{tags:["website template","elementor template","wordpress theme","web design","landing page"],req_ar:"ووردبريس مع إضافة Elementor المجانية",req_en:"WordPress with the free Elementor plugin",
+    box_ar:"صفحات Elementor جاهزة بصيغة ‎.json‎",box_en:"Ready-made Elementor pages (.json files)",
+    ar:["ثبّت ووردبريس وإضافة Elementor المجانية.","من لوحة ووردبريس: القوالب ← القوالب المحفوظة ← استيراد القوالب، واختر كل ملف ‎.json‎.","أنشئ صفحة جديدة واضغط «تحرير باستخدام Elementor».","اضغط أيقونة المجلد ← قوالبي، ثم «إدراج» للقالب المناسب.","من إعدادات الصفحة اختر التخطيط: Elementor Full Width.","غيّر النصوص والصور ببياناتك."],
+    en:["Install WordPress and the free Elementor plugin.","In WordPress: Templates → Saved Templates → Import Templates, and choose each .json file.","Create a new page and click \"Edit with Elementor\".","Click the folder icon → My Templates → Insert.","In Page Settings choose the layout: Elementor Full Width.","Replace the texts and images with your own."]},
+  html:{tags:["website template","html template","web design","landing page","responsive website"],req_ar:"أي متصفح ومحرر نصوص، واستضافة لنشر الموقع",req_en:"Any browser, a text editor, and hosting to publish",
+    box_ar:"ملفات موقع HTML جاهزة",box_en:"Ready-to-use HTML website files",
+    ar:["فك ضغط الملف.","افتح index.html في المتصفح لمعاينة الموقع.","عدّل النصوص بأي محرر (مثل VS Code).","ارفع المجلد إلى استضافتك (أو GitHub Pages أو Netlify)."],
+    en:["Unzip the file.","Open index.html in your browser to preview.","Edit the texts in any editor (e.g. VS Code).","Upload the folder to your hosting (or GitHub Pages / Netlify)."]},
+  n8n:{tags:["n8n workflow","n8n template","automation","workflow automation"],req_ar:"n8n (سحابي أو مثبت على جهازك)",req_en:"n8n (cloud or self-hosted)",
+    box_ar:"سير عمل n8n جاهز بصيغة ‎.json‎",box_en:"Ready-made n8n workflow (.json)",
+    ar:["في n8n افتح: Workflows ← Import from File، واختر ملف ‎.json‎.","أضف بيانات الدخول (Credentials) في العُقد التي تطلبها.","جرّب السير بزر Test ثم فعّله."],
+    en:["In n8n open Workflows → Import from File and choose the .json file.","Add your credentials in the nodes that ask for them.","Test the workflow, then activate it."]},
+  custom:{tags:["custom template","small business"],req_ar:"حسب المنتج",req_en:"Depends on the product",box_ar:"ملفات المنتج",box_en:"Product files",
+    ar:["فك ضغط الملف.","اتبع التعليمات داخل الملفات."],en:["Unzip the file.","Follow the instructions inside the files."]}
+};
+var STORES=[
+  {k:"payhip",name:"Payhip",url:"https://payhip.com/dashboard"},
+  {k:"gumroad",name:"Gumroad",url:"https://gumroad.com/products/new"},
+  {k:"etsy",name:"Etsy",url:"https://www.etsy.com/your/shops/me/listing-editor/create"},
+  {k:"sikka",name:"سكة",url:"https://sikka.me/dashboard"}];
+var PREP=null; /* {p, files:[{f,path}]} */
+function lines(id){return $(id).value.split(/\r?\n/).map(function(s){return s.trim().replace(/^[-•*]\s*/,"");}).filter(Boolean);}
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");localStorage.setItem(k,JSON.stringify(v));}catch(e){return null;}}
+function prepState(){var o={ar:$("pr_ar").value.trim(),en:$("pr_en").value.trim(),web:$("pr_web").value,fa:$("pr_fa").value,fe:$("pr_fe").value,sup:$("pr_sup").value.trim(),price:{},links:(PREP&&PREP.links)||{}};
+  STORES.forEach(function(s){o.price[s.k]=$("pr_p_"+s.k).value;});return o;}
+function savePrep(){if(PREP)store("prep:"+PREP.p.slug,prepState());}
+function openPrep(p){
+  var s=store("prep:"+p.slug)||{};PREP={p:p,files:[],links:s.links||{}};
+  $("pr_title").textContent="📤 تجهيز للنشر: "+p.name_ar;
+  $("pr_ar").value=s.ar||p.name_ar||"";$("pr_en").value=s.en||p.name_en||"";
+  $("pr_web").value=s.web||"elementor";$("pr_webBox").hidden=(p.product_type!=="web");
+  $("pr_fa").value=s.fa||"";$("pr_fe").value=s.fe||"";$("pr_sup").value=s.sup||"";
+  STORES.forEach(function(st){$("pr_p_"+st.k).value=(s.price&&s.price[st.k]!=null&&s.price[st.k]!=="")?s.price[st.k]:(st.k==="sikka"?"":Number(p.price_eur));});
+  $("pr_files").value="";$("pr_dir").value="";showFiles();renderPrep();$("prepDlg").showModal();
+}
+function texts(){
+  var p=PREP.p,o=prepState(),kd=KIND[kindOf(p,o.web)]||KIND.custom;
+  var fa=lines("pr_fa"),fe=lines("pr_fe");
+  var tEn=TYPE_EN[p.product_type||(p.category==="auto"?"n8n":"excel")]||"Template",cEn=CAT_EN[p.category]||"";
+  var langs=(p.languages||[]).map(function(l){return {ar:"Arabic",en:"English",fi:"Finnish"}[l];}).filter(Boolean);
+  var feEn=fe.length?fe:["Ready to use and fully editable","Clean, professional design"].concat(langs.length?[langs.join(" & ")+" version"]:[]);
+  var ar=[o.ar];if(p.description)ar.push("",p.description);
+  if(fa.length){ar.push("","✅ المميزات:");fa.forEach(function(x){ar.push("• "+x);});}
+  ar.push("","📦 ما ستحصل عليه:","• "+kd.box_ar,"• دليل التثبيت خطوة بخطوة","• ترخيص الاستخدام","","🛠 المتطلبات:","• "+kd.req_ar,"","⚡ تحميل فوري بعد الدفع.");
+  if(o.sup)ar.push("💬 للدعم والاستفسار: "+o.sup);
+  var en=[o.en||o.ar,"","✅ Features:"];feEn.forEach(function(x){en.push("• "+x);});
+  en.push("","📦 What you get:","• "+kd.box_en,"• Step-by-step installation guide","• License file","","🛠 Requirements:","• "+kd.req_en,"","⚡ Instant digital download after payment.","No physical item will be shipped.");
+  if(o.sup)en.push("💬 Support: "+o.sup);
+  var parts=[o.en||o.ar,tEn,cEn,"Instant Download"].filter(Boolean),title=parts.join(" | ");
+  while(title.length>140&&parts.length>1){parts.pop();title=parts.join(" | ");}
+  var tags=[],add=function(t){t=String(t||"").toLowerCase().replace(/[^a-z0-9 &'-]/g," ").replace(/\s+/g," ").trim();if(t&&t.length<=20&&tags.indexOf(t)<0&&tags.length<13)tags.push(t);};
+  add(o.en);kd.tags.forEach(add);(CAT_TAGS[p.category]||[]).forEach(add);
+  if((p.languages||[]).indexOf("ar")>=0)add("arabic template");
+  ["digital download","instant download","editable template","small business","printable","business template"].forEach(add);
+  var summary=(o.en||o.ar)+" — "+(fe[0]||kd.box_en)+". Instant download.";
+  return {ar:ar.join("\n"),en:en.join("\n"),title:title,tags:tags,summary:summary,guide_ar:kd.ar,guide_en:kd.en};
+}
+function copyText(v){
+  if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(v).then(function(){toast("تم النسخ");},function(){fallbackCopy(v);});
+  fallbackCopy(v);
+}
+function fallbackCopy(v){var t=el("textarea",{});t.value=v;document.body.appendChild(t);t.select();try{document.execCommand("copy");toast("تم النسخ");}catch(e){toast("انسخ يدوياً (Ctrl+C)",true);}t.remove();}
+function field(label,val,max,rows){
+  var ta=el("textarea",{readonly:"readonly",rows:String(rows||1)});ta.value=val;
+  if(/[a-z]/i.test(val)&&!/[؀-ۿ]/.test(val))ta.setAttribute("dir","ltr");
+  var cnt=el("span",{class:"cnt"+(max&&val.length>max?" over":""),text:max?(val.length+" / "+max):(val.length+" حرف")});
+  return el("div",{class:"fld"},[el("div",{class:"fh"},[el("label",{text:label,style:"margin:0"}),el("span",{class:"row-act"},[cnt,el("button",{type:"button",text:"نسخ",onclick:function(){copyText(ta.value);}})])]),ta]);
+}
+function renderPrep(){
+  var T=texts(),o=prepState(),out=$("pr_out");out.textContent="";
+  var noEn=!o.en;
+  STORES.forEach(function(s){
+    var price=o.price[s.k],box=el("div",{class:"pc"});
+    box.appendChild(el("div",{class:"bar",style:"margin:0"},[el("h3",{text:s.name}),el("a",{class:"btn",href:s.url,target:"_blank",rel:"noopener",text:"فتح المنصة ↗"})]));
+    var f=[];
+    if(s.k==="payhip"){f=[field("العنوان (Title)",o.en||o.ar,0,1),field("السعر",price||"",0,1),field("الوصف بالإنجليزية (Description)",T.en,0,8),field("الوصف بالعربية (أضفه تحت الإنجليزي إن أردت)",T.ar,0,8)];}
+    if(s.k==="gumroad"){f=[field("Name",o.en||o.ar,0,1),field("Price",price||"",0,1),field("Description",T.en,0,8),field("Summary (سطر واحد)",T.summary,0,2)];}
+    if(s.k==="etsy"){f=[field("Title",T.title,140,2),field("Price",price||"",0,1),field("Description",T.en,0,8),field("Tags (13 كلمة، كل واحدة حتى 20 حرفاً)",T.tags.join(", "),0,3)];
+      box.appendChild(el("p",{class:"muted",style:"margin:6px 0 0",text:"في Etsy اختر نوع المنتج: Digital files (ملف رقمي)، واكتب الكلمات المفتاحية واحدة تلو الأخرى. عدد الكلمات الجاهزة: "+T.tags.length+" من 13."}));}
+    if(s.k==="sikka"){f=[field("اسم المنتج",o.ar,0,1),field("السعر",price||"",0,1),field("الوصف",T.ar,0,8)];}
+    if(noEn&&(s.k==="etsy"||s.k==="gumroad"))box.appendChild(el("p",{class:"note-warn",style:"margin:6px 0 0",text:"اكتب الاسم بالإنجليزية في الأعلى، فهذه المنصة تُعرض بالإنجليزية."}));
+    f.forEach(function(x){box.appendChild(x);});
+    var li=el("input",{type:"url",dir:"ltr",placeholder:"https://... رابط المنتج بعد النشر"});li.value=(PREP.links||{})[s.k]||"";
+    li.addEventListener("input",function(){PREP.links[s.k]=li.value.trim();savePrep();});
+    var use=el("button",{type:"button",class:"pri",text:"اعتمده كرابط البيع في موقعي",onclick:function(){useLink(li.value.trim());}});
+    box.appendChild(el("label",{text:"بعد النشر: رابط المنتج في "+s.name}));
+    box.appendChild(el("div",{class:"row-act",style:"flex-wrap:nowrap"},[li,use]));
+    out.appendChild(box);
+  });
+}
+async function useLink(u){
+  if(!/^https:\/\/[^\s]+$/i.test(u)){toast("الصق رابطاً كاملاً يبدأ بـ https://",true);return;}
+  var r=await sb.from("products").update({checkout_url:u,updated_at:new Date().toISOString()}).eq("slug",PREP.p.slug);
+  if(r.error){toast(explain(r.error),true);return;}
+  PREP.p.checkout_url=u;toast("تم اعتماد الرابط. اضغط «نشر الآن» ليظهر زر الشراء في الموقع.");loadProducts();
+}
+function showFiles(){
+  var n=PREP.files.length,sz=PREP.files.reduce(function(a,x){return a+x.f.size;},0);
+  $("pr_fileInfo").textContent=n?(n+" ملف · "+(sz/1048576).toFixed(2)+" ميغابايت: "+PREP.files.slice(0,6).map(function(x){return x.path;}).join("، ")+(n>6?"…":"")):"لم تختر ملفات بعد.";
+}
+function pickFiles(list,useRel){
+  PREP.files=[];Array.prototype.forEach.call(list,function(f){var rel=useRel&&f.webkitRelativePath?f.webkitRelativePath.split("/").slice(1).join("/"):f.name;
+    if(/(^|\/)(\.DS_Store|Thumbs\.db|desktop\.ini)$/i.test(rel)||/(^|\/)__MACOSX\//.test(rel))return;PREP.files.push({f:f,path:rel||f.name});});
+  showFiles();
+}
+$("pr_files").addEventListener("change",function(){$("pr_dir").value="";pickFiles(this.files,false);});
+$("pr_dir").addEventListener("change",function(){$("pr_files").value="";pickFiles(this.files,true);});
+var JSZIP_P=null;
+function loadZip(){if(window.JSZip)return Promise.resolve(window.JSZip);
+  if(!JSZIP_P)JSZIP_P=new Promise(function(ok,bad){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
+    s.onload=function(){window.JSZip?ok(window.JSZip):bad(new Error("JSZip"));};s.onerror=function(){JSZIP_P=null;bad(new Error("JSZip"));};document.head.appendChild(s);});
+  return JSZIP_P;}
+function guideText(T,o){
+  var a=["دليل التثبيت — "+o.ar,""],e=["Installation Guide — "+(o.en||o.ar),""];
+  T.guide_ar.forEach(function(x,i){a.push((i+1)+". "+x);});T.guide_en.forEach(function(x,i){e.push((i+1)+". "+x);});
+  if(o.sup){a.push("","للدعم: "+o.sup);e.push("","Support: "+o.sup);}
+  return "﻿"+e.join("\r\n")+"\r\n\r\n----------------------------------------\r\n\r\n"+a.join("\r\n")+"\r\n";
+}
+function licenseText(o){var y=new Date().getFullYear();
+  return "﻿"+["License — "+(o.en||o.ar),"","Copyright © "+y+" SkillPostApp. All rights reserved.","",
+    "You MAY: use this product for your own personal or business projects, and for client projects (one end product per purchase).",
+    "You may NOT: resell, share, give away or redistribute this product or its files, in original or modified form.","",
+    "----------------------------------------","","الترخيص — "+o.ar,"","حقوق النشر © "+y+" SkillPostApp. جميع الحقوق محفوظة.","",
+    "يُسمح لك: باستخدام المنتج في مشاريعك الشخصية أو التجارية، وفي مشروع لعميل (مشروع نهائي واحد لكل عملية شراء).",
+    "لا يُسمح لك: ببيع المنتج أو ملفاته أو مشاركتها أو توزيعها مجاناً، سواء كما هي أو بعد التعديل."].join("\r\n")+"\r\n";}
+$("pr_zip").addEventListener("click",async function(){
+  if(!PREP.files.length){toast("اختر ملفات المنتج أولاً.",true);return;}
+  var b=$("pr_zip");b.disabled=true;b.textContent="جارٍ الضغط…";
+  try{
+    var Z=await loadZip(),z=new Z(),o=prepState(),T=texts();
+    var folder=(o.en?safeName(o.en.replace(/\s+/g,"-")):"")||PREP.p.slug;if(folder==="file")folder=PREP.p.slug;var root=z.folder(folder);
+    var names={};PREP.files.forEach(function(x){names[x.path.toLowerCase()]=1;root.file(x.path,x.f);});
+    if($("pr_extra").checked){
+      if(!names["installation-guide.txt"])root.file("Installation-Guide.txt",guideText(T,o));
+      if(!names["license.txt"])root.file("License.txt",licenseText(o));
+    }
+    var blob=await z.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:6}});
+    var a=el("a",{href:URL.createObjectURL(blob),download:folder+".zip"});document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},4000);
+    toast("تم تجهيز "+folder+".zip ("+(blob.size/1048576).toFixed(2)+" ميغابايت). ستجده في مجلد التنزيلات.");
+  }catch(e){toast("تعذّر إنشاء ملف ZIP: "+(e.message||e),true);}
+  b.disabled=false;b.textContent="⬇ تنزيل ملف ZIP";
+});
+["pr_ar","pr_en","pr_web","pr_fa","pr_fe","pr_sup","pr_p_payhip","pr_p_gumroad","pr_p_etsy","pr_p_sikka"].forEach(function(id){
+  $(id).addEventListener("input",function(){savePrep();renderPrep();});$(id).addEventListener("change",function(){savePrep();renderPrep();});});
+$("pr_close").addEventListener("click",function(){savePrep();$("prepDlg").close();});
 
 boot();
 })();
