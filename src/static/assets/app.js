@@ -11,6 +11,7 @@
     document.querySelectorAll("[data-i18n-ph]").forEach(function(el){ var v = T[el.dataset.i18nPh]; if (v) el.placeholder = v[l]; });
     document.querySelectorAll("[data-alt-key]").forEach(function(el){ var v = T[el.dataset.altKey]; if (v) el.alt = v[l]; });
     document.querySelectorAll("[data-price]").forEach(function(el){ try { el.textContent = JSON.parse(el.dataset.price)[l]; } catch(e){} });
+    document.querySelectorAll("[data-demo]").forEach(function(el){ try { var d = JSON.parse(el.dataset.demo); el.href = d[l] || d.ar || d.en || d.fi || el.href; } catch(e){} });
     var og = document.querySelector('meta[property="og:locale"]'); if (og) og.content = OG[l];
     document.querySelectorAll(".lang button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.lang === l ? "true" : "false"); });
     try { localStorage.setItem("lang", l); } catch(e){}

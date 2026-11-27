@@ -52,9 +52,16 @@
     });
     buy.innerHTML = "";
     buy.setAttribute("data-pid", p.id || "");
+    var files = p.demo_files || {};
+    var tryHref = files[L()] || files.ar || files.en || files.fi || "";
+    if (tryHref) {
+      var ta = btn(tryHref, "btn btn-demo", "<span data-i18n=\"card.try\">" + tr("card.try") + "</span>");
+      ta.setAttribute("data-demo", JSON.stringify(files));
+      buy.appendChild(ta);
+    }
     var buyUrl = p.payhip || p.etsy || p.sikka || "";
     var buyVia = p.payhip ? "Payhip" : (p.etsy ? "Etsy" : (p.sikka ? "SIKKA" : ""));
-    buy.appendChild(btn(buyUrl, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">" + buyVia + "</small>"));
+    if (buyUrl) buy.appendChild(btn(buyUrl, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">" + buyVia + "</small>"));
     if (p.etsy && p.payhip) buy.appendChild(btn(p.etsy, "store store-etsy", "Etsy"));
     if (p.gumroad) buy.appendChild(btn(p.gumroad, "store store-gum", "Gumroad"));
     if (p.sikka && buyVia !== "SIKKA") buy.appendChild(btn(p.sikka, "store store-sikka", "<span data-i18n=\"card.sikka\">" + tr("card.sikka") + "</span>"));

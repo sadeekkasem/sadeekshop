@@ -228,6 +228,17 @@ def load():
             v = p.get(k, "")
             if v and (not isinstance(v, str) or not URL.match(v)):
                 errors.append(f"{who}: رابط {k} يجب أن يبدأ بـ https:// أو يبقى فارغًا \"\".")
+        demo_files, clean_df = p.get("demo_files") or {}, {}
+        if demo_files and not isinstance(demo_files, dict):
+            errors.append(f"{who}: الحقل demo_files يجب أن يكون كائنًا مثل {{\"ar\": \"https://...\"}} أو فارغًا {{}}.")
+        elif isinstance(demo_files, dict):
+            for k, v in demo_files.items():
+                if k not in LANGS:
+                    errors.append(f"{who}: مفتاح demo_files يجب أن يكون ar أو en أو fi، وليس {k}.")
+                elif v and (not isinstance(v, str) or not URL.match(v)):
+                    errors.append(f"{who}: رابط demo_files.{k} يجب أن يبدأ بـ https:// أو يبقى فارغًا \"\".")
+                elif v:
+                    clean_df[k] = v
         demo = p.get("demo", [])
         if not isinstance(demo, list) or any(not isinstance(d, dict) for d in demo):
             errors.append(f"{who}: الحقل demo يجب أن يكون قائمة أو فارغًا []."); demo = []
@@ -245,7 +256,8 @@ def load():
                         status=status, download=download, wide=p.get("wide") is True, site=bool(p.get("_site")),
                         name=dict(ar=p.get("name_ar", ""), en=p.get("name_en", ""), fi=p.get("name_fi", "")),
                         ben=dict(ar=p.get("desc_ar", ""), en=p.get("desc_en", ""), fi=p.get("desc_fi", "")),
-                        demo=[(d.get("en", ""), d.get("ar", ""), d.get("fi", "")) for d in demo]))
+                        demo=[(d.get("en", ""), d.get("ar", ""), d.get("fi", "")) for d in demo],
+                        demo_files=clean_df))
     if not out and not errors:
         errors.append("لا يوجد أي قالب ظاهر في الموقع (كل القوالب مخفية).")
     if errors:

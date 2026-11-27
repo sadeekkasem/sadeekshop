@@ -92,6 +92,14 @@ def card(p, i):
         media = f'<a class="card-media" href="{e(buy_url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">\n    {media_img}\n    {tags_html}\n  </a>'
         action = f'<a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>'
     cart_btn = ''  # السلة والدفع الداخلي متوقفان
+    df = {k: v for k, v in (p.get("demo_files") or {}).items() if k in ("ar", "en", "fi") and v}
+    try_btn = ''
+    if df and not soon and not dl:
+        try_href = df.get(L) or df.get("ar") or df.get("en") or df.get("fi")
+        try_btn = (
+            f'<a class="btn btn-demo" href="{e(try_href)}" data-demo=\'{json.dumps(df, ensure_ascii=False)}\' '
+            f'target="_blank" rel="noopener">{tx("card.try")}</a>'
+        )
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}" data-type="{p['type']}" data-pid="{pid}">
   {media}
@@ -102,7 +110,7 @@ def card(p, i):
     <div class="card-foot">
       <div class="price"><bdi data-price='{json.dumps(pr)}'>{pr[L]}</bdi></div>
       <div class="actions">
-        {cart_btn}{action}
+        {cart_btn}{try_btn}{action}
       </div>
     </div>
 {alt}
@@ -187,7 +195,7 @@ for p in PRODUCTS:
         src = f"assets/demo/{p['id']}-{n}.webp"
         assert os.path.exists(f"{OUT}/{src}"), src
         sl.append({"src": src, "cap": {"ar": ar, "en": en, "fi": fi}})
-    d = {"id": p["id"], "name": p["name"], "payhip": p["payhip"], "etsy": p.get("etsy", ""), "gumroad": p.get("gumroad", ""), "sikka": p.get("sikka", ""), "slides": sl}
+    d = {"id": p["id"], "name": p["name"], "payhip": p["payhip"], "etsy": p.get("etsy", ""), "gumroad": p.get("gumroad", ""), "sikka": p.get("sikka", ""), "demo_files": p.get("demo_files") or {}, "slides": sl}
     if p.get("gumroad"): d["gumroad"] = p["gumroad"]
     DEMO_DATA.append(d)
 DEMO_SEC = f'''
@@ -238,7 +246,7 @@ FOOT = f'''<footer class="foot">
   <div class="wrap foot-in">
     <div class="brand"><img src="assets/icon-72.png" width="28" height="28" alt="" loading="lazy"><span>SkillPost<b>App</b></span></div>
     <p data-i18n="footer.tagline">{e(t("footer.tagline"))}</p>
-    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a href="{SIKKA_SHOP}" target="_blank" rel="noopener">SIKKA</a> · <a class="yt" href="https://www.youtube.com/@SkillPostAppExcel" target="_blank" rel="noopener"><svg class="yt-ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg> <span data-i18n="footer.youtube">{e(t("footer.youtube"))}</span></a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a></p>
+    <p class="foot-links"><a href="{PAYHIP_STORE}" target="_blank" rel="noopener">Payhip</a> · <a href="{ETSY_SHOP}" target="_blank" rel="noopener">Etsy</a> · <a href="{SIKKA_SHOP}" target="_blank" rel="noopener">SIKKA</a> · <a class="yt" href="https://www.youtube.com/@SkillPostAppExcel" target="_blank" rel="noopener"><svg class="yt-ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg> <span data-i18n="footer.youtube">{e(t("footer.youtube"))}</span></a> · <a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a> · <a href="privacy.html" data-i18n="footer.privacy">{e(t("footer.privacy"))}</a> · <a href="terms.html" data-i18n="footer.terms">{e(t("footer.terms"))}</a></p>
     <p class="tm"><span data-i18n="footer.tm">{e(t("footer.tm"))}</span><br>© 2026 SkillPostApp</p>
   </div>
 </footer>'''
@@ -626,6 +634,89 @@ co_doc = f'''<!doctype html>
 '''
 open(f"{OUT}/checkout.html", "w", encoding="utf-8").write(co_doc)
 print("written checkout.html", len(co_doc))
+
+
+# ---------- privacy.html and terms.html (shop legal pages; replace leftover religious-site redirects) ----------
+def legal_doc(slug, title_key, desc_key, section_keys):
+    url = SITE_URL + slug
+    secs = []
+    for hkey, dkey in section_keys:
+        secs.append(
+            f'<section class="legal-sec">\n'
+            f'    <h2 data-i18n="{hkey}">{e(t(hkey))}</h2>\n'
+            f'    <p data-i18n="{dkey}">{e(t(dkey))}</p>\n'
+            f'  </section>'
+        )
+    body = "\n    ".join(secs)
+    return f'''<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="{title_key}">{e(t(title_key))}</title>
+<meta name="description" content="{e(t(desc_key))}" data-i18n-content="{desc_key}">
+<meta name="theme-color" content="#0e5a35">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SkillPostApp">
+<meta property="og:title" content="{e(t(title_key))}" data-i18n-content="{title_key}">
+<meta property="og:description" content="{e(t(desc_key))}" data-i18n-content="{desc_key}">
+<meta property="og:image" content="{og_img}">
+<meta property="og:locale" content="ar_AR"><meta property="og:locale:alternate" content="en_US"><meta property="og:locale:alternate" content="fi_FI">
+<meta property="og:url" content="{url}">
+<link rel="canonical" href="{url}">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preload" href="assets/fonts/cairo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/theme.css">
+<script data-goatcounter="https://sadeekshop.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body class="page-legal">
+<a class="skip" href="#main" data-i18n="skip">{e(t("skip"))}</a>
+{header("index.html")}
+<main id="main">
+<section class="req-hero">
+  <div class="wrap narrow">
+    <h1 data-i18n="{title_key}">{e(t(title_key))}</h1>
+    <p class="lead" data-i18n="{desc_key}">{e(t(desc_key))}</p>
+  </div>
+</section>
+<section class="sec">
+  <div class="wrap narrow legal">
+    {body}
+    <p class="legal-contact"><a href="mailto:{EMAIL}"><bdi>{EMAIL}</bdi></a> &middot; <a href="https://wa.me/{WA_NUMBER}" target="_blank" rel="noopener">WhatsApp</a></p>
+  </div>
+</section>
+</main>
+{FOOT}
+<script>window.I18N={json.dumps(T, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
+'''
+
+PRIVACY_SECS = [
+    ("legal.privacy.s1.t", "legal.privacy.s1.d"),
+    ("legal.privacy.s2.t", "legal.privacy.s2.d"),
+    ("legal.privacy.s3.t", "legal.privacy.s3.d"),
+    ("legal.privacy.s4.t", "legal.privacy.s4.d"),
+    ("legal.privacy.s5.t", "legal.privacy.s5.d"),
+    ("legal.privacy.s6.t", "legal.privacy.s6.d"),
+    ("legal.privacy.s7.t", "legal.privacy.s7.d"),
+    ("legal.privacy.s8.t", "legal.privacy.s8.d"),
+]
+TERMS_SECS = [
+    ("legal.terms.s1.t", "legal.terms.s1.d"),
+    ("legal.terms.s2.t", "legal.terms.s2.d"),
+    ("legal.terms.s3.t", "legal.terms.s3.d"),
+    ("legal.terms.s4.t", "legal.terms.s4.d"),
+    ("legal.terms.s5.t", "legal.terms.s5.d"),
+    ("legal.terms.s6.t", "legal.terms.s6.d"),
+]
+open(f"{OUT}/privacy.html", "w", encoding="utf-8").write(legal_doc("privacy.html", "legal.privacy.title", "legal.privacy.desc", PRIVACY_SECS))
+open(f"{OUT}/terms.html", "w", encoding="utf-8").write(legal_doc("terms.html", "legal.terms.title", "legal.terms.desc", TERMS_SECS))
+print("written privacy.html and terms.html")
 
 # ---------- SkillPostApp help widget: knowledge file built from the content above ----------
 import assistant_kb

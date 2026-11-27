@@ -52,6 +52,8 @@ p{margin:0 0 1em}
 .btn-dl:hover{background:var(--y2)}
 .btn-soon{background:var(--g1);color:var(--g7);padding:9px 16px;cursor:default;pointer-events:none}
 .btn-soon:hover{transform:none;box-shadow:none}
+.btn-demo{background:#fff;color:var(--g7);border-color:var(--g7);padding:9px 16px}
+.btn-demo:hover{background:var(--g1)}
 .tag-soon{background:var(--ink);color:#fff}
 
 /* hero */
@@ -366,3 +368,12 @@ p{margin:0 0 1em}
 .burger-menu a{display:block;padding:11px 14px;border-radius:9px;color:var(--ink);text-decoration:none;font-weight:600}
 .burger-menu a:hover{background:var(--g1)}
 @media (max-width:1024px){.burger{display:block}.lang{margin-inline-start:0}.top-in{gap:10px}.brand{margin-inline-end:auto}}
+
+/* legal pages */
+.legal{padding-bottom:8px}
+.legal-sec{margin-bottom:22px}
+.legal-sec h2{font-size:20px;margin:0 0 8px;color:var(--g9)}
+.legal-sec p{margin:0;font-size:16.5px;line-height:1.75;color:var(--ink)}
+.legal-contact{margin-top:28px;padding-top:16px;border-top:1px dashed var(--line);font-weight:700}
+.legal-contact a{color:var(--g7)}
+.page-legal .req-hero .lead{color:rgba(255,255,255,.88)}

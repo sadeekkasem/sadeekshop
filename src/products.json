@@ -13,6 +13,7 @@
   "status: اختياري. ضع \"soon\" ليظهر القالب بعلامة «قريباً» بلا زر شراء وبلا رابط متجر. download: مسار ملف التحميل المجاني داخل الموقع مثل downloads/file.zip، مع السعر 0. لا تضف status أو download إذا كان القالب للبيع كالعادة.",
   "hidden: true يخفي القالب من الموقع بدون حذفه. wide: true يجعل البطاقة عريضة",
   "demo اختياري: صور العرض src/images/<slug>-1.jpg و -2.jpg ... مع وصف لكل صورة بالترتيب. اتركه [] إذا لا يوجد",
+  "demo_files اختياري: روابط ملفات الديمو المقفلة على Google Drive، مثل {\"ar\": \"https://drive.google.com/file/d/ID/view\", \"en\": \"...\", \"fi\": \"...\"}. اتركه فارغًا إذا لا يوجد. هذا غير حقل demo (صور العرض).",
   "انتبه: كل قيمة نصية بين علامتي \" \"، وبين كل حقل والذي يليه فاصلة ,"
  ],
  "_مثال_للنسخ": {
@@ -37,7 +38,12 @@
   "gumroad": "",
   "sikka": "",
   "wide": false,
-  "demo": []
+  "demo": [],
+  "demo_files": {
+   "ar": "",
+   "en": "",
+   "fi": ""
+  }
  },
  "products": [
 {
@@ -175,7 +181,11 @@
     "en": "A professional Excel file for 5,000 entries and 27 accounts, with a trial balance, summary and charts, protected so the layout stays intact.",
     "fi": "Ammattimainen Excel-tiedosto 5 000 viennille ja 27 tilille: koetase, yhteenveto ja kaaviot, suojattu niin että asettelu säilyy."
    }
-  ]
+  ],
+  "demo_files": {
+   "ar": "https://drive.google.com/file/d/1PXRH991fZHDOEGP5A3JFDtHC4IRH18-K/view",
+   "en": "https://drive.google.com/file/d/13ShQEn4EK4UEMgKyaIYhf0s94qUOEujc/view"
+  }
  },
  {
   "slug": "masarifi",
@@ -303,7 +313,12 @@
      "en": "Purchases sheet: supplier invoices, paid or unpaid status and deductible VAT.",
      "fi": "Ostot: toimittajien laskut, maksettu/avoin-tila ja vähennettävä ALV."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1viImFDqWYkEqr61S4K795MAMDAJo1TnS/view",
+    "en": "https://drive.google.com/file/d/1hiE8eqNRflLz5_-dV5HK1JA3cr86Sg_b/view",
+    "fi": "https://drive.google.com/file/d/1uw6dGd376qpUbMJINL9A6ikdcL7t0Uox/view"
+   }
   },
   {
    "slug": "sales-profit-dashboard-ar",
@@ -353,7 +368,10 @@
      "en": "Simple input sheets for sales and products, with dropdowns that fill in details.",
      "fi": "Helpot syöttövälilehdet myynneille ja tuotteille, pudotusvalikot täyttävät tiedot."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1IgDJR9__TZZ5hWyVGawPZNYdhpn45Z17/view"
+   }
   },
   {
    "slug": "sales-profit-dashboard-en-fi",
@@ -404,7 +422,11 @@
      "en": "Simple input sheets: yellow cells are yours, grey cells calculate.",
      "fi": "Helpot syöttövälilehdet: keltaiset solut ovat sinun, harmaat laskevat."
     }
-   ]
+   ],
+   "demo_files": {
+    "en": "https://drive.google.com/file/d/1gfZAPeLBZ1CAcebaAhM8NOA4VbptxU0j/view",
+    "fi": "https://drive.google.com/file/d/1gfZAPeLBZ1CAcebaAhM8NOA4VbptxU0j/view"
+   }
   },
   {
    "slug": "etsy-seller-dashboard",
@@ -452,7 +474,10 @@
      "en": "What's included: settings, products, orders, dashboard, pricing calculator and a start guide.",
      "fi": "Sisältö: asetukset, tuotteet, tilaukset, kojelauta, hinnoittelulaskuri ja aloitusopas."
     }
-   ]
+   ],
+   "demo_files": {
+    "en": "https://drive.google.com/file/d/11I5kV4oBwEPjD5XqibzIJX3O1TEziR-v/view"
+   }
   },
   {
    "slug": "pulse-crm",
@@ -505,7 +530,10 @@
      "en": "Reports: sales, pipeline and support figures by month in one place.",
      "fi": "Raportit: myynnin, putken ja tuen luvut kuukausittain yhdessä paikassa."
     }
-   ]
+   ],
+   "demo_files": {
+    "en": "https://drive.google.com/file/d/1abIvkL8K102d7CjmAvV1nNZEMVl88Vkn/view"
+   }
   },
   {
    "slug": "inventory-pro",
@@ -567,7 +595,12 @@
      "en": "Best order quantity per item, with an order-now flag when it is time to reorder.",
      "fi": "Paras tilauserä tuotteittain ja tilaa nyt -merkintä, kun on tilauksen aika."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1hfG8N0UhGMAM3zg5z7EHf7-99bSWN8Bg/view",
+    "en": "https://drive.google.com/file/d/1cd1b_XekbO4In-fBNawKi3q5qbtI7uwd/view",
+    "fi": "https://drive.google.com/file/d/1GtWYXNYFSvfjVOhZEgB1ZeCccmk_jqEQ/view"
+   }
   },
   {
    "slug": "restaurant-food-cost",
@@ -622,7 +655,12 @@
      "en": "Menu engineering: each item classed by popularity and profitability.",
      "fi": "Ruokalistan analyysi: jokainen tuote luokiteltuna suosion ja kannattavuuden mukaan."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1NSAU7iar0Sf2rQWJsA54An3d8mAe1TiQ/view",
+    "en": "https://drive.google.com/file/d/1lAmEQnowfqtsP4axt48NZ_qhwfi6QXHo/view",
+    "fi": "https://drive.google.com/file/d/1GPn4mOy7XoRZlrAmL6O5Gaj9A6vkm_qD/view"
+   }
   },
   {
    "slug": "profit-margin-pricing",
@@ -672,7 +710,12 @@
      "en": "Quick calculator: from cost to suggested price by target margin or markup, with VAT.",
      "fi": "Pikalaskuri: kustannuksesta hintaehdotukseen tavoitekatteen tai lisäyksen mukaan, ALV mukana."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1wEwXvrF17joMnbY_3iLOcowu-xPl6-mg/view",
+    "en": "https://drive.google.com/file/d/1RatukyRrDAH5bmLvrAASVPwcnNDKHyB8/view",
+    "fi": "https://drive.google.com/file/d/1UCw9gtMU88b_BI_TGCLqysNrd0kewREz/view"
+   }
   },
   {
    "slug": "payroll-pro",
@@ -731,7 +774,12 @@
      "en": "Year archive: totals of every payroll year with a cost chart.",
      "fi": "Vuosiarkisto: jokaisen palkkavuoden summat ja kustannuskaavio."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1cyx4Gxq5E0SLk5YYDaSwP6OsMnsvSJhJ/view",
+    "en": "https://drive.google.com/file/d/1eT5LVfSFVav54EbjUJYWmiS67qW1ZhT7/view",
+    "fi": "https://drive.google.com/file/d/1zi3EKGJB66VJp5Zpk0p-r2--FbViHYgk/view"
+   }
   },
   {
    "slug": "treasury-cash-bank-book",
@@ -785,7 +833,12 @@
      "en": "Daily cash closing: counted cash compared with the book balance per cash box.",
      "fi": "Päivän kassan täsmäytys: laskettu käteinen verrattuna kirjanpidon saldoon."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1lrYo1G2t6mBTzXhWNYBUKaNv4G03d0RS/view",
+    "en": "https://drive.google.com/file/d/1HCPrqPnKxZePZG5BlWdhENSMTAVT7Nj2/view",
+    "fi": "https://drive.google.com/file/d/1bMjjCzXFUJYqF1WEocjtYTkTwguApg9U/view"
+   }
   },
   {
    "slug": "invoice-pro",
@@ -844,7 +897,11 @@
      "en": "Quotes log: open, accepted or expired, and an accepted quote carries over to an invoice.",
      "fi": "Tarjousloki: avoin, hyväksytty tai vanhentunut – hyväksytty tarjous siirtyy laskulle."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1WclVnbdjhd0VFkTMswwjW3lfVfenJ8Ej/view",
+    "en": "https://drive.google.com/file/d/1WVSkP4_zqsVGcQ3U9hYpwp4HDlp5J_aw/view"
+   }
   },
   {
    "slug": "shop-stock-profit",
@@ -893,7 +950,11 @@
      "en": "How-to-use sheet with a clickable menu and step-by-step guide.",
      "fi": "Käyttöohje-välilehti: klikattava valikko ja vaiheittainen opas."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1qbYUM1r2FtysKOgBXIlxeAY0AkqKwCnl/view",
+    "en": "https://drive.google.com/file/d/1zQLCk5YAw3t9eaFIGYoM_dXrkjqP2VrG/view"
+   }
   },
   {
    "slug": "warehouse-transfers",
@@ -942,7 +1003,12 @@
      "en": "Transfer log report filtered by date, movement type and warehouse.",
      "fi": "Siirtolokiraportti suodatettuna päivän, tapahtumatyypin ja varaston mukaan."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1sAaXGQLpg70GMIZn7VGQx_PqWP1Lpjli/view",
+    "en": "https://drive.google.com/file/d/17Qoqb_Ukkk2kQsA6XcwonQQUQSkQvvUK/view",
+    "fi": "https://drive.google.com/file/d/1AZaMO0B9_5Ux-o2kthV8WoWjVbfUUnbA/view"
+   }
   },
   {
    "slug": "movements-ledger",
@@ -991,7 +1057,12 @@
      "en": "How-to-use sheet with a clickable menu in every file.",
      "fi": "Käyttöohje-välilehti ja klikattava valikko jokaisessa tiedostossa."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1ejXmaLQXxjxd-6LE6TINvSOlZeBdX0JA/view",
+    "en": "https://drive.google.com/file/d/11fAUvV0iTcxmmfLKg5X-oFkmUQNo8-j-/view",
+    "fi": "https://drive.google.com/file/d/1b74t0rUHJ0eIZMpuUqzkaQyfyxjNKCbG/view"
+   }
   },
   {
    "slug": "family-expense-tracker",
@@ -1045,7 +1116,11 @@
      "en": "Year vs year: compare every month and category with the previous year.",
      "fi": "Vuosivertailu: vertaa jokaista kuukautta ja luokkaa edelliseen vuoteen."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1jBjRYnID8oV7Uggc9Inx1roe1pK8O4vR/view",
+    "en": "https://drive.google.com/file/d/1xf2enU5GjWWxF1lrigCzt5kASsNitVGC/view"
+   }
   },
   {
    "slug": "installments-pro-ar",
@@ -1088,7 +1163,10 @@
      "en": "Customer statement: contracts, payments and balance.",
      "fi": "Asiakkaan tiliote: sopimukset, maksut ja saldo."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1EVZKWRMrt17s8TkwI-kgRGrk3G_JAd-Z/view"
+   }
   },
   {
    "slug": "realestate-pro-ar",
@@ -1131,7 +1209,10 @@
      "en": "Printable A4 tenant statement.",
      "fi": "Tulostettava A4-vuokralaisen tiliote."
     }
-   ]
+   ],
+   "demo_files": {
+    "ar": "https://drive.google.com/file/d/1eS3-4KW1IDSiDIQhXf02T2kZsxIY7OgX/view"
+   }
   },
   {
    "slug": "realestate-pro-en",
@@ -1174,7 +1255,10 @@
      "en": "Printable A4 tenant statement.",
      "fi": "Tulostettava A4-vuokralaisen tiliote."
     }
-   ]
+   ],
+   "demo_files": {
+    "en": "https://drive.google.com/file/d/1i3zUJMmcxhDlxRw0-WKWq_ChErIUGVjp/view"
+   }
   }
  ]
 }

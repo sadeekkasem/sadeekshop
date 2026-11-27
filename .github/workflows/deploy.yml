@@ -7,7 +7,7 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: "17 * * * *"   # daily rebuild so new answers from the questions sheet are built into the site
+    - cron: "17 * * * *"   # hourly rebuild so new answers from the questions sheet are built into the site
 
 permissions:
   contents: read
