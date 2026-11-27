@@ -123,3 +123,6 @@ grant select, insert, update, delete on public.events, public.sales, public.aler
 grant select on public.admins to service_role;
 
 -- 6) Keep the visit log small: events older than 13 months can be deleted from the Statistics tab (button "حذف القديم").
+
+-- 7) Public catalog read of products: see docs/products-anon-read.sql
+--    (anon SELECT of active rows only; do not grant EXECUTE on is_admin() to anon).
