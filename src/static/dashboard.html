@@ -74,7 +74,7 @@ dialog::backdrop{background:#0008}
   </div>
 
   <div id="paneP">
-    <div class="bar"><span class="muted">الملفات المدفوعة تُحفظ في مخزن خاص، ولا يراها أحد بدون دفع.</span><button class="pri" id="addP">+ منتج جديد</button></div>
+    <div class="bar"><span class="muted">الموقع للعرض فقط: البيع يتم عبر رابط البيع لكل منتج (Payhip أو سكة أو Etsy أو Gumroad).</span><button class="pri" id="addP">+ منتج جديد</button></div>
     <div class="card tw"><table><thead><tr><th>المنتج</th><th>السعر</th><th>الملف</th><th>الحالة</th><th></th></tr></thead><tbody id="pBody"></tbody></table></div>
   </div>
 
@@ -119,7 +119,8 @@ dialog::backdrop{background:#0008}
     </div>
     <label>اللغات</label>
     <div class="langs"><label><input type="checkbox" value="ar" class="lg"> العربية</label><label><input type="checkbox" value="en" class="lg"> English</label><label><input type="checkbox" value="fi" class="lg"> Suomi</label></div>
-    <label for="f_chk">رابط الدفع (نضيفه في آخر خطوة)</label><input id="f_chk" dir="ltr" type="url" placeholder="https://...">
+    <label for="f_chk">رابط البيع (صفحة المنتج في Payhip أو سكة أو Etsy أو Gumroad)</label><input id="f_chk" dir="ltr" type="url" placeholder="https://payhip.com/b/...">
+    <p class="muted" style="margin:4px 0 0">زر «اشترِ» في الموقع يفتح هذا الرابط. بدون رابط يظهر المنتج بعلامة «قريبًا».</p>
     <label class="langs" style="margin-top:10px"><input type="checkbox" id="f_active"> ظاهر في الموقع</label>
     <p style="margin-top:14px" class="row-act"><button class="pri" type="submit" id="saveP">حفظ</button><button type="button" id="cancelP">إغلاق</button></p>
   </form>

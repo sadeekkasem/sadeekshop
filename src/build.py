@@ -40,13 +40,26 @@ def price(p):
         return {"ar": "مجاني", "en": "Free", "fi": "Ilmainen"}
     return {"ar": f"{p} €", "en": f"€{p}", "fi": f"{p} €"}
 
+VIA = {"payhip": "Payhip", "etsy": "Etsy", "sikka": "SIKKA", "gumroad": "Gumroad"}
+
 def buy_link(p):
+    k = p.get("primary")  # the sale link typed in the control panel comes first
+    if k in VIA and p.get(k):
+        return p[k], VIA[k]
+    if k == "store_url" and p.get("store_url"):
+        from urllib.parse import urlparse
+        return p["store_url"], (urlparse(p["store_url"]).hostname or "").removeprefix("www.")
     if p.get("payhip"):
         return p["payhip"], "Payhip"
     if p.get("etsy"):
         return p["etsy"], "Etsy"
     if p.get("sikka"):
         return p["sikka"], "SIKKA"
+    if p.get("gumroad"):
+        return p["gumroad"], "Gumroad"
+    if p.get("store_url"):
+        from urllib.parse import urlparse
+        return p["store_url"], (urlparse(p["store_url"]).hostname or "").removeprefix("www.")
     return "", ""
 
 def card(p, i):
@@ -60,9 +73,9 @@ def card(p, i):
     pr = price(p["price"])
     own = False  # عرض فقط: لا دفع داخل الموقع، البيع عبر روابط المتاجر (Payhip / Etsy / Gumroad / SIKKA)
     buy_url, buy_via = (("", "") if soon or dl or own else buy_link(p))
-    alt_etsy = p.get('etsy') if p.get('payhip') and not soon and not dl and not own else ''
+    alt_etsy = p.get('etsy') if p.get('etsy') and buy_via != "Etsy" and not soon and not dl and not own else ''
     show_sikka = bool(p.get('sikka') and buy_via != "SIKKA") and not soon and not dl and not own
-    gum_ok = bool(p.get('gumroad') and not soon and not dl and not own)
+    gum_ok = bool(p.get('gumroad') and buy_via != "Gumroad" and not soon and not dl and not own)
     alt = (f'''    <div class="stores-alt">{tx("card.also","span","also")}
       {('<a class="store store-etsy" href="'+e(p['etsy'])+'" target="_blank" rel="noopener">Etsy</a>') if alt_etsy else ''}{('<a class="store store-gum" href="'+e(p['gumroad'])+'" target="_blank" rel="noopener">Gumroad</a>') if gum_ok else ''}{('<a class="store store-sikka" href="'+e(p['sikka'])+'" target="_blank" rel="noopener">'+tx("card.sikka")+'</a>') if show_sikka else ''}
     </div>''') if (alt_etsy or gum_ok or show_sikka) else ''

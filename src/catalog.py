@@ -52,7 +52,7 @@ def fetch_db():
     base = "slug,name_ar,name_en,name_fi,description,price_eur,category,languages,active,file_path,sort_order"
     try:
         # product_type is optional: older databases without the column are read without it.
-        for cols in (base + ",product_type", base):
+        for cols in (base + ",product_type,checkout_url", base + ",product_type", base):
             req = urllib.request.Request(
                 SB_URL + "/rest/v1/products?select=" + cols + "&order=sort_order.asc",
                 headers={"apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY})
@@ -68,6 +68,18 @@ def fetch_db():
     except Exception as ex:  # network, auth, JSON...
         print("تنبيه: تعذّر قراءة لوحة التحكم (Supabase)، سيُستخدم products.json فقط:", type(ex).__name__)
         return None
+
+
+def store_of(url):
+    """Which store a sale link from the control panel belongs to: payhip / etsy / sikka / gumroad / store (any other https shop)."""
+    if not isinstance(url, str) or not URL.match(url.strip()):
+        return None
+    from urllib.parse import urlparse
+    host = (urlparse(url.strip()).hostname or "").lower()
+    for key, names in (("payhip", ("payhip.com",)), ("etsy", ("etsy.com", "etsy.me")), ("sikka", ("sikka.me", "sikka.sa")), ("gumroad", ("gumroad.com", "gum.co"))):
+        if any(host == n or host.endswith("." + n) for n in names):
+            return key
+    return "store"
 
 
 def merge_db(items):
@@ -99,7 +111,12 @@ def merge_db(items):
             q["type"] = r["product_type"]
         if isinstance(r.get("languages"), list) and r["languages"] and set(r["languages"]) <= LANGS:
             q["languages"] = r["languages"]
-        has_ext = any(p.get(k) for k in ("payhip", "etsy", "sikka")) or p.get("download")
+        link = (r.get("checkout_url") or "").strip()
+        st = store_of(link)
+        if st:  # the sale link typed in the control panel wins for its own store
+            q["store_url" if st == "store" else st] = link
+            q["primary"] = "store_url" if st == "store" else st
+        has_ext = any(q.get(k) for k in ("payhip", "etsy", "sikka", "gumroad", "store_url")) or p.get("download")
         q["_site"] = bool(r.get("file_path"))
         if r.get("active"):
             q["hidden"] = False
@@ -120,14 +137,18 @@ def merge_db(items):
         ar = (r.get("name_ar") or slug).strip(); desc = (r.get("description") or ar).strip()
         try: pr = float(r.get("price_eur") or 0)
         except (TypeError, ValueError): pr = 0
-        if pr <= 0 or not r.get("file_path"):
-            print(f"تنبيه: القالب الجديد {slug} يحتاج سعرًا أكبر من صفر وملفًا مرفوعًا من اللوحة ليظهر.")
+        if pr <= 0:
+            print(f"تنبيه: القالب الجديد {slug} يحتاج سعرًا أكبر من صفر ليظهر.")
             continue
+        link = (r.get("checkout_url") or "").strip(); st = store_of(link)
+        links = dict(payhip="", etsy="", gumroad="", sikka="", store_url="")
+        if st:
+            links["store_url" if st == "store" else st] = link
         out.append(dict(slug=slug, hidden=False, name_ar=ar, name_en=(r.get("name_en") or ar).strip(), name_fi=(r.get("name_fi") or r.get("name_en") or ar).strip(),
                         desc_ar=desc, desc_en=desc, desc_fi=desc, price=pr, languages=r.get("languages") or ["ar"],
                         category=r.get("category") if r.get("category") in CATS else "acc",
-                        type=r.get("product_type") if r.get("product_type") in TYPES else default_type(r.get("category")), badges=[], payhip="", etsy="", gumroad="", sikka="",
-                        status="", wide=False, demo=[], _site=True))
+                        type=r.get("product_type") if r.get("product_type") in TYPES else default_type(r.get("category")), badges=[], **links,
+                        status="" if st else "soon", wide=False, demo=[], _site=bool(r.get("file_path"))))
     out.sort(key=lambda x: order.get(x.get("slug"), 9999))
     print(f"تمت مزامنة {len(by)} قالبًا من لوحة التحكم.")
     return out
@@ -200,7 +221,8 @@ def load():
         has_payhip = isinstance(payhip, str) and URL.match(payhip)
         has_etsy = isinstance(etsy, str) and URL.match(etsy)
         has_sikka = isinstance(sikka, str) and URL.match(sikka)
-        if p.get("hidden") is not True and status != "soon" and not download and not p.get("_site") and not (has_payhip or (payhip == "" and has_etsy) or (payhip == "" and etsy == "" and has_sikka)):
+        has_other = any(isinstance(p.get(k), str) and URL.match(p.get(k) or "") for k in ("gumroad", "store_url"))
+        if p.get("hidden") is not True and status != "soon" and not download and not p.get("_site") and not (has_payhip or (payhip == "" and has_etsy) or (payhip == "" and etsy == "" and has_sikka) or has_other):
             errors.append(f"{who}: رابط payhip أو etsy أو sikka مطلوب ويجب أن يبدأ بـ https:// (إلا إذا كان القالب مجانيًا بملف download أو بعلامة قريبًا).")
         for k in ("payhip", "etsy", "gumroad", "sikka"):
             v = p.get(k, "")
@@ -219,7 +241,7 @@ def load():
                 if not os.path.exists(os.path.join(STATIC, "assets", "demo", f"{slug}-{n}.webp")) and not find_image(f"{slug}-{n}"):
                     errors.append(f"{who}: صورة العرض رقم {n} غير موجودة. ارفعها باسم src/images/{slug}-{n}.jpg أو احذف وصفها من demo.")
         out.append(dict(id=slug, price=pr, cat=p.get("category"), type=p.get("type") or default_type(p.get("category")), langs=langs or [], tags=badges or [],
-                        payhip=p.get("payhip", ""), etsy=p.get("etsy", ""), gumroad=p.get("gumroad", ""), sikka=p.get("sikka", ""),
+                        payhip=p.get("payhip", ""), etsy=p.get("etsy", ""), gumroad=p.get("gumroad", ""), sikka=p.get("sikka", ""), store_url=p.get("store_url", ""), primary=p.get("primary", ""),
                         status=status, download=download, wide=p.get("wide") is True, site=bool(p.get("_site")),
                         name=dict(ar=p.get("name_ar", ""), en=p.get("name_en", ""), fi=p.get("name_fi", "")),
                         ben=dict(ar=p.get("desc_ar", ""), en=p.get("desc_en", ""), fi=p.get("desc_fi", "")),
