@@ -51,6 +51,7 @@
       b.addEventListener("click", function(){ go(i, true); }); dots.appendChild(b);
     });
     buy.innerHTML = "";
+    buy.setAttribute("data-pid", p.id || "");
     var buyUrl = p.payhip || p.etsy || p.sikka || "";
     var buyVia = p.payhip ? "Payhip" : (p.etsy ? "Etsy" : (p.sikka ? "SIKKA" : ""));
     buy.appendChild(btn(buyUrl, "btn btn-buy", box.dataset.cart + "<span>" + tr("card.buy") + "</span><small class=\"via\">" + buyVia + "</small>"));

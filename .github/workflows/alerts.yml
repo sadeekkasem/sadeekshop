@@ -1,0 +1,23 @@
+# Every hour asks Supabase to send the email alerts that are due (daily report, "no visits").
+# The function itself makes sure each email is sent at most once per day, so extra runs change nothing.
+name: Email alerts
+
+on:
+  schedule:
+    - cron: "41 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  alerts:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Run daily-report
+        run: |
+          code=$(curl -s -o out.json -w "%{http_code}" -X POST \
+            -H "apikey: sb_publishable_FqN53bpc23Le9WVCuUnc5g_ZQQTqnDD" -H "content-type: application/json" -d '{}' \
+            https://opauvtpuiqrywpsgcorv.supabase.co/functions/v1/daily-report)
+          cat out.json; echo
+          if [ "$code" = "404" ]; then echo "daily-report is not deployed yet - nothing to do."; exit 0; fi
+          test "$code" = "200"
