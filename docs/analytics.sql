@@ -117,4 +117,9 @@ end $$;
 revoke all on function public.site_stats(timestamptz, timestamptz) from public;
 grant execute on function public.site_stats(timestamptz, timestamptz) to authenticated;
 
--- 5) Keep the visit log small: events older than 13 months can be deleted from the Statistics tab (button "حذف القديم").
+-- 5) The two Edge Functions (sales-webhook, daily-report) work as service_role.
+--    Newer Supabase projects do not give it table rights automatically, so grant them here.
+grant select, insert, update, delete on public.events, public.sales, public.alert_settings to service_role;
+grant select on public.admins to service_role;
+
+-- 6) Keep the visit log small: events older than 13 months can be deleted from the Statistics tab (button "حذف القديم").
