@@ -93,7 +93,7 @@ def card(p, i):
         action = f'<a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>'
     cart_btn = ''  # السلة والدفع الداخلي متوقفان
     return f'''
-<article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}" data-type="{p['type']}">
+<article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}" data-type="{p['type']}" data-pid="{pid}">
   {media}
   <div class="card-body">
     <ul class="langs">{langs}</ul>
@@ -445,6 +445,7 @@ doc = f'''<!doctype html>
 <script src="assets/app.js" defer></script>
 <script src="assets/demo.js" defer></script>
 <script src="assets/fx.js" defer></script>
+<script src="assets/track.js" defer></script>
 </body>
 </html>
 '''
@@ -545,11 +546,29 @@ req_doc = f'''<!doctype html>
 <script>window.I18N={json.dumps(T, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
 <script src="assets/app.js" defer></script>
 <script src="assets/request.js" defer></script>
+<script src="assets/track.js" defer></script>
 </body>
 </html>
 '''
 open(f"{OUT}/custom-template.html", "w", encoding="utf-8").write(req_doc)
 print("written custom-template.html", len(req_doc))
+
+# ---------- store links -> product id (used by the sales statistics) ----------
+from urllib.parse import urlparse as _up
+def _norm(u):
+    try:
+        x = _up(u); return ((x.hostname or "").removeprefix("www.") + x.path).lower().rstrip("/")
+    except Exception:
+        return ""
+LINKS = {}
+for _p in PRODUCTS:
+    for _k in ("payhip", "etsy", "sikka", "gumroad", "store_url"):
+        if _p.get(_k) and _norm(_p[_k]):
+            LINKS[_norm(_p[_k])] = _p["id"]
+open(f"{OUT}/assets/links.json", "w", encoding="utf-8").write(json.dumps(LINKS, ensure_ascii=False, separators=(",", ":")))
+NAMES = {_p["id"]: (_p["name"].get("ar") or _p["name"].get("en") or _p["id"]) for _p in PRODUCTS}
+open(f"{OUT}/assets/names.json", "w", encoding="utf-8").write(json.dumps(NAMES, ensure_ascii=False, separators=(",", ":")))
+print("written assets/links.json", len(LINKS))
 
 # ---------- checkout page ----------
 PRICES = {pp["id"]: pp["price"] for pp in PRODUCTS}

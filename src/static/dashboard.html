@@ -46,6 +46,17 @@ dialog::backdrop{background:#0008}
 #toast{position:fixed;bottom:16px;inset-inline:16px;max-width:520px;margin-inline:auto;background:var(--fg);color:var(--bg);padding:10px 14px;border-radius:10px;display:none;z-index:50}
 #toast.err{background:var(--bad);color:#fff}
 .login{max-width:380px;margin:12vh auto}
+.kv{list-style:none;margin:0;padding:0}.kv li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line)}
+.kv li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.kv li b{flex:none}
+.bars{display:flex;align-items:flex-end;gap:3px;height:184px;padding-top:8px;overflow-x:auto}
+.bars .d{flex:1 0 16px;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:16px}
+.bars .pair{height:132px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px}
+.bars .v{flex:1;max-width:22px;background:var(--acc);border-radius:3px 3px 0 0;min-height:1px}.bars .c{flex:1;max-width:22px;background:var(--warn);border-radius:3px 3px 0 0}
+.bars small{font-size:10px;color:var(--mut);writing-mode:vertical-rl;transform:rotate(180deg);height:34px}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--mut)}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:4px}
+.note-bad{color:var(--bad)}.note-warn{color:var(--warn)}.note-ok{color:var(--acc)}
+code.u{display:block;direction:ltr;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px;word-break:break-all;margin:4px 0}
+.chk{display:flex;gap:8px;align-items:center;margin:8px 0;color:var(--fg);font-size:14px}.chk input{width:auto}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -70,12 +81,63 @@ dialog::backdrop{background:#0008}
   <div class="stats" id="stats"></div>
   <div class="tabs">
     <button id="tabP" class="on">المنتجات</button>
-    <button id="tabO">الطلبات</button>
+    <button id="tabS">📊 الإحصاءات</button>
+    <button id="tabSales">💰 المبيعات</button>
+    <button id="tabA">🔔 التنبيهات</button>
+    <button id="tabO">الطلبات القديمة</button>
   </div>
 
   <div id="paneP">
     <div class="bar"><span class="muted">الموقع للعرض فقط: البيع يتم عبر رابط البيع لكل منتج (Payhip أو سكة أو Etsy أو Gumroad).</span><button class="pri" id="addP">+ منتج جديد</button></div>
     <div class="card tw"><table><thead><tr><th>المنتج</th><th>السعر</th><th>الملف</th><th>الحالة</th><th></th></tr></thead><tbody id="pBody"></tbody></table></div>
+  </div>
+
+  <div id="paneS" hidden>
+    <div class="bar">
+      <div class="row-act"><select id="sRange" style="width:auto"><option value="1">اليوم</option><option value="7" selected>آخر 7 أيام</option><option value="30">آخر 30 يوماً</option><option value="90">آخر 90 يوماً</option><option value="365">آخر سنة</option></select><button id="sReload">تحديث</button></div>
+      <span class="muted">العدّ مجهول الهوية: بدون كوكيز، وبدون أسماء أو عناوين IP.</span>
+    </div>
+    <div class="stats" id="sKpi"></div>
+    <div class="card"><div class="bar" style="margin:0"><h2>الزيارات والضغطات يومياً</h2><div class="legend"><span><i style="background:var(--acc)"></i>زيارات</span><span><i style="background:var(--warn)"></i>ضغط «اشترِ»</span></div></div><div class="bars" id="sChart"></div></div>
+    <div class="card tw"><h2>أين يتوقف الزائر؟</h2>
+      <p class="muted">لكل منتج: كم زائراً رآه، وكم ضغط «اشترِ»، وكم بيعاً تم. المبيعات تُحسب من تبويب المبيعات.</p>
+      <table><thead><tr><th>المنتج</th><th>رآه</th><th>ضغط «اشترِ»</th><th>نسبة الضغط</th><th>مبيعات</th><th>ملاحظة</th></tr></thead><tbody id="sFunnel"></tbody></table></div>
+    <div class="grid2">
+      <div class="card"><h2>من أين جاء الزوار</h2><ul class="kv" id="sRef"></ul></div>
+      <div class="card"><h2>الضغطات حسب المتجر</h2><ul class="kv" id="sStore"></ul></div>
+      <div class="card"><h2>الأجهزة</h2><ul class="kv" id="sDev"></ul></div>
+      <div class="card"><h2>لغة الموقع</h2><ul class="kv" id="sLang"></ul></div>
+    </div>
+    <div class="card"><h2>الصفحات</h2><ul class="kv" id="sPage"></ul></div>
+    <p><button class="bad" id="sPurge">حذف سجلات الزيارات الأقدم من 13 شهراً</button></p>
+  </div>
+
+  <div id="paneSales" hidden>
+    <div class="bar"><div class="row-act"><select id="slRange" style="width:auto"><option value="7">آخر 7 أيام</option><option value="30" selected>آخر 30 يوماً</option><option value="90">آخر 90 يوماً</option><option value="365">آخر سنة</option><option value="0">الكل</option></select><button id="slReload">تحديث</button></div><button class="pri" id="slAdd">+ إضافة بيع يدوي</button></div>
+    <div class="stats" id="slKpi"></div>
+    <div class="card tw"><table><thead><tr><th>التاريخ</th><th>المتجر</th><th>المنتج</th><th>المبلغ</th><th>الرسوم</th><th>استرجاع</th><th>الصافي</th><th></th></tr></thead><tbody id="slBody"></tbody></table>
+      <p class="muted" id="slEmpty" hidden>لا توجد مبيعات في هذه الفترة.</p></div>
+    <div class="card">
+      <h2>ربط المتاجر (مرة واحدة)</h2>
+      <p class="muted">مبيعات Payhip وGumroad تصل هنا تلقائياً بعد لصق هذين الرابطين في إعدادات المتجر. استبدل «KEY» بالمفتاح السري الذي حفظته في Supabase (SALES_WEBHOOK_KEY). مبيعات سكة وEtsy أضفها يدوياً.</p>
+      <label>Payhip ← Settings ← Developer ← Webhook URL</label><code class="u" id="whPayhip"></code>
+      <label>Gumroad ← Settings ← Advanced ← Ping endpoint</label><code class="u" id="whGum"></code>
+    </div>
+  </div>
+
+  <div id="paneA" hidden>
+    <div class="card" style="max-width:640px">
+      <h2>التنبيهات بالبريد</h2>
+      <form id="aForm">
+        <label for="aEmail">البريد الذي تصله التنبيهات</label><input id="aEmail" type="email" dir="ltr" required>
+        <label class="chk"><input type="checkbox" id="aDaily"> تقرير يومي (صباحاً): الزيارات، والضغطات، والمبيعات، ومصادر الزوار</label>
+        <label class="chk"><input type="checkbox" id="aSale"> رسالة فورية عند كل بيع في Payhip أو Gumroad</label>
+        <label class="chk"><input type="checkbox" id="aNoVisit"> تنبيه إذا لم يزر أحد الموقع خلال 24 ساعة (قد يكون الموقع متعطلاً)</label>
+        <label class="chk"><input type="checkbox" id="aStuck"> في التقرير: المنتجات التي يضغطها الزوار كثيراً دون أي بيع</label>
+        <p class="row-act" style="margin-top:12px"><button class="pri" type="submit" id="aSave">حفظ</button><button type="button" id="aTest">أرسل رسالة تجريبية الآن</button></p>
+        <p class="muted" id="aLast"></p>
+      </form>
+    </div>
   </div>
 
   <div id="paneO" hidden>
@@ -138,6 +200,26 @@ dialog::backdrop{background:#0008}
   </div>
 </dialog>
 
+<dialog id="slDlg">
+  <h2>إضافة بيع يدوي</h2>
+  <form id="slForm" method="dialog">
+    <div class="grid2">
+      <div><label for="sl_pl">المتجر</label><select id="sl_pl"><option value="sikka">سكة</option><option value="etsy">Etsy</option><option value="payhip">Payhip</option><option value="gumroad">Gumroad</option><option value="other">آخر</option></select></div>
+      <div><label for="sl_dt">التاريخ</label><input id="sl_dt" type="date" required></div>
+    </div>
+    <label for="sl_pr">المنتج</label><select id="sl_pr"></select>
+    <div class="grid2">
+      <div><label for="sl_am">المبلغ الذي دفعه الزبون</label><input id="sl_am" type="number" min="0" step="0.01" required></div>
+      <div><label for="sl_fe">رسوم المتجر والدفع</label><input id="sl_fe" type="number" min="0" step="0.01" value="0"></div>
+    </div>
+    <div class="grid2">
+      <div><label for="sl_cu">العملة</label><select id="sl_cu"><option>EUR</option><option>USD</option><option>SAR</option><option>GBP</option></select></div>
+      <div><label for="sl_no">ملاحظة (اختياري)</label><input id="sl_no" maxlength="300"></div>
+    </div>
+    <p class="row-act" style="margin-top:14px"><button class="pri" type="submit" id="slSave">حفظ</button><button type="button" id="slCancel">إغلاق</button></p>
+  </form>
+</dialog>
+
 <div id="toast" role="status"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -161,6 +243,8 @@ function el(tag,props,kids){var e=document.createElement(tag);
 function toast(msg,err){var t=$("toast");t.textContent=msg;t.className=err?"err":"";t.style.display="block";clearTimeout(toastT);toastT=setTimeout(function(){t.style.display="none";},err?7000:3500);}
 function explain(e){var m=(e&&e.message)||String(e);
   if(/check constraint|violates check/i.test(m)&&/category/i.test(m))return "قاعدة البيانات لا تعرف هذا المجال الجديد بعد: نفّذ الملف docs/categories.sql في Supabase (SQL Editor) مرة واحدة ثم احفظ مرة أخرى.";
+  if(/site_stats|relation .*(events|sales|alert_settings)|(events|sales|alert_settings).*does not exist|Could not find the (table|function)/i.test(m))return "الإحصاءات غير مفعّلة بعد في قاعدة البيانات: نفّذ الملف docs/analytics.sql في Supabase (SQL Editor) مرة واحدة.";
+  if(/not_admin/i.test(m))return "هذا الحساب ليس مديراً.";
   if(/permission denied|row-level security|violates row/i.test(m))return "ليست لديك صلاحية: تأكد أن بريدك مضاف في جدول admins وأن أمر الصلاحيات (grant) نُفّذ. التفاصيل: "+m;
   return m;}
 function safeName(n){var i=n.lastIndexOf("."),ext=i>0?n.slice(i).replace(/[^A-Za-z0-9.]/g,""):"";
@@ -204,9 +288,13 @@ $("publish").addEventListener("click",async function(){
 $("logout").addEventListener("click",async function(){await sb.auth.signOut();products=[];show(false);});
 
 /* ---------- tabs ---------- */
-function tab(p){$("paneP").hidden=!p;$("paneO").hidden=p;$("tabP").className=p?"on":"";$("tabO").className=p?"":"on";}
-$("tabP").addEventListener("click",function(){tab(true);});
-$("tabO").addEventListener("click",function(){tab(false);loadOrders();});
+var PANES={P:"paneP",S:"paneS",Sales:"paneSales",A:"paneA",O:"paneO"};
+function tab(k){Object.keys(PANES).forEach(function(x){$(PANES[x]).hidden=x!==k;$("tab"+x).className=x===k?"on":"";});}
+$("tabP").addEventListener("click",function(){tab("P");});
+$("tabO").addEventListener("click",function(){tab("O");loadOrders();});
+$("tabS").addEventListener("click",function(){tab("S");loadStats();});
+$("tabSales").addEventListener("click",function(){tab("Sales");loadSales();});
+$("tabA").addEventListener("click",function(){tab("A");loadAlerts();});
 
 /* ---------- products ---------- */
 async function refresh(){await loadProducts();await loadOrders();}
@@ -356,6 +444,136 @@ async function loadOrders(){
     b.appendChild(tr);
   });
 }
+
+/* ---------- statistics ---------- */
+var NAMES=null,SALES=[];
+async function names(){
+  if(NAMES)return NAMES;NAMES={};
+  try{var r=await fetch("assets/names.json",{cache:"no-cache"});if(r.ok)NAMES=await r.json();}catch(e){}
+  products.forEach(function(p){if(!NAMES[p.slug])NAMES[p.slug]=p.name_ar;});return NAMES;
+}
+function pname(slug){return (NAMES&&NAMES[slug])||slug||"—";}
+function dayKey(d){var y=d.getFullYear(),m=("0"+(d.getMonth()+1)).slice(-2),x=("0"+d.getDate()).slice(-2);return y+"-"+m+"-"+x;}
+function rangeOf(days){var to=new Date(Date.now()+60000);if(!days)return {from:new Date(0),to:to};var f=new Date();f.setHours(0,0,0,0);f.setDate(f.getDate()-(days-1));return {from:f,to:to};}
+function kv(id,list,label){var ul=$(id);ul.textContent="";var tot=list.reduce(function(a,x){return a+Number(x.n);},0);
+  if(!list.length){ul.appendChild(el("li",{class:"muted",text:"لا توجد بيانات بعد."}));return;}
+  list.forEach(function(x){var k=label?label(x.k):x.k;ul.appendChild(el("li",{},[el("span",{text:k}),el("b",{text:x.n+(tot?"  ("+Math.round(100*x.n/tot)+"%)":"")})]));});}
+function stat(box,items){var s=$(box);s.textContent="";items.forEach(function(x){s.appendChild(el("div",{class:"stat"},[el("b",{text:String(x[1])}),el("span",{text:x[0]})]));});}
+var DEV={m:"هاتف",t:"جهاز لوحي",d:"حاسوب","":"غير معروف"},LANG={ar:"العربية",en:"English",fi:"Suomi","":"—"};
+async function salesIn(from,to){
+  var q=sb.from("sales").select("*").order("sold_at",{ascending:false}).limit(2000);
+  if(from.getTime()>0)q=q.gte("sold_at",from.toISOString());q=q.lt("sold_at",to.toISOString());
+  var r=await q;if(r.error)throw r.error;return r.data;
+}
+function netOf(s){return Number(s.amount)-Number(s.fees)-Number(s.refunded);}
+async function loadStats(){
+  var days=Number($("sRange").value),rg=rangeOf(days);
+  await names();
+  var r=await sb.rpc("site_stats",{p_from:rg.from.toISOString(),p_to:rg.to.toISOString()});
+  if(r.error){toast(explain(r.error),true);return;}
+  var st=r.data,sl=[];try{sl=await salesIn(rg.from,rg.to);}catch(e){toast(explain(e),true);}
+  sl=sl.filter(function(s){return s.note!=="test";});
+  var net=sl.reduce(function(a,s){return a+netOf(s);},0);
+  stat("sKpi",[["زيارات",st.views],["ضغط «اشترِ»",st.clicks],["نسبة الضغط",st.views?(100*st.clicks/st.views).toFixed(1)+"%":"—"],["مبيعات",sl.length],["الصافي",net.toFixed(2)]]);
+  // daily bars
+  var map={};(st.by_day||[]).forEach(function(d){map[d.day]=d;});
+  var n=Math.min(days,90),bars=[],mx=1;
+  for(var i=n-1;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var k=dayKey(d),x=map[k]||{views:0,clicks:0};bars.push([k,x.views,x.clicks]);mx=Math.max(mx,x.views,x.clicks);}
+  var ch=$("sChart");ch.textContent="";
+  bars.forEach(function(b){var col=el("div",{class:"d",title:b[0]+": "+b[1]+" زيارة، "+b[2]+" ضغطة"});
+    var v=el("div",{class:"v"});v.style.height=Math.round(130*b[1]/mx)+"px";var c=el("div",{class:"c"});c.style.height=Math.round(130*b[2]/mx)+"px";
+    col.appendChild(el("div",{class:"pair"},[v,c]));col.appendChild(el("small",{text:b[0].slice(5)}));ch.appendChild(col);});
+  // funnel per product
+  var salesBy={};sl.forEach(function(s){if(s.product_slug)salesBy[s.product_slug]=(salesBy[s.product_slug]||0)+1;});
+  var rows={};(st.by_product||[]).forEach(function(x){rows[x.k]={seen:x.seen,clicks:x.clicks};});
+  Object.keys(salesBy).forEach(function(k){if(!rows[k])rows[k]={seen:0,clicks:0};});
+  var fb=$("sFunnel");fb.textContent="";
+  var keys=Object.keys(rows).sort(function(a,b){return (rows[b].clicks-rows[a].clicks)||(rows[b].seen-rows[a].seen);});
+  keys.forEach(function(k){var x=rows[k],sales=salesBy[k]||0,rate=x.seen?(100*x.clicks/x.seen):0,note,cls;
+    if(sales>0){note="✓ يبيع ("+sales+")";cls="note-ok";}
+    else if(x.clicks>=10){note="يضغطون ولا يشترون: راجع صفحته في المتجر (الصور، الوصف، السعر، طرق الدفع).";cls="note-bad";}
+    else if(x.seen>=30&&rate<2){note="يراه كثيرون ولا يضغطون: جرّب صورة أو عنواناً أوضح، أو سعراً أنسب.";cls="note-warn";}
+    else{note="بيانات قليلة بعد.";cls="muted";}
+    fb.appendChild(el("tr",{},[el("td",{text:pname(k)}),el("td",{text:String(x.seen)}),el("td",{text:String(x.clicks)}),el("td",{text:x.seen?rate.toFixed(1)+"%":"—"}),el("td",{text:String(sales)}),el("td",{class:cls,text:note})]));});
+  if(!keys.length)fb.appendChild(el("tr",{},[el("td",{colspan:"6",class:"muted",text:"لا توجد بيانات بعد. تظهر الأرقام بعد أول زيارات للموقع."})]));
+  kv("sRef",st.by_ref||[],function(k){return k==="(direct)"?"مباشر / غير معروف":k;});
+  kv("sStore",st.by_store||[]);kv("sDev",st.by_device||[],function(k){return DEV[k]||k;});
+  kv("sLang",st.by_lang||[],function(k){return LANG[k]||k;});kv("sPage",st.by_page||[]);
+}
+$("sRange").addEventListener("change",loadStats);$("sReload").addEventListener("click",loadStats);
+(function(){var b=$("sPurge"),armed=false,t;b.addEventListener("click",async function(){
+  if(!armed){armed=true;b.textContent="اضغط مرة ثانية للتأكيد";t=setTimeout(function(){armed=false;b.textContent="حذف سجلات الزيارات الأقدم من 13 شهراً";},4000);return;}
+  clearTimeout(t);armed=false;b.textContent="حذف سجلات الزيارات الأقدم من 13 شهراً";
+  var d=new Date();d.setMonth(d.getMonth()-13);var r=await sb.from("events").delete().lt("at",d.toISOString());
+  if(r.error){toast(explain(r.error),true);return;}toast("تم حذف السجلات القديمة");});})();
+
+/* ---------- sales ---------- */
+var PL={payhip:"Payhip",gumroad:"Gumroad",etsy:"Etsy",sikka:"سكة",other:"آخر"};
+function fmt(n,c){return Number(n).toFixed(2)+" "+(c||"EUR");}
+async function loadSales(){
+  await names();
+  $("whPayhip").textContent=SB_URL+"/functions/v1/sales-webhook?src=payhip&key=KEY";
+  $("whGum").textContent=SB_URL+"/functions/v1/sales-webhook?src=gumroad&key=KEY";
+  var rg=rangeOf(Number($("slRange").value));
+  try{SALES=await salesIn(rg.from,rg.to);}catch(e){toast(explain(e),true);return;}
+  var by={};SALES.forEach(function(s){var c=s.currency||"EUR";by[c]=by[c]||{g:0,f:0,r:0,n:0};by[c].g+=Number(s.amount);by[c].f+=Number(s.fees);by[c].r+=Number(s.refunded);by[c].n+=netOf(s);});
+  var items=[["عدد المبيعات",SALES.length]];Object.keys(by).forEach(function(c){items.push(["الإجمالي "+c,by[c].g.toFixed(2)]);items.push(["الرسوم "+c,by[c].f.toFixed(2)]);if(by[c].r)items.push(["المسترجع "+c,by[c].r.toFixed(2)]);items.push(["الصافي "+c,by[c].n.toFixed(2)]);});
+  stat("slKpi",items);
+  var b=$("slBody");b.textContent="";$("slEmpty").hidden=SALES.length>0;
+  SALES.forEach(function(s){
+    var del=el("button",{class:"bad",text:"حذف"}),armed=false,t;
+    del.addEventListener("click",async function(){if(!armed){armed=true;del.textContent="تأكيد؟";t=setTimeout(function(){armed=false;del.textContent="حذف";},4000);return;}
+      clearTimeout(t);var r=await sb.from("sales").delete().eq("id",s.id);if(r.error){toast(explain(r.error),true);return;}toast("تم الحذف");loadSales();});
+    b.appendChild(el("tr",{},[el("td",{text:new Date(s.sold_at).toLocaleDateString("ar")}),
+      el("td",{},[el("span",{class:"tag"+(s.source==="manual"?" off":""),text:(PL[s.platform]||s.platform)+(s.source==="manual"?" · يدوي":"")})]),
+      el("td",{text:s.product_slug?pname(s.product_slug):(s.product||"—")}),el("td",{text:fmt(s.amount,s.currency)}),el("td",{text:fmt(s.fees,s.currency)}),
+      el("td",{text:Number(s.refunded)?fmt(s.refunded,s.currency):"—"}),el("td",{},[el("b",{text:fmt(netOf(s),s.currency)})]),el("td",{},[del])]));
+  });
+}
+$("slRange").addEventListener("change",loadSales);$("slReload").addEventListener("click",loadSales);
+$("slAdd").addEventListener("click",async function(){
+  await names();var sel=$("sl_pr");sel.textContent="";
+  Object.keys(NAMES).sort(function(a,b){return pname(a).localeCompare(pname(b),"ar");}).forEach(function(k){sel.appendChild(el("option",{value:k,text:pname(k)}));});
+  sel.appendChild(el("option",{value:"",text:"منتج آخر / خدمة"}));
+  $("sl_dt").value=dayKey(new Date());$("sl_am").value="";$("sl_fe").value="0";$("sl_no").value="";$("slDlg").showModal();
+});
+$("slCancel").addEventListener("click",function(){$("slDlg").close();});
+$("slForm").addEventListener("submit",async function(ev){ev.preventDefault();
+  var slug=$("sl_pr").value,amount=Number($("sl_am").value),fees=Number($("sl_fe").value)||0;
+  if(!(amount>=0)||fees<0||fees>amount){toast("تحقق من المبلغ والرسوم (الرسوم لا تتجاوز المبلغ).",true);return;}
+  var id="manual:"+(window.crypto&&crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(36).slice(2));
+  var row={id:id,platform:$("sl_pl").value,sold_at:new Date($("sl_dt").value+"T12:00:00").toISOString(),product:slug?pname(slug):($("sl_no").value.trim()||"منتج آخر"),
+    product_slug:slug,amount:amount,fees:fees,currency:$("sl_cu").value,source:"manual",note:$("sl_no").value.trim()};
+  $("slSave").disabled=true;var r=await sb.from("sales").insert(row);$("slSave").disabled=false;
+  if(r.error){toast(explain(r.error),true);return;}
+  $("slDlg").close();toast("تمت إضافة البيع");loadSales();
+});
+
+/* ---------- alerts ---------- */
+async function loadAlerts(){
+  var r=await sb.from("alert_settings").select("*").eq("id",1).maybeSingle();
+  if(r.error){toast(explain(r.error),true);return;}
+  var a=r.data||{};$("aEmail").value=a.email||(sb&&$("who").textContent)||"";
+  $("aDaily").checked=a.daily_report!==false;$("aSale").checked=a.on_sale!==false;$("aNoVisit").checked=a.no_visits!==false;$("aStuck").checked=a.clicks_no_sale!==false;
+  $("aLast").textContent=a.last_daily?("آخر تقرير يومي أُرسل: "+a.last_daily):"لم يُرسل تقرير يومي بعد. يصل كل صباح بعد الساعة 7 بتوقيت فنلندا.";
+}
+$("aForm").addEventListener("submit",async function(ev){ev.preventDefault();
+  $("aSave").disabled=true;
+  var r=await sb.from("alert_settings").upsert({id:1,email:$("aEmail").value.trim(),daily_report:$("aDaily").checked,on_sale:$("aSale").checked,no_visits:$("aNoVisit").checked,clicks_no_sale:$("aStuck").checked,updated_at:new Date().toISOString()});
+  $("aSave").disabled=false;if(r.error){toast(explain(r.error),true);return;}toast("تم حفظ التنبيهات");
+});
+$("aTest").addEventListener("click",async function(){
+  var b=$("aTest");b.disabled=true;
+  try{var s=await sb.auth.getSession();var tok=s.data&&s.data.session?s.data.session.access_token:"";
+    var res=await fetch(SB_URL+"/functions/v1/daily-report",{method:"POST",headers:{"content-type":"application/json","apikey":SB_KEY,"authorization":"Bearer "+tok},body:JSON.stringify({test:true})});
+    var j={};try{j=await res.json();}catch(e){}
+    if(res.ok&&j.ok&&j.skipped==="no_email")toast("احفظ بريدك أولاً ثم جرّب.",true);
+    else if(res.ok&&j.ok)toast("أُرسلت رسالة تجريبية إلى "+$("aEmail").value+". افحص البريد (وصندوق الرسائل غير المرغوبة).");
+    else if(res.status===404)toast("دالة التقارير غير منشورة بعد في Supabase (daily-report).",true);
+    else toast("تعذّر الإرسال: "+(j.error||res.status),true);
+  }catch(e){toast("تعذّر الاتصال بدالة التقارير.",true);}
+  b.disabled=false;
+});
 
 boot();
 })();
