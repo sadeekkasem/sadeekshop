@@ -103,7 +103,7 @@ def merge_db(items):
         q["_site"] = bool(r.get("file_path"))
         if r.get("active"):
             q["hidden"] = False
-            q["status"] = "" if (has_ext or q["_site"]) else "soon"
+            q["status"] = "" if has_ext else "soon"  # بلا رابط متجر خارجي = عرض فقط بعلامة "قريبًا"
         else:
             if p.get("status") == "soon":
                 pass

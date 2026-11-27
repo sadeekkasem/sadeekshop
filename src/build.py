@@ -58,7 +58,7 @@ def card(p, i):
     if soon:
         tags += f'<span class="tag tag-soon">{tx("card.soon")}</span>'
     pr = price(p["price"])
-    own = bool(p.get("site") and p["price"] and not soon and not dl)  # يُباع من موقعنا: سلة ودفع داخلي فقط
+    own = False  # عرض فقط: لا دفع داخل الموقع، البيع عبر روابط المتاجر (Payhip / Etsy / Gumroad / SIKKA)
     buy_url, buy_via = (("", "") if soon or dl or own else buy_link(p))
     alt_etsy = p.get('etsy') if p.get('payhip') and not soon and not dl and not own else ''
     show_sikka = bool(p.get('sikka') and buy_via != "SIKKA") and not soon and not dl and not own
@@ -78,7 +78,7 @@ def card(p, i):
     else:
         media = f'<a class="card-media" href="{e(buy_url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">\n    {media_img}\n    {tags_html}\n  </a>'
         action = f'<a class="btn btn-buy" href="{e(buy_url)}" target="_blank" rel="noopener">{icon("cart")}{tx("card.buy")}<small class="via">{buy_via}</small></a>'
-    cart_btn = (f'<button type="button" class="btn btn-cart" data-add="{pid}" data-price="{p["price"]}">{icon("cart")}<span data-i18n="cart.add">{e(t("cart.add"))}</span></button>') if (p["price"] and not soon and not dl and p.get("site")) else ''
+    cart_btn = ''  # السلة والدفع الداخلي متوقفان
     return f'''
 <article class="card{' wide' if pid in WIDE else ''}" data-cat="{p['cat']}" data-type="{p['type']}">
   {media}
@@ -431,7 +431,6 @@ doc = f'''<!doctype html>
 <script>window.DEMO={json.dumps(DEMO_DATA, ensure_ascii=False, separators=(",",":")).replace("</","<\\/")};</script>
 <script src="assets/app.js" defer></script>
 <script src="assets/demo.js" defer></script>
-<script src="assets/cart.js" defer></script>
 <script src="assets/fx.js" defer></script>
 </body>
 </html>
@@ -548,6 +547,7 @@ co_doc = f'''<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-i18n="co.meta.title">{e(t("co.meta.title"))}</title>
 <meta name="robots" content="noindex">
+<script>if(!/[?&]paid=1\b/.test(location.search))location.replace("index.html#products");</script>
 <meta name="theme-color" content="#0e5a35">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
