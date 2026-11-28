@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>المحاسبة – SkillPostApp</title>
+<style>
+@font-face{font-family:Cairo;src:url(assets/fonts/cairo.woff2) format("woff2");font-display:swap}
+:root{--bg:#f4f6f8;--card:#fff;--fg:#1c2530;--mut:#66727f;--line:#dde3e9;--acc:#0f7a5a;--acc-fg:#fff;--bad:#c0392b;--warn:#b7791f;--soft:#e8f3ef;
+  --s1:#257de0;--s2:#f47230;--s3:#00b894;--grid:#e9edf1}
+@media (prefers-color-scheme:dark){:root{--bg:#12171c;--card:#1b222a;--fg:#e8edf2;--mut:#93a0ad;--line:#2b3540;--acc:#2fb88a;--acc-fg:#0b1511;--bad:#ff7b6b;--warn:#e3b04b;--soft:#1d2d28;
+  --s1:#338ced;--s2:#e76624;--s3:#00a888;--grid:#26303a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 Cairo,system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:0}h2{font-size:17px;margin:0 0 10px}h3{font-size:15px;margin:14px 0 6px}
+.bar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.form2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}@media (max-width:640px){.form2{grid-template-columns:1fr}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.stat b{display:block;font-size:21px;direction:ltr;text-align:right;font-variant-numeric:tabular-nums}.stat span{color:var(--mut);font-size:13px}.stat small{color:var(--mut);font-size:12px}
+button,.btn{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:6px 12px;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block}
+button.pri,.btn.pri{background:var(--acc);color:var(--acc-fg);border-color:var(--acc)}
+button.bad{color:var(--bad);border-color:var(--bad)}
+button:disabled{opacity:.5;cursor:not-allowed}
+button.sm{padding:2px 8px;font-size:13px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button.on{background:var(--soft);border-color:var(--acc);color:var(--acc);font-weight:700}
+input,select,textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 9px;width:100%}
+input[type=checkbox]{width:auto}
+label{display:block;font-size:13px;color:var(--mut);margin:8px 0 3px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mut);font-weight:600;font-size:13px;white-space:nowrap}
+td.n,th.n{direction:ltr;text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.tot td{font-weight:700;border-top:2px solid var(--fg)}
+tr.sub td{font-weight:700;background:var(--soft)}
+tr.grp td{color:var(--mut);font-size:13px;padding-top:12px;border-bottom:0}
+tr.l2 td{color:var(--mut);font-size:13px;border-bottom:0;padding-top:0;padding-bottom:2px}
+.tag{display:inline-block;padding:0 8px;border-radius:99px;font-size:12px;background:var(--soft);color:var(--acc);white-space:nowrap}
+.tag.auto{background:#0000;border:1px solid var(--line);color:var(--mut)}
+.muted{color:var(--mut);font-size:13px}
+.ok{color:var(--acc);font-weight:700}.badc{color:var(--bad);font-weight:700}.warnc{color:var(--warn);font-weight:700}
+.neg{color:var(--bad)}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);width:min(860px,96vw);padding:16px;max-height:94vh;overflow:auto}
+dialog::backdrop{background:#0008}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;display:none;z-index:99;max-width:92vw;white-space:pre-line}
+#toast.err{background:var(--bad);color:#fff}
+.chart{position:relative;height:280px}.chart.sm{height:230px}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--mut);flex-wrap:wrap;margin-bottom:6px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:5px;vertical-align:middle}
+.legend i.line{height:2px;width:14px;border-radius:0}
+details.tbl summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:6px}
+.issue{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sev{display:inline-block;min-width:54px;text-align:center;border-radius:99px;font-size:12px;padding:0 6px;margin-inline-end:6px}
+.sev.bad{background:#c0392b22;color:var(--bad)}.sev.warn{background:#b7791f22;color:var(--warn)}.sev.info{background:var(--soft);color:var(--acc)}
+.lines td{padding:4px}.lines select,.lines input{padding:4px 6px}
+.diff{font-weight:700}
+.imp td{padding:4px 6px}.imp select{padding:3px 6px;min-width:190px}
+tr.st-invalid td,tr.st-dup_existing td,tr.st-dup_file td{color:var(--mut)}
+.bud input{width:84px;padding:3px 5px;text-align:left;direction:ltr}
+.stmt{max-width:760px}
+.chk{display:flex;gap:8px;align-items:center;margin:8px 0;font-size:14px;color:var(--fg)}
+[hidden]{display:none!important}
+@media print{
+  body{background:#fff;color:#000;font-size:12px}
+  .noprint,.tabs,#toast,.bar .row,dialog{display:none!important}
+  .card{border:0;padding:0}
+  .pane:not(.printing){display:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <div><h1>📒 المحاسبة <span class="muted" id="coName"></span></h1><span class="muted" id="who"></span></div>
+    <div class="row noprint">
+      <a class="btn" href="dashboard.html">← لوحة التحكم</a>
+      <button id="syncBtn" title="يسجّل المبيعات الجديدة في دفتر اليومية">🔄 تحديث المبيعات</button>
+    </div>
+  </div>
+
+  <div id="gate" class="card" hidden>
+    <h2>سجّل الدخول أولاً</h2>
+    <p>افتح <a href="dashboard.html">لوحة التحكم</a> وسجّل الدخول بحساب المدير، ثم ارجع إلى هذه الصفحة.</p>
+  </div>
+  <div id="setup" class="card" hidden>
+    <h2>نظام المحاسبة غير مفعّل بعد في قاعدة البيانات</h2>
+    <p>نفّذ الملف <b>docs/accounting.sql</b> في Supabase (SQL Editor) مرة واحدة، ثم حدّث هذه الصفحة.</p>
+    <p class="muted" id="setupErr"></p>
+  </div>
+
+  <div id="app" hidden>
+    <div class="card noprint">
+      <div class="row">
+        <label style="margin:0">الفترة:</label>
+        <select id="preset" style="width:auto">
+          <option value="ytd">هذه السنة</option><option value="m">هذا الشهر</option><option value="pm">الشهر الماضي</option>
+          <option value="q">هذا الربع</option><option value="py">السنة الماضية</option><option value="all">كل الفترات</option><option value="custom">مخصصة</option>
+        </select>
+        <label style="margin:0">من</label><input type="date" id="from" style="width:auto">
+        <label style="margin:0">إلى</label><input type="date" id="to" style="width:auto">
+        <span class="muted" id="syncInfo"></span>
+      </div>
+    </div>
+
+    <div class="tabs noprint" role="tablist">
+      <button data-t="ov" class="on">📊 نظرة عامة</button>
+      <button data-t="jr">📓 دفتر اليومية</button>
+      <button data-t="lg">📒 دفتر الأستاذ</button>
+      <button data-t="tb">⚖️ ميزان المراجعة</button>
+      <button data-t="st">📑 القوائم المالية</button>
+      <button data-t="bd">🎯 الموازنة</button>
+      <button data-t="cl">🧹 تنظيف البيانات</button>
+      <button data-t="ac">🗂 دليل الحسابات</button>
+      <button data-t="au">📜 سجل التغييرات</button>
+      <button data-t="se">⚙️ الإعدادات</button>
+    </div>
+
+    <!-- overview -->
+    <section class="pane" id="p_ov">
+      <div class="grid" id="kpis"></div>
+      <div class="card" id="ovWarn" hidden></div>
+      <div class="card">
+        <h2>الإيرادات والمصروفات والربح شهرياً (€)</h2>
+        <div class="legend"><span><i style="background:var(--s1)"></i>الإيرادات</span><span><i style="background:var(--s2)"></i>المصروفات</span><span><i class="line" style="background:var(--s3)"></i>صافي الربح</span></div>
+        <div class="chart"><canvas id="chMonthly" aria-label="الإيرادات والمصروفات والربح شهرياً"></canvas></div>
+        <details class="tbl"><summary>عرض البيانات كجدول</summary><div class="tw" id="tMonthly"></div></details>
+      </div>
+      <div class="grid2">
+        <div class="card"><h2>رصيد النقدية في نهاية كل شهر (€)</h2><div class="chart sm"><canvas id="chCash" aria-label="رصيد النقدية"></canvas></div>
+          <details class="tbl"><summary>عرض البيانات كجدول</summary><div class="tw" id="tCash"></div></details></div>
+        <div class="card"><h2>توزيع المصروفات (€)</h2><div class="chart sm"><canvas id="chExp" aria-label="توزيع المصروفات"></canvas></div>
+          <details class="tbl"><summary>عرض البيانات كجدول</summary><div class="tw" id="tExp"></div></details></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h2>صافي المبيعات حسب المتجر (€)</h2><div class="chart sm"><canvas id="chPlat" aria-label="المبيعات حسب المتجر"></canvas></div>
+          <details class="tbl"><summary>عرض البيانات كجدول</summary><div class="tw" id="tPlat"></div></details></div>
+        <div class="card"><h2>الإيرادات حسب الحساب (€)</h2><div class="chart sm"><canvas id="chRev" aria-label="الإيرادات حسب الحساب"></canvas></div>
+          <details class="tbl"><summary>عرض البيانات كجدول</summary><div class="tw" id="tRev"></div></details></div>
+      </div>
+    </section>
+
+    <!-- journal -->
+    <section class="pane" id="p_jr" hidden>
+      <div class="card">
+        <div class="bar">
+          <div class="row">
+            <button class="pri" id="newExp">+ مصروف / مشتريات</button>
+            <button id="newTr">+ تحويل بين حسابين</button>
+            <button id="newEntry">+ قيد يدوي</button>
+          </div>
+          <div class="row">
+            <select id="jKind" style="width:auto"><option value="">كل الأنواع</option></select>
+            <input id="jSearch" placeholder="بحث: بيان، طرف، رقم مستند، حساب…" style="width:240px">
+          </div>
+        </div>
+        <p class="muted">قيود البيع والاسترداد تُنشأ تلقائياً من تبويب المبيعات في لوحة التحكم ولا تُعدَّل هنا. لتصحيحها عدّل البيع نفسه ثم اضغط «تحديث المبيعات».</p>
+        <div class="tw" id="jTable"></div>
+        <p class="row"><button id="jMore" hidden>عرض المزيد</button><span class="muted" id="jCount"></span></p>
+      </div>
+    </section>
+
+    <!-- ledger -->
+    <section class="pane" id="p_lg" hidden>
+      <div class="card">
+        <div class="bar"><div class="row"><label style="margin:0">الحساب</label><select id="lgAcc" style="width:auto;min-width:260px"></select></div>
+          <div class="row noprint"><button id="lgCsv">⬇ CSV</button><button class="pr">🖨 طباعة</button></div></div>
+        <div class="tw" id="lgTable"></div>
+      </div>
+    </section>
+
+    <!-- trial balance -->
+    <section class="pane" id="p_tb" hidden>
+      <div class="card">
+        <div class="bar"><h2 style="margin:0">ميزان المراجعة <span class="muted" id="tbPeriod"></span></h2>
+          <div class="row noprint"><button id="tbCsv">⬇ CSV</button><button class="pr">🖨 طباعة</button></div></div>
+        <div id="tbCheck"></div>
+        <div class="tw" id="tbTable"></div>
+      </div>
+    </section>
+
+    <!-- statements -->
+    <section class="pane" id="p_st" hidden>
+      <div class="tabs noprint" id="stTabs">
+        <button data-s="is" class="on">قائمة الدخل</button>
+        <button data-s="bs">الميزانية العمومية</button>
+        <button data-s="cf">قائمة التدفقات النقدية</button>
+        <button data-s="vat">ضريبة القيمة المضافة (ALV)</button>
+      </div>
+      <div class="card"><div class="bar"><div></div><div class="row noprint"><button class="pr">🖨 طباعة</button></div></div><div class="tw stmt" id="stBody"></div></div>
+    </section>
+
+    <!-- budget -->
+    <section class="pane" id="p_bd" hidden>
+      <div class="card">
+        <div class="bar">
+          <div class="row"><label style="margin:0">السنة</label><select id="bdYear" style="width:auto"></select></div>
+          <div class="row noprint"><button class="pri" id="bdSave" disabled>حفظ الموازنة</button></div>
+        </div>
+        <p class="muted">اكتب المبلغ المخطط لكل حساب في كل شهر، أو اكتب المبلغ السنوي في عمود «سنوي» ليتوزع على 12 شهراً. الأرقام بالأخضر أفضل من الخطة، وبالأحمر أسوأ منها.</p>
+        <div class="tw bud" id="bdGrid"></div>
+      </div>
+      <div class="card">
+        <h2>الربح الفعلي مقابل المخطط شهرياً (€)</h2>
+        <div class="legend"><span><i style="background:var(--s1)"></i>الفعلي</span><span><i style="background:var(--s2)"></i>المخطط</span></div>
+        <div class="chart sm"><canvas id="chBud" aria-label="الربح الفعلي مقابل المخطط"></canvas></div>
+        <details class="tbl"><summary>عرض البيانات كجدول</summary><div class="tw" id="tBud"></div></details>
+      </div>
+      <div class="card"><h2>مقارنة الموازنة بالفعلي حسب الحساب (السنة كاملة)</h2><div class="tw" id="bdCmp"></div></div>
+    </section>
+
+    <!-- cleaning -->
+    <section class="pane" id="p_cl" hidden>
+      <div class="card">
+        <div class="bar"><h2 style="margin:0">فحص البيانات</h2><button class="pri noprint" id="clRun">🔍 افحص الآن</button></div>
+        <p class="muted">يفحص المبيعات وقيود اليومية بحثاً عن: المكرر، التجريبي، المبالغ غير المنطقية، العملات بلا سعر صرف، التواريخ المستقبلية، الحسابات الموقوفة، المسافات الزائدة، وأسماء الأطراف المكتوبة بأشكال مختلفة.</p>
+        <div id="clSummary"></div>
+      </div>
+      <div class="card"><h2>المبيعات</h2><div id="clSales" class="muted">اضغط «افحص الآن».</div></div>
+      <div class="card"><h2>قيود اليومية</h2><div id="clEntries" class="muted">اضغط «افحص الآن».</div></div>
+      <div class="card"><h2>أسماء الأطراف المتشابهة</h2><div id="clPartners" class="muted">اضغط «افحص الآن».</div></div>
+      <div class="card" id="impCard">
+        <h2>📥 استيراد كشف حساب أو تقرير منصة (CSV)</h2>
+        <p class="muted">ارفع كشف البنك أو تقرير Payhip/Gumroad بصيغة CSV. يُنظَّف الملف تلقائياً (المسافات، صيغ الأرقام والتواريخ، الأسطر الفارغة)، وتُكشف الأسطر المكررة والمستوردة من قبل، ويُقترح الحساب المقابل لكل حركة. لا يُسجَّل شيء قبل أن تراجع وتضغط «استيراد المحدد».</p>
+        <div class="form2">
+          <div><label for="imFile">الملف</label><input type="file" id="imFile" accept=".csv,.txt,text/csv"></div>
+          <div><label for="imCash">الكشف يخص حساب</label><select id="imCash"></select></div>
+          <div><label for="imDelim">الفاصل بين الأعمدة</label><select id="imDelim"><option value="">تلقائي</option><option value=",">فاصلة ,</option><option value=";">فاصلة منقوطة ;</option><option value="tab">Tab</option><option value="|">|</option></select></div>
+          <div><label for="imDate">صيغة التاريخ في الملف</label><select id="imDate"><option value="auto">تلقائي</option><option value="dmy">يوم.شهر.سنة (فنلندا/أوروبا)</option><option value="ymd">سنة-شهر-يوم</option><option value="mdy">شهر/يوم/سنة (أمريكا)</option></select></div>
+          <div><label class="chk"><input type="checkbox" id="imHeader" checked> السطر الأول عناوين الأعمدة</label></div>
+        </div>
+        <div id="imMap" hidden>
+          <h3>ربط الأعمدة</h3>
+          <div class="form2" id="imMapGrid"></div>
+        </div>
+        <div id="imNote"></div>
+        <div class="tw" id="imPrev"></div>
+        <p class="row"><button class="pri" id="imGo" disabled>استيراد المحدد</button><span id="imInfo" class="muted"></span></p>
+      </div>
+      <div class="card">
+        <h2>تجهيز البيانات للتحليل</h2>
+        <p class="muted">ملف CSV نظيف (سطر لكل حركة) للفترة المختارة: التاريخ، الشهر، السنة، نوع القيد، الطرف، الحساب، النوع، مدين، دائن، والمبلغ بإشارته الصحيحة. يُفتح مباشرة في Excel أو Power BI أو Google Sheets.</p>
+        <div class="row"><button id="dsCsv" class="pri">⬇ بيانات اليومية للتحليل (CSV)</button><button id="dsSales">⬇ المبيعات (CSV)</button></div>
+      </div>
+    </section>
+
+    <!-- chart of accounts -->
+    <section class="pane" id="p_ac" hidden>
+      <div class="card">
+        <div class="bar"><h2 style="margin:0">دليل الحسابات</h2><button class="pri noprint" id="accNew">+ حساب جديد</button></div>
+        <p class="muted">الحسابات المميزة بـ 🔒 يستخدمها النظام في القيود التلقائية، فلا تُحذف ولا تُوقف. الحساب المستخدم في قيود لا يُحذف، لكن يمكن إيقافه.</p>
+        <div class="tw" id="accTable"></div>
+      </div>
+    </section>
+
+    <!-- change log -->
+    <section class="pane" id="p_au" hidden>
+      <div class="card">
+        <div class="bar"><h2 style="margin:0">📜 سجل التغييرات</h2>
+          <div class="row noprint"><select id="auTbl" style="width:auto">
+            <option value="">كل السجلات</option><option value="acc_entries">قيود اليومية</option><option value="sales">المبيعات</option>
+            <option value="acc_accounts">دليل الحسابات</option><option value="acc_budget">الموازنة</option><option value="acc_fx_rates">أسعار الصرف</option><option value="acc_settings">الإعدادات</option>
+          </select><button id="auCsv">⬇ CSV</button></div></div>
+        <p class="muted">كل إضافة أو تعديل أو حذف يُسجَّل هنا تلقائياً مع القيمة القديمة والجديدة واسم من قام به. هذا السجل لا يمكن تعديله ولا حذفه من الصفحة.</p>
+        <div class="tw" id="auTable"></div>
+        <p><button id="auMore" hidden>عرض المزيد</button></p>
+      </div>
+    </section>
+
+    <!-- settings -->    <!-- settings -->
+    <section class="pane" id="p_se" hidden>
+      <div class="card">
+        <h2>الإعدادات العامة</h2>
+        <form id="setForm" class="form2">
+          <div><label for="s_name">اسم النشاط</label><input id="s_name" maxlength="120"></div>
+          <div><label for="s_fy">أول شهر في السنة المالية</label><select id="s_fy"></select></div>
+          <div><label class="chk"><input type="checkbox" id="s_vat"> أنا مسجّل في ضريبة القيمة المضافة (ALV)</label>
+            <p class="muted" style="margin:0">عند التفعيل تُقسَم كل مبيعة إلى إيراد + ضريبة مستحقة بالنسبة أدناه، ويظهر خيار الضريبة في نموذج المصروفات.</p></div>
+          <div><label for="s_rate">نسبة الضريبة %</label><input id="s_rate" type="number" min="0" max="99" step="0.1" dir="ltr"></div>
+          <div><label for="s_lock">تاريخ الإقفال (لا يمكن تعديل ما قبله)</label><input id="s_lock" type="date">
+            <p class="muted" style="margin:0">استخدمه بعد تقديم الإقرار أو إغلاق السنة حتى لا تتغير الأرقام القديمة بالخطأ.</p></div>
+          <div style="align-self:end"><button class="pri" type="submit">حفظ الإعدادات</button></div>
+        </form>
+      </div>
+      <div class="card">
+        <h2>أسعار الصرف إلى اليورو</h2>
+        <p class="muted">لكل مبيعة بعملة غير اليورو يُستخدم سعر الشهر نفسه، أو آخر سعر قبله. مثال: 1 USD = 0.92 EUR. المصدر المقترح: سعر البنك المركزي الأوروبي (ECB) أول كل شهر.</p>
+        <form id="fxForm" class="row">
+          <input id="fx_cur" placeholder="USD" maxlength="3" style="width:90px" dir="ltr" required>
+          <input id="fx_month" type="month" style="width:auto" required>
+          <input id="fx_rate" type="number" min="0.000001" step="0.000001" placeholder="0.92" style="width:120px" dir="ltr" required>
+          <button class="pri" type="submit">إضافة / تحديث</button>
+        </form>
+        <div class="tw" id="fxTable"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- dialogs -->
+<dialog id="dEntry">
+  <form method="dialog" id="fEntry">
+    <div class="bar"><h2 id="eTitle" style="margin:0">قيد يدوي</h2><button type="button" class="close">إغلاق</button></div>
+    <div class="form2">
+      <div><label for="e_date">التاريخ</label><input type="date" id="e_date" required></div>
+      <div><label for="e_kind">نوع القيد</label><select id="e_kind"></select></div>
+      <div><label for="e_ref">رقم المستند</label><input id="e_ref" maxlength="60"></div>
+      <div><label for="e_partner">الطرف (مورد، عميل…)</label><input id="e_partner" maxlength="120" list="partnersList"></div>
+    </div>
+    <label for="e_memo">البيان</label><input id="e_memo" maxlength="300">
+    <div class="tw"><table class="lines"><thead><tr><th>الحساب</th><th class="n">مدين</th><th class="n">دائن</th><th>ملاحظة</th><th></th></tr></thead><tbody id="eLines"></tbody>
+      <tfoot><tr><td><button type="button" id="eAdd" class="sm">+ سطر</button></td><td class="n" id="eDr"></td><td class="n" id="eCr"></td><td colspan="2" id="eDiff" class="diff"></td></tr></tfoot></table></div>
+    <p class="row"><button class="pri" type="submit" id="eSave">حفظ القيد</button><span class="muted">يجب أن يتساوى المدين مع الدائن.</span></p>
+  </form>
+</dialog>
+
+<dialog id="dExp">
+  <form method="dialog" id="fExp">
+    <div class="bar"><h2 style="margin:0">مصروف / مشتريات</h2><button type="button" class="close">إغلاق</button></div>
+    <div class="form2">
+      <div><label for="x_kind">النوع</label><select id="x_kind"><option value="expense">مصروف</option><option value="purchase">مشتريات / أصل</option></select></div>
+      <div><label for="x_date">التاريخ</label><input type="date" id="x_date" required></div>
+      <div><label for="x_partner">المورد</label><input id="x_partner" maxlength="120" list="partnersList" required></div>
+      <div><label for="x_ref">رقم الفاتورة / الإيصال</label><input id="x_ref" maxlength="60"></div>
+      <div><label for="x_acc">الحساب (على ماذا صُرف؟)</label><select id="x_acc" required></select></div>
+      <div><label for="x_pay">دُفع من</label><select id="x_pay" required></select></div>
+      <div><label for="x_amt">المبلغ الإجمالي (شامل الضريبة)</label><input id="x_amt" type="number" min="0.01" step="0.01" dir="ltr" required></div>
+      <div><label for="x_cur">العملة</label><input id="x_cur" value="EUR" maxlength="3" dir="ltr"></div>
+      <div id="x_rateBox" hidden><label for="x_rate">سعر الصرف (1 = ? EUR)</label><input id="x_rate" type="number" min="0.000001" step="0.000001" dir="ltr"></div>
+      <div id="x_vatBox" hidden><label class="chk"><input type="checkbox" id="x_vat"> المبلغ يشمل ضريبة قابلة للخصم</label><input id="x_vrate" type="number" min="0" max="99" step="0.1" dir="ltr"></div>
+    </div>
+    <label for="x_memo">البيان</label><input id="x_memo" maxlength="300">
+    <h3>القيد الذي سيُسجَّل</h3><div class="tw" id="x_prev"></div>
+    <p><button class="pri" type="submit" id="x_save">حفظ</button></p>
+  </form>
+</dialog>
+
+<dialog id="dTr">
+  <form method="dialog" id="fTr">
+    <div class="bar"><h2 style="margin:0">تحويل بين حسابين</h2><button type="button" class="close">إغلاق</button></div>
+    <p class="muted">أمثلة: سحب أرباح Payhip إلى البنك (من «أرصدة المنصات» إلى «البنك»)، إيداع رأس مال (من «رأس المال» إلى «البنك»)، سحب شخصي (من «البنك» إلى «المسحوبات الشخصية»).</p>
+    <div class="form2">
+      <div><label for="t_date">التاريخ</label><input type="date" id="t_date" required></div>
+      <div><label for="t_amt">المبلغ €</label><input id="t_amt" type="number" min="0.01" step="0.01" dir="ltr" required></div>
+      <div><label for="t_from">من حساب (دائن)</label><select id="t_from" required></select></div>
+      <div><label for="t_to">إلى حساب (مدين)</label><select id="t_to" required></select></div>
+    </div>
+    <label for="t_memo">البيان</label><input id="t_memo" maxlength="300">
+    <p><button class="pri" type="submit">حفظ</button></p>
+  </form>
+</dialog>
+
+<dialog id="dAcc">
+  <form method="dialog" id="fAcc">
+    <div class="bar"><h2 id="aTitle" style="margin:0">حساب جديد</h2><button type="button" class="close">إغلاق</button></div>
+    <div class="form2">
+      <div><label for="a_code">الرقم (3 إلى 6 أرقام)</label><input id="a_code" pattern="[0-9]{3,6}" required dir="ltr"></div>
+      <div><label for="a_type">النوع</label><select id="a_type"><option value="asset">أصل</option><option value="liability">التزام</option><option value="equity">حقوق ملكية</option><option value="revenue">إيراد</option><option value="expense">مصروف</option></select></div>
+      <div><label for="a_ar">الاسم بالعربية</label><input id="a_ar" maxlength="80" required></div>
+      <div><label for="a_en">الاسم بالإنجليزية</label><input id="a_en" maxlength="80" dir="ltr"></div>
+      <div><label for="a_cf">في قائمة التدفقات النقدية</label><select id="a_cf"><option value="op">تشغيلي</option><option value="inv">استثماري</option><option value="fin">تمويلي</option></select></div>
+      <div><label class="chk"><input type="checkbox" id="a_cash"> حساب نقدي (صندوق، بنك، محفظة)</label></div>
+    </div>
+    <p class="muted">ترقيم مقترح: 1 أصول، 2 التزامات، 3 حقوق ملكية، 4 إيرادات، 5 تكلفة المبيعات، 6–7 مصروفات.</p>
+    <p><button class="pri" type="submit">حفظ</button></p>
+  </form>
+</dialog>
+
+<datalist id="partnersList"></datalist>
+<div id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script src="assets/acc-core.js"></script>
+<script src="assets/accounting.js"></script>
+</body>
+</html>
