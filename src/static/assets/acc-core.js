@@ -1,0 +1,414 @@
+/* SkillPostApp accounting – reports engine.
+ * Pure functions, no DOM, no network: every number on the accounting page comes from here.
+ * Money is handled in integer cents so totals never drift (0.1 + 0.2 problems).
+ * A "line" is a row of the acc_ledger_v view:
+ *   {entry_id, line_no, account_code, debit, credit, entry_date:'YYYY-MM-DD', kind, ref, partner, memo, line_memo, source_key}
+ */
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.AccCore = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  var DEBIT_NORMAL = { asset: true, expense: true };
+  var TYPE_AR = { asset: "الأصول", liability: "الالتزامات", equity: "حقوق الملكية", revenue: "الإيرادات", expense: "المصروفات" };
+  var KIND_AR = { manual: "قيد يدوي", sale: "بيع", refund: "استرداد", purchase: "مشتريات", expense: "مصروف",
+    transfer: "تحويل", opening: "رصيد افتتاحي", vat: "تسوية ضريبة", adjust: "تسوية" };
+
+  /* ---------- money ---------- */
+  function cents(x) {
+    if (x === null || x === undefined || x === "") return 0;
+    var n = typeof x === "number" ? x : Number(String(x).replace(/\s/g, "").replace(",", "."));
+    if (!isFinite(n)) return NaN;
+    return Math.round(n * 100);
+  }
+  function toNum(c) { return c / 100; }
+  function fmt(c, opts) {
+    opts = opts || {};
+    if (c === null || c === undefined || isNaN(c)) return "—";
+    var neg = c < 0, a = Math.abs(c), s = String(Math.floor(a / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+      d = String(a % 100).padStart(2, "0"), out = s + "." + d;
+    if (opts.blankZero && c === 0) return "";
+    return neg ? (opts.paren ? "(" + out + ")" : "-" + out) : out;
+  }
+  function pct(num, den) { return den ? Math.round((num / den) * 1000) / 10 : null; }
+
+  /* ---------- dates ---------- */
+  function ym(d) { return String(d).slice(0, 7); }
+  function inRange(d, from, to) { return (!from || d >= from) && (!to || d <= to); }
+  function fyStart(asOf, startMonth) {
+    var y = Number(asOf.slice(0, 4)), m = Number(asOf.slice(5, 7)), sm = startMonth || 1;
+    if (m < sm) y -= 1;
+    return y + "-" + String(sm).padStart(2, "0") + "-01";
+  }
+  function monthsBetween(from, to) {
+    var out = [], y = Number(from.slice(0, 4)), m = Number(from.slice(5, 7)),
+      ey = Number(to.slice(0, 4)), em = Number(to.slice(5, 7));
+    while (y < ey || (y === ey && m <= em)) {
+      out.push(y + "-" + String(m).padStart(2, "0"));
+      m++; if (m > 12) { m = 1; y++; }
+      if (out.length > 600) break;
+    }
+    return out;
+  }
+  function monthEnd(key) {
+    var y = Number(key.slice(0, 4)), m = Number(key.slice(5, 7));
+    var last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    return key + "-" + String(last).padStart(2, "0");
+  }
+
+  /* ---------- accounts ---------- */
+  function accMap(accounts) { var m = {}; (accounts || []).forEach(function (a) { m[a.code] = a; }); return m; }
+  function sideOf(a) { return a && DEBIT_NORMAL[a.type] ? 1 : -1; }   // +1: debit-normal, -1: credit-normal
+  function isPL(a) { return a && (a.type === "revenue" || a.type === "expense"); }
+  function isCOGS(a) { return a && a.type === "expense" && /^5/.test(a.code); }
+  function sortCode(a, b) { return a.code < b.code ? -1 : a.code > b.code ? 1 : 0; }
+
+  /* normalised line: dr/cr in cents, net = dr - cr */
+  function norm(l) {
+    var dr = cents(l.debit), cr = cents(l.credit);
+    return { e: l.entry_id, n: l.line_no || 0, a: l.account_code, d: l.entry_date, dr: dr, cr: cr, net: dr - cr, l: l };
+  }
+  function prep(lines) {
+    return (lines || []).map(norm).sort(function (x, y) {
+      return x.d < y.d ? -1 : x.d > y.d ? 1 : x.e - y.e || x.n - y.n;
+    });
+  }
+
+  /* ---------- balances ---------- */
+  // per account: open (net before from), dr/cr inside [from,to], close (net up to to). Signed debit-positive.
+  function balances(lines, from, to) {
+    var b = {};
+    prep(lines).forEach(function (x) {
+      if (to && x.d > to) return;
+      var r = b[x.a] || (b[x.a] = { open: 0, dr: 0, cr: 0, close: 0 });
+      if (from && x.d < from) r.open += x.net;
+      else { r.dr += x.dr; r.cr += x.cr; }
+      r.close += x.net;
+    });
+    return b;
+  }
+
+  function trialBalance(lines, accounts, from, to) {
+    var b = balances(lines, from, to), am = accMap(accounts), rows = [],
+      t = { openDr: 0, openCr: 0, dr: 0, cr: 0, closeDr: 0, closeCr: 0 };
+    Object.keys(b).sort().forEach(function (code) {
+      var r = b[code], a = am[code] || { code: code, name_ar: code, type: "asset" };
+      if (!r.open && !r.dr && !r.cr && !r.close) return;
+      var row = { code: code, name: a.name_ar, type: a.type,
+        openDr: Math.max(r.open, 0), openCr: Math.max(-r.open, 0), dr: r.dr, cr: r.cr,
+        closeDr: Math.max(r.close, 0), closeCr: Math.max(-r.close, 0) };
+      Object.keys(t).forEach(function (k) { t[k] += row[k]; });
+      rows.push(row);
+    });
+    return { rows: rows, totals: t, balanced: t.openDr === t.openCr && t.dr === t.cr && t.closeDr === t.closeCr };
+  }
+
+  /* ---------- income statement ---------- */
+  function incomeStatement(lines, accounts, from, to) {
+    var b = balances(lines, from, to), am = accMap(accounts),
+      rev = [], cogs = [], opex = [], R = 0, C = 0, O = 0;
+    Object.keys(b).sort().forEach(function (code) {
+      var a = am[code]; if (!isPL(a)) return;
+      var amt = (b[code].dr - b[code].cr) * sideOf(a);   // period movement on the normal side
+      if (!amt) return;
+      var row = { code: code, name: a.name_ar, amount: amt };
+      if (a.type === "revenue") { rev.push(row); R += amt; }
+      else if (isCOGS(a)) { cogs.push(row); C += amt; }
+      else { opex.push(row); O += amt; }
+    });
+    var gross = R - C, net = gross - O;
+    return { revenue: rev, cogs: cogs, opex: opex, totalRevenue: R, totalCogs: C, totalOpex: O,
+      grossProfit: gross, netProfit: net, grossMargin: pct(gross, R), netMargin: pct(net, R) };
+  }
+
+  /* ---------- balance sheet ---------- */
+  function balanceSheet(lines, accounts, asOf, fyStartMonth) {
+    var am = accMap(accounts), fy = fyStart(asOf, fyStartMonth), b = balances(lines, null, asOf),
+      assets = [], liab = [], eq = [], A = 0, L = 0, E = 0, prior = 0, current = 0;
+    prep(lines).forEach(function (x) {                // profit split: before / inside the fiscal year
+      if (x.d > asOf) return;
+      var a = am[x.a]; if (!isPL(a)) return;
+      if (x.d < fy) prior -= x.net; else current -= x.net;   // profit = credits - debits on P&L accounts
+    });
+    Object.keys(b).sort().forEach(function (code) {
+      var a = am[code] || { code: code, name_ar: code, type: "asset" }; if (isPL(a)) return;
+      var amt = b[code].close * sideOf(a); if (!amt) return;
+      var row = { code: code, name: a.name_ar, amount: amt };
+      if (a.type === "asset") { assets.push(row); A += amt; }
+      else if (a.type === "liability") { liab.push(row); L += amt; }
+      else { eq.push(row); E += amt; }
+    });
+    if (prior) eq.push({ code: "", name: "أرباح (خسائر) السنوات السابقة", amount: prior, computed: true });
+    eq.push({ code: "", name: "ربح (خسارة) السنة الحالية", amount: current, computed: true });
+    E += prior + current;
+    return { asOf: asOf, fyStart: fy, assets: assets, liabilities: liab, equity: eq,
+      totalAssets: A, totalLiabilities: L, totalEquity: E, balanced: A === L + E, difference: A - (L + E) };
+  }
+
+  /* ---------- general ledger for one account ---------- */
+  function ledger(lines, accounts, code, from, to) {
+    var a = accMap(accounts)[code] || { code: code, type: "asset" }, s = sideOf(a), open = 0, rows = [], dr = 0, cr = 0;
+    prep(lines).forEach(function (x) {
+      if (x.a !== code || (to && x.d > to)) return;
+      if (from && x.d < from) { open += x.net; return; }
+      dr += x.dr; cr += x.cr;
+      rows.push({ date: x.d, entry: x.e, kind: x.l.kind, ref: x.l.ref || "", partner: x.l.partner || "",
+        memo: x.l.line_memo || x.l.memo || "", dr: x.dr, cr: x.cr, balance: 0 });
+    });
+    var run = open * s;
+    rows.forEach(function (r) { run += (r.dr - r.cr) * s; r.balance = run; });
+    return { account: a, opening: open * s, rows: rows, totalDr: dr, totalCr: cr, closing: run, side: s };
+  }
+
+  /* ---------- journal: lines grouped into entries ---------- */
+  function journal(lines) {
+    var map = {}, list = [];
+    prep(lines).forEach(function (x) {
+      var e = map[x.e];
+      if (!e) {
+        e = map[x.e] = { id: x.e, date: x.d, kind: x.l.kind, ref: x.l.ref || "", partner: x.l.partner || "",
+          memo: x.l.memo || "", source_key: x.l.source_key || null, currency: x.l.currency || "EUR",
+          fx_rate: x.l.fx_rate, orig_amount: x.l.orig_amount, lines: [], dr: 0, cr: 0 };
+        list.push(e);
+      }
+      e.lines.push({ account: x.a, dr: x.dr, cr: x.cr, memo: x.l.line_memo || "" });
+      e.dr += x.dr; e.cr += x.cr;
+    });
+    return list;
+  }
+
+  /* ---------- time series for the charts ---------- */
+  function monthly(lines, accounts, from, to) {
+    var am = accMap(accounts), keys = monthsBetween(from, to), idx = {}, cashOpen = 0;
+    var out = keys.map(function (k, i) { idx[k] = i; return { month: k, revenue: 0, expense: 0, profit: 0, cash: 0, cashMove: 0 }; });
+    prep(lines).forEach(function (x) {
+      var a = am[x.a]; if (!a || x.d > to) return;
+      if (x.d < from) { if (a.is_cash) cashOpen += x.net; return; }
+      var r = out[idx[ym(x.d)]]; if (!r) return;
+      if (a.type === "revenue") r.revenue -= x.net;
+      else if (a.type === "expense") r.expense += x.net;
+      if (a.is_cash) r.cashMove += x.net;
+    });
+    var run = cashOpen;
+    out.forEach(function (r) { r.profit = r.revenue - r.expense; run += r.cashMove; r.cash = run; delete r.cashMove; });
+    return out;
+  }
+
+  function breakdown(lines, accounts, from, to, type) {
+    var am = accMap(accounts), m = {};
+    prep(lines).forEach(function (x) {
+      var a = am[x.a]; if (!a || a.type !== type || !inRange(x.d, from, to)) return;
+      m[x.a] = (m[x.a] || 0) + x.net * sideOf(a);
+    });
+    return Object.keys(m).filter(function (k) { return m[k]; })
+      .map(function (k) { return { code: k, name: am[k].name_ar, amount: m[k] }; })
+      .sort(function (p, q) { return q.amount - p.amount; });
+  }
+
+  // net sales per store, from the automatic sale/refund entries (revenue accounts only)
+  function salesByPlatform(lines, accounts, from, to) {
+    var am = accMap(accounts), m = {};
+    prep(lines).forEach(function (x) {
+      var a = am[x.a]; if (!a || a.type !== "revenue" || !inRange(x.d, from, to)) return;
+      if (x.l.kind !== "sale" && x.l.kind !== "refund") return;
+      var k = x.l.partner || "other"; m[k] = (m[k] || 0) - x.net;
+    });
+    return Object.keys(m).map(function (k) { return { platform: k, amount: m[k] }; })
+      .sort(function (p, q) { return q.amount - p.amount; });
+  }
+
+  /* ---------- cash flow (direct method) ---------- */
+  // Each entry's change in cash accounts is split over its other lines by weight,
+  // and each other line counts as operating / investing / financing (account.cf_group).
+  function cashFlow(lines, accounts, from, to) {
+    var am = accMap(accounts), byEntry = {}, open = 0, res = { op: 0, inv: 0, fin: 0 }, detail = {};
+    prep(lines).forEach(function (x) {
+      if (x.d > to) return;
+      var a = am[x.a] || {};
+      if (x.d < from) { if (a.is_cash) open += x.net; return; }
+      (byEntry[x.e] || (byEntry[x.e] = [])).push(x);
+    });
+    Object.keys(byEntry).forEach(function (id) {
+      var ls = byEntry[id], cash = 0, others = [], w = 0;
+      ls.forEach(function (x) { var a = am[x.a] || {}; if (a.is_cash) cash += x.net; else { others.push(x); w += Math.abs(x.net); } });
+      if (!cash) return;
+      if (!others.length || !w) { res.op += cash; return; }
+      var left = cash;
+      others.forEach(function (x, i) {
+        var part = i === others.length - 1 ? left : Math.round(cash * Math.abs(x.net) / w);
+        left -= part;
+        var g = (am[x.a] && am[x.a].cf_group) || "op";
+        res[g] += part;
+        var k = g + ":" + x.a; detail[k] = (detail[k] || 0) + part;
+      });
+    });
+    var net = res.op + res.inv + res.fin, rows = Object.keys(detail).map(function (k) {
+      var p = k.split(":"); return { group: p[0], code: p[1], name: (am[p[1]] || {}).name_ar || p[1], amount: detail[k] };
+    }).filter(function (r) { return r.amount; }).sort(function (a, b) { return a.group < b.group ? -1 : a.group > b.group ? 1 : Math.abs(b.amount) - Math.abs(a.amount); });
+    var close = 0; prep(lines).forEach(function (x) { if (x.d <= to && (am[x.a] || {}).is_cash) close += x.net; });
+    return { opening: open, operating: res.op, investing: res.inv, financing: res.fin, net: net, closing: close,
+      rows: rows, balanced: open + net === close };
+  }
+
+  /* ---------- VAT (ALV) ---------- */
+  function vatReport(lines, from, to, outCode, inCode) {
+    outCode = outCode || "2100"; inCode = inCode || "1300";
+    var out = 0, inp = 0;
+    prep(lines).forEach(function (x) {
+      if (!inRange(x.d, from, to) || x.l.kind === "vat") return;     // settlement entries are not new VAT
+      if (x.a === outCode) out -= x.net;
+      if (x.a === inCode) inp += x.net;
+    });
+    return { output: out, input: inp, payable: out - inp };
+  }
+  function vatSettlementLines(v, payableCode) {
+    payableCode = payableCode || "2110";
+    var ls = [];
+    if (v.output > 0) ls.push({ account: "2100", debit: toNum(v.output), credit: 0 });
+    if (v.output < 0) ls.push({ account: "2100", debit: 0, credit: toNum(-v.output) });
+    if (v.input > 0) ls.push({ account: "1300", debit: 0, credit: toNum(v.input) });
+    if (v.input < 0) ls.push({ account: "1300", debit: toNum(-v.input), credit: 0 });
+    if (v.payable > 0) ls.push({ account: payableCode, debit: 0, credit: toNum(v.payable) });
+    if (v.payable < 0) ls.push({ account: payableCode, debit: toNum(-v.payable), credit: 0 });
+    return ls;
+  }
+
+  /* ---------- budget vs actual ---------- */
+  function budgetVsActual(lines, accounts, budget, year) {
+    var am = accMap(accounts), Y = String(year), rows = {}, get = function (code) {
+      var a = am[code]; if (!isPL(a)) return null;
+      return rows[code] || (rows[code] = { code: code, name: a.name_ar, type: a.type, actual: new Array(12).fill(0), budget: new Array(12).fill(0) });
+    };
+    (budget || []).forEach(function (b) { if (String(b.year) !== Y) return; var r = get(b.account_code); if (r) r.budget[b.month - 1] += cents(b.amount); });
+    prep(lines).forEach(function (x) {
+      if (x.d.slice(0, 4) !== Y) return; var r = get(x.a); if (!r) return;
+      r.actual[Number(x.d.slice(5, 7)) - 1] += x.net * sideOf(am[x.a]);
+    });
+    var list = Object.keys(rows).sort().map(function (k) {
+      var r = rows[k], ta = r.actual.reduce(sum, 0), tb = r.budget.reduce(sum, 0);
+      r.totalActual = ta; r.totalBudget = tb; r.variance = ta - tb;
+      // favourable: more revenue than planned, or less expense than planned
+      r.favourable = r.type === "revenue" ? r.variance >= 0 : r.variance <= 0;
+      r.usedPct = pct(ta, tb);
+      return r;
+    });
+    var months = [];
+    for (var i = 0; i < 12; i++) {
+      var m = { month: i + 1, revA: 0, revB: 0, expA: 0, expB: 0 };
+      list.forEach(function (r) { if (r.type === "revenue") { m.revA += r.actual[i]; m.revB += r.budget[i]; } else { m.expA += r.actual[i]; m.expB += r.budget[i]; } });
+      m.profitA = m.revA - m.expA; m.profitB = m.revB - m.expB; months.push(m);
+    }
+    return { rows: list, months: months };
+  }
+  function sum(a, b) { return a + b; }
+
+  /* ---------- data cleaning ---------- */
+  function partnerKey(s) { return String(s || "").toLowerCase().replace(/[\s.,\-_'"()]+/g, "").replace(/(oy|ab|ltd|llc|inc|gmbh)$/, ""); }
+  function cleanText(s) { return String(s || "").replace(/[​-‏‪-‮﻿]/g, "").replace(/\s+/g, " ").trim(); }
+
+  // sales: rows of the sales table; rates: acc_fx_rates rows; today 'YYYY-MM-DD'
+  function checkSales(sales, rates, today) {
+    var issues = [], seen = {}, rateCur = {};
+    (rates || []).forEach(function (r) { rateCur[r.currency] = true; });
+    (sales || []).forEach(function (s) {
+      var amt = cents(s.amount), fee = cents(s.fees), ref = cents(s.refunded), day = String(s.sold_at || "").slice(0, 10), cur = String(s.currency || "").toUpperCase();
+      var add = function (code, sev, msg, fix) { issues.push({ code: code, severity: sev, id: s.id, msg: msg, fix: fix || null, row: s }); };
+      if (/test/i.test(s.note || "") || /^test\b|test product/i.test(s.product || "") || /test/i.test(s.id || "")) add("test", "warn", "يبدو بيعاً تجريبياً", "delete");
+      if (!(amt > 0)) add("amount", "bad", "المبلغ صفر أو سالب");
+      if (fee < 0) add("fees_neg", "bad", "الرسوم سالبة");
+      if (fee > amt) add("fees_big", "bad", "الرسوم أكبر من مبلغ البيع");
+      if (ref < 0 || ref > amt) add("refund_big", "bad", "المبلغ المسترد غير منطقي");
+      if (ref > 0 && !s.refunded_at) add("refund_date", "warn", "استرداد بلا تاريخ (سيُسجَّل بتاريخ البيع)");
+      if (!/^[A-Z]{3}$/.test(cur)) add("currency", "bad", "رمز العملة غير صحيح: " + (s.currency || "فارغ"));
+      else if (cur !== "EUR" && !rateCur[cur]) add("rate", "bad", "لا يوجد سعر صرف لعملة " + cur + " (أضفه في الإعدادات)");
+      if (day && today && day > today) add("future", "warn", "تاريخ البيع في المستقبل");
+      if (!cleanText(s.product) && !s.product_slug) add("product", "warn", "بيع بلا اسم منتج");
+      else if (!s.product_slug) add("slug", "info", "المنتج غير مربوط بمنتج في موقعك");
+      if (s.product && s.product !== cleanText(s.product)) add("spaces", "info", "مسافات زائدة في اسم المنتج", "trim");
+      // possible duplicate: same store, product, amount within 3 minutes but a different id
+      var t = Date.parse(s.sold_at), k = (s.platform || "") + "|" + cleanText(s.product).toLowerCase() + "|" + amt;
+      (seen[k] || []).forEach(function (o) {
+        if (Math.abs(o.t - t) <= 180000) add("dup", "warn", "قد يكون مكرراً مع " + o.id);
+      });
+      (seen[k] || (seen[k] = [])).push({ id: s.id, t: t });
+    });
+    return issues;
+  }
+
+  // journal lines + accounts → issues on entries
+  function checkEntries(lines, accounts, today) {
+    var am = accMap(accounts), issues = [], refs = {};
+    journal(lines).forEach(function (e) {
+      var add = function (code, sev, msg) { issues.push({ code: code, severity: sev, id: e.id, msg: msg, entry: e }); };
+      if (e.dr !== e.cr) add("unbalanced", "bad", "القيد غير متوازن");
+      if (today && e.date > today) add("future", "warn", "قيد بتاريخ مستقبلي");
+      if (!cleanText(e.memo) && !e.ref && e.kind !== "sale" && e.kind !== "refund") add("memo", "info", "قيد بلا بيان ولا رقم مستند");
+      e.lines.forEach(function (l) {
+        var a = am[l.account];
+        if (!a) add("account", "bad", "حساب غير موجود: " + l.account);
+        else if (!a.active) add("inactive", "warn", "يستخدم حساباً موقوفاً: " + l.account);
+      });
+      if (e.partner && e.partner !== cleanText(e.partner)) add("spaces", "info", "مسافات زائدة في اسم الطرف");
+      if (e.ref && (e.kind === "purchase" || e.kind === "expense")) {
+        var k = partnerKey(e.partner) + "|" + e.ref.trim().toLowerCase();
+        if (refs[k]) add("dup_ref", "warn", "رقم المستند " + e.ref + " مسجّل مرتين لنفس الطرف (القيد " + refs[k] + ")");
+        else refs[k] = e.id;
+      }
+    });
+    return issues;
+  }
+
+  // groups of partner names that are probably the same (different spelling / spaces / case)
+  function similarPartners(names) {
+    var g = {};
+    (names || []).forEach(function (n) { if (!n) return; var k = partnerKey(n); if (!k) return; (g[k] || (g[k] = {}))[n] = (g[k][n] || 0) + 1; });
+    return Object.keys(g).map(function (k) {
+      var vs = Object.keys(g[k]).sort(function (a, b) { return g[k][b] - g[k][a] || a.length - b.length; });
+      return { key: k, names: vs, best: cleanText(vs[0]) };
+    }).filter(function (x) { return x.names.length > 1 || x.names[0] !== x.best; });
+  }
+
+  /* ---------- flat dataset for analysis / CSV ---------- */
+  function dataset(lines, accounts) {
+    var am = accMap(accounts);
+    return prep(lines).map(function (x) {
+      var a = am[x.a] || { name_ar: "", name_en: "", type: "" };
+      return { date: x.d, year: x.d.slice(0, 4), month: ym(x.d), entry: x.e, line: x.n, kind: x.l.kind,
+        kind_ar: KIND_AR[x.l.kind] || x.l.kind, ref: cleanText(x.l.ref), partner: cleanText(x.l.partner),
+        memo: cleanText(x.l.line_memo || x.l.memo), account: x.a, account_ar: a.name_ar, account_en: a.name_en || "",
+        type: a.type, debit: toNum(x.dr), credit: toNum(x.cr), net_dr_cr: toNum(x.net), amount: toNum(x.net * sideOf(a)) };
+    });
+  }
+  function toCSV(rows, cols) {
+    var q = function (v) {
+      v = v === null || v === undefined ? "" : String(v);
+      if (/^[=+\-@\t\r]/.test(v) && !/^-?\d+(\.\d+)?$/.test(v)) v = "'" + v;   // stop formula injection in Excel
+      return /[",\r\n;]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+    };
+    cols = cols || (rows[0] ? Object.keys(rows[0]) : []);
+    return "﻿" + [cols.join(",")].concat(rows.map(function (r) { return cols.map(function (c) { return q(r[c]); }).join(","); })).join("\r\n") + "\r\n";
+  }
+
+  /* ---------- helpers for forms ---------- */
+  // purchase / expense with optional VAT included in the gross amount → balanced lines
+  function purchaseLines(o) {
+    var gross = cents(o.gross), rate = Number(o.vatRate) || 0, vat = o.vat ? Math.round(gross * rate / (100 + rate)) : 0;
+    if (!(gross > 0)) throw new Error("amount");
+    var ls = [{ account: o.account, debit: toNum(gross - vat), credit: 0 }];
+    if (vat > 0) ls.push({ account: o.vatAccount || "1300", debit: toNum(vat), credit: 0 });
+    ls.push({ account: o.payFrom, debit: 0, credit: toNum(gross) });
+    return ls;
+  }
+  function convert(amount, rate) { return Math.round(cents(amount) * Number(rate)); }   // → cents in EUR
+
+  return {
+    TYPE_AR: TYPE_AR, KIND_AR: KIND_AR, cents: cents, toNum: toNum, fmt: fmt, pct: pct,
+    fyStart: fyStart, monthsBetween: monthsBetween, monthEnd: monthEnd, sideOf: sideOf, accMap: accMap,
+    balances: balances, trialBalance: trialBalance, incomeStatement: incomeStatement, balanceSheet: balanceSheet,
+    ledger: ledger, journal: journal, monthly: monthly, breakdown: breakdown, salesByPlatform: salesByPlatform,
+    cashFlow: cashFlow, vatReport: vatReport, vatSettlementLines: vatSettlementLines, budgetVsActual: budgetVsActual,
+    checkSales: checkSales, checkEntries: checkEntries, similarPartners: similarPartners, cleanText: cleanText,
+    partnerKey: partnerKey, dataset: dataset, toCSV: toCSV, purchaseLines: purchaseLines, convert: convert
+  };
+});
