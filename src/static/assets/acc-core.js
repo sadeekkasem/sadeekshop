@@ -638,7 +638,69 @@
       .map(function (k) { return k + ": «" + (o[k] === null ? "" : o[k]) + "» ← «" + (n[k] === null ? "" : n[k]) + "»"; }).join(" · ") || "بدون تغيير";
   }
 
+  /* ---------- fixed assets & depreciation (Finland, EVL 30 §: one pool, ≤ 25 % of the remaining value per year;
+     a remaining value of ≤ 1 200 € may be written off at once). Everything is read from the ledger:
+     pool = asset accounts marked "investing" in the chart of accounts (1500 equipment + 1510 accumulated depreciation). ---------- */
+  var WRITE_OFF_LIMIT = 120000;   // cents
+  function fyEnd(year, startMonth) {
+    var sm = startMonth || 1, y = sm === 1 ? year : year + 1, m = sm === 1 ? 12 : sm - 1;
+    return monthEnd(y + "-" + String(m).padStart(2, "0"));
+  }
+  function depRef(year) { return "POISTO-" + year; }
+  function poolCodes(accounts) {
+    return (accounts || []).filter(function (a) { return a.type === "asset" && a.cf_group === "inv"; }).map(function (a) { return a.code; });
+  }
+  function assetRegister(lines, accounts, to) {
+    var pool = poolCodes(accounts), rows = [];
+    journal(lines).forEach(function (e) {
+      if (to && e.date > to) return;
+      if (/^POISTO-\d{4}$/.test(e.ref)) return;
+      e.lines.forEach(function (l) {
+        if (pool.indexOf(l.account) < 0 || l.account === "1510") return;
+        if (l.dr) rows.push({ date: e.date, entry: e.id, kind: "add", account: l.account, memo: l.memo || e.memo, partner: e.partner, amount: l.dr });
+        if (l.cr) rows.push({ date: e.date, entry: e.id, kind: "out", account: l.account, memo: l.memo || e.memo, partner: e.partner, amount: -l.cr });
+      });
+    });
+    return rows;
+  }
+  function depreciationCalc(lines, accounts, year, startMonth, ratePct) {
+    var pool = poolCodes(accounts), fs = fyStart(fyEnd(year, startMonth), startMonth), fe = fyEnd(year, startMonth), ref = depRef(year);
+    var r = { year: year, from: fs, to: fe, ref: ref, opening: 0, additions: 0, disposals: 0, base: 0, existing: null, rate: Math.min(Math.max(Number(ratePct) || 0, 0), 25) };
+    journal(lines).forEach(function (e) {
+      if (e.date > fe) return;
+      var thisDep = e.ref === ref, otherDep = /^POISTO-\d{4}$/.test(e.ref);
+      e.lines.forEach(function (l) {
+        if (pool.indexOf(l.account) < 0) return;
+        var net = l.dr - l.cr;
+        if (thisDep) { r.existing = r.existing || { id: e.id, amount: 0, date: e.date }; if (l.account === "1510") r.existing.amount += l.cr - l.dr; return; }
+        if (e.date < fs) { r.opening += net; return; }
+        if (otherDep) { r.opening += net; return; }          // a late entry for an earlier year still belongs to the opening value
+        if (net > 0) r.additions += net; else r.disposals -= net;
+      });
+    });
+    r.base = r.opening + r.additions - r.disposals;
+    r.canWriteOff = r.base > 0 && r.base <= WRITE_OFF_LIMIT;
+    r.suggested = r.base > 0 ? Math.round(r.base * r.rate / 100) : 0;
+    r.remaining = r.base - r.suggested;
+    return r;
+  }
+  function depreciationPlan(base, ratePct, firstYear, years) {
+    var rate = Math.min(Math.max(Number(ratePct) || 0, 0), 25), rem = base, out = [];
+    for (var i = 0; i < (years || 6) && rem > 0; i++) {
+      var full = rem <= WRITE_OFF_LIMIT, dep = full ? rem : Math.round(rem * rate / 100);
+      if (!dep) break;
+      rem -= dep; out.push({ year: firstYear + i, depreciation: dep, remaining: rem, writeOff: full });
+    }
+    return out;
+  }
+  function depreciationLines(amount, expenseCode, contraCode) {
+    var a = toNum(amount).toFixed(2);
+    return [{ account: expenseCode || "6800", debit: a, credit: "0.00" }, { account: contraCode || "1510", debit: "0.00", credit: a }];
+  }
+
   return {
+    WRITE_OFF_LIMIT: WRITE_OFF_LIMIT, fyEnd: fyEnd, depRef: depRef, poolCodes: poolCodes, assetRegister: assetRegister,
+    depreciationCalc: depreciationCalc, depreciationPlan: depreciationPlan, depreciationLines: depreciationLines,
     flagOutliers: flagOutliers, checkOutliers: checkOutliers, checkSalesOutliers: checkSalesOutliers, median: median,
     detectDelimiter: detectDelimiter, parseCSV: parseCSV, parseAmount: parseAmount, parseDate: parseDate, guessColumns: guessColumns,
     importKey: importKey, partnerAccounts: partnerAccounts, suggestAccount: suggestAccount, buildImport: buildImport, importEntry: importEntry,

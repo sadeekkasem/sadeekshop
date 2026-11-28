@@ -164,7 +164,7 @@
   function render() {
     try {
       ({ ov: renderOverview, jr: renderJournal, lg: renderLedger, tb: renderTB, st: renderStatements, bd: renderBudget,
-        cl: function () {}, ac: renderAccounts, se: renderSettings, au: function () { S.auLimit = 200; loadAudit(); } })[S.tab]();
+        cl: function () {}, fa: renderAssets, ac: renderAccounts, se: renderSettings, au: function () { S.auLimit = 200; loadAudit(); } })[S.tab]();
     } catch (e) { console.error(e); toast("خطأ في العرض: " + (e.message || e), true); }
   }
 
@@ -394,7 +394,7 @@
     return best ? Number(best.rate_to_eur) : null;
   }
   function openExp() {
-    accOptions($("x_acc"), function (a) { return a.type === "expense" || (a.type === "asset" && !a.is_cash && a.code !== "1300"); }, null, "— اختر —");
+    accOptions($("x_acc"), function (a) { return a.type === "expense" || (a.type === "asset" && !a.is_cash && a.code !== "1300" && a.code !== "1510"); }, null, "— اختر —");
     var pay = $("x_pay"); accOptions(pay, function (a) { return a.is_cash || a.code === "2000" || a.code === "3000" || a.type === "liability" && a.code !== "2100" && a.code !== "2110"; }, null);
     if (S.am["1010"]) pay.value = "1010";
     ["x_partner", "x_ref", "x_amt", "x_memo"].forEach(function (id) { $(id).value = ""; });
@@ -805,6 +805,58 @@
     if (r.error) { toast(explain(r.error), true); return; }
     $("fx_rate").value = ""; toast("تم حفظ سعر " + cur); await loadMeta(); await sync(false); await reloadAll();
   });
+
+  /* ---------- fixed assets & depreciation ---------- */
+  function renderAssets() {
+    var ys = $("faYear"), sm = Number(S.settings.fiscal_start_month) || 1, cur = Number(C.fyStart(today(), sm).slice(0, 4));
+    if (!ys.children.length) {
+      var first = S.lines.reduce(function (a, l) { return Math.min(a, Number(C.fyStart(l.entry_date, sm).slice(0, 4))); }, cur);
+      for (var y = Math.max(first, cur - 8); y <= cur; y++) ys.appendChild(el("option", { value: y, text: sm === 1 ? String(y) : y + "/" + (y + 1) }));
+      ys.value = cur;
+    }
+    var Y = Number(ys.value), rate = Number($("faRate").value);
+    if (!(rate >= 0 && rate <= 25)) { $("faRate").value = 25; rate = 25; }
+    var d = C.depreciationCalc(S.lines, S.accounts, Y, sm, rate), full = $("faFull") && $("faFull").checked && d.canWriteOff;
+    var amount = full ? d.base : d.suggested;
+    put("faCalc", table([["البند"], ["المبلغ €", 1]], [
+      el("tr", {}, [el("td", { text: "القيمة المتبقية في بداية السنة (" + dt(d.from) + ")" }), num(d.opening)]),
+      el("tr", {}, [el("td", { text: "+ مشتريات أصول خلال السنة" }), num(d.additions)]),
+      el("tr", {}, [el("td", { text: "− أصول بيعت أو استُبعدت" }), num(-d.disposals)]),
+      el("tr", { class: "sub" }, [el("td", { text: "القيمة الخاضعة للإهلاك" }), num(d.base)]),
+      el("tr", {}, [el("td", { text: full ? "الإهلاك (كامل القيمة، لأنها 1,200 € أو أقل)" : "الإهلاك (" + d.rate + "%)" }), num(amount)]),
+      el("tr", { class: "tot" }, [el("td", { text: "القيمة المتبقية في نهاية السنة (" + dt(d.to) + ")" }), num(d.base - amount)])]));
+    var act = $("faAct"); act.textContent = "";
+    if (d.canWriteOff) {
+      var cb = el("input", { type: "checkbox", id: "faFull" }); cb.checked = !!full;
+      cb.addEventListener("change", renderAssets);
+      act.appendChild(el("label", { class: "chk", for: "faFull" }, [cb, "القيمة المتبقية 1,200 € أو أقل: أهلكها كاملة هذه السنة"]));
+    }
+    if (d.existing) {
+      act.appendChild(el("p", { class: "ok", text: "✓ إهلاك هذه السنة مسجّل: " + f(d.existing.amount) + " € (القيد #" + d.existing.id + ")" }));
+      var ex = C.journal(S.lines).filter(function (e) { return e.id === d.existing.id; })[0];
+      if (ex) act.appendChild(el("button", { text: "فتح القيد لتعديله", onclick: function () { openEntry(ex); } }));
+    } else if (d.base <= 0) {
+      act.appendChild(el("p", { class: "muted", text: "لا توجد أصول تحتاج إهلاكاً في هذه السنة." }));
+    } else if (amount > 0) {
+      if (d.to > today()) act.appendChild(el("p", { class: "warnc", text: "⚠ السنة لم تنتهِ بعد. سجّل الإهلاك في نهايتها، لأن أي أصل تشتريه قبل ذلك يغيّر المبلغ." }));
+      act.appendChild(el("button", { class: "pri", text: "إنشاء قيد الإهلاك (" + f(amount) + " €)", onclick: function () {
+        openEntry(null, { date: d.to, kind: "adjust", ref: d.ref, memo: "إهلاك الأجهزة والمعدات لسنة " + Y + (full ? " (كامل القيمة)" : " (" + d.rate + "%)"),
+          lines: C.depreciationLines(amount).map(function (l) { return { account: l.account, debit: Number(l.debit), credit: Number(l.credit) }; }) });
+      } }));
+    }
+    var reg = C.assetRegister(S.lines, S.accounts, d.to);
+    put("faReg", reg.length ? table([["التاريخ"], ["القيد", 1], ["البيان"], ["المورد"], ["الحساب"], ["المبلغ €", 1]], reg.map(function (r) {
+      return el("tr", {}, [el("td", { text: r.date }), el("td", { class: "n", text: "#" + r.entry }), el("td", { text: (r.kind === "out" ? "بيع / استبعاد: " : "") + (r.memo || "—") }),
+        el("td", { text: r.partner || "" }), el("td", { text: accName(r.account) }), num(r.amount)]);
+    })) : el("p", { class: "muted", text: "لم تُسجَّل أصول بعد." }));
+    var start = d.existing ? d.base - d.existing.amount : d.base - amount;
+    var plan = C.depreciationPlan(start, d.rate, Y + 1, 6);
+    put("faPlan", plan.length ? table([["السنة"], ["الإهلاك €", 1], ["المتبقي €", 1], [""]], plan.map(function (p) {
+      return el("tr", {}, [el("td", { text: sm === 1 ? String(p.year) : p.year + "/" + (p.year + 1) }), num(p.depreciation), num(p.remaining), el("td", { class: "muted", text: p.writeOff ? "إهلاك كامل (≤ 1,200 €)" : "" })]);
+    })) : el("p", { class: "muted", text: "لا يبقى شيء للإهلاك." }));
+  }
+  $("faYear").addEventListener("change", renderAssets);
+  $("faRate").addEventListener("change", renderAssets);
 
   /* ---------- CSV import ---------- */
   var IM = { rows: null, header: null, items: [] };
