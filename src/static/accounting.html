@@ -115,6 +115,7 @@ tr.st-invalid td,tr.st-dup_existing td,tr.st-dup_file td{color:var(--mut)}
       <button data-t="tb">⚖️ ميزان المراجعة</button>
       <button data-t="st">📑 القوائم المالية</button>
       <button data-t="bd">🎯 الموازنة</button>
+      <button data-t="fa">🏷 الأصول والإهلاك</button>
       <button data-t="cl">🧹 تنظيف البيانات</button>
       <button data-t="ac">🗂 دليل الحسابات</button>
       <button data-t="au">📜 سجل التغييرات</button>
@@ -214,7 +215,23 @@ tr.st-invalid td,tr.st-dup_existing td,tr.st-dup_file td{color:var(--mut)}
       <div class="card"><h2>مقارنة الموازنة بالفعلي حسب الحساب (السنة كاملة)</h2><div class="tw" id="bdCmp"></div></div>
     </section>
 
-    <!-- cleaning -->
+    <!-- fixed assets -->
+    <section class="pane" id="p_fa" hidden>
+      <div class="card">
+        <h2>🏷 الأصول والإهلاك</h2>
+        <p class="muted" style="margin-top:0">القاعدة في فنلندا للأجهزة والمعدات: كلها تُجمع في رصيد واحد، ويُهلَك منه 25% على الأكثر كل سنة من القيمة المتبقية. إذا أصبحت القيمة المتبقية 1,200 € أو أقل يمكن إهلاكها كاملة. الجهاز الذي سعره 1,200 € أو أقل يمكن تسجيله مباشرة مصروفاً في حساب «أدوات ومستلزمات صغيرة» بدلاً من إضافته هنا. سجّل شراء الأصل من «+ مصروف / مشتريات» ← النوع «مشتريات / أصل» ← حساب «الأجهزة والمعدات»، وبالجزء الخاص بالعمل فقط.</p>
+        <div class="row">
+          <label style="margin:0" for="faYear">السنة المالية</label><select id="faYear" style="width:auto"></select>
+          <label style="margin:0" for="faRate">نسبة الإهلاك %</label><input id="faRate" type="number" min="0" max="25" step="1" value="25" style="width:90px" dir="ltr">
+        </div>
+        <div class="tw" id="faCalc"></div>
+        <div id="faAct"></div>
+      </div>
+      <div class="card"><h2>سجل الأصول</h2><div class="tw" id="faReg"></div></div>
+      <div class="card"><h2>خطة الإهلاك للسنوات القادمة</h2><p class="muted" style="margin-top:0">تقدير بنفس النسبة، إذا لم تشترِ أو تبع أصولاً أخرى.</p><div class="tw" id="faPlan"></div></div>
+    </section>
+
+    <!-- cleaning -->    <!-- cleaning -->
     <section class="pane" id="p_cl" hidden>
       <div class="card">
         <div class="bar"><h2 style="margin:0">فحص البيانات</h2><button class="pri noprint" id="clRun">🔍 افحص الآن</button></div>

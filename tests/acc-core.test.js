@@ -207,4 +207,30 @@ eq(A.auditSummary({ tbl: 'acc_accounts', action: 'update', old_data: { code: '63
 eq(A.auditSummary({ tbl: 'sales', action: 'sync', new_data: { posted: 2, refunds: 1, removed: 0 } }), 'تسجيل المبيعات: 2 بيع، 1 استرداد، 0 حذف', 'sync summary');
 eq(A.auditSummary({ tbl: 'acc_entries', action: 'update', old_data: null, new_data: { date: 'd', memo: 'm', lines: [] } }), 'قيد جديد d: m — ', 'incomplete log row does not crash');
 eq(A.auditSummary({ tbl: 'sales', action: 'delete', old_data: null, new_data: null }), '—', 'empty log row');
+
+// ---- depreciation (Finnish pool)
+const accD = accounts.concat([{ code: '1510', type: 'asset', is_cash: false, cf_group: 'inv', name_ar: 'مجمع', active: true }, { code: '6800', type: 'expense', is_cash: false, cf_group: 'op', name_ar: 'إهلاك', active: true }]);
+let D = [];
+const ent = (id, d, ref, ls) => ls.forEach(([a, dr, cr], i) => D.push({ entry_id: id, line_no: i + 1, account_code: a, debit: dr, credit: cr, entry_date: d, kind: 'adjust', ref, memo: 'm', partner: '' }));
+ent(1, '2026-10-15', '', [['1500', 1600, 0], ['3000', 0, 1600]]);
+eq([A.fyEnd(2026, 1), A.fyEnd(2026, 7), A.depRef(2026)], ['2026-12-31', '2027-06-30', 'POISTO-2026'], 'fiscal year end');
+let dc = A.depreciationCalc(D, accD, 2026, 1, 25);
+eq([dc.opening, dc.additions, dc.disposals, dc.base, dc.suggested, dc.remaining, dc.canWriteOff, dc.existing], [0, 160000, 0, 160000, 40000, 120000, false, null], 'year 1: 25% of 1600');
+eq(A.depreciationLines(dc.suggested), [{ account: '6800', debit: '400.00', credit: '0.00' }, { account: '1510', debit: '0.00', credit: '400.00' }], 'depreciation entry lines');
+ent(2, '2026-12-31', 'POISTO-2026', [['6800', 400, 0], ['1510', 0, 400]]);
+dc = A.depreciationCalc(D, accD, 2026, 1, 25);
+eq([dc.base, dc.existing && dc.existing.amount], [160000, 40000], 'posted depreciation recognised, base unchanged');
+dc = A.depreciationCalc(D, accD, 2027, 1, 25);
+eq([dc.opening, dc.base, dc.canWriteOff, dc.suggested], [120000, 120000, true, 30000], 'year 2: 1200 left → may write off');
+ent(3, '2027-03-01', '', [['1500', 300, 0], ['1010', 0, 300]]);
+ent(4, '2027-05-01', '', [['1010', 100, 0], ['1500', 0, 100]]);
+dc = A.depreciationCalc(D, accD, 2027, 1, 25);
+eq([dc.additions, dc.disposals, dc.base, dc.canWriteOff, dc.suggested], [30000, 10000, 140000, false, 35000], 'additions and disposals in pool');
+eq(A.depreciationCalc(D, accD, 2027, 1, 40).rate, 25, 'rate capped at 25%');
+eq(A.assetRegister(D, accD).map(r => [r.entry, r.kind, r.amount]), [[1, 'add', 160000], [3, 'add', 30000], [4, 'out', -10000]], 'asset register (depreciation excluded)');
+eq(A.depreciationPlan(160000, 25, 2026), [{ year: 2026, depreciation: 40000, remaining: 120000, writeOff: false }, { year: 2027, depreciation: 120000, remaining: 0, writeOff: true }], 'plan with write-off');
+eq(A.depreciationPlan(1000000, 25, 2026, 3).map(p => p.depreciation), [250000, 187500, 140625], 'plan 10 000');
+eq(A.depreciationCalc([], accD, 2026, 1, 25).suggested, 0, 'no assets → nothing');
+// balance sheet stays balanced with depreciation
+eq(A.balanceSheet(D.concat([]), accD.concat([{ code: '3000', type: 'equity', cf_group: 'fin', name_ar: 'ر', active: true }]), '2027-12-31', 1).balanced, true, 'balance sheet balanced with depreciation');
 console.log(`pass ${pass} fail ${fail}`); process.exit(fail ? 1 : 0);
