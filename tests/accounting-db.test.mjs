@@ -163,10 +163,39 @@ ok(true, 'unused account add/delete');
 await db.exec(`insert into acc_budget values (2026, 1, '6100', 50)`);
 await expectErr(`insert into acc_budget values (2026, 13, '6100', 50)`, /check/, 'budget month range');
 
+
+// ---- change log
+await db.exec(`reset role;`); await db.exec(asAdmin);
+const A = async (w) => (await q(`select tbl, action, row_key, old_data, new_data, actor from acc_audit ${w} order by id`));
+let au = await A(`where tbl='acc_entries' and row_key='${e1}'`);
+ok(au.length === 2 && au[0].action === 'insert' && au[1].action === 'update', 'entry insert+update logged ' + au.map(x => x.action));
+ok(au[1].old_data.memo === 'رأس مال' && au[1].new_data.memo === 'رأس المال المعدل' && au[1].new_data.lines.length === 3, 'update keeps old and new snapshot');
+ok(au[0].actor === 'Boss@x.com', 'actor is the user email');
+au = await A(`where tbl='acc_entries' and action='delete' and row_key='${e3}'`);
+ok(au.length === 1 && au[0].old_data.lines.length === 2 && au[0].new_data === null, 'delete logged with old snapshot');
+ok((await A(`where tbl='acc_accounts' and row_key='6950'`)).map(x => x.action).join() === 'insert,delete', 'account add/delete logged');
+ok((await A(`where tbl='acc_accounts' and row_key='6300' and action='update'`)).length === 1, 'account deactivation logged');
+ok((await A(`where tbl='acc_settings'`)).length >= 3, 'settings changes logged');
+ok((await A(`where tbl='acc_fx_rates' and action='insert'`)).length === 2, 'fx inserts logged');
+ok((await A(`where tbl='sales' and action='delete' and row_key='gumroad:B'`)).length === 1, 'sale deletion logged');
+ok((await A(`where tbl='sales' and action='update' and row_key='payhip:A'`)).length >= 2, 'sale corrections logged');
+ok((await A(`where tbl='sales' and action='sync'`)).length >= 3, 'sync summaries logged');
+const before = (await q(`select count(*)::int n from acc_audit where tbl='acc_budget'`))[0].n;
+await db.exec(`insert into acc_budget values (2026, 1, '6100', 50) on conflict (year, month, account_code) do update set amount = excluded.amount`);
+ok((await q(`select count(*)::int n from acc_audit where tbl='acc_budget'`))[0].n === before, 'unchanged budget upsert not logged');
+await db.exec(`insert into acc_budget values (2026, 1, '6100', 60) on conflict (year, month, account_code) do update set amount = excluded.amount`);
+ok((await q(`select count(*)::int n from acc_audit where tbl='acc_budget'`))[0].n === before + 1, 'changed budget logged');
+await expectErr(`delete from acc_audit`, /permission denied/, 'admin cannot delete log');
+await expectErr(`update acc_audit set actor='x'`, /permission denied/, 'admin cannot edit log');
+await expectErr(`insert into acc_audit (tbl, action) values ('x','insert')`, /permission denied/, 'admin cannot forge log');
+await db.exec(asOther);
+ok((await q(`select count(*)::int n from acc_audit`))[0].n === 0, 'non-admin sees no log');
+
 // ---- anon
 await db.exec(`reset role; set role anon;`);
 await expectErr(`select * from acc_ledger_v`, /permission denied/, 'anon cannot read ledger');
 await expectErr(`select * from acc_accounts`, /permission denied/, 'anon cannot read accounts');
+await expectErr(`select * from acc_audit`, /permission denied/, 'anon cannot read log');
 await expectErr(`select public.acc_sync_sales()`, /permission denied|not_admin/, 'anon cannot sync');
 
 console.log(`pass ${pass}  fail ${fail}`);

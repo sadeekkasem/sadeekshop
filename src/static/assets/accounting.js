@@ -164,7 +164,7 @@
   function render() {
     try {
       ({ ov: renderOverview, jr: renderJournal, lg: renderLedger, tb: renderTB, st: renderStatements, bd: renderBudget,
-        cl: function () {}, ac: renderAccounts, se: renderSettings })[S.tab]();
+        cl: function () {}, ac: renderAccounts, se: renderSettings, au: function () { S.auLimit = 200; loadAudit(); } })[S.tab]();
     } catch (e) { console.error(e); toast("خطأ في العرض: " + (e.message || e), true); }
   }
 
@@ -314,6 +314,7 @@
     accOptions(lg, function () { return true; }, null);
     S.accounts.forEach(function (a) { if (!a.active && !lg.querySelector('option[value="' + a.code + '"]')) lg.appendChild(el("option", { value: a.code, text: a.code + " · " + a.name_ar + " (موقوف)" })); });
     lg.value = cur && S.am[cur] ? cur : (S.am["1010"] ? "1010" : (S.accounts[0] || {}).code);
+    var ic = $("imCash"), icv = ic.value; accOptions(ic, function (a) { return a.is_cash; }, null); ic.value = icv && S.am[icv] ? icv : (S.am["1010"] ? "1010" : ic.value);
     var dl = $("partnersList"), seen = {}; dl.textContent = "";
     S.lines.forEach(function (l) { if (AUTO[l.kind]) return; var p = C.cleanText(l.partner); if (p && !seen[p]) { seen[p] = 1; dl.appendChild(el("option", { value: p })); } });
   }
@@ -627,7 +628,8 @@
     try {
       var sales = await pageAll(function () { return sb.from("sales").select("*").order("sold_at"); });
       S.sales = sales;
-      var si = C.checkSales(sales, S.fx, today()), ei = C.checkEntries(S.lines, S.accounts, today());
+      var si = C.checkSales(sales, S.fx, today()).concat(C.checkSalesOutliers(sales)),
+        ei = C.checkEntries(S.lines, S.accounts, today()).concat(C.checkOutliers(S.lines, S.accounts));
       var names = []; S.lines.forEach(function (l) { if (!AUTO[l.kind] && l.line_no === 1 && l.partner) names.push(l.partner); });
       var sp = C.similarPartners(names);
       var cnt = { bad: 0, warn: 0, info: 0 }; si.concat(ei).forEach(function (i) { cnt[i.severity]++; });
@@ -802,6 +804,128 @@
     var r = await sb.from("acc_fx_rates").upsert({ currency: cur, month: m + "-01", rate_to_eur: rate }, { onConflict: "currency,month" });
     if (r.error) { toast(explain(r.error), true); return; }
     $("fx_rate").value = ""; toast("تم حفظ سعر " + cur); await loadMeta(); await sync(false); await reloadAll();
+  });
+
+  /* ---------- CSV import ---------- */
+  var IM = { rows: null, header: null, items: [] };
+  var MAP_FIELDS = [["date", "التاريخ *"], ["amount", "المبلغ (موجب = داخل، سالب = خارج)"], ["debit", "أو: عمود الخارج (مدين في البنك)"], ["credit", "أو: عمود الداخل"],
+    ["partner", "الطرف (المستفيد / الدافع)"], ["desc", "البيان / الرسالة"], ["ref", "رقم المرجع"], ["currency", "العملة"]];
+  function decodeFile(buf) {
+    try { return new TextDecoder("utf-8", { fatal: true }).decode(buf); }
+    catch (e) { return new TextDecoder("windows-1252").decode(buf); }   // many Finnish bank exports are Latin-1
+  }
+  $("imFile").addEventListener("change", function () {
+    var f = this.files && this.files[0]; if (!f) return;
+    if (f.size > 5 * 1048576) { toast("الملف أكبر من 5 ميغابايت.", true); this.value = ""; return; }
+    var r = new FileReader();
+    r.onload = function () { IM.text = decodeFile(r.result); imParse(true); };
+    r.onerror = function () { toast("تعذّرت قراءة الملف.", true); };
+    r.readAsArrayBuffer(f);
+  });
+  function imParse(guess) {
+    if (!IM.text) return;
+    var d = $("imDelim").value === "tab" ? "\t" : $("imDelim").value;
+    var p = C.parseCSV(IM.text, d || null);
+    if (!p.rows.length) { toast("الملف فارغ.", true); return; }
+    if (!$("imDelim").value) $("imDelim").dataset.auto = p.delimiter;
+    IM.header = $("imHeader").checked ? p.rows[0] : p.rows[0].map(function (_, i) { return "عمود " + (i + 1); });
+    IM.rows = $("imHeader").checked ? p.rows.slice(1) : p.rows;
+    var g = guess ? C.guessColumns(IM.header) : null, grid = $("imMapGrid");
+    if (guess || !grid.children.length) {
+      grid.textContent = "";
+      MAP_FIELDS.forEach(function (fd) {
+        var sel = el("select", { id: "im_" + fd[0] });
+        sel.appendChild(el("option", { value: "", text: "—" }));
+        IM.header.forEach(function (h, i) { sel.appendChild(el("option", { value: String(i), text: (i + 1) + ": " + (C.cleanText(h) || "(بلا عنوان)") + (IM.rows[0] && IM.rows[0][i] ? "  ← " + C.cleanText(IM.rows[0][i]).slice(0, 24) : "") })); });
+        if (g && g[fd[0]] !== undefined) sel.value = String(g[fd[0]]);
+        sel.addEventListener("change", imPreview);
+        grid.appendChild(el("div", {}, [el("label", { for: "im_" + fd[0], text: fd[1] }), sel]));
+      });
+    }
+    $("imMap").hidden = false; imPreview();
+  }
+  function imMapNow() { var m = {}; MAP_FIELDS.forEach(function (fd) { var v = $("im_" + fd[0]).value; if (v !== "") m[fd[0]] = v; }); return m; }
+  function imPreview() {
+    var note = $("imNote"), box = $("imPrev"); note.textContent = ""; box.textContent = ""; $("imGo").disabled = true; $("imInfo").textContent = "";
+    if (!IM.rows) return;
+    var m = imMapNow(), cash = $("imCash").value;
+    if (m.date === undefined || (m.amount === undefined && (m.debit === undefined || m.credit === undefined))) {
+      note.appendChild(el("p", { class: "warnc", text: "اختر عمود التاريخ، وعمود المبلغ (أو عمودي الداخل والخارج معاً)." })); return; }
+    IM.items = C.buildImport(IM.rows, m, S.lines, { dateFmt: $("imDate").value, cashAccount: cash, accounts: S.accounts, today: today() });
+    var cnt = {}; IM.items.forEach(function (it) { cnt[it.status] = (cnt[it.status] || 0) + 1; });
+    var amb = IM.items.some(function (it) { return it.ambiguous; });
+    note.appendChild(el("p", {}, [el("span", { class: "sev info", text: (cnt.ok || 0) + " جاهز" }), el("span", { class: "sev warn", text: ((cnt.maybe_dup || 0) + (cnt.dup_file || 0)) + " مكرر محتمل" }),
+      el("span", { class: "sev warn", text: (cnt.dup_existing || 0) + " مستورد سابقاً" }), el("span", { class: "sev bad", text: (cnt.invalid || 0) + " غير صالح" }),
+      el("span", { class: "muted", text: " · الفاصل: " + ({ ",": "فاصلة", ";": "فاصلة منقوطة", "\t": "Tab", "|": "|" }[$("imDelim").value === "tab" ? "\t" : ($("imDelim").value || $("imDelim").dataset.auto)] || "?") })]));
+    if (amb) note.appendChild(el("p", { class: "warnc", text: "⚠ بعض التواريخ تحتمل قراءتين (مثل 03.04). قرأتها يوم.شهر.سنة؛ إن كان الملف أمريكياً اختر «شهر/يوم/سنة» من صيغة التاريخ." }));
+    var STATUS = { ok: ["جاهز", "info"], maybe_dup: ["مكرر محتمل", "warn"], dup_file: ["مكرر في الملف", "warn"], dup_existing: ["مستورد سابقاً", "warn"], invalid: ["غير صالح", "bad"] };
+    var rows = IM.items.map(function (it) {
+      var cb = el("input", { type: "checkbox", "aria-label": "استيراد السطر " + it.i }); cb.checked = it.select; cb.disabled = it.status === "invalid" || it.status === "dup_existing";
+      cb.addEventListener("change", function () { it.select = cb.checked; imCount(); });
+      var acc = null;
+      if (it.status !== "invalid") {
+        if (it.account === cash) it.account = it.amount > 0 ? "4900" : "6900";   // the counter account can never be the statement account
+        acc = el("select", { "aria-label": "الحساب المقابل" });
+        accOptions(acc, function (a) { return a.code !== cash; }, it.account);
+        acc.value = it.account; acc.addEventListener("change", function () { it.account = acc.value; });
+      }
+      var st = STATUS[it.status];
+      return el("tr", { class: "st-" + it.status }, [el("td", {}, [cb]), el("td", { class: "n", text: it.i }), el("td", { text: it.date || "—" }),
+        el("td", { text: [it.partner, it.desc].filter(Boolean).join(" · ") }), isNaN(it.amount) ? el("td", { class: "n", text: "؟" }) : num(it.amount),
+        el("td", {}, [el("span", { class: "sev " + st[1], text: st[0] }), it.reason ? el("div", { class: "muted", text: it.reason }) : null]), el("td", {}, [acc])]);
+    });
+    var t = table([[""], ["#", 1], ["التاريخ"], ["الطرف / البيان"], ["المبلغ €", 1], ["الحالة"], ["الحساب المقابل"]], rows); t.className = "imp";
+    box.appendChild(t); imCount();
+  }
+  function imCount() {
+    var sel = IM.items.filter(function (it) { return it.select && (it.status === "ok" || it.status === "maybe_dup" || it.status === "dup_file"); });
+    var inC = 0, outC = 0; sel.forEach(function (it) { if (it.amount > 0) inC += it.amount; else outC -= it.amount; });
+    $("imGo").disabled = !sel.length || !$("imCash").value;
+    $("imInfo").textContent = sel.length ? "سيُستورد " + sel.length + " حركة: داخل " + f(inC) + " € · خارج " + f(outC) + " €" : "";
+  }
+  ["imDelim", "imHeader"].forEach(function (id) { $(id).addEventListener("change", function () { imParse(true); }); });
+  ["imDate", "imCash"].forEach(function (id) { $(id).addEventListener("change", imPreview); });
+  $("imGo").addEventListener("click", async function () {
+    var cash = $("imCash").value, todo = IM.items.filter(function (it) { return it.select && it.status !== "invalid" && it.status !== "dup_existing"; });
+    if (!todo.length) return;
+    if (todo.some(function (it) { return !it.account || it.account === cash; })) { toast("اختر حساباً مقابلاً مختلفاً عن حساب الكشف لكل سطر.", true); return; }
+    var b = $("imGo"); b.disabled = true; var ok = 0, fail = [];
+    for (var k = 0; k < todo.length; k++) {
+      $("imInfo").textContent = "جارٍ الاستيراد " + (k + 1) + " / " + todo.length;
+      var r = await sb.rpc("acc_save_entry", { p: C.importEntry(todo[k], cash, todo[k].account) });
+      if (r.error) fail.push("السطر " + todo[k].i + ": " + explain(r.error)); else ok++;
+    }
+    await loadLines(); fillSelects(); imPreview();
+    toast("استُورد " + ok + " قيد" + (fail.length ? "\nلم يُستورد:\n" + fail.slice(0, 8).join("\n") + (fail.length > 8 ? "\n…" : "") : ""), !!fail.length);
+  });
+
+  /* ---------- change log ---------- */
+  var TBL_AR = { acc_entries: "قيود اليومية", sales: "المبيعات", acc_accounts: "دليل الحسابات", acc_budget: "الموازنة", acc_fx_rates: "أسعار الصرف", acc_settings: "الإعدادات" };
+  var ACT_AR = { insert: "إضافة", update: "تعديل", delete: "حذف", sync: "تسجيل تلقائي" };
+  async function loadAudit() {
+    var t = $("auTbl").value, q = sb.from("acc_audit").select("*").order("at", { ascending: false }).order("id", { ascending: false });
+    if (t) q = q.eq("tbl", t);
+    var r = await q.range(0, S.auLimit);
+    if (r.error) { put("auTable", el("p", { class: "badc", text: explain(r.error) })); return; }
+    var data = r.data || [], more = data.length > S.auLimit; if (more) data = data.slice(0, S.auLimit);
+    S.auData = data;
+    put("auTable", data.length ? table([["الوقت"], ["بواسطة"], ["السجل"], ["العملية"], ["المعرّف"], ["التفاصيل"]], data.map(function (a) {
+      var when = new Date(a.at), sum = C.auditSummary(a);
+      return el("tr", {}, [el("td", { style: "white-space:nowrap", text: iso(when) + " " + pad(when.getHours()) + ":" + pad(when.getMinutes()) }),
+        el("td", { dir: "ltr", text: a.actor === "system" ? "النظام" : a.actor }), el("td", { text: TBL_AR[a.tbl] || a.tbl }),
+        el("td", {}, [el("span", { class: "tag" + (a.action === "delete" ? " auto" : ""), text: ACT_AR[a.action] || a.action })]),
+        el("td", { class: "n", text: a.tbl === "acc_entries" ? "#" + a.row_key : a.row_key }), el("td", { style: "font-size:13px", text: sum })]);
+    })) : el("p", { class: "muted", text: "لا توجد تغييرات مسجلة بعد." }));
+    $("auMore").hidden = !more;
+  }
+  $("auTbl").addEventListener("change", function () { S.auLimit = 200; loadAudit(); });
+  $("auMore").addEventListener("click", function () { S.auLimit += 300; loadAudit(); });
+  $("auCsv").addEventListener("click", function () {
+    if (!S.auData || !S.auData.length) { toast("لا توجد بيانات.", true); return; }
+    download("change-log_" + today() + ".csv", C.toCSV(S.auData.map(function (a) {
+      return { at: a.at, actor: a.actor, table: TBL_AR[a.tbl] || a.tbl, action: ACT_AR[a.action] || a.action, key: a.row_key, summary: C.auditSummary(a),
+        old: a.old_data ? JSON.stringify(a.old_data) : "", new: a.new_data ? JSON.stringify(a.new_data) : "" };
+    })));
   });
 
   /* ---------- wiring ---------- */

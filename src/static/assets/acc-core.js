@@ -402,7 +402,247 @@
   }
   function convert(amount, rate) { return Math.round(cents(amount) * Number(rate)); }   // → cents in EUR
 
+  /* ---------- unusual amounts (robust: median + MAD, so one big value cannot hide itself) ---------- */
+  function median(a) { var s = a.slice().sort(function (x, y) { return x - y; }), n = s.length; return n ? (n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2) : 0; }
+  // items: [{v: cents > 0, ...}] → items flagged as unusually large (needs ≥ 6 values in the group)
+  function flagOutliers(items, minN) {
+    var vals = items.map(function (x) { return x.v; }).filter(function (v) { return v > 0; });
+    if (vals.length < (minN || 6)) return [];
+    var m = median(vals), mad = median(vals.map(function (v) { return Math.abs(v - m); })) * 1.4826;
+    return items.filter(function (x) {
+      if (!(x.v > 0) || x.v < m * 3) return false;            // must be at least 3× the usual amount
+      return mad === 0 ? x.v > m : (x.v - m) / mad > 5;       // and far outside the normal spread
+    }).map(function (x) { return Object.assign({ median: Math.round(m) }, x); });
+  }
+  function checkOutliers(lines, accounts) {
+    var am = accMap(accounts), byAcc = {}, entries = {}, issues = [];
+    journal(lines).forEach(function (e) { entries[e.id] = e; });
+    prep(lines).forEach(function (x) {
+      var a = am[x.a]; if (!a || a.is_cash || (a.type !== "expense" && a.type !== "revenue" && a.type !== "asset")) return;
+      if (x.l.kind === "opening" || x.l.kind === "vat") return;
+      var g = byAcc[x.a] || (byAcc[x.a] = {});
+      g[x.e] = (g[x.e] || 0) + Math.abs(x.net);
+    });
+    Object.keys(byAcc).forEach(function (code) {
+      var items = Object.keys(byAcc[code]).map(function (id) { return { id: Number(id), v: byAcc[code][id] }; });
+      flagOutliers(items).forEach(function (o) {
+        issues.push({ code: "outlier", severity: "warn", id: o.id, entry: entries[o.id],
+          msg: "مبلغ غير معتاد في «" + am[code].name_ar + "»: " + fmt(o.v) + " بينما المعتاد نحو " + fmt(o.median) });
+      });
+    });
+    return issues;
+  }
+  function checkSalesOutliers(sales) {
+    var g = {}, issues = [];
+    (sales || []).forEach(function (s) {
+      var k = cleanText(s.product).toLowerCase() + "|" + String(s.currency || "").toUpperCase();
+      (g[k] || (g[k] = [])).push({ id: s.id, v: cents(s.amount), row: s });
+    });
+    Object.keys(g).forEach(function (k) {
+      flagOutliers(g[k]).forEach(function (o) {
+        issues.push({ code: "outlier", severity: "warn", id: o.id, row: o.row, fix: null,
+          msg: "سعر بيع غير معتاد لهذا المنتج: " + fmt(o.v) + " بينما المعتاد نحو " + fmt(o.median) });
+      });
+    });
+    return issues;
+  }
+
+  /* ---------- CSV import: parse → map columns → clean → de-duplicate → suggest accounts ---------- */
+  function detectDelimiter(text) {
+    var first = String(text).replace(/^﻿/, "").split(/\r?\n/).filter(function (l) { return l.trim(); })[0] || "", best = ",", bestN = -1;
+    [",", ";", "\t", "|"].forEach(function (d) {
+      var n = 0, q = false;
+      for (var i = 0; i < first.length; i++) { var c = first[i]; if (c === '"') q = !q; else if (!q && c === d) n++; }
+      if (n > bestN) { bestN = n; best = d; }
+    });
+    return best;
+  }
+  function parseCSV(text, delim) {
+    text = String(text || "").replace(/^﻿/, "");
+    var d = delim || detectDelimiter(text), rows = [], row = [], cell = "", q = false, i = 0, c;
+    for (; i < text.length; i++) {
+      c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; }
+        else cell += c;
+      } else if (c === '"') q = true;
+      else if (c === d) { row.push(cell); cell = ""; }
+      else if (c === "\n" || c === "\r") {
+        if (c === "\r" && text[i + 1] === "\n") i++;
+        row.push(cell); rows.push(row); row = []; cell = "";
+      } else cell += c;
+    }
+    if (cell !== "" || row.length) { row.push(cell); rows.push(row); }
+    rows = rows.filter(function (r) { return r.some(function (x) { return String(x).trim() !== ""; }); });
+    return { delimiter: d, rows: rows };
+  }
+  // "1 234,56" "-12.50" "(12.50)" "12,50-" "€ 9,99" "1,234.56" "1.234,56" → cents; NaN if not a number
+  function parseAmount(s) {
+    var t = String(s === undefined || s === null ? "" : s).trim();
+    if (!t) return NaN;
+    var neg = false;
+    if (/^\(.*\)$/.test(t)) { neg = true; t = t.slice(1, -1); }
+    t = t.replace(/[\s  ']/g, "").replace(/[€$£]|EUR|USD|GBP|SEK/gi, "");
+    if (/-$/.test(t)) { neg = !neg; t = t.slice(0, -1); }
+    if (/^[+-]/.test(t)) { if (t[0] === "-") neg = !neg; t = t.slice(1); }
+    if (!/^[\d.,]+$/.test(t) || !/\d/.test(t)) return NaN;
+    var lc = t.lastIndexOf(","), ld = t.lastIndexOf("."), dec = null;
+    if (lc >= 0 && ld >= 0) dec = lc > ld ? "," : ".";
+    else if (lc >= 0) dec = /^[1-9]\d{0,2}(,\d{3})+$/.test(t) ? null : ",";
+    else if (ld >= 0) dec = /^[1-9]\d{0,2}(\.\d{3}){2,}$/.test(t) ? null : ".";
+    var intPart = t, frac = "";
+    if (dec) { var k = t.lastIndexOf(dec); intPart = t.slice(0, k); frac = t.slice(k + 1); }
+    if (/[.,]/.test(intPart) && !/^[1-9]\d{0,2}([.,]\d{3})+$/.test(intPart)) return NaN;   // separators must be real thousand groups
+    if (dec && new RegExp("\\" + dec).test(intPart)) return NaN;                          // decimal mark used twice
+    intPart = intPart.replace(/[.,]/g, "");
+    if (frac.length > 2 || /[.,]/.test(frac)) return NaN;
+    var c = Number(intPart || "0") * 100 + Number((frac + "00").slice(0, 2));
+    return neg ? -c : c;
+  }
+  // fmt: auto | ymd | dmy | mdy → {date:'YYYY-MM-DD', ambiguous:bool} or null
+  function parseDate(s, fmt) {
+    var t = String(s || "").trim().replace(/T.*$/, "").replace(/\s+\d{1,2}:\d{2}(:\d{2})?.*$/, "");
+    var p = t.split(/[.\/\-\s]+/).filter(Boolean);
+    if (p.length !== 3 || p.some(function (x) { return !/^\d+$/.test(x); })) return null;
+    var y, m, d, amb = false, f = fmt || "auto";
+    if (f === "auto") {
+      if (p[0].length === 4) f = "ymd";
+      else if (Number(p[0]) > 12) f = "dmy";
+      else if (Number(p[1]) > 12) f = "mdy";
+      else { f = "dmy"; amb = Number(p[0]) !== Number(p[1]); }
+    }
+    if (f === "ymd") { y = p[0]; m = p[1]; d = p[2]; } else if (f === "dmy") { d = p[0]; m = p[1]; y = p[2]; } else { m = p[0]; d = p[1]; y = p[2]; }
+    y = Number(y); m = Number(m); d = Number(d);
+    if (y < 100) y += 2000;
+    var dt = new Date(Date.UTC(y, m - 1, d));
+    if (y < 1990 || y > 2100 || dt.getUTCFullYear() !== y || dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null;
+    return { date: y + "-" + String(m).padStart(2, "0") + "-" + String(d).padStart(2, "0"), ambiguous: amb };
+  }
+  var COLS = {
+    date: /^(date|päivä|pvm|kirjauspäivä|arvopäivä|maksupäivä|transaction date|booking date|value date|تاريخ|التاريخ)|date|päivä|pvm|تاريخ/i,
+    amount: /^(amount|määrä|summa|المبلغ|مبلغ|net|total|sum)$|amount|määrä|summa|المبلغ/i,
+    debit: /^(debit|withdrawal|money out|paid out|veloitus|مدين|سحب)/i,
+    credit: /^(credit|deposit|money in|paid in|hyvitys|دائن|إيداع)/i,
+    desc: /description|desc|selite|viesti|message|memo|details|narrative|text|البيان|وصف|تفاصيل/i,
+    partner: /payee|payer|saaja|maksaja|counterparty|merchant|beneficiary|^name$|nimi|customer|المستفيد|الطرف|الاسم/i,
+    currency: /currency|valuutta|العملة/i,
+    ref: /reference|viite|arkistointi|^ref|transaction id|^id$|المرجع/i
+  };
+  function guessColumns(headers) {
+    var used = {}, out = {};
+    ["date", "debit", "credit", "amount", "currency", "partner", "desc", "ref"].forEach(function (k) {
+      for (var i = 0; i < headers.length; i++) {
+        var h = String(headers[i] || "").trim();
+        if (used[i] || !h || /balance|saldo|الرصيد/i.test(h)) continue;
+        if (COLS[k].test(h)) { out[k] = i; used[i] = 1; break; }
+      }
+    });
+    if (out.debit !== undefined && out.credit === undefined) { delete out.debit; }   // one side only is not a pair
+    return out;
+  }
+  function hash(s) { var h = 0x811c9dc5; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return ("0000000" + h.toString(16)).slice(-8); }
+  function importKey(date, amount, text) { return "IMP-" + hash(date + "|" + amount + "|" + cleanText(text).toLowerCase()); }
+
+  // learn which account was used for a partner before (manual / expense / purchase entries only)
+  function partnerAccounts(lines, accounts) {
+    var am = accMap(accounts), cnt = {};
+    journal(lines).forEach(function (e) {
+      if (e.kind === "sale" || e.kind === "refund" || !e.partner) return;
+      var k = partnerKey(e.partner); if (!k) return;
+      e.lines.forEach(function (l) { var a = am[l.account]; if (!a || a.is_cash || l.account === "1300" || l.account === "2100") return;
+        var c = cnt[k] || (cnt[k] = {}); c[l.account] = (c[l.account] || 0) + 1; });
+    });
+    var best = {};
+    Object.keys(cnt).forEach(function (k) { best[k] = Object.keys(cnt[k]).sort(function (a, b) { return cnt[k][b] - cnt[k][a]; })[0]; });
+    return best;
+  }
+  function suggestAccount(text, partner, amount, learned) {
+    var k = partnerKey(partner); if (k && learned && learned[k]) return learned[k];
+    var t = (String(text || "") + " " + String(partner || "")).toLowerCase();
+    if (amount > 0 && /payhip|gumroad|etsy|sikka|stripe|paypal|lemon ?squeezy/.test(t)) return "1020";
+    if (amount > 0) return "4900";
+    if (/palvelumaksu|pankkimaksu|bank fee|service fee|رسوم بنك|kuukausimaksu/.test(t)) return "6700";
+    if (/google ads|facebook|meta ads|instagram|tiktok|mainos|advert/.test(t)) return "6100";
+    if (/hetzner|hostinger|namecheap|godaddy|vercel|netlify|cloudflare|domain|hosting|webhotelli/.test(t)) return "6300";
+    if (/adobe|canva|microsoft|github|openai|anthropic|notion|figma|subscription|tilaus/.test(t)) return "6200";
+    if (/elisa|telia|dna |internet|puhelin/.test(t)) return "6500";
+    return "6900";
+  }
+  /* rows: parsed rows WITHOUT header; map: {date, amount | debit+credit, desc, partner, currency, ref}
+     existing: journal lines (for duplicates); opts: {dateFmt, cashAccount, accounts, today} */
+  function buildImport(rows, map, existing, opts) {
+    opts = opts || {};
+    var seenFile = {}, occ = {}, have = {}, sameDay = {}, learned = partnerAccounts(existing || [], opts.accounts || []);
+    journal(existing || []).forEach(function (e) {
+      if (/^IMP-[0-9a-f]{8}$/.test(e.ref)) have[e.ref] = e.id;
+      e.lines.forEach(function (l) { if (l.account === opts.cashAccount) sameDay[e.date + "|" + (l.dr - l.cr)] = e.id; });
+    });
+    var get = function (r, k) { return map[k] === undefined || map[k] === "" || map[k] === null ? "" : cleanText(r[Number(map[k])]); };
+    return rows.map(function (r, i) {
+      var it = { i: i + 1, raw: r, date: null, amount: NaN, desc: get(r, "desc"), partner: get(r, "partner"), ref: get(r, "ref"),
+        currency: (get(r, "currency") || "EUR").toUpperCase(), status: "ok", reason: "", select: true };
+      var pd = parseDate(get(r, "date"), opts.dateFmt);
+      if (map.amount !== undefined && map.amount !== "") it.amount = parseAmount(get(r, "amount"));
+      else {
+        var dv = get(r, "debit"), cv = get(r, "credit"), d = dv ? parseAmount(dv) : 0, c = cv ? parseAmount(cv) : 0;
+        it.amount = isNaN(d) || isNaN(c) ? NaN : Math.abs(c) - Math.abs(d);
+      }
+      var bad = function (msg) { it.status = "invalid"; it.reason = msg; it.select = false; };
+      if (!pd) bad("تاريخ غير مفهوم: «" + get(r, "date") + "»");
+      else { it.date = pd.date; if (pd.ambiguous && opts.dateFmt !== "dmy" && opts.dateFmt !== "mdy") it.ambiguous = true; }
+      if (it.status === "ok" && isNaN(it.amount)) bad("مبلغ غير مفهوم");
+      if (it.status === "ok" && it.amount === 0) bad("المبلغ صفر");
+      if (it.status === "ok" && it.currency !== "EUR" && /^[A-Z]{3}$/.test(it.currency)) bad("العملة " + it.currency + " وليست يورو: سجّلها من نموذج المصروف مع سعر الصرف");
+      if (it.status === "ok" && opts.today && it.date > opts.today) bad("تاريخ في المستقبل");
+      if (it.status === "ok" && !it.desc && !it.partner) { it.desc = "حركة مستوردة"; }
+      if (it.status === "ok") {
+        var base = it.date + "|" + it.amount + "|" + cleanText(it.desc + " " + it.partner + " " + it.ref).toLowerCase(), first = seenFile[base];
+        // identical rows get "#2", "#3"… so each keeps a stable key and a re-import of the same file is still recognised
+        occ[base] = (occ[base] || 0) + 1;
+        it.key = importKey(it.date, it.amount, it.desc + " " + it.partner + " " + it.ref + (occ[base] > 1 ? " #" + occ[base] : ""));
+        if (have[it.key]) { it.status = "dup_existing"; it.reason = "مستورد من قبل (القيد #" + have[it.key] + ")"; it.select = false; }
+        else if (first) { it.status = "dup_file"; it.reason = "مطابق للسطر " + first + " في نفس الملف (اختره إن كانت عمليتين فعلاً)"; it.select = false; }
+        else if (sameDay[it.date + "|" + it.amount]) { it.status = "maybe_dup"; it.reason = "يوجد قيد بنفس التاريخ والمبلغ (#" + sameDay[it.date + "|" + it.amount] + ")"; it.select = false; }
+        if (!first) seenFile[base] = it.i;
+        it.account = suggestAccount(it.desc, it.partner, it.amount, learned);
+      }
+      return it;
+    });
+  }
+  function importEntry(it, cashAccount, counter) {
+    var a = (Math.abs(it.amount) / 100).toFixed(2), inflow = it.amount > 0;
+    return { date: it.date, kind: inflow ? "manual" : "expense", ref: it.key, partner: it.partner.slice(0, 120),
+      memo: (it.desc || it.partner || "حركة مستوردة").slice(0, 300),
+      lines: inflow ? [{ account: cashAccount, debit: a, credit: "0" }, { account: counter, debit: "0", credit: a }]
+                    : [{ account: counter, debit: a, credit: "0" }, { account: cashAccount, debit: "0", credit: a }] };
+  }
+
+  /* ---------- change log: human summary of what changed ---------- */
+  function auditSummary(row) {
+    var o = row.old_data || null, n = row.new_data || null, act = row.action;
+    if (act === "update" && (!o || !n)) act = o ? "delete" : "insert";   // never crash on an incomplete log row
+    if ((act === "insert" && !n) || (act === "delete" && !o)) return "—";
+    if (act === "sync") return n ? "تسجيل المبيعات: " + (n.posted || 0) + " بيع، " + (n.refunds || 0) + " استرداد، " + (n.removed || 0) + " حذف" : "—";
+    var lineStr = function (s) { return (s.lines || []).map(function (l) { return l.account + (Number(l.debit) ? " مدين " + Number(l.debit).toFixed(2) : " دائن " + Number(l.credit).toFixed(2)); }).join(" / "); };
+    if (row.tbl === "acc_entries") {
+      if (act === "insert") return "قيد جديد " + n.date + ": " + (n.memo || "") + " — " + lineStr(n);
+      if (act === "delete") return "حُذف قيد " + o.date + ": " + (o.memo || "") + " — " + lineStr(o);
+      var ch = [];
+      ["date", "kind", "ref", "partner", "memo"].forEach(function (k) { if (String(o[k] || "") !== String(n[k] || "")) ch.push(k + ": «" + (o[k] || "") + "» ← «" + (n[k] || "") + "»"); });
+      if (lineStr(o) !== lineStr(n)) ch.push("السطور: " + lineStr(o) + " ← " + lineStr(n));
+      return ch.join(" · ") || "بدون تغيير";
+    }
+    if (act === "insert") return "إضافة: " + Object.keys(n).filter(function (k) { return !/created_at|updated_at/.test(k); }).map(function (k) { return k + "=" + n[k]; }).join("، ");
+    if (act === "delete") return "حذف: " + Object.keys(o).filter(function (k) { return !/created_at|updated_at/.test(k); }).map(function (k) { return k + "=" + o[k]; }).join("، ");
+    return Object.keys(n).filter(function (k) { return !/updated_at/.test(k) && JSON.stringify(o[k]) !== JSON.stringify(n[k]); })
+      .map(function (k) { return k + ": «" + (o[k] === null ? "" : o[k]) + "» ← «" + (n[k] === null ? "" : n[k]) + "»"; }).join(" · ") || "بدون تغيير";
+  }
+
   return {
+    flagOutliers: flagOutliers, checkOutliers: checkOutliers, checkSalesOutliers: checkSalesOutliers, median: median,
+    detectDelimiter: detectDelimiter, parseCSV: parseCSV, parseAmount: parseAmount, parseDate: parseDate, guessColumns: guessColumns,
+    importKey: importKey, partnerAccounts: partnerAccounts, suggestAccount: suggestAccount, buildImport: buildImport, importEntry: importEntry,
+    auditSummary: auditSummary,
     TYPE_AR: TYPE_AR, KIND_AR: KIND_AR, cents: cents, toNum: toNum, fmt: fmt, pct: pct,
     fyStart: fyStart, monthsBetween: monthsBetween, monthEnd: monthEnd, sideOf: sideOf, accMap: accMap,
     balances: balances, trialBalance: trialBalance, incomeStatement: incomeStatement, balanceSheet: balanceSheet,

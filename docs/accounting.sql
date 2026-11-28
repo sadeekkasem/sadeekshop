@@ -218,6 +218,67 @@ drop trigger if exists acc_settings_guard on public.acc_settings;
 create trigger acc_settings_guard before update on public.acc_settings
   for each row execute function public.acc_settings_guard();
 
+-- 6e) Change log (append-only): who changed what, when, and the old and new values.
+create table if not exists public.acc_audit (
+  id       bigint generated always as identity primary key,
+  at       timestamptz not null default now(),
+  actor    text not null default '',
+  tbl      text not null,
+  action   text not null check (action in ('insert', 'update', 'delete', 'sync')),
+  row_key  text not null default '',
+  old_data jsonb,
+  new_data jsonb
+);
+create index if not exists acc_audit_at_idx on public.acc_audit (at desc);
+
+create or replace function public.acc_actor() returns text
+language sql stable set search_path = public as $$
+  select coalesce(nullif(auth.jwt() ->> 'email', ''), 'system');
+$$;
+
+create or replace function public.acc_entry_snapshot(p_id bigint) returns jsonb
+language sql stable security definer set search_path = public as $$
+  select jsonb_build_object('date', e.entry_date, 'kind', e.kind, 'ref', e.ref, 'partner', e.partner, 'memo', e.memo,
+           'currency', e.currency, 'fx_rate', e.fx_rate,
+           'lines', (select coalesce(jsonb_agg(jsonb_build_object('account', l.account_code, 'debit', l.debit, 'credit', l.credit, 'memo', l.memo)
+                                               order by l.line_no), '[]'::jsonb)
+                     from public.acc_lines l where l.entry_id = e.id))
+  from public.acc_entries e where e.id = p_id;
+$$;
+
+-- generic row logger: trigger arguments are the key columns of the table
+create or replace function public.acc_audit_row() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare o jsonb; n jsonb; k text := ''; i int;
+begin
+  if tg_op <> 'INSERT' then o := to_jsonb(old); end if;
+  if tg_op <> 'DELETE' then n := to_jsonb(new); end if;
+  if tg_op = 'UPDATE' and (o - 'updated_at') = (n - 'updated_at') then return null; end if;   -- nothing really changed
+  for i in 0 .. tg_nargs - 1 loop
+    k := k || case when i > 0 then ':' else '' end || coalesce(coalesce(n, o) ->> tg_argv[i], '');
+  end loop;
+  insert into public.acc_audit (actor, tbl, action, row_key, old_data, new_data)
+  values (public.acc_actor(), tg_table_name, lower(tg_op), k, o, n);
+  return null;
+end $$;
+
+drop trigger if exists acc_accounts_audit on public.acc_accounts;
+create trigger acc_accounts_audit after insert or update or delete on public.acc_accounts
+  for each row execute function public.acc_audit_row('code');
+drop trigger if exists acc_settings_audit on public.acc_settings;
+create trigger acc_settings_audit after update on public.acc_settings
+  for each row execute function public.acc_audit_row('id');
+drop trigger if exists acc_fx_audit on public.acc_fx_rates;
+create trigger acc_fx_audit after insert or update or delete on public.acc_fx_rates
+  for each row execute function public.acc_audit_row('currency', 'month');
+drop trigger if exists acc_budget_audit on public.acc_budget;
+create trigger acc_budget_audit after insert or update or delete on public.acc_budget
+  for each row execute function public.acc_audit_row('year', 'month', 'account_code');
+-- sales: corrections and deletions (new sales arriving from the stores are not logged here)
+drop trigger if exists sales_audit on public.sales;
+create trigger sales_audit after update or delete on public.sales
+  for each row execute function public.acc_audit_row('id');
+
 -- 7) Writing entries (the only way the page can write to the journal) ----------
 create or replace function public.acc_save_entry(p jsonb) returns bigint
 language plpgsql security definer set search_path = public as $$
@@ -225,7 +286,7 @@ declare
   v_id bigint := nullif(p ->> 'id', '')::bigint;
   v_kind text := coalesce(nullif(p ->> 'kind', ''), 'manual');
   v_date date := nullif(p ->> 'date', '')::date;
-  old_kind text;
+  old_kind text; v_old jsonb;
   l jsonb; i int := 0; d numeric; c numeric; td numeric := 0; tc numeric := 0;
 begin
   if not public.is_admin() then raise exception 'not_admin'; end if;
@@ -253,6 +314,7 @@ begin
     select kind into old_kind from public.acc_entries where id = v_id for update;
     if old_kind is null then raise exception 'entry_not_found'; end if;
     if old_kind in ('sale', 'refund') then raise exception 'auto_entry'; end if;
+    v_old := public.acc_entry_snapshot(v_id);
     delete from public.acc_lines where entry_id = v_id;
     update public.acc_entries set entry_date = v_date, kind = v_kind, ref = coalesce(p ->> 'ref', ''),
       partner = coalesce(p ->> 'partner', ''), memo = coalesce(p ->> 'memo', ''),
@@ -266,18 +328,22 @@ begin
     values (v_id, i, l ->> 'account', coalesce(nullif(l ->> 'debit', '')::numeric, 0), coalesce(nullif(l ->> 'credit', '')::numeric, 0),
             left(coalesce(l ->> 'memo', ''), 200));
   end loop;
+  insert into public.acc_audit (actor, tbl, action, row_key, old_data, new_data)
+  values (public.acc_actor(), 'acc_entries', case when v_old is null then 'insert' else 'update' end, v_id::text, v_old, public.acc_entry_snapshot(v_id));
   return v_id;
 end $$;
 
 create or replace function public.acc_delete_entry(p_id bigint) returns void
 language plpgsql security definer set search_path = public as $$
-declare k text;
+declare k text; v_old jsonb;
 begin
   if not public.is_admin() then raise exception 'not_admin'; end if;
   select kind into k from public.acc_entries where id = p_id;
   if k is null then raise exception 'entry_not_found'; end if;
   if k in ('sale', 'refund') then raise exception 'auto_entry'; end if;
+  v_old := public.acc_entry_snapshot(p_id);
   delete from public.acc_entries where id = p_id;
+  insert into public.acc_audit (actor, tbl, action, row_key, old_data) values (public.acc_actor(), 'acc_entries', 'delete', p_id::text, v_old);
 end $$;
 
 -- 8) Sales → journal (automatic, safe to run any number of times) ---------------
@@ -369,6 +435,10 @@ begin
     end;
   end loop;
 
+  if n_post + n_ref + n_del > 0 then
+    insert into public.acc_audit (actor, tbl, action, row_key, new_data)
+    values (public.acc_actor(), 'sales', 'sync', '', jsonb_build_object('posted', n_post, 'refunds', n_ref, 'removed', n_del));
+  end if;
   return json_build_object('posted', n_post, 'refunds', n_ref, 'removed', n_del, 'locked', n_locked,
                            'invalid', n_bad, 'missing_rates', to_json(missing));
 end $$;
@@ -386,6 +456,11 @@ alter table public.acc_fx_rates enable row level security;
 alter table public.acc_entries  enable row level security;
 alter table public.acc_lines    enable row level security;
 alter table public.acc_budget   enable row level security;
+alter table public.acc_audit    enable row level security;
+drop policy if exists acc_audit_read on public.acc_audit;
+create policy acc_audit_read on public.acc_audit for select to authenticated using (public.is_admin());
+revoke all on public.acc_audit from anon, authenticated;
+grant select on public.acc_audit to authenticated;   -- read only: nobody can edit or delete the log from the page
 
 drop policy if exists acc_accounts_admin on public.acc_accounts;
 create policy acc_accounts_admin on public.acc_accounts for all to authenticated using (public.is_admin()) with check (public.is_admin());
@@ -410,7 +485,8 @@ revoke all on public.acc_accounts, public.acc_settings, public.acc_fx_rates, pub
 revoke all on function public.acc_save_entry(jsonb), public.acc_delete_entry(bigint), public.acc_sync_sales(),
                        public.acc_sale_rate(text, date), public.acc_check_balance(), public.acc_lock_guard(),
                        public.acc_line_account_guard(), public.acc_account_guard(),
-                       public.acc_settings_guard() from public, anon;
+                       public.acc_settings_guard(), public.acc_audit_row(), public.acc_entry_snapshot(bigint),
+                       public.acc_actor() from public, anon;
 grant execute on function public.acc_save_entry(jsonb), public.acc_delete_entry(bigint), public.acc_sync_sales() to authenticated;
 
 -- 11) Reload the API so the page sees the new tables at once

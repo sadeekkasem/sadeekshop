@@ -60,6 +60,8 @@ details.tbl summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:6p
 .sev.bad{background:#c0392b22;color:var(--bad)}.sev.warn{background:#b7791f22;color:var(--warn)}.sev.info{background:var(--soft);color:var(--acc)}
 .lines td{padding:4px}.lines select,.lines input{padding:4px 6px}
 .diff{font-weight:700}
+.imp td{padding:4px 6px}.imp select{padding:3px 6px;min-width:190px}
+tr.st-invalid td,tr.st-dup_existing td,tr.st-dup_file td{color:var(--mut)}
 .bud input{width:84px;padding:3px 5px;text-align:left;direction:ltr}
 .stmt{max-width:760px}
 .chk{display:flex;gap:8px;align-items:center;margin:8px 0;font-size:14px;color:var(--fg)}
@@ -115,6 +117,7 @@ details.tbl summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:6p
       <button data-t="bd">🎯 الموازنة</button>
       <button data-t="cl">🧹 تنظيف البيانات</button>
       <button data-t="ac">🗂 دليل الحسابات</button>
+      <button data-t="au">📜 سجل التغييرات</button>
       <button data-t="se">⚙️ الإعدادات</button>
     </div>
 
@@ -221,6 +224,24 @@ details.tbl summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:6p
       <div class="card"><h2>المبيعات</h2><div id="clSales" class="muted">اضغط «افحص الآن».</div></div>
       <div class="card"><h2>قيود اليومية</h2><div id="clEntries" class="muted">اضغط «افحص الآن».</div></div>
       <div class="card"><h2>أسماء الأطراف المتشابهة</h2><div id="clPartners" class="muted">اضغط «افحص الآن».</div></div>
+      <div class="card" id="impCard">
+        <h2>📥 استيراد كشف حساب أو تقرير منصة (CSV)</h2>
+        <p class="muted">ارفع كشف البنك أو تقرير Payhip/Gumroad بصيغة CSV. يُنظَّف الملف تلقائياً (المسافات، صيغ الأرقام والتواريخ، الأسطر الفارغة)، وتُكشف الأسطر المكررة والمستوردة من قبل، ويُقترح الحساب المقابل لكل حركة. لا يُسجَّل شيء قبل أن تراجع وتضغط «استيراد المحدد».</p>
+        <div class="form2">
+          <div><label for="imFile">الملف</label><input type="file" id="imFile" accept=".csv,.txt,text/csv"></div>
+          <div><label for="imCash">الكشف يخص حساب</label><select id="imCash"></select></div>
+          <div><label for="imDelim">الفاصل بين الأعمدة</label><select id="imDelim"><option value="">تلقائي</option><option value=",">فاصلة ,</option><option value=";">فاصلة منقوطة ;</option><option value="tab">Tab</option><option value="|">|</option></select></div>
+          <div><label for="imDate">صيغة التاريخ في الملف</label><select id="imDate"><option value="auto">تلقائي</option><option value="dmy">يوم.شهر.سنة (فنلندا/أوروبا)</option><option value="ymd">سنة-شهر-يوم</option><option value="mdy">شهر/يوم/سنة (أمريكا)</option></select></div>
+          <div><label class="chk"><input type="checkbox" id="imHeader" checked> السطر الأول عناوين الأعمدة</label></div>
+        </div>
+        <div id="imMap" hidden>
+          <h3>ربط الأعمدة</h3>
+          <div class="form2" id="imMapGrid"></div>
+        </div>
+        <div id="imNote"></div>
+        <div class="tw" id="imPrev"></div>
+        <p class="row"><button class="pri" id="imGo" disabled>استيراد المحدد</button><span id="imInfo" class="muted"></span></p>
+      </div>
       <div class="card">
         <h2>تجهيز البيانات للتحليل</h2>
         <p class="muted">ملف CSV نظيف (سطر لكل حركة) للفترة المختارة: التاريخ، الشهر، السنة، نوع القيد، الطرف، الحساب، النوع، مدين، دائن، والمبلغ بإشارته الصحيحة. يُفتح مباشرة في Excel أو Power BI أو Google Sheets.</p>
@@ -237,7 +258,21 @@ details.tbl summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:6p
       </div>
     </section>
 
-    <!-- settings -->
+    <!-- change log -->
+    <section class="pane" id="p_au" hidden>
+      <div class="card">
+        <div class="bar"><h2 style="margin:0">📜 سجل التغييرات</h2>
+          <div class="row noprint"><select id="auTbl" style="width:auto">
+            <option value="">كل السجلات</option><option value="acc_entries">قيود اليومية</option><option value="sales">المبيعات</option>
+            <option value="acc_accounts">دليل الحسابات</option><option value="acc_budget">الموازنة</option><option value="acc_fx_rates">أسعار الصرف</option><option value="acc_settings">الإعدادات</option>
+          </select><button id="auCsv">⬇ CSV</button></div></div>
+        <p class="muted">كل إضافة أو تعديل أو حذف يُسجَّل هنا تلقائياً مع القيمة القديمة والجديدة واسم من قام به. هذا السجل لا يمكن تعديله ولا حذفه من الصفحة.</p>
+        <div class="tw" id="auTable"></div>
+        <p><button id="auMore" hidden>عرض المزيد</button></p>
+      </div>
+    </section>
+
+    <!-- settings -->    <!-- settings -->
     <section class="pane" id="p_se" hidden>
       <div class="card">
         <h2>الإعدادات العامة</h2>
